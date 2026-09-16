@@ -5322,7 +5322,7 @@ collection yang belum lengkap
 challenge yang belum selesai
 history yang belum ditulis
 ```
-
+```
 Sehingga kekayaan bukan akhir permainan.
 
 **Kekayaan membuka kebebasan.**
@@ -5332,3 +5332,59 @@ Dan kebebasan membuka:
 > **mastery, eksperimen, collection, competition, dan legacy.**
 
 Itulah bentuk BENGKEL MALAM yang saya sarankan kita bangun.
+
+bengkel-malam/
+│
+├── public/
+│   └── favicon.svg
+│
+├── src/
+│   ├── pages/
+│   │   ├── index.astro
+│   │   ├── garage.astro
+│   │   ├── motor.astro
+│   │   ├── workshop.astro
+│   │   ├── market.astro
+│   │   ├── team.astro
+│   │   ├── race.astro
+│   │   └── profile.astro
+│   │
+│   ├── components/
+│   │   ├── Layout.astro
+│   │   ├── Header.astro
+│   │   ├── Navigation.astro
+│   │   ├── Card.astro
+│   │   ├── Button.astro
+│   │   ├── Modal.astro
+│   │   ├── MotorCard.astro
+│   │   ├── PartCard.astro
+│   │   ├── DriverCard.astro
+│   │   ├── OrderCard.astro
+│   │   └── RaceCard.astro
+│   │
+│   ├── lib/
+│   │   ├── game/
+│   │   │   ├── motor.ts
+│   │   │   ├── parts.ts
+│   │   │   ├── workshop.ts
+│   │   │   ├── market.ts
+│   │   │   ├── team.ts
+│   │   │   └── race.ts
+│   │   │
+│   │   ├── data/
+│   │   │   ├── motors.ts
+│   │   │   ├── parts.ts
+│   │   │   ├── drivers.ts
+│   │   │   ├── orders.ts
+│   │   │   ├── races.ts
+│   │   │   └── sponsors.ts
+│   │   │
+│   │   └── save.ts
+│   │
+│   └── styles/
+│       └── global.css
+│
+├── package.json
+├── astro.config.mjs
+└── tsconfig.json
+```
