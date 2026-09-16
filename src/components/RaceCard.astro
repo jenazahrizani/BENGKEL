@@ -1,0 +1,747 @@
+﻿---
+interface Race {
+  id?: string;
+  name: string;
+  type?: "LIAR" | "RESMI" | string;
+  class?: "STREET" | "PRO" | "OPEN" | string;
+  track?: "SHORT" | "MEDIUM" | "LONG" | "TECHNICAL" | string;
+  weather?: "DRY" | "WET" | "NIGHT" | string;
+
+  entryFee?: string;
+  prize?: string;
+  reputation?: number;
+
+  participants?: number;
+  maxParticipants?: number;
+
+  status?:
+    | "OPEN"
+    | "LOCKED"
+    | "FULL"
+    | "COMPLETED"
+    | "UPCOMING"
+    | string;
+
+  risk?: "LOW" | "NORMAL" | "HIGH" | string;
+  description?: string;
+}
+
+interface Props {
+  race: Race;
+  compact?: boolean;
+  showAction?: boolean;
+  actionLabel?: string;
+  actionHref?: string;
+}
+
+const {
+  race,
+  compact = false,
+  showAction = true,
+  actionLabel = "ENTER RACE",
+  actionHref = "/race",
+} = Astro.props;
+
+const classClass =
+  race.class === "OPEN"
+    ? "badge-red"
+    : race.class === "PRO"
+      ? "badge-orange"
+      : race.class === "STREET"
+        ? "badge-green"
+        : "";
+
+const statusClass =
+  race.status === "OPEN"
+    ? "status-active"
+    : race.status === "FULL"
+      ? "status-warning"
+      : race.status === "LOCKED"
+        ? "status-danger"
+        : race.status === "COMPLETED"
+          ? "status-good"
+          : "";
+
+const riskClass =
+  race.risk === "HIGH"
+    ? "badge-red"
+    : race.risk === "LOW"
+      ? "badge-green"
+      : "badge-orange";
+
+const currentParticipants = race.participants ?? 0;
+const maxParticipants = race.maxParticipants ?? 8;
+
+const participantPercent =
+  maxParticipants > 0
+    ? Math.max(
+        0,
+        Math.min(
+          100,
+          (currentParticipants / maxParticipants) * 100
+        )
+      )
+    : 0;
+
+const cardClasses = [
+  "race-card",
+  compact && "race-card--compact",
+]
+  .filter(Boolean)
+  .join(" ");
+---
+
+<article class={cardClasses}>
+  <!-- =====================================================
+       RACE VISUAL
+       ===================================================== -->
+
+  <div class="race-visual">
+    <div class="race-sky" aria-hidden="true"></div>
+
+    <div class="race-title-mark" aria-hidden="true">
+      RACE
+    </div>
+
+    <div class="track-preview" aria-hidden="true">
+      <span class="track-start"></span>
+      <span class="track-line track-line--one"></span>
+      <span class="track-line track-line--two"></span>
+      <span class="track-line track-line--three"></span>
+      <span class="track-finish"></span>
+
+      <span class="track-bike"></span>
+    </div>
+
+    <span class="race-visual-label">
+      {race.type ?? "EVENT"}
+    </span>
+  </div>
+
+  <!-- =====================================================
+       RACE CONTENT
+       ===================================================== -->
+
+  <div class="race-content">
+    <div class="race-header">
+      <div class="race-title-group">
+        <span class="eyebrow">
+          {race.type ?? "RACE EVENT"}
+        </span>
+
+        <h3 class="race-name">
+          {race.name}
+        </h3>
+      </div>
+
+      <div class="race-badges">
+        {race.class && (
+          <span class:list={["badge", classClass]}>
+            {race.class}
+          </span>
+        )}
+
+        {race.status && (
+          <span
+            class:list={[
+              "status",
+              statusClass,
+            ]}
+          >
+            {race.status}
+          </span>
+        )}
+      </div>
+    </div>
+
+    {race.description && (
+      <p class="race-description">
+        {race.description}
+      </p>
+    )}
+
+    <!-- ===================================================
+         RACE CONDITIONS
+         =================================================== -->
+
+    <div class="race-info-grid">
+      {race.track && (
+        <div class="info-box">
+          <span class="label">
+            TRACK
+          </span>
+
+          <strong>
+            {race.track}
+          </strong>
+        </div>
+      )}
+
+      {race.weather && (
+        <div class="info-box">
+          <span class="label">
+            WEATHER
+          </span>
+
+          <strong>
+            {race.weather}
+          </strong>
+        </div>
+      )}
+
+      {race.risk && (
+        <div class="info-box">
+          <span class="label">
+            RISK
+          </span>
+
+          <span class:list={["badge", riskClass]}>
+            {race.risk}
+          </span>
+        </div>
+      )}
+    </div>
+
+    <!-- ===================================================
+         PARTICIPANTS
+         =================================================== -->
+
+    {race.participants !== undefined && (
+      <div class="participants">
+        <div class="participants-header">
+          <span class="label">
+            PARTICIPANTS
+          </span>
+
+          <strong>
+            {currentParticipants}/{maxParticipants}
+          </strong>
+        </div>
+
+        <div class="progress">
+          <div
+            class="progress-fill"
+            style={`width: ${participantPercent}%;`}
+          ></div>
+        </div>
+      </div>
+    )}
+
+    <!-- ===================================================
+         REWARD
+         =================================================== -->
+
+    <div class="race-reward">
+      {race.entryFee && (
+        <div class="reward-item">
+          <span class="label">
+            ENTRY FEE
+          </span>
+
+          <strong class="money-entry">
+            {race.entryFee}
+          </strong>
+        </div>
+      )}
+
+      {race.prize && (
+        <div class="reward-item reward-item--prize">
+          <span class="label">
+            PRIZE
+          </span>
+
+          <strong class="price">
+            {race.prize}
+          </strong>
+        </div>
+      )}
+
+      {race.reputation !== undefined && (
+        <div class="reward-item">
+          <span class="label">
+            REP
+          </span>
+
+          <strong class="rep-value">
+            +{race.reputation}
+          </strong>
+        </div>
+      )}
+    </div>
+
+    <!-- ===================================================
+         ACTION
+         =================================================== -->
+
+    {showAction && (
+      <div class="race-actions">
+        <a
+          href={actionHref}
+          class="btn btn-primary"
+        >
+          {actionLabel}
+        </a>
+      </div>
+    )}
+  </div>
+</article>
+
+<style>
+  .race-card {
+    display: grid;
+    grid-template-columns: 220px minmax(0, 1fr);
+
+    min-width: 0;
+    overflow: hidden;
+
+    background: var(--panel);
+    border: 2px solid var(--line);
+
+    box-shadow: var(--shadow-small);
+
+    transition:
+      transform 120ms steps(2),
+      border-color 120ms steps(2),
+      background 120ms steps(2);
+  }
+
+  .race-card:hover {
+    background: var(--panel-light);
+    border-color: var(--line-light);
+    transform: translate(-2px, -2px);
+  }
+
+  .race-card--compact {
+    grid-template-columns: 170px minmax(0, 1fr);
+  }
+
+  /* =======================================================
+     VISUAL
+     ======================================================= */
+
+  .race-visual {
+    position: relative;
+    min-height: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background:
+      linear-gradient(
+        180deg,
+        #25251f 0 42%,
+        #171714 42% 100%
+      );
+
+    border-right: 2px solid var(--line);
+
+    overflow: hidden;
+  }
+
+  .race-sky {
+    position: absolute;
+    inset: 0;
+
+    background:
+      radial-gradient(
+        circle at 28px 28px,
+        rgba(241, 231, 200, 0.1) 0 2px,
+        transparent 2px
+      ),
+      radial-gradient(
+        circle at 92px 46px,
+        rgba(241, 231, 200, 0.07) 0 2px,
+        transparent 2px
+      ),
+      radial-gradient(
+        circle at 158px 24px,
+        rgba(241, 231, 200, 0.08) 0 2px,
+        transparent 2px
+      );
+
+    background-size: 180px 90px;
+  }
+
+  .race-title-mark {
+    position: absolute;
+    top: 10px;
+    right: 12px;
+
+    color: rgba(241, 231, 200, 0.07);
+
+    font-family: var(--font-display);
+    font-size: 2.8rem;
+    font-weight: 900;
+    line-height: 1;
+
+    letter-spacing: -0.08em;
+  }
+
+  .track-preview {
+    position: relative;
+
+    width: 180px;
+    height: 100px;
+
+    margin-top: 12px;
+
+    background:
+      repeating-linear-gradient(
+        0deg,
+        #252520 0 7px,
+        #1e1e1a 7px 14px
+      );
+
+    border: 3px solid var(--black);
+
+    box-shadow: 4px 4px 0 var(--black);
+
+    overflow: hidden;
+  }
+
+  .track-start,
+  .track-finish {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+
+    width: 7px;
+
+    background:
+      repeating-linear-gradient(
+        0deg,
+        var(--cream) 0 8px,
+        var(--black) 8px 16px
+      );
+  }
+
+  .track-start {
+    left: 12px;
+  }
+
+  .track-finish {
+    right: 12px;
+  }
+
+  .track-line {
+    position: absolute;
+    left: 10px;
+    right: 10px;
+
+    height: 2px;
+
+    background:
+      repeating-linear-gradient(
+        90deg,
+        rgba(241, 231, 200, 0.18) 0 10px,
+        transparent 10px 18px
+      );
+  }
+
+  .track-line--one {
+    top: 25px;
+  }
+
+  .track-line--two {
+    top: 50px;
+  }
+
+  .track-line--three {
+    top: 75px;
+  }
+
+  .track-bike {
+    position: absolute;
+
+    left: 62px;
+    top: 39px;
+
+    width: 56px;
+    height: 18px;
+
+    background: var(--red);
+    border: 3px solid var(--black);
+
+    box-shadow:
+      3px 3px 0 var(--rust);
+  }
+
+  .track-bike::before,
+  .track-bike::after {
+    content: "";
+
+    position: absolute;
+    bottom: -8px;
+
+    width: 13px;
+    height: 13px;
+
+    background: var(--black);
+    border: 3px solid var(--metal);
+  }
+
+  .track-bike::before {
+    left: 2px;
+  }
+
+  .track-bike::after {
+    right: 2px;
+  }
+
+  .race-visual-label {
+    position: absolute;
+    left: 8px;
+    bottom: 7px;
+
+    color: var(--cream-muted);
+
+    font-family: var(--font-display);
+    font-size: 0.58rem;
+    font-weight: 900;
+
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* =======================================================
+     CONTENT
+     ======================================================= */
+
+  .race-content {
+    min-width: 0;
+    padding: 16px;
+  }
+
+  .race-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .race-title-group {
+    min-width: 0;
+  }
+
+  .race-name {
+    margin-top: 4px;
+
+    color: var(--cream);
+
+    font-family: var(--font-display);
+    font-size: var(--text-xl);
+    font-weight: 900;
+    line-height: 1.05;
+
+    letter-spacing: -0.03em;
+
+    overflow-wrap: anywhere;
+    text-transform: uppercase;
+  }
+
+  .race-badges {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    align-items: flex-start;
+    gap: 5px;
+
+    flex-shrink: 0;
+  }
+
+  .race-description {
+    margin-top: 12px;
+
+    color: var(--cream-muted);
+    font-size: var(--text-sm);
+    line-height: 1.5;
+  }
+
+  /* =======================================================
+     INFO
+     ======================================================= */
+
+  .race-info-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+
+    margin-top: 15px;
+  }
+
+  .info-box {
+    min-width: 0;
+
+    padding: 9px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    background: var(--panel-dark);
+    border: 1px solid var(--line);
+  }
+
+  .info-box strong {
+    color: var(--cream);
+
+    font-family: var(--font-display);
+    font-size: var(--text-sm);
+    font-weight: 900;
+
+    overflow-wrap: anywhere;
+    text-transform: uppercase;
+  }
+
+  /* =======================================================
+     PARTICIPANTS
+     ======================================================= */
+
+  .participants {
+    margin-top: 15px;
+    padding-top: 12px;
+
+    border-top: 1px solid var(--line);
+  }
+
+  .participants-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+
+    margin-bottom: 5px;
+  }
+
+  .participants-header strong {
+    color: var(--cream);
+
+    font-family: var(--font-display);
+    font-size: var(--text-sm);
+    font-weight: 900;
+  }
+
+  /* =======================================================
+     REWARD
+     ======================================================= */
+
+  .race-reward {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+
+    margin-top: 15px;
+    padding-top: 12px;
+
+    border-top: 1px solid var(--line);
+  }
+
+  .reward-item {
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .reward-item strong {
+    color: var(--cream);
+
+    font-family: var(--font-display);
+    font-size: var(--text-sm);
+    font-weight: 900;
+
+    overflow-wrap: anywhere;
+  }
+
+  .reward-item--prize .price {
+    font-size: var(--text-lg);
+  }
+
+  .money-entry {
+    color: var(--red) !important;
+  }
+
+  .rep-value {
+    color: var(--lime) !important;
+  }
+
+  /* =======================================================
+     ACTION
+     ======================================================= */
+
+  .race-actions {
+    margin-top: 15px;
+  }
+
+  .race-actions .btn {
+    width: 100%;
+  }
+
+  /* =======================================================
+     RESPONSIVE
+     ======================================================= */
+
+  @media (max-width: 1000px) {
+    .race-card,
+    .race-card--compact {
+      grid-template-columns: 180px minmax(0, 1fr);
+    }
+
+    .track-preview {
+      width: 150px;
+      transform: scale(0.9);
+    }
+  }
+
+  @media (max-width: 760px) {
+    .race-card,
+    .race-card--compact {
+      display: block;
+    }
+
+    .race-visual {
+      min-height: 180px;
+
+      border-right: 0;
+      border-bottom: 2px solid var(--line);
+    }
+
+    .race-content {
+      padding: 13px;
+    }
+
+    .race-header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .race-badges {
+      justify-content: flex-start;
+    }
+
+    .race-info-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .race-reward {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 420px) {
+    .race-info-grid,
+    .race-reward {
+      grid-template-columns: 1fr;
+    }
+
+    .race-visual {
+      min-height: 165px;
+    }
+
+    .track-preview {
+      transform: scale(0.82);
+    }
+  }
+</style>

@@ -1,0 +1,5099 @@
+﻿---
+import Layout from "../components/Layout.astro";
+import "../styles/global.css";
+import Button from "../components/Button.astro";
+import Navigation from "../components/Navigation.astro";
+
+const garage = {
+  capacity: 2,
+  occupied: 1,
+};
+
+const motors = [
+  {
+    id: "MTR-001",
+    name: "NUSA 125",
+    brand: "NUSA",
+    year: "2018",
+    type: "UNDERBONE",
+    condition: "GOOD",
+    status: "READY",
+    build: "STREET BUILD",
+    color: "accent",
+    value: 18500000,
+    buildScore: 68,
+    stats: {
+      power: 72,
+      acceleration: 68,
+      grip: 64,
+      reliability: 78,
+    },
+  },
+];
+
+const collectionStats = [
+  {
+    label: "TOTAL MOTOR",
+    value: "01",
+    detail: "OWNED",
+    icon: "motorcycle",
+  },
+  {
+    label: "READY",
+    value: "01",
+    detail: "RACEABLE",
+    icon: "check",
+  },
+  {
+    label: "PROJECT",
+    value: "00",
+    detail: "IN BUILD",
+    icon: "project",
+  },
+  {
+    label: "VALUE",
+    value: "18.5M",
+    detail: "MARKET VALUE",
+    icon: "money",
+  },
+];
+
+const filters = [
+  {
+    label: "SEMUA",
+    icon: "grid",
+  },
+  {
+    label: "READY",
+    icon: "check",
+  },
+  {
+    label: "PROJECT",
+    icon: "project",
+  },
+  {
+    label: "UNDERBONE",
+    icon: "motorcycle",
+  },
+];
+
+const recentHistory = [
+  {
+    id: "LOG-004",
+    label: "NUSA 125",
+    action: "BUILD",
+    detail: "STREET BUILD",
+    value: "68 SCORE",
+    icon: "wrench",
+  },
+  {
+    id: "LOG-003",
+    label: "NUSA 125",
+    action: "SERVICE",
+    detail: "BASIC CHECK",
+    value: "COMPLETE",
+    icon: "clipboard",
+  },
+  {
+    id: "LOG-002",
+    label: "NUSA 125",
+    action: "BOUGHT",
+    detail: "MARKET / MTR-001",
+    value: "-18.5M",
+    icon: "money",
+  },
+  {
+    id: "LOG-001",
+    label: "GARAGE",
+    action: "SLOT",
+    detail: "BAY 01 ASSIGNED",
+    value: "ACTIVE",
+    icon: "garage",
+  },
+];
+---
+
+<Layout
+  title="BENGKEL — MOTOR"
+  description="Kelola koleksi motor."
+>
+  <div class="page motor-page">
+
+    <div class="game-layout">
+
+      <Navigation active="motor" />
+
+      <main class="main">
+
+        <div class="main-inner motor-main">
+
+
+          <!-- =====================================================
+               PAGE HEADER
+          ===================================================== -->
+
+          <header class="motor-header">
+
+            <div class="motor-header-top">
+
+              <div class="motor-head-left">
+
+                <span class="header-led"></span>
+
+                <span>
+                  MOTOR_01
+                </span>
+
+              </div>
+
+              <span class="motor-head-center">
+                GARAGE / COLLECTION / MOTOR
+              </span>
+
+              <div class="motor-head-right">
+
+                <span class="pixel-icon pixel-icon--motorcycle pixel-icon--tiny"></span>
+
+                COLLECTION
+
+              </div>
+
+            </div>
+
+
+            <div class="motor-header-body">
+
+              <div class="motor-header-copy">
+
+                <div class="motor-title-meta">
+
+                  <span class="motor-title-icon">
+                    <span class="pixel-icon pixel-icon--motorcycle pixel-icon--small"></span>
+                  </span>
+
+                  <span class="eyebrow">
+                    YOUR MOTOR COLLECTION
+                  </span>
+
+                </div>
+
+                <h1>
+                  MOTOR
+                </h1>
+
+                <div class="motor-title-line"></div>
+
+                <p>
+                  Semua motor yang kamu miliki ada di sini.
+                  Inspect, repair, build, tune, jual, atau
+                  siapkan unit untuk turun balap.
+                </p>
+
+              </div>
+
+
+              <div class="motor-header-console">
+
+                <div class="console-title">
+                  <span class="pixel-icon pixel-icon--garage pixel-icon--tiny"></span>
+                  COLLECTION CONSOLE
+                </div>
+
+
+                <div class="console-row">
+
+                  <span>SLOT MOTOR</span>
+
+                  <strong>
+                    {garage.occupied} / {garage.capacity}
+                  </strong>
+
+                </div>
+
+
+                <div class="console-row">
+
+                  <span>READY</span>
+
+                  <strong class="accent-text">
+                    01
+                  </strong>
+
+                </div>
+
+
+                <div class="console-row">
+
+                  <span>PROJECT</span>
+
+                  <strong>
+                    00
+                  </strong>
+
+                </div>
+
+
+                <div class="console-actions">
+
+                  <Button
+                    href="/market"
+                    variant="primary"
+                  >
+                    + CARI MOTOR
+                  </Button>
+
+                  <Button href="/garage">
+                    GARASI
+                  </Button>
+
+                </div>
+
+              </div>
+
+            </div>
+
+
+            <div class="motor-header-bottom">
+
+              <span>
+                INSPECT / BUILD / TUNE / RACE
+              </span>
+
+              <span>
+                01 UNIT
+              </span>
+
+              <span class="system-online">
+                <i></i>
+                SYSTEM READY
+              </span>
+
+            </div>
+
+          </header>
+
+
+
+          <!-- =====================================================
+               COLLECTION STATUS
+          ===================================================== -->
+
+          <section class="motor-section">
+
+            <div class="section-header">
+
+              <div class="section-heading">
+
+                <span class="section-marker"></span>
+
+                <div>
+
+                  <span class="section-kicker">
+                    COLLECTION SYSTEM
+                  </span>
+
+                  <h2>
+                    STATUS MOTOR
+                  </h2>
+
+                </div>
+
+              </div>
+
+              <span class="section-code">
+                01 / COLLECTION
+              </span>
+
+            </div>
+
+
+            <div class="collection-status-grid">
+
+              {
+                collectionStats.map((stat, index) => (
+                  <article
+                    class:list={[
+                      "collection-stat",
+                      index === 0 && "collection-stat--active",
+                    ]}
+                  >
+
+                    <div class="collection-stat-top">
+
+                      <div class="collection-stat-id">
+
+                        <span class="collection-stat-icon">
+
+                          <span
+                            class:list={[
+                              "pixel-icon",
+                              `pixel-icon--${stat.icon}`,
+                              "pixel-icon--small",
+                            ]}
+                          ></span>
+
+                        </span>
+
+                        <span>
+                          {stat.label}
+                        </span>
+
+                      </div>
+
+                      <span>
+                        {String(index + 1).padStart(2, "0")}
+                      </span>
+
+                    </div>
+
+
+                    <strong>
+                      {stat.value}
+                    </strong>
+
+
+                    <div class="collection-stat-bottom">
+
+                      <div class="collection-segments">
+
+                        {Array.from({ length: 8 }).map((_, segmentIndex) => (
+                          <i
+                            class:filled={
+                              index === 0
+                                ? segmentIndex < 6
+                                : index === 1
+                                  ? segmentIndex < 7
+                                  : index === 3
+                                    ? segmentIndex < 5
+                                    : segmentIndex < 1
+                            }
+                          ></i>
+                        ))}
+
+                      </div>
+
+                      <span>
+                        {stat.detail}
+                      </span>
+
+                    </div>
+
+                  </article>
+                ))
+              }
+
+            </div>
+
+          </section>
+
+
+
+          <!-- =====================================================
+               FILTER
+          ===================================================== -->
+
+          <section class="motor-section">
+
+            <div class="section-header">
+
+              <div class="section-heading">
+
+                <span class="section-marker"></span>
+
+                <div>
+
+                  <span class="section-kicker">
+                    MOTOR FILTER
+                  </span>
+
+                  <h2>
+                    SORT & VIEW
+                  </h2>
+
+                </div>
+
+              </div>
+
+              <span class="section-code">
+                FILTER / 04
+              </span>
+
+            </div>
+
+
+            <div class="filter-panel">
+
+              <div class="filter-panel-head">
+
+                <div class="filter-heading">
+
+                  <span class="filter-heading-icon">
+                    <span class="pixel-icon pixel-icon--filter pixel-icon--small"></span>
+                  </span>
+
+                  <div>
+                    <span class="section-kicker">
+                      COLLECTION FILTER
+                    </span>
+
+                    <h3>
+                      PILIH MOTOR
+                    </h3>
+                  </div>
+
+                </div>
+
+
+                <span class="filter-count">
+                  01 UNIT
+                </span>
+
+              </div>
+
+
+              <div class="filter-list">
+
+                {
+                  filters.map((filter, index) => (
+                    <button
+                      type="button"
+                      class:list={[
+                        "filter-button",
+                        index === 0 && "filter-button--active",
+                      ]}
+                      aria-pressed={index === 0 ? "true" : "false"}
+                    >
+
+                      <span class="filter-icon">
+
+                        <span
+                          class:list={[
+                            "pixel-icon",
+                            `pixel-icon--${filter.icon}`,
+                            "pixel-icon--tiny",
+                          ]}
+                        ></span>
+
+                      </span>
+
+                      <span>
+                        {filter.label}
+                      </span>
+
+                      <span class="filter-arrow">
+                        →
+                      </span>
+
+                    </button>
+                  ))
+                }
+
+              </div>
+
+            </div>
+
+          </section>
+
+
+
+          <!-- =====================================================
+               MOTOR COLLECTION
+          ===================================================== -->
+
+          <section class="motor-section">
+
+            <div class="section-header">
+
+              <div class="section-heading">
+
+                <span class="section-marker section-marker--accent"></span>
+
+                <div>
+
+                  <span class="section-kicker">
+                    YOUR MOTORS
+                  </span>
+
+                  <h2>
+                    MOTOR DI GARASI
+                  </h2>
+
+                </div>
+
+              </div>
+
+              <div class="section-side-info">
+
+                <span>
+                  SLOT
+                </span>
+
+                <strong>
+                  {garage.occupied} / {garage.capacity}
+                </strong>
+
+              </div>
+
+            </div>
+
+
+            <div class="motor-collection-grid">
+
+
+              {
+                motors.map((motor, index) => (
+                  <article class="owned-motor-card">
+
+                    <div class="owned-motor-top">
+
+                      <div class="owned-motor-id">
+
+                        <span class="owned-motor-index">
+                          {String(index + 1).padStart(2, "0")}
+                        </span>
+
+                        <span>
+                          {motor.id}
+                        </span>
+
+                      </div>
+
+                      <span class="owned-motor-status">
+                        {motor.status}
+                      </span>
+
+                    </div>
+
+
+                    <div class="owned-motor-art">
+
+                      <div class="owned-art-code">
+                        OWNED / BAY_01
+                      </div>
+
+                      <div class="owned-art-corner owned-art-corner--tl"></div>
+                      <div class="owned-art-corner owned-art-corner--tr"></div>
+                      <div class="owned-art-corner owned-art-corner--bl"></div>
+                      <div class="owned-art-corner owned-art-corner--br"></div>
+
+
+                      <div class="owned-art-cross"></div>
+
+
+                      <div
+                        class="pixel-motor owned-pixel-motor"
+                        aria-hidden="true"
+                      >
+
+                        <span class="pixel-motor__body"></span>
+                        <span class="pixel-motor__tank"></span>
+                        <span class="pixel-motor__seat"></span>
+                        <span class="pixel-motor__frame"></span>
+                        <span class="pixel-motor__engine"></span>
+                        <span class="pixel-motor__pipe"></span>
+                        <span class="pixel-motor__front"></span>
+                        <span class="pixel-motor__rear"></span>
+                        <span class="pixel-motor__wheel pixel-motor__wheel--rear"></span>
+                        <span class="pixel-motor__wheel pixel-motor__wheel--front"></span>
+                        <span class="pixel-motor__handle"></span>
+
+                      </div>
+
+
+                      <div class="owned-art-ground"></div>
+
+
+                      <div class="owned-art-label">
+
+                        <span>
+                          {motor.brand}
+                        </span>
+
+                        <strong>
+                          {motor.name.replace(motor.brand, "").trim()}
+                        </strong>
+
+                      </div>
+
+
+                      <span class="owned-art-type">
+                        {motor.type}
+                      </span>
+
+                    </div>
+
+
+                    <div class="owned-motor-content">
+
+                      <div class="owned-motor-heading">
+
+                        <div>
+
+                          <span class="section-kicker">
+                            {motor.brand} / {motor.year}
+                          </span>
+
+                          <h3>
+                            {motor.name}
+                          </h3>
+
+                          <span class="owned-motor-build">
+                            {motor.build}
+                          </span>
+
+                        </div>
+
+
+                        <span class="owned-condition">
+                          {motor.condition}
+                        </span>
+
+                      </div>
+
+
+                      <div class="owned-stats">
+
+                        <div>
+                          <span>POWER</span>
+                          <strong>{motor.stats.power}</strong>
+                        </div>
+
+                        <div>
+                          <span>ACCEL</span>
+                          <strong>{motor.stats.acceleration}</strong>
+                        </div>
+
+                        <div>
+                          <span>GRIP</span>
+                          <strong>{motor.stats.grip}</strong>
+                        </div>
+
+                        <div>
+                          <span>RELIAB.</span>
+                          <strong>{motor.stats.reliability}</strong>
+                        </div>
+
+                      </div>
+
+
+                      <div class="owned-finance">
+
+                        <div>
+
+                          <span>MARKET VALUE</span>
+
+                          <strong>
+                            Rp {motor.value.toLocaleString("id-ID")}
+                          </strong>
+
+                        </div>
+
+
+                        <div class="owned-score">
+
+                          <span>BUILD SCORE</span>
+
+                          <strong>
+                            {motor.buildScore}
+                          </strong>
+
+                        </div>
+
+                      </div>
+
+                    </div>
+
+
+                    <div class="owned-actions">
+
+                      <a
+                        href={`/motor?id=${motor.id}`}
+                        class="owned-action owned-action--primary"
+                      >
+
+                        <span class="action-icon">
+                          <span class="pixel-icon pixel-icon--search pixel-icon--tiny"></span>
+                        </span>
+
+                        <span>
+                          OPEN MOTOR
+                        </span>
+
+                        <span>
+                          →
+                        </span>
+
+                      </a>
+
+
+                      <a
+                        href="/workshop"
+                        class="owned-action"
+                      >
+
+                        <span class="action-icon">
+                          <span class="pixel-icon pixel-icon--wrench pixel-icon--tiny"></span>
+                        </span>
+
+                        <span>
+                          WORKSHOP
+                        </span>
+
+                        <span>
+                          →
+                        </span>
+
+                      </a>
+
+                    </div>
+
+                  </article>
+                ))
+              }
+
+
+              <!-- EMPTY SLOT -->
+
+              <article class="empty-slot-card">
+
+                <div class="empty-slot-top">
+
+                  <div>
+                    <span class="empty-slot-index">
+                      02
+                    </span>
+
+                    <span>
+                      SLOT_02
+                    </span>
+                  </div>
+
+                  <span>
+                    EMPTY
+                  </span>
+
+                </div>
+
+
+                <div class="empty-slot-art">
+
+                  <div class="empty-slot-grid"></div>
+
+                  <div class="empty-slot-frame">
+
+                    <span class="empty-corner empty-corner--tl"></span>
+                    <span class="empty-corner empty-corner--tr"></span>
+                    <span class="empty-corner empty-corner--bl"></span>
+                    <span class="empty-corner empty-corner--br"></span>
+
+                    <div class="empty-slot-cross"></div>
+
+                    <div class="empty-slot-icon">
+
+                      <span class="pixel-icon pixel-icon--plus pixel-icon--medium"></span>
+
+                    </div>
+
+                  </div>
+
+                  <span class="empty-slot-art-label">
+                    AVAILABLE SLOT
+                  </span>
+
+                </div>
+
+
+                <div class="empty-slot-content">
+
+                  <span class="section-kicker">
+                    MOTOR HUNT
+                  </span>
+
+                  <h3>
+                    CARI PROJECT
+                    <br />
+                    BERIKUTNYA
+                  </h3>
+
+                  <p>
+                    Gunakan slot kosong untuk
+                    menambah motor bekas, project,
+                    stock, atau salvage ke garasi.
+                  </p>
+
+                </div>
+
+
+                <a
+                  href="/market"
+                  class="retro-action retro-action--accent"
+                >
+                  <span class="pixel-icon pixel-icon--search pixel-icon--tiny"></span>
+                  OPEN MARKET
+                  <span>→</span>
+                </a>
+
+              </article>
+
+            </div>
+
+          </section>
+
+
+
+          <!-- =====================================================
+               MOTOR SUMMARY
+          ===================================================== -->
+
+          <section class="motor-section">
+
+            <div class="section-header">
+
+              <div class="section-heading">
+
+                <span class="section-marker"></span>
+
+                <div>
+
+                  <span class="section-kicker">
+                    MOTOR ANALYSIS
+                  </span>
+
+                  <h2>
+                    KOMPOSISI GARASI
+                  </h2>
+
+                </div>
+
+              </div>
+
+              <span class="section-code">
+                OVERVIEW / 02
+              </span>
+
+            </div>
+
+
+            <div class="summary-grid">
+
+
+              <!-- BUILD OVERVIEW -->
+
+              <article class="summary-card">
+
+                <div class="summary-card-top">
+
+                  <div class="summary-card-title">
+
+                    <span class="summary-card-icon">
+                      <span class="pixel-icon pixel-icon--chart pixel-icon--small"></span>
+                    </span>
+
+                    <div>
+
+                      <span class="section-kicker">
+                        BUILD OVERVIEW
+                      </span>
+
+                      <h3>
+                        STATUS KOLEKSI
+                      </h3>
+
+                    </div>
+
+                  </div>
+
+                  <span>
+                    LIVE
+                  </span>
+
+                </div>
+
+
+                <div class="summary-list">
+
+                  <div class="summary-row">
+
+                    <div class="summary-row-left">
+
+                      <span class="summary-row-icon">
+                        <span class="pixel-icon pixel-icon--check pixel-icon--tiny"></span>
+                      </span>
+
+                      <span>
+                        READY MOTOR
+                      </span>
+
+                    </div>
+
+                    <strong class="summary-good">
+                      01
+                    </strong>
+
+                  </div>
+
+
+                  <div class="summary-row">
+
+                    <div class="summary-row-left">
+
+                      <span class="summary-row-icon">
+                        <span class="pixel-icon pixel-icon--project pixel-icon--tiny"></span>
+                      </span>
+
+                      <span>
+                        PROJECT MOTOR
+                      </span>
+
+                    </div>
+
+                    <strong>
+                      00
+                    </strong>
+
+                  </div>
+
+
+                  <div class="summary-row">
+
+                    <div class="summary-row-left">
+
+                      <span class="summary-row-icon">
+                        <span class="pixel-icon pixel-icon--wrench pixel-icon--tiny"></span>
+                      </span>
+
+                      <span>
+                        LOW RELIABILITY
+                      </span>
+
+                    </div>
+
+                    <strong>
+                      00
+                    </strong>
+
+                  </div>
+
+
+                  <div class="summary-row">
+
+                    <div class="summary-row-left">
+
+                      <span class="summary-row-icon">
+                        <span class="pixel-icon pixel-icon--flag pixel-icon--tiny"></span>
+                      </span>
+
+                      <span>
+                        DRAG READY
+                      </span>
+
+                    </div>
+
+                    <strong class="summary-good">
+                      01
+                    </strong>
+
+                  </div>
+
+                </div>
+
+
+                <div class="summary-card-footer">
+
+                  <span>
+                    GARAGE / MOTOR STATE
+                  </span>
+
+                  <Button
+                    href="/workshop"
+                    variant="primary"
+                  >
+                    WORKSHOP
+                  </Button>
+
+                </div>
+
+              </article>
+
+
+
+              <!-- NEXT MOVE -->
+
+              <article class="summary-card">
+
+                <div class="summary-card-top">
+
+                  <div class="summary-card-title">
+
+                    <span class="summary-card-icon">
+                      <span class="pixel-icon pixel-icon--search pixel-icon--small"></span>
+                    </span>
+
+                    <div>
+
+                      <span class="section-kicker">
+                        NEXT MOVE
+                      </span>
+
+                      <h3>
+                        ISI SLOT BERIKUTNYA
+                      </h3>
+
+                    </div>
+
+                  </div>
+
+                  <span>
+                    SLOT 02
+                  </span>
+
+                </div>
+
+
+                <div class="next-move">
+
+                  <div class="next-move-visual">
+
+                    <div class="next-move-cross"></div>
+
+                    <div class="next-move-icon">
+
+                      <span class="pixel-icon pixel-icon--plus pixel-icon--medium"></span>
+
+                    </div>
+
+                    <span>
+                      OPEN SLOT
+                    </span>
+
+                  </div>
+
+
+                  <div class="next-move-copy">
+
+                    <span class="section-kicker">
+                      GARAGE CAPACITY
+                    </span>
+
+                    <strong>
+                      01 SLOT FREE
+                    </strong>
+
+                    <p>
+                      Slot kedua masih tersedia.
+                      Cari unit yang punya ruang
+                      untuk menghasilkan profit,
+                      build score, atau race potential.
+                    </p>
+
+                  </div>
+
+                </div>
+
+
+                <div class="summary-card-footer">
+
+                  <span>
+                    CAPACITY {garage.occupied} / {garage.capacity}
+                  </span>
+
+                  <a
+                    href="/market"
+                    class="summary-link"
+                  >
+                    FIND MOTOR →
+                  </a>
+
+                </div>
+
+              </article>
+
+            </div>
+
+          </section>
+
+
+
+          <!-- =====================================================
+               HISTORY
+          ===================================================== -->
+
+          <section class="motor-section">
+
+            <div class="section-header">
+
+              <div class="section-heading">
+
+                <span class="section-marker"></span>
+
+                <div>
+
+                  <span class="section-kicker">
+                    MOTOR LOG
+                  </span>
+
+                  <h2>
+                    RIWAYAT MOTOR
+                  </h2>
+
+                </div>
+
+              </div>
+
+              <span class="section-code">
+                RECENT / 04
+              </span>
+
+            </div>
+
+
+            <div class="history-panel">
+
+              <div class="history-panel-head">
+
+                <div class="history-head-title">
+
+                  <span class="history-head-icon">
+                    <span class="pixel-icon pixel-icon--clipboard pixel-icon--small"></span>
+                  </span>
+
+                  <div>
+
+                    <span class="section-kicker">
+                      RECENT HISTORY
+                    </span>
+
+                    <strong>
+                      ACTIVITY LOG
+                    </strong>
+
+                  </div>
+
+                </div>
+
+                <span>
+                  LAST 04 EVENTS
+                </span>
+
+              </div>
+
+
+              <div class="history-list">
+
+                {
+                  recentHistory.map((item, index) => (
+                    <div class="history-row">
+
+                      <span class="history-number">
+                        {String(index + 1).padStart(2, "0")}
+                      </span>
+
+
+                      <div class="history-icon">
+
+                        <span
+                          class:list={[
+                            "pixel-icon",
+                            `pixel-icon--${item.icon}`,
+                            "pixel-icon--small",
+                          ]}
+                        ></span>
+
+                      </div>
+
+
+                      <div class="history-main">
+
+                        <strong>
+                          {item.label}
+                        </strong>
+
+                        <span>
+                          {item.action}
+                          {" / "}
+                          {item.detail}
+                        </span>
+
+                      </div>
+
+
+                      <span class="history-log-id">
+                        {item.id}
+                      </span>
+
+
+                      <strong class="history-value">
+                        {item.value}
+                      </strong>
+
+                    </div>
+                  ))
+                }
+
+              </div>
+
+            </div>
+
+          </section>
+
+
+
+          <!-- =====================================================
+               MOTOR HUNT CTA
+          ===================================================== -->
+
+          <section class="motor-section">
+
+            <article class="motor-hunt">
+
+              <div class="hunt-art">
+
+                <div class="hunt-art-corner hunt-art-corner--tl"></div>
+                <div class="hunt-art-corner hunt-art-corner--tr"></div>
+                <div class="hunt-art-corner hunt-art-corner--bl"></div>
+                <div class="hunt-art-corner hunt-art-corner--br"></div>
+
+
+                <div class="hunt-cross"></div>
+
+
+                <div class="hunt-icon">
+
+                  <span class="pixel-icon pixel-icon--search pixel-icon--medium"></span>
+
+                </div>
+
+
+                <span class="hunt-code">
+                  MARKET / MOTOR_HUNT
+                </span>
+
+              </div>
+
+
+              <div class="hunt-copy">
+
+                <span class="section-kicker">
+                  MOTOR HUNT
+                </span>
+
+                <h2>
+                  CARI PROYEK
+                  <br />
+                  BERIKUTNYA
+                </h2>
+
+                <p>
+                  Jangan hanya menunggu motor siap.
+                  Gunakan Market untuk mencari unit
+                  bekas murah, stock, project, atau
+                  salvage yang punya potensi berbeda.
+                </p>
+
+
+                <div class="hunt-actions">
+
+                  <Button
+                    href="/market"
+                    variant="primary"
+                  >
+                    BUKA MARKET
+                  </Button>
+
+                  <Button href="/market">
+                    CARI SALVAGE
+                  </Button>
+
+                </div>
+
+              </div>
+
+
+              <div class="hunt-side">
+
+                <span>
+                  SLOT
+                </span>
+
+                <strong>
+                  01
+                </strong>
+
+                <small>
+                  AVAILABLE
+                </small>
+
+              </div>
+
+            </article>
+
+          </section>
+
+
+
+          <!-- =====================================================
+               FOOTER
+          ===================================================== -->
+
+          <footer class="motor-footer">
+
+            <div class="footer-line"></div>
+
+            <div class="footer-row">
+
+              <div class="footer-brand">
+
+                <span class="footer-icon">
+                  <span class="pixel-icon pixel-icon--motorcycle pixel-icon--small"></span>
+                </span>
+
+                <div>
+
+                  <strong>
+                    BENGKEL
+                  </strong>
+
+                  <span>
+                    MOTOR MANAGEMENT SYSTEM
+                  </span>
+
+                </div>
+
+              </div>
+
+
+              <span>
+                MOTOR / INSPECT / BUILD / RACE
+              </span>
+
+
+              <span class="footer-online">
+
+                <i></i>
+
+                ONLINE
+
+              </span>
+
+            </div>
+
+          </footer>
+
+        </div>
+
+      </main>
+
+    </div>
+
+  </div>
+</Layout>
+
+
+<style>
+
+/* =============================================================
+   TOKENS
+   ============================================================= */
+
+.motor-page {
+
+  --m-black: #050505;
+  --m-black-2: #090909;
+
+  --m-panel: #101010;
+  --m-panel-2: #151515;
+  --m-panel-3: #1c1c1c;
+
+  --m-line: #292929;
+  --m-line-light: #3d3d3d;
+
+  --m-white: #f1f1eb;
+  --m-soft: #d0d0ca;
+
+  --m-muted: #989892;
+  --m-dim: #62625d;
+
+  --m-accent: #b7d83c;
+  --m-accent-dark: #687d27;
+
+}
+
+
+/* =============================================================
+   BASE
+   ============================================================= */
+
+.motor-main {
+  min-width: 0;
+}
+
+.motor-section {
+  margin-top: 42px;
+}
+
+.section-header {
+
+  min-height: 55px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 15px;
+
+  margin-bottom: 10px;
+
+  border-bottom: 2px solid var(--m-line);
+
+}
+
+.section-heading {
+
+  display: flex;
+  align-items: center;
+
+  gap: 11px;
+
+}
+
+.section-marker {
+
+  width: 8px;
+  height: 8px;
+
+  flex: 0 0 auto;
+
+  background: var(--m-white);
+
+  box-shadow:
+    4px 4px 0 var(--m-line-light);
+
+}
+
+.section-marker--accent {
+
+  background: var(--m-accent);
+
+  box-shadow:
+    4px 4px 0 var(--m-accent-dark);
+
+}
+
+.section-kicker {
+
+  display: block;
+
+  color: var(--m-dim);
+
+  font-family: var(--font-display);
+  font-size: .51rem;
+  font-weight: 900;
+
+  letter-spacing: .1em;
+
+  text-transform: uppercase;
+
+}
+
+.section-header h2 {
+
+  margin-top: 4px;
+
+  color: var(--m-white);
+
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem,3vw,2rem);
+  font-weight: 900;
+
+  line-height: .9;
+
+  letter-spacing: -.04em;
+
+  text-transform: uppercase;
+
+}
+
+.section-code,
+.section-side-info {
+
+  color: var(--m-dim);
+
+  font-family: var(--font-display);
+  font-size: .45rem;
+  font-weight: 900;
+
+  letter-spacing: .08em;
+
+  text-transform: uppercase;
+
+}
+
+.section-side-info {
+
+  display: flex;
+  align-items: center;
+
+  gap: 7px;
+
+}
+
+.section-side-info strong {
+
+  color: var(--m-accent);
+
+}
+
+.accent-text {
+
+  color: var(--m-accent) !important;
+
+}
+
+
+/* =============================================================
+   PIXEL ICONS
+   ============================================================= */
+
+.pixel-icon {
+
+  position: relative;
+
+  display: block;
+
+  width: 18px;
+  height: 18px;
+
+  color: currentColor;
+
+  image-rendering: pixelated;
+
+}
+
+.pixel-icon::before,
+.pixel-icon::after {
+
+  content: "";
+
+  position: absolute;
+
+  display: block;
+
+}
+
+.pixel-icon--tiny {
+
+  width: 10px;
+  height: 10px;
+
+}
+
+.pixel-icon--small {
+
+  width: 18px;
+  height: 18px;
+
+}
+
+.pixel-icon--medium {
+
+  width: 30px;
+  height: 30px;
+
+}
+
+
+/* MOTORCYCLE */
+
+.pixel-icon--motorcycle::before {
+
+  left: 1px;
+  bottom: 1px;
+
+  width: 5px;
+  height: 5px;
+
+  border: 2px solid currentColor;
+
+  box-shadow:
+    10px 0 0 -1px var(--m-panel),
+    10px 0 0 currentColor;
+
+}
+
+.pixel-icon--motorcycle::after {
+
+  left: 4px;
+  top: 6px;
+
+  width: 10px;
+  height: 4px;
+
+  background: currentColor;
+
+  box-shadow:
+    -1px 3px 0 -1px currentColor,
+    3px 4px 0 -1px currentColor,
+    7px 3px 0 -1px currentColor;
+
+}
+
+
+/* GARAGE */
+
+.pixel-icon--garage::before {
+
+  left: 2px;
+  top: 5px;
+
+  width: 14px;
+  height: 12px;
+
+  border: 2px solid currentColor;
+
+}
+
+.pixel-icon--garage::after {
+
+  left: 0;
+  top: 2px;
+
+  width: 18px;
+  height: 6px;
+
+  border-top: 2px solid currentColor;
+  border-left: 2px solid currentColor;
+
+  transform: skewY(-30deg);
+
+}
+
+
+/* WRENCH */
+
+.pixel-icon--wrench::before {
+
+  left: 3px;
+  top: 2px;
+
+  width: 5px;
+  height: 5px;
+
+  border: 2px solid currentColor;
+
+  transform: rotate(45deg);
+
+  box-shadow:
+    5px 5px 0 -1px currentColor,
+    8px 8px 0 -1px currentColor;
+
+}
+
+.pixel-icon--wrench::after {
+
+  right: 1px;
+  bottom: 1px;
+
+  width: 6px;
+  height: 6px;
+
+  border: 2px solid currentColor;
+
+}
+
+
+/* CHECK */
+
+.pixel-icon--check::before {
+
+  left: 2px;
+  top: 7px;
+
+  width: 5px;
+  height: 3px;
+
+  border-left: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+
+  transform: rotate(-45deg);
+
+  box-shadow:
+    5px -3px 0 -1px currentColor;
+
+}
+
+
+/* PROJECT */
+
+.pixel-icon--project::before {
+
+  left: 3px;
+  top: 2px;
+
+  width: 13px;
+  height: 15px;
+
+  border: 2px solid currentColor;
+
+}
+
+.pixel-icon--project::after {
+
+  left: 6px;
+  top: 6px;
+
+  width: 7px;
+  height: 2px;
+
+  background: currentColor;
+
+  box-shadow:
+    0 4px 0 currentColor,
+    0 8px 0 currentColor;
+
+}
+
+
+/* MONEY */
+
+.pixel-icon--money::before {
+
+  left: 1px;
+  top: 4px;
+
+  width: 16px;
+  height: 10px;
+
+  border: 2px solid currentColor;
+
+}
+
+.pixel-icon--money::after {
+
+  left: 7px;
+  top: 7px;
+
+  width: 4px;
+  height: 4px;
+
+  background: currentColor;
+
+}
+
+
+/* SEARCH */
+
+.pixel-icon--search::before {
+
+  left: 2px;
+  top: 2px;
+
+  width: 9px;
+  height: 9px;
+
+  border: 2px solid currentColor;
+
+}
+
+.pixel-icon--search::after {
+
+  right: 0;
+  bottom: 0;
+
+  width: 7px;
+  height: 2px;
+
+  background: currentColor;
+
+  transform: rotate(45deg);
+
+}
+
+
+/* CLIPBOARD */
+
+.pixel-icon--clipboard::before {
+
+  left: 3px;
+  top: 3px;
+
+  width: 12px;
+  height: 14px;
+
+  border: 2px solid currentColor;
+
+}
+
+.pixel-icon--clipboard::after {
+
+  left: 6px;
+  top: 1px;
+
+  width: 6px;
+  height: 4px;
+
+  background: currentColor;
+
+}
+
+
+/* FILTER */
+
+.pixel-icon--filter::before {
+
+  left: 2px;
+  top: 2px;
+
+  width: 15px;
+  height: 14px;
+
+  border: 2px solid currentColor;
+
+  clip-path:
+    polygon(
+      0 0,
+      100% 0,
+      68% 42%,
+      68% 100%,
+      31% 100%,
+      31% 42%
+    );
+
+}
+
+
+/* GRID */
+
+.pixel-icon--grid::before {
+
+  left: 1px;
+  top: 1px;
+
+  width: 6px;
+  height: 6px;
+
+  background: currentColor;
+
+  box-shadow:
+    9px 0 0 currentColor,
+    0 9px 0 currentColor,
+    9px 9px 0 currentColor;
+
+}
+
+
+/* FLAG */
+
+.pixel-icon--flag::before {
+
+  left: 3px;
+  top: 1px;
+
+  width: 3px;
+  height: 17px;
+
+  background: currentColor;
+
+}
+
+.pixel-icon--flag::after {
+
+  left: 6px;
+  top: 2px;
+
+  width: 10px;
+  height: 8px;
+
+  background: currentColor;
+
+  clip-path:
+    polygon(
+      0 0,
+      100% 0,
+      75% 50%,
+      100% 100%,
+      0 100%
+    );
+
+}
+
+
+/* PLUS */
+
+.pixel-icon--plus::before {
+
+  left: 2px;
+  top: 8px;
+
+  width: 15px;
+  height: 3px;
+
+  background: currentColor;
+
+}
+
+.pixel-icon--plus::after {
+
+  left: 8px;
+  top: 2px;
+
+  width: 3px;
+  height: 15px;
+
+  background: currentColor;
+
+}
+
+
+/* CHART */
+
+.pixel-icon--chart::before {
+
+  left: 2px;
+  bottom: 2px;
+
+  width: 3px;
+  height: 7px;
+
+  background: currentColor;
+
+  box-shadow:
+    5px -3px 0 currentColor,
+    10px -7px 0 currentColor;
+
+}
+
+.pixel-icon--chart::after {
+
+  left: 2px;
+  bottom: 1px;
+
+  width: 14px;
+  height: 2px;
+
+  background: currentColor;
+
+}
+
+
+/* =============================================================
+   HEADER
+   ============================================================= */
+
+.motor-header {
+
+  overflow: hidden;
+
+  background: var(--m-panel);
+
+  border: 2px solid var(--m-line-light);
+
+  box-shadow:
+    7px 7px 0 var(--m-black);
+
+}
+
+.motor-header-top,
+.motor-header-bottom {
+
+  min-height: 31px;
+
+  display: grid;
+
+  align-items: center;
+
+  gap: 15px;
+
+  padding: 0 11px;
+
+  background: var(--m-black-2);
+
+  color: var(--m-dim);
+
+  font-family: var(--font-display);
+  font-size: .46rem;
+  font-weight: 900;
+
+  letter-spacing: .08em;
+
+  text-transform: uppercase;
+
+}
+
+.motor-header-top {
+
+  grid-template-columns:
+    1fr
+    auto
+    auto;
+
+  border-bottom: 2px solid var(--m-line);
+
+}
+
+.motor-header-bottom {
+
+  grid-template-columns:
+    1fr
+    auto
+    auto;
+
+  border-top: 2px solid var(--m-line);
+
+}
+
+.motor-head-left,
+.motor-head-right,
+.system-online {
+
+  display: flex;
+  align-items: center;
+
+  gap: 7px;
+
+}
+
+.motor-head-left {
+
+  color: var(--m-soft);
+
+}
+
+.motor-head-right,
+.system-online {
+
+  color: var(--m-accent);
+
+}
+
+.header-led,
+.system-online i {
+
+  width: 5px;
+  height: 5px;
+
+  background: var(--m-accent);
+
+}
+
+.motor-header-body {
+
+  min-height: 335px;
+
+  display: grid;
+
+  grid-template-columns:
+    minmax(0,1fr)
+    255px;
+
+  align-items: end;
+
+  gap: 30px;
+
+  padding: 31px;
+
+}
+
+.motor-title-meta {
+
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+
+}
+
+.motor-title-icon {
+
+  width: 26px;
+  height: 26px;
+
+  display: grid;
+  place-items: center;
+
+  color: var(--m-accent);
+
+  border: 1px solid var(--m-line-light);
+
+  background: var(--m-black-2);
+
+}
+
+.eyebrow {
+
+  color: var(--m-dim);
+
+  font-family: var(--font-display);
+  font-size: .54rem;
+  font-weight: 900;
+
+  letter-spacing: .1em;
+
+  text-transform: uppercase;
+
+}
+
+.motor-header-copy h1 {
+
+  margin-top: 8px;
+
+  color: var(--m-white);
+
+  font-family: var(--font-display);
+  font-size: clamp(4rem,10vw,7.8rem);
+  font-weight: 900;
+
+  line-height: .74;
+
+  letter-spacing: -.09em;
+
+  text-transform: uppercase;
+
+}
+
+.motor-title-line {
+
+  width: min(330px,65%);
+
+  height: 3px;
+
+  margin-top: 20px;
+
+  background: var(--m-accent);
+
+}
+
+.motor-header-copy p {
+
+  max-width: 690px;
+
+  margin-top: 18px;
+
+  color: var(--m-muted);
+
+  font-size: var(--text-sm);
+
+  line-height: 1.65;
+
+}
+
+.motor-header-console {
+
+  display: grid;
+
+  gap: 6px;
+
+}
+
+.console-title {
+
+  min-height: 30px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 7px;
+
+  padding: 0 9px;
+
+  border: 1px solid var(--m-line-light);
+
+  background: var(--m-black-2);
+
+  color: var(--m-soft);
+
+  font-family: var(--font-display);
+  font-size: .42rem;
+  font-weight: 900;
+
+  letter-spacing: .08em;
+
+  text-transform: uppercase;
+
+}
+
+.console-title .pixel-icon {
+
+  color: var(--m-accent);
+
+}
+
+.console-row {
+
+  min-height: 36px;
+
+  display: grid;
+
+  grid-template-columns:
+    1fr
+    auto;
+
+  align-items: center;
+
+  padding: 0 10px;
+
+  border: 1px solid var(--m-line);
+
+  background: var(--m-black-2);
+
+}
+
+.console-row span {
+
+  color: var(--m-dim);
+
+  font-family: var(--font-display);
+  font-size: .41rem;
+  font-weight: 900;
+
+}
+
+.console-row strong {
+
+  color: var(--m-white);
+
+  font-family: var(--font-display);
+  font-size: .61rem;
+  font-weight: 900;
+
+}
+
+.console-actions {
+
+  display: grid;
+  gap: 7px;
+
+  margin-top: 5px;
+
+}
+
+
+/* =============================================================
+   COLLECTION STATUS
+   ============================================================= */
+
+.collection-status-grid {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(4,1fr);
+
+  border-top: 2px solid var(--m-line);
+  border-left: 2px solid var(--m-line);
+
+}
+
+.collection-stat {
+
+  min-height: 142px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  padding: 13px;
+
+  border-right: 2px solid var(--m-line);
+  border-bottom: 2px solid var(--m-line);
+
+  background: var(--m-panel);
+
+}
+
+.collection-stat--active {
+
+  border-top: 3px solid var(--m-accent);
+
+  background: var(--m-panel-2);
+
+}
+
+.collection-stat-top,
+.collection-stat-bottom {
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 8px;
+
+  color: var(--m-dim);
+
+  font-family: var(--font-display);
+  font-size: .43rem;
+  font-weight: 900;
+
+  text-transform: uppercase;
+
+}
+
+.collection-stat-id {
+
+  display: flex;
+  align-items: center;
+
+  gap: 7px;
+
+}
+
+.collection-stat-icon {
+
+  width: 25px;
+  height: 25px;
+
+  display: grid;
+  place-items: center;
+
+  border: 1px solid var(--m-line-light);
+
+  color: var(--m-soft);
+
+}
+
+.collection-stat--active .collection-stat-icon {
+
+  color: var(--m-accent);
+
+  border-color: var(--m-accent-dark);
+
+}
+
+.collection-stat > strong {
+
+  color: var(--m-white);
+
+  font-family: var(--font-display);
+  font-size: 1.85rem;
+  font-weight: 900;
+
+  line-height: .8;
+
+}
+
+.collection-stat-bottom {
+
+  gap: 10px;
+
+}
+
+.collection-segments {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(8,1fr);
+
+  flex: 1;
+
+  gap: 3px;
+
+}
+
+.collection-segments i {
+
+  height: 4px;
+
+  background: var(--m-line-light);
+
+}
+
+.collection-segments i.filled {
+
+  background: var(--m-accent-dark);
+
+}
+
+.collection-stat--active
+.collection-segments i.filled {
+
+  background: var(--m-accent);
+
+}
+
+
+/* =============================================================
+   FILTER
+   ============================================================= */
+
+.filter-panel {
+
+  overflow: hidden;
+
+  border: 2px solid var(--m-line);
+
+  background: var(--m-panel);
+
+  box-shadow:
+    5px 5px 0 var(--m-black);
+
+}
+
+.filter-panel-head {
+
+  min-height: 65px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 15px;
+
+  padding: 10px 12px;
+
+  border-bottom: 2px solid var(--m-line);
+
+  background: var(--m-black-2);
+
+}
+
+.filter-heading {
+
+  display: flex;
+  align-items: center;
+
+  gap: 9px;
+
+}
+
+.filter-heading-icon {
+
+  width: 32px;
+  height: 32px;
+
+  display: grid;
+  place-items: center;
+
+  color: var(--m-accent);
+
+  border: 1px solid var(--m-accent-dark);
+
+}
+
+.filter-heading h3 {
+
+  margin-top: 4px;
+
+  color: var(--m-white);
+
+  font-family: var(--font-display);
+  font-size: .82rem;
+  font-weight: 900;
+
+  text-transform: uppercase;
+
+}
+
+.filter-count {
+
+  color: var(--m-dim);
+
+  font-family: var(--font-display);
+  font-size: .42rem;
+  font-weight: 900;
+
+}
+
+.filter-list {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(4,1fr);
+
+}
+
+.filter-button {
+
+  min-height: 58px;
+
+  display: grid;
+
+  grid-template-columns:
+    28px
+    1fr
+    15px;
+
+  align-items: center;
+
+  gap: 8px;
+
+  padding: 0 10px;
+
+  border: 0;
+  border-right: 2px solid var(--m-line);
+
+  background: var(--m-panel);
+
+  color: var(--m-muted);
+
+  font-family: var(--font-display);
+  font-size: .47rem;
+  font-weight: 900;
+
+  text-align: left;
+
+  text-transform: uppercase;
+
+  cursor: pointer;
+
+}
+
+.filter-button:last-child {
+
+  border-right: 0;
+
+}
+
+.filter-button:hover {
+
+  background: var(--m-panel-2);
+
+  color: var(--m-white);
+
+}
+
+.filter-button--active {
+
+  background: var(--m-accent);
+
+  color: var(--m-black);
+
+  box-shadow:
+    inset -4px -4px 0 rgba(0,0,0,.18);
+
+}
+
+.filter-button--active:hover {
+
+  background: var(--m-accent);
+
+  color: var(--m-black);
+
+}
+
+.filter-icon {
+
+  width: 25px;
+  height: 25px;
+
+  display: grid;
+  place-items: center;
+
+  border: 1px solid currentColor;
+
+}
+
+.filter-arrow {
+
+  text-align: right;
+
+}
+
+
+/* =============================================================
+   MOTOR COLLECTION
+   ============================================================= */
+
+.motor-collection-grid {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(2,minmax(0,1fr));
+
+  gap: 12px;
+
+}
+
+.owned-motor-card {
+
+  min-width: 0;
+
+  overflow: hidden;
+
+  background: var(--m-panel);
+
+  border: 2px solid var(--m-line-light);
+
+  box-shadow:
+    6px 6px 0 var(--m-black);
+
+  transition:
+    transform 80ms steps(1),
+    border-color 80ms steps(1);
+
+}
+
+.owned-motor-card:hover {
+
+  transform: translate(-2px,-2px);
+
+  border-color: var(--m-accent-dark);
+
+}
+
+.owned-motor-top {
+
+  min-height: 32px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 10px;
+
+  border-bottom: 2px solid var(--m-line);
+
+  background: var(--m-black-2);
+
+  font-family: var(--font-display);
+  font-size: .4rem;
+  font-weight: 900;
+
+}
+
+.owned-motor-id,
+.owned-motor-status {
+
+  display: flex;
+  align-items: center;
+
+  gap: 7px;
+
+}
+
+.owned-motor-id {
+
+  color: var(--m-dim);
+
+}
+
+.owned-motor-index {
+
+  color: var(--m-accent);
+
+}
+
+.owned-motor-status {
+
+  color: var(--m-accent);
+
+}
+
+.owned-motor-art {
+
+  min-height: 285px;
+
+  position: relative;
+
+  display: grid;
+  place-items: center;
+
+  overflow: hidden;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent 49%,
+      rgba(255,255,255,.035) 50%,
+      transparent 51%
+    ),
+    linear-gradient(
+      transparent 49%,
+      rgba(255,255,255,.035) 50%,
+      transparent 51%
+    ),
+    #171917;
+
+  background-size: 22px 22px;
+
+}
+
+.owned-art-code {
+
+  position: absolute;
+
+  left: 11px;
+  top: 11px;
+
+  color: var(--m-dim);
+
+  font-family: var(--font-display);
+  font-size: .38rem;
+  font-weight: 900;
+
+  z-index: 6;
+
+}
+
+.owned-art-corner {
+
+  width: 17px;
+  height: 17px;
+
+  position: absolute;
+
+  z-index: 7;
+
+}
+
+.owned-art-corner--tl {
+
+  top: 10px;
+  left: 10px;
+
+  border-top: 2px solid var(--m-accent);
+  border-left: 2px solid var(--m-accent);
+
+}
+
+.owned-art-corner--tr {
+
+  top: 10px;
+  right: 10px;
+
+  border-top: 2px solid var(--m-accent);
+  border-right: 2px solid var(--m-accent);
+
+}
+
+.owned-art-corner--bl {
+
+  left: 10px;
+  bottom: 10px;
+
+  border-bottom: 2px solid var(--m-accent);
+  border-left: 2px solid var(--m-accent);
+
+}
+
+.owned-art-corner--br {
+
+  right: 10px;
+  bottom: 10px;
+
+  border-right: 2px solid var(--m-accent);
+  border-bottom: 2px solid var(--m-accent);
+
+}
+
+.owned-art-cross {
+
+  position: absolute;
+
+  width: 170px;
+  height: 170px;
+
+  border: 1px dashed rgba(241,241,235,.12);
+
+}
+
+.owned-art-cross::before,
+.owned-art-cross::after {
+
+  content: "";
+
+  position: absolute;
+
+  background: rgba(183,216,60,.12);
+
+}
+
+.owned-art-cross::before {
+
+  left: 50%;
+  top: -15px;
+  bottom: -15px;
+
+  width: 1px;
+
+}
+
+.owned-art-cross::after {
+
+  left: -15px;
+  right: -15px;
+  top: 50%;
+
+  height: 1px;
+
+}
+
+.owned-pixel-motor {
+
+  position: relative;
+
+  z-index: 3;
+
+  transform: scale(1.55);
+
+  image-rendering: pixelated;
+
+  filter:
+    drop-shadow(6px 6px 0 var(--m-black));
+
+}
+
+.owned-art-ground {
+
+  position: absolute;
+
+  left: 14%;
+  right: 14%;
+  bottom: 27px;
+
+  height: 5px;
+
+  background: var(--m-line-light);
+
+  box-shadow:
+    0 5px 0 var(--m-black);
+
+}
+
+.owned-art-label {
+
+  position: absolute;
+
+  left: 12px;
+  bottom: 12px;
+
+  display: flex;
+  align-items: baseline;
+
+  gap: 5px;
+
+  z-index: 6;
+
+  font-family: var(--font-display);
+  text-transform: uppercase;
+
+}
+
+.owned-art-label span {
+
+  color: var(--m-muted);
+
+  font-size: .39rem;
+  font-weight: 900;
+
+}
+
+.owned-art-label strong {
+
+  color: var(--m-white);
+
+  font-size: .72rem;
+  font-weight: 900;
+
+}
+
+.owned-art-type {
+
+  position: absolute;
+
+  right: 12px;
+  bottom: 13px;
+
+  color: rgba(241,241,235,.3);
+
+  font-family: var(--font-display);
+  font-size: .36rem;
+  font-weight: 900;
+
+  z-index: 6;
+
+}
+
+.owned-motor-content {
+
+  padding: 15px;
+
+}
+
+.owned-motor-heading {
+
+  display: flex;
+
+  align-items: flex-start;
+  justify-content: space-between;
+
+  gap: 12px;
+
+  padding-bottom: 13px;
+
+  border-bottom: 1px solid var(--m-line);
+
+}
+
+.owned-motor-heading h3 {
+
+  margin-top: 5px;
+
+  color: var(--m-white);
+
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 900;
+
+  line-height: .9;
+
+  text-transform: uppercase;
+
+}
+
+.owned-motor-build {
+
+  display: block;
+
+  margin-top: 6px;
+
+  color: var(--m-dim);
+
+  font-family: var(--font-display);
+  font-size: .4rem;
+  font-weight: 900;
+
+}
+
+.owned-condition {
+
+  padding: 5px 6px;
+
+  border: 1px solid var(--m-line-light);
+
+  color: var(--m-muted);
+
+  font-family: var(--font-display);
+  font-size: .4rem;
+  font-weight: 900;
+
+}
+
+.owned-stats {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(4,1fr);
+
+  gap: 5px;
+
+  margin-top: 13px;
+
+}
+
+.owned-stats > div {
+
+  padding: 8px;
+
+  border: 1px solid var(--m-line);
+
+  background: var(--m-black-2);
+
+}
+
+.owned-stats span {
+
+  color: var(--m-dim);
+
+  font-family: var(--font-display);
+  font-size: .34rem;
+  font-weight: 900;
+
+}
+
+.owned-stats strong {
+
+  display: block;
+
+  margin-top: 4px;
+
+  color: var(--m-white);
+
+  font-family: var(--font-display);
+  font-size: .72rem;
+  font-weight: 900;
+
+}
+
+.owned-finance {
+
+  display: flex;
+
+  align-items: flex-end;
+  justify-content: space-between;
+
+  gap: 12px;
+
+  margin-top: 14px;
+
+  padding-top: 12px;
+
+  border-top: 1px solid var(--m-line);
+
+}
+
+.owned-finance > div {
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 4px;
+
+}
+
+.owned-finance span {
+
+  color: var(--m-dim);
+
+  font-family: var(--font-display);
+  font-size: .39rem;
+  font-weight: 900;
+
+}
+
+.owned-finance strong {
+
+  color: var(--m-white);
+
+  font-family: var(--font-display);
+  font-size: .9rem;
+  font-weight: 900;
+
+}
+
+.owned-score {
+
+  text-align: right;
+
+}
+
+.owned-score strong {
+
+  color: var(--m-accent);
+
+  font-size: 1.05rem;
+
+}
+
+.owned-actions {
+
+  display: grid;
+
+  grid-template-columns:
+    1fr
+    1fr;
+
+  gap: 6px;
+
+  padding: 0 10px 10px;
+
+}
+
+.owned-action {
+
+  min-height: 38px;
+
+  display: grid;
+
+  grid-template-columns:
+    18px
+    1fr
+    14px;
+
+  align-items: center;
+
+  gap: 7px;
+
+  padding: 0 9px;
+
+  border: 2px solid var(--m-line);
+
+  color: var(--m-muted);
+
+  background: var(--m-black-2);
+
+  font-family: var(--font-display);
+  font-size: .4rem;
+  font-weight: 900;
+
+  text-decoration: none;
+
+}
+
+.owned-action:hover {
+
+  color: var(--m-accent);
+
+  border-color: var(--m-accent-dark);
+
+}
+
+.owned-action--primary {
+
+  color: var(--m-accent);
+
+  border-color: var(--m-accent-dark);
+
+}
+
+.action-icon {
+
+  color: currentColor;
+
+}
+
+
+/* =============================================================
+   EMPTY SLOT
+   ============================================================= */
+
+.empty-slot-card {
+
+  min-width: 0;
+
+  min-height: 500px;
+
+  display: flex;
+  flex-direction: column;
+
+  overflow: hidden;
+
+  border: 2px dashed var(--m-line-light);
+
+  background: var(--m-panel);
+
+}
+
+.empty-slot-top {
+
+  min-height: 32px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 10px;
+
+  color: var(--m-dim);
+
+  background: var(--m-black-2);
+
+  border-bottom: 2px solid var(--m-line);
+
+  font-family: var(--font-display);
+  font-size: .4rem;
+  font-weight: 900;
+
+}
+
+.empty-slot-top > div {
+
+  display: flex;
+  align-items: center;
+
+  gap: 7px;
+
+}
+
+.empty-slot-index {
+
+  color: var(--m-accent);
+
+}
+
+.empty-slot-art {
+
+  min-height: 255px;
+
+  position: relative;
+
+  display: grid;
+
+  place-items: center;
+
+  overflow: hidden;
+
+  background: #141614;
+
+}
+
+.empty-slot-grid {
+
+  position: absolute;
+
+  inset: 0;
+
+  opacity: .45;
+
+  background-image:
+    linear-gradient(
+      rgba(255,255,255,.03) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(255,255,255,.03) 1px,
+      transparent 1px
+    );
+
+  background-size: 22px 22px;
+
+}
+
+.empty-slot-frame {
+
+  width: 130px;
+  height: 130px;
+
+  position: relative;
+
+  display: grid;
+  place-items: center;
+
+  border: 1px dashed var(--m-line-light);
+
+}
+
+.empty-corner {
+
+  position: absolute;
+
+  width: 16px;
+  height: 16px;
+
+}
+
+.empty-corner--tl {
+
+  left: -1px;
+  top: -1px;
+
+  border-top: 2px solid var(--m-accent-dark);
+  border-left: 2px solid var(--m-accent-dark);
+
+}
+
+.empty-corner--tr {
+
+  right: -1px;
+  top: -1px;
+
+  border-top: 2px solid var(--m-accent-dark);
+  border-right: 2px solid var(--m-accent-dark);
+
+}
+
+.empty-corner--bl {
+
+  left: -1px;
+  bottom: -1px;
+
+  border-bottom: 2px solid var(--m-accent-dark);
+  border-left: 2px solid var(--m-accent-dark);
+
+}
+
+.empty-corner--br {
+
+  right: -1px;
+  bottom: -1px;
+
+  border-right: 2px solid var(--m-accent-dark);
+  border-bottom: 2px solid var(--m-accent-dark);
+
+}
+
+.empty-slot-cross {
+
+  position: absolute;
+
+  inset: 22px;
+
+  border: 1px solid rgba(241,241,235,.08);
+
+}
+
+.empty-slot-cross::before,
+.empty-slot-cross::after {
+
+  content: "";
+
+  position: absolute;
+
+  background: var(--m-line-light);
+
+}
+
+.empty-slot-cross::before {
+
+  left: 50%;
+  top: 17px;
+  bottom: 17px;
+
+  width: 2px;
+
+}
+
+.empty-slot-cross::after {
+
+  top: 50%;
+  left: 17px;
+  right: 17px;
+
+  height: 2px;
+
+}
+
+.empty-slot-icon {
+
+  position: relative;
+
+  z-index: 2;
+
+  color: var(--m-dim);
+
+}
+
+.empty-slot-art-label {
+
+  position: absolute;
+
+  left: 10px;
+  bottom: 9px;
+
+  color: var(--m-dim);
+
+  font-family: var(--font-display);
+  font-size: .36rem;
+  font-weight: 900;
+
+}
+
+.empty-slot-content {
+
+  padding: 16px;
+
+}
+
+.empty-slot-content h3 {
+
+  margin-top: 5px;
+
+  color: var(--m-white);
+
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 900;
+
+  line-height: .95;
+
+}
+
+.empty-slot-content p {
+
+  max-width: 360px;
+
+  margin-top: 9px;
+
+  color: var(--m-muted);
+
+  font-size: .67rem;
+
+  line-height: 1.55;
+
+}
+
+.retro-action {
+
+  min-height: 38px;
+
+  display: grid;
+
+  grid-template-columns:
+    18px
+    1fr
+    15px;
+
+  align-items: center;
+
+  gap: 7px;
+
+  margin: 0 10px 10px;
+
+  padding: 0 9px;
+
+  border: 2px solid var(--m-line-light);
+
+  color: var(--m-white);
+
+  background: var(--m-panel-2);
+
+  font-family: var(--font-display);
+  font-size: .41rem;
+  font-weight: 900;
+
+  text-decoration: none;
+
+  text-transform: uppercase;
+
+}
+
+.retro-action:hover {
+
+  color: var(--m-accent);
+
+  border-color: var(--m-accent-dark);
+
+}
+
+.retro-action--accent {
+
+  color: var(--m-accent);
+
+  border-color: var(--m-accent-dark);
+
+}
+
+
+/* =============================================================
+   SUMMARY
+   ============================================================= */
+
+.summary-grid {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(2,minmax(0,1fr));
+
+  gap: 10px;
+
+}
+
+.summary-card {
+
+  min-width: 0;
+
+  overflow: hidden;
+
+  border: 2px solid var(--m-line);
+
+  background: var(--m-panel);
+
+  box-shadow:
+    5px 5px 0 var(--m-black);
+
+}
+
+.summary-card-top {
+
+  min-height: 59px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 10px;
+
+  padding: 9px 12px;
+
+  border-bottom: 2px solid var(--m-line);
+
+  background: var(--m-black-2);
+
+}
+
+.summary-card-title {
+
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+
+}
+
+.summary-card-icon {
+
+  width: 31px;
+  height: 31px;
+
+  display: grid;
+  place-items: center;
+
+  color: var(--m-accent);
+
+  border: 1px solid var(--m-accent-dark);
+
+}
+
+.summary-card-top > span {
+
+  color: var(--m-dim);
+
+  font-family: var(--font-display);
+  font-size: .39rem;
+  font-weight: 900;
+
+}
+
+.summary-card-title h3 {
+
+  margin-top: 3px;
+
+  color: var(--m-white);
+
+  font-family: var(--font-display);
+  font-size: .73rem;
+  font-weight: 900;
+
+}
+
+.summary-list {
+
+  padding: 0 12px;
+
+}
+
+.summary-row {
+
+  min-height: 47px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 10px;
+
+  border-bottom: 1px solid var(--m-line);
+
+}
+
+.summary-row-left {
+
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+
+  color: var(--m-muted);
+
+  font-family: var(--font-display);
+  font-size: .42rem;
+  font-weight: 900;
+
+}
+
+.summary-row-icon {
+
+  width: 22px;
+  height: 22px;
+
+  display: grid;
+  place-items: center;
+
+  border: 1px solid var(--m-line-light);
+
+  color: var(--m-soft);
+
+}
+
+.summary-row strong {
+
+  color: var(--m-white);
+
+  font-family: var(--font-display);
+  font-size: .74rem;
+  font-weight: 900;
+
+}
+
+.summary-row .summary-good {
+
+  color: var(--m-accent);
+
+}
+
+.summary-card-footer {
+
+  min-height: 54px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 10px;
+
+  padding: 10px 12px;
+
+}
+
+.summary-card-footer > span {
+
+  color: var(--m-dim);
+
+  font-family: var(--font-display);
+  font-size: .38rem;
+  font-weight: 900;
+
+}
+
+.summary-link {
+
+  color: var(--m-accent);
+
+  font-family: var(--font-display);
+  font-size: .42rem;
+  font-weight: 900;
+
+  text-decoration: none;
+
+}
+
+.next-move {
+
+  display: grid;
+
+  grid-template-columns:
+    135px
+    minmax(0,1fr);
+
+  gap: 14px;
+
+  padding: 14px 12px;
+
+}
+
+.next-move-visual {
+
+  min-height: 150px;
+
+  position: relative;
+
+  display: grid;
+  place-items: center;
+
+  overflow: hidden;
+
+  border: 1px dashed var(--m-line-light);
+
+  background:
+    repeating-linear-gradient(
+      135deg,
+      #171917 0 8px,
+      #131513 8px 16px
+    );
+
+}
+
+.next-move-cross {
+
+  position: absolute;
+
+  width: 92px;
+  height: 92px;
+
+  border: 1px solid rgba(241,241,235,.08);
+
+}
+
+.next-move-cross::before,
+.next-move-cross::after {
+
+  content: "";
+
+  position: absolute;
+
+  background: var(--m-line-light);
+
+}
+
+.next-move-cross::before {
+
+  left: 50%;
+  top: 13px;
+  bottom: 13px;
+
+  width: 2px;
+
+}
+
+.next-move-cross::after {
+
+  top: 50%;
+  left: 13px;
+  right: 13px;
+
+  height: 2px;
+
+}
+
+.next-move-icon {
+
+  position: relative;
+
+  z-index: 2;
+
+  color: var(--m-accent);
+
+}
+
+.next-move-visual > span {
+
+  position: absolute;
+
+  left: 8px;
+  bottom: 7px;
+
+  color: var(--m-dim);
+
+  font-family: var(--font-display);
+  font-size: .36rem;
+  font-weight: 900;
+
+}
+
+.next-move-copy {
+
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  justify-content: center;
+
+  align-items: flex-start;
+
+}
+
+.next-move-copy > strong {
+
+  margin-top: 5px;
+
+  color: var(--m-white);
+
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 900;
+
+  line-height: 1;
+
+}
+
+.next-move-copy p {
+
+  margin-top: 9px;
+
+  color: var(--m-muted);
+
+  font-size: .67rem;
+
+  line-height: 1.55;
+
+}
+
+
+/* =============================================================
+   HISTORY
+   ============================================================= */
+
+.history-panel {
+
+  overflow: hidden;
+
+  border: 2px solid var(--m-line);
+
+  background: var(--m-panel);
+
+  box-shadow:
+    5px 5px 0 var(--m-black);
+
+}
+
+.history-panel-head {
+
+  min-height: 60px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 15px;
+
+  padding: 9px 12px;
+
+  border-bottom: 2px solid var(--m-line);
+
+  background: var(--m-black-2);
+
+}
+
+.history-head-title {
+
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+
+}
+
+.history-head-icon {
+
+  width: 32px;
+  height: 32px;
+
+  display: grid;
+  place-items: center;
+
+  color: var(--m-accent);
+
+  border: 1px solid var(--m-accent-dark);
+
+}
+
+.history-head-title > div {
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 3px;
+
+}
+
+.history-head-title strong {
+
+  color: var(--m-white);
+
+  font-family: var(--font-display);
+  font-size: .7rem;
+  font-weight: 900;
+
+}
+
+.history-panel-head > span {
+
+  color: var(--m-dim);
+
+  font-family: var(--font-display);
+  font-size: .38rem;
+  font-weight: 900;
+
+}
+
+.history-row {
+
+  min-height: 72px;
+
+  display: grid;
+
+  grid-template-columns:
+    35px
+    35px
+    minmax(0,1fr)
+    90px
+    100px;
+
+  align-items: center;
+
+  gap: 10px;
+
+  padding: 9px 12px;
+
+  border-bottom: 1px solid var(--m-line);
+
+}
+
+.history-row:last-child {
+
+  border-bottom: 0;
+
+}
+
+.history-row:hover {
+
+  background: var(--m-panel-2);
+
+}
+
+.history-number {
+
+  color: var(--m-dim);
+
+  font-family: var(--font-display);
+  font-size: .43rem;
+  font-weight: 900;
+
+}
+
+.history-icon {
+
+  width: 31px;
+  height: 31px;
+
+  display: grid;
+  place-items: center;
+
+  color: var(--m-soft);
+
+  border: 1px solid var(--m-line-light);
+
+}
+
+.history-main {
+
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 4px;
+
+}
+
+.history-main strong {
+
+  overflow: hidden;
+
+  color: var(--m-white);
+
+  font-family: var(--font-display);
+  font-size: .61rem;
+  font-weight: 900;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+}
+
+.history-main span {
+
+  color: var(--m-muted);
+
+  font-size: .47rem;
+
+}
+
+.history-log-id {
+
+  color: var(--m-dim);
+
+  font-family: var(--font-display);
+  font-size: .38rem;
+  font-weight: 900;
+
+}
+
+.history-value {
+
+  color: var(--m-white);
+
+  font-family: var(--font-display);
+  font-size: .46rem;
+  font-weight: 900;
+
+  text-align: right;
+
+}
+
+
+/* =============================================================
+   MOTOR HUNT
+   ============================================================= */
+
+.motor-hunt {
+
+  min-height: 260px;
+
+  display: grid;
+
+  grid-template-columns:
+    250px
+    minmax(0,1fr)
+    90px;
+
+  overflow: hidden;
+
+  border: 2px solid var(--m-line-light);
+
+  background: var(--m-panel);
+
+  box-shadow:
+    7px 7px 0 var(--m-black);
+
+}
+
+.hunt-art {
+
+  position: relative;
+
+  display: grid;
+  place-items: center;
+
+  overflow: hidden;
+
+  border-right: 2px solid var(--m-line);
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent 49%,
+      rgba(255,255,255,.03) 50%,
+      transparent 51%
+    ),
+    linear-gradient(
+      transparent 49%,
+      rgba(255,255,255,.03) 50%,
+      transparent 51%
+    ),
+    #151715;
+
+  background-size: 20px 20px;
+
+}
+
+.hunt-cross {
+
+  width: 125px;
+  height: 125px;
+
+  position: absolute;
+
+  border: 1px dashed rgba(183,216,60,.15);
+
+}
+
+.hunt-cross::before,
+.hunt-cross::after {
+
+  content: "";
+
+  position: absolute;
+
+  background: rgba(183,216,60,.1);
+
+}
+
+.hunt-cross::before {
+
+  left: 50%;
+  top: -16px;
+  bottom: -16px;
+
+  width: 1px;
+
+}
+
+.hunt-cross::after {
+
+  left: -16px;
+  right: -16px;
+  top: 50%;
+
+  height: 1px;
+
+}
+
+.hunt-icon {
+
+  position: relative;
+  z-index: 2;
+
+  width: 56px;
+  height: 56px;
+
+  display: grid;
+  place-items: center;
+
+  color: var(--m-accent);
+
+  border: 2px solid var(--m-accent-dark);
+
+  background: var(--m-black-2);
+
+  box-shadow:
+    5px 5px 0 var(--m-black);
+
+}
+
+.hunt-code {
+
+  position: absolute;
+
+  left: 11px;
+  bottom: 10px;
+
+  color: var(--m-dim);
+
+  font-family: var(--font-display);
+  font-size: .38rem;
+  font-weight: 900;
+
+}
+
+.hunt-art-corner {
+
+  width: 16px;
+  height: 16px;
+
+  position: absolute;
+
+  z-index: 4;
+
+}
+
+.hunt-art-corner--tl {
+
+  top: 9px;
+  left: 9px;
+
+  border-top: 2px solid var(--m-accent);
+  border-left: 2px solid var(--m-accent);
+
+}
+
+.hunt-art-corner--tr {
+
+  top: 9px;
+  right: 9px;
+
+  border-top: 2px solid var(--m-accent);
+  border-right: 2px solid var(--m-accent);
+
+}
+
+.hunt-art-corner--bl {
+
+  left: 9px;
+  bottom: 9px;
+
+  border-left: 2px solid var(--m-accent);
+  border-bottom: 2px solid var(--m-accent);
+
+}
+
+.hunt-art-corner--br {
+
+  right: 9px;
+  bottom: 9px;
+
+  border-right: 2px solid var(--m-accent);
+  border-bottom: 2px solid var(--m-accent);
+
+}
+
+.hunt-copy {
+
+  min-width: 0;
+
+  padding: 24px;
+
+}
+
+.hunt-copy h2 {
+
+  margin-top: 5px;
+
+  color: var(--m-white);
+
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem,3.5vw,2.7rem);
+  font-weight: 900;
+
+  line-height: .9;
+
+  text-transform: uppercase;
+
+}
+
+.hunt-copy p {
+
+  max-width: 650px;
+
+  margin-top: 11px;
+
+  color: var(--m-muted);
+
+  font-size: .71rem;
+
+  line-height: 1.6;
+
+}
+
+.hunt-actions {
+
+  display: flex;
+
+  gap: 7px;
+
+  margin-top: 17px;
+
+}
+
+.hunt-side {
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  flex-direction: column;
+
+  gap: 3px;
+
+  border-left: 2px solid var(--m-line);
+
+  background: var(--m-black-2);
+
+  font-family: var(--font-display);
+
+  text-align: center;
+
+}
+
+.hunt-side span {
+
+  color: var(--m-dim);
+
+  font-size: .38rem;
+  font-weight: 900;
+
+}
+
+.hunt-side strong {
+
+  color: var(--m-accent);
+
+  font-size: 2.5rem;
+  font-weight: 900;
+
+  line-height: .8;
+
+}
+
+.hunt-side small {
+
+  color: var(--m-muted);
+
+  font-size: .36rem;
+  font-weight: 900;
+
+}
+
+
+/* =============================================================
+   PIXEL MOTOR
+   ============================================================= */
+
+.pixel-motor {
+
+  width: 190px;
+  height: 108px;
+
+  position: relative;
+
+  color: var(--m-white);
+
+}
+
+.pixel-motor span {
+
+  position: absolute;
+
+  display: block;
+
+}
+
+.pixel-motor__wheel {
+
+  width: 42px;
+  height: 42px;
+
+  bottom: 6px;
+
+  border: 6px solid var(--m-black);
+
+  background: transparent;
+
+  box-shadow:
+    inset 0 0 0 4px var(--m-soft);
+
+}
+
+.pixel-motor__wheel::after {
+
+  content: "";
+
+  position: absolute;
+
+  left: 12px;
+  top: 12px;
+
+  width: 6px;
+  height: 6px;
+
+  background: var(--m-black);
+
+}
+
+.pixel-motor__wheel--rear {
+
+  left: 17px;
+
+}
+
+.pixel-motor__wheel--front {
+
+  right: 17px;
+
+}
+
+.pixel-motor__body {
+
+  left: 41px;
+  top: 43px;
+
+  width: 94px;
+  height: 19px;
+
+  background: var(--m-accent);
+
+  clip-path:
+    polygon(
+      0 30%,
+      18% 30%,
+      28% 0,
+      55% 0,
+      67% 30%,
+      100% 30%,
+      100% 100%,
+      0 100%
+    );
+
+}
+
+.pixel-motor__tank {
+
+  left: 73px;
+  top: 27px;
+
+  width: 38px;
+  height: 18px;
+
+  background: var(--m-white);
+
+  clip-path:
+    polygon(
+      0 0,
+      76% 0,
+      100% 36%,
+      82% 100%,
+      18% 100%
+    );
+
+}
+
+.pixel-motor__seat {
+
+  left: 51px;
+  top: 24px;
+
+  width: 31px;
+  height: 9px;
+
+  background: var(--m-black);
+
+}
+
+.pixel-motor__frame {
+
+  left: 66px;
+  top: 44px;
+
+  width: 44px;
+  height: 33px;
+
+  border-left: 5px solid var(--m-black);
+  border-bottom: 5px solid var(--m-black);
+
+  transform: skew(-17deg);
+
+}
+
+.pixel-motor__engine {
+
+  left: 76px;
+  top: 49px;
+
+  width: 29px;
+  height: 22px;
+
+  background: var(--m-line-light);
+
+  border: 3px solid var(--m-black);
+
+}
+
+.pixel-motor__engine::after {
+
+  content: "";
+
+  position: absolute;
+
+  left: 6px;
+  top: 6px;
+
+  width: 10px;
+  height: 4px;
+
+  background: var(--m-soft);
+
+  box-shadow:
+    0 6px 0 var(--m-soft);
+
+}
+
+.pixel-motor__pipe {
+
+  left: 103px;
+  top: 68px;
+
+  width: 38px;
+  height: 5px;
+
+  border-bottom: 4px solid var(--m-soft);
+
+  transform: rotate(-5deg);
+
+}
+
+.pixel-motor__front {
+
+  right: 38px;
+  top: 41px;
+
+  width: 6px;
+  height: 34px;
+
+  background: var(--m-black);
+
+  transform: rotate(-8deg);
+
+}
+
+.pixel-motor__rear {
+
+  left: 44px;
+  top: 47px;
+
+  width: 5px;
+  height: 26px;
+
+  background: var(--m-black);
+
+}
+
+.pixel-motor__handle {
+
+  right: 23px;
+  top: 27px;
+
+  width: 26px;
+  height: 5px;
+
+  background: var(--m-black);
+
+  transform: rotate(-20deg);
+
+}
+
+.pixel-motor__handle::after {
+
+  content: "";
+
+  position: absolute;
+
+  right: 2px;
+  top: -6px;
+
+  width: 5px;
+  height: 14px;
+
+  background: var(--m-black);
+
+}
+
+
+/* =============================================================
+   FOOTER
+   ============================================================= */
+
+.motor-footer {
+
+  margin-top: 48px;
+
+  padding: 10px 0 8px;
+
+  color: var(--m-muted);
+
+  font-family: var(--font-display);
+  font-size: .4rem;
+  font-weight: 900;
+
+  text-transform: uppercase;
+
+}
+
+.footer-line {
+
+  height: 2px;
+
+  margin-bottom: 12px;
+
+  background: var(--m-line-light);
+
+}
+
+.footer-row {
+
+  display: grid;
+
+  grid-template-columns:
+    1fr
+    auto
+    1fr;
+
+  align-items: center;
+
+  gap: 15px;
+
+}
+
+.footer-brand {
+
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+
+}
+
+.footer-icon {
+
+  width: 29px;
+  height: 29px;
+
+  display: grid;
+  place-items: center;
+
+  border: 1px solid var(--m-line-light);
+
+  color: var(--m-accent);
+
+}
+
+.footer-brand > div {
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 3px;
+
+}
+
+.footer-brand strong {
+
+  color: var(--m-white);
+
+  font-size: .56rem;
+
+}
+
+.footer-online {
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  gap: 6px;
+
+  color: var(--m-accent);
+
+}
+
+.footer-online i {
+
+  width: 5px;
+  height: 5px;
+
+  background: var(--m-accent);
+
+}
+
+
+/* =============================================================
+   TABLET
+   ============================================================= */
+
+@media (max-width: 1100px) {
+
+  .motor-header-body {
+
+    grid-template-columns:
+      minmax(0,1fr)
+      215px;
+
+  }
+
+  .collection-status-grid {
+
+    grid-template-columns:
+      repeat(2,1fr);
+
+  }
+
+  .filter-list {
+
+    grid-template-columns:
+      repeat(2,1fr);
+
+  }
+
+  .filter-button:nth-child(2) {
+
+    border-right: 0;
+
+  }
+
+  .motor-collection-grid,
+  .summary-grid {
+
+    grid-template-columns: 1fr;
+
+  }
+
+  .empty-slot-card {
+
+    min-height: 430px;
+
+  }
+
+  .motor-hunt {
+
+    grid-template-columns:
+      220px
+      minmax(0,1fr)
+      75px;
+
+  }
+
+}
+
+
+/* =============================================================
+   TABLET SMALL
+   ============================================================= */
+
+@media (max-width: 900px) {
+
+  .motor-header-body {
+
+    grid-template-columns: 1fr;
+
+    min-height: 0;
+
+  }
+
+  .motor-header-console {
+
+    width: min(100%,390px);
+
+  }
+
+  .motor-hunt {
+
+    grid-template-columns:
+      190px
+      minmax(0,1fr);
+
+  }
+
+  .hunt-side {
+
+    display: none;
+
+  }
+
+  .history-row {
+
+    grid-template-columns:
+      32px
+      32px
+      minmax(0,1fr)
+      90px;
+
+  }
+
+  .history-log-id {
+
+    display: none;
+
+  }
+
+}
+
+
+/* =============================================================
+   MOBILE
+   ============================================================= */
+
+@media (max-width: 760px) {
+
+  .motor-section {
+
+    margin-top: 32px;
+
+  }
+
+  .motor-header-top {
+
+    grid-template-columns:
+      1fr
+      auto;
+
+  }
+
+  .motor-head-center {
+
+    display: none;
+
+  }
+
+  .motor-header-bottom {
+
+    grid-template-columns:
+      1fr
+      auto;
+
+  }
+
+  .motor-header-bottom > span:nth-child(2) {
+
+    display: none;
+
+  }
+
+  .motor-header-body {
+
+    padding: 23px 16px;
+
+  }
+
+  .motor-header-copy h1 {
+
+    font-size:
+      clamp(3.7rem,17vw,6rem);
+
+  }
+
+  .motor-header-copy p {
+
+    font-size: .75rem;
+
+  }
+
+  .collection-stat {
+
+    min-height: 120px;
+
+  }
+
+  .filter-list {
+
+    grid-template-columns:
+      1fr;
+
+  }
+
+  .filter-button {
+
+    border-right: 0;
+
+    border-bottom: 1px solid var(--m-line);
+
+  }
+
+  .filter-button:last-child {
+
+    border-bottom: 0;
+
+  }
+
+  .owned-motor-art {
+
+    min-height: 235px;
+
+  }
+
+  .owned-pixel-motor {
+
+    transform: scale(1.18);
+
+  }
+
+  .owned-stats {
+
+    grid-template-columns:
+      repeat(2,1fr);
+
+  }
+
+  .owned-actions {
+
+    grid-template-columns:
+      1fr;
+
+  }
+
+  .empty-slot-art {
+
+    min-height: 220px;
+
+  }
+
+  .next-move {
+
+    grid-template-columns: 1fr;
+
+  }
+
+  .next-move-visual {
+
+    min-height: 125px;
+
+  }
+
+  .history-panel-head {
+
+    align-items: flex-start;
+
+    flex-direction: column;
+
+    gap: 6px;
+
+  }
+
+  .history-row {
+
+    grid-template-columns:
+      30px
+      31px
+      minmax(0,1fr)
+      auto;
+
+    padding: 10px;
+
+  }
+
+  .history-value {
+
+    text-align: right;
+
+  }
+
+  .motor-hunt {
+
+    grid-template-columns: 1fr;
+
+  }
+
+  .hunt-art {
+
+    min-height: 190px;
+
+    border-right: 0;
+
+    border-bottom: 2px solid var(--m-line);
+
+  }
+
+  .hunt-copy {
+
+    padding: 17px;
+
+  }
+
+  .hunt-actions {
+
+    flex-direction: column;
+
+  }
+
+  .hunt-actions .btn {
+
+    width: 100%;
+
+  }
+
+  .footer-row {
+
+    grid-template-columns: 1fr;
+
+    align-items: flex-start;
+
+  }
+
+  .footer-online {
+
+    justify-content: flex-start;
+
+  }
+
+}
+
+
+/* =============================================================
+   SMALL PHONE
+   ============================================================= */
+
+@media (max-width: 420px) {
+
+  .motor-header-top,
+  .motor-header-bottom {
+
+    font-size: .4rem;
+
+  }
+
+  .motor-header-bottom {
+
+    grid-template-columns: 1fr;
+
+  }
+
+  .motor-header-bottom > span:last-child {
+
+    display: none;
+
+  }
+
+  .motor-header-body {
+
+    padding: 19px 12px;
+
+  }
+
+  .motor-header-copy h1 {
+
+    font-size:
+      clamp(3rem,18vw,4.7rem);
+
+  }
+
+  .collection-status-grid {
+
+    grid-template-columns:
+      repeat(2,1fr);
+
+  }
+
+  .collection-stat {
+
+    min-height: 110px;
+
+    padding: 10px;
+
+  }
+
+  .collection-stat > strong {
+
+    font-size: 1.5rem;
+
+  }
+
+  .section-header {
+
+    min-height: 48px;
+
+  }
+
+  .section-header h2 {
+
+    font-size: 1.2rem;
+
+  }
+
+  .section-side-info {
+
+    display: none;
+
+  }
+
+  .owned-motor-content {
+
+    padding: 13px;
+
+  }
+
+  .owned-motor-heading h3 {
+
+    font-size: 1.15rem;
+
+  }
+
+  .owned-finance {
+
+    align-items: flex-start;
+
+    flex-direction: column;
+
+  }
+
+  .owned-score {
+
+    text-align: left;
+
+  }
+
+  .empty-slot-card {
+
+    min-height: 390px;
+
+  }
+
+  .summary-card-footer {
+
+    align-items: flex-start;
+
+    flex-direction: column;
+
+  }
+
+  .summary-card-footer .btn {
+
+    width: 100%;
+
+  }
+
+  .history-row {
+
+    grid-template-columns:
+      27px
+      29px
+      minmax(0,1fr);
+
+    gap: 7px;
+
+  }
+
+  .history-value {
+
+    grid-column: 3;
+
+    text-align: left;
+
+  }
+
+}
+
+</style>

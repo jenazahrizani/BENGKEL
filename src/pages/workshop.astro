@@ -1,0 +1,6047 @@
+﻿---
+import Layout from "../components/Layout.astro";
+import "../styles/global.css";
+import Button from "../components/Button.astro";
+import Navigation from "../components/Navigation.astro";
+
+const workshopStats = [
+  {
+    label: "MECHANIC",
+    value: "01 / 01",
+    detail: "READY",
+    icon: "person",
+    active: true,
+    fill: 8,
+  },
+  {
+    label: "WORKBENCH",
+    value: "01 / 01",
+    detail: "AVAILABLE",
+    icon: "wrench",
+    fill: 10,
+  },
+  {
+    label: "ORDER",
+    value: "01 / 01",
+    detail: "ACTIVE",
+    icon: "clipboard",
+    fill: 5,
+  },
+  {
+    label: "TOOLS",
+    value: "08 / 08",
+    detail: "READY",
+    icon: "toolbox",
+    fill: 10,
+  },
+];
+
+const activeOrder = {
+  id: "JOB-001",
+  customer: "PAK ARDI",
+  motor: "NUSA 125",
+  type: "SERVICE",
+  description:
+    "Periksa kondisi mesin, rem, ban, dan lakukan servis dasar sebelum unit dikembalikan kepada pelanggan.",
+  reward: 450000,
+  progress: 35,
+  deadline: "TODAY",
+};
+
+const workTypes = [
+  {
+    id: "WORK-01",
+    name: "SERVICE",
+    eyebrow: "BASIC / MAINTENANCE",
+    icon: "wrench",
+    description:
+      "Servis dasar, pemeriksaan komponen, oli, rem, ban, dan pengecekan kondisi umum.",
+  },
+  {
+    id: "WORK-02",
+    name: "REPAIR",
+    eyebrow: "FIX / RESTORE",
+    icon: "hammer",
+    description:
+      "Perbaiki komponen rusak untuk mengembalikan reliability dan kondisi motor.",
+  },
+  {
+    id: "WORK-03",
+    name: "TUNE",
+    eyebrow: "PERFORMANCE",
+    icon: "bolt",
+    description:
+      "Atur karakter motor setelah parts terpasang agar performa sesuai kebutuhan build.",
+  },
+  {
+    id: "WORK-04",
+    name: "BUILD",
+    eyebrow: "CUSTOM / PROJECT",
+    icon: "gear",
+    description:
+      "Bangun motor dari basis tertentu sampai mencapai target build score dan setup.",
+  },
+  {
+    id: "WORK-05",
+    name: "RESTORE",
+    eyebrow: "CONDITION / VALUE",
+    icon: "spark",
+    description:
+      "Naikkan kondisi unit secara bertahap untuk meningkatkan nilai dan kelayakan jual.",
+  },
+  {
+    id: "WORK-06",
+    name: "FINAL CHECK",
+    eyebrow: "RACE / DELIVERY",
+    icon: "check",
+    description:
+      "Pemeriksaan akhir untuk memastikan motor siap dikirim, dijual, atau turun balap.",
+  },
+];
+
+const workshopMotor = {
+  id: "MTR-002",
+  name: "JATRA 135",
+  brand: "JATRA",
+  year: "2016",
+  type: "UNDERBONE",
+  condition: "WORN",
+  status: "PROJECT",
+  build: "RACE BUILD",
+  value: 9200000,
+  buildScore: 48,
+  stats: {
+    power: 58,
+    acceleration: 52,
+    grip: 46,
+    reliability: 55,
+  },
+};
+
+const parts = [
+  {
+    id: "PRT-001",
+    name: "RACING CDI",
+    category: "IGNITION",
+    icon: "cdi",
+    status: "READY",
+    fit: "NUSA / JATRA",
+  },
+  {
+    id: "PRT-002",
+    name: "CARBURETOR PWK",
+    category: "FUEL",
+    icon: "carburetor",
+    status: "READY",
+    fit: "125–150 CC",
+  },
+  {
+    id: "PRT-003",
+    name: "RACING CAM",
+    category: "ENGINE",
+    icon: "cam",
+    status: "READY",
+    fit: "135–150 CC",
+  },
+  {
+    id: "PRT-004",
+    name: "LIGHTWEIGHT RIM",
+    category: "WHEEL",
+    icon: "wheel",
+    status: "READY",
+    fit: "UNDERBONE",
+  },
+];
+
+const customerOrders = [
+  {
+    id: "ORD-014",
+    customer: "PAK BUDI",
+    motor: "RANA 150",
+    type: "TUNE",
+    budget: "Rp 850.000",
+    target: "STREET SPEC",
+    reward: 650000,
+    status: "OPEN",
+    icon: "bolt",
+  },
+  {
+    id: "ORD-015",
+    customer: "MAS DION",
+    motor: "NUSA 125",
+    type: "SERVICE",
+    budget: "Rp 500.000",
+    target: "BASIC SERVICE",
+    reward: 350000,
+    status: "OPEN",
+    icon: "wrench",
+  },
+  {
+    id: "ORD-016",
+    customer: "OM RAKA",
+    motor: "JATRA 110",
+    type: "REPAIR",
+    budget: "Rp 1.250.000",
+    target: "RELIABILITY",
+    reward: 900000,
+    status: "LOCKED",
+    icon: "hammer",
+  },
+];
+
+const workshopLog = [
+  {
+    time: "14:21",
+    action: "INSPECTION",
+    motor: "NUSA 125",
+    detail: "COMPLETE",
+    icon: "search",
+  },
+  {
+    time: "13:48",
+    action: "PART INSTALLED",
+    motor: "NUSA 125",
+    detail: "RACING CDI",
+    icon: "gear",
+  },
+  {
+    time: "12:32",
+    action: "SERVICE",
+    motor: "NUSA 125",
+    detail: "BASIC CHECK",
+    icon: "wrench",
+  },
+  {
+    time: "11:07",
+    action: "MOTOR MOVED",
+    motor: "JATRA 135",
+    detail: "BENCH 01",
+    icon: "motorcycle",
+  },
+];
+---
+
+<Layout
+  title="BENGKEL — WORKSHOP"
+  description="Kerjakan service, repair, tuning, dan build."
+>
+  <div class="page workshop-page">
+
+    <div class="game-layout">
+
+      <Navigation active="workshop" />
+
+      <main class="main">
+
+        <div class="main-inner workshop-main">
+
+
+          <!-- =====================================================
+               HEADER
+          ===================================================== -->
+
+          <header class="workshop-header">
+
+            <div class="workshop-header-top">
+
+              <div class="workshop-head-left">
+                <span class="header-led"></span>
+                <span>WORKSHOP_01</span>
+              </div>
+
+              <span class="workshop-head-center">
+                GARAGE / WORK AREA / BENCH_01
+              </span>
+
+              <div class="workshop-head-right">
+                <span class="pixel-icon pixel-icon--wrench pixel-icon--tiny"></span>
+                ACTIVE
+              </div>
+
+            </div>
+
+
+            <div class="workshop-header-body">
+
+              <div class="workshop-header-copy">
+
+                <div class="workshop-title-meta">
+
+                  <span class="workshop-title-icon">
+                    <span class="pixel-icon pixel-icon--wrench pixel-icon--small"></span>
+                  </span>
+
+                  <span class="eyebrow">
+                    WORKSHOP CONTROL
+                  </span>
+
+                </div>
+
+
+                <h1>
+                  WORKSHOP
+                </h1>
+
+
+                <div class="workshop-title-line"></div>
+
+
+                <p>
+                  Tempat semua pekerjaan selesai.
+                  Kerjakan order pelanggan, repair motor,
+                  pasang parts, tuning setup, dan bangun unit
+                  sampai sesuai target.
+                </p>
+
+              </div>
+
+
+              <div class="workshop-console">
+
+                <div class="console-title">
+
+                  <span class="pixel-icon pixel-icon--toolbox pixel-icon--tiny"></span>
+
+                  WORKSHOP CONSOLE
+
+                </div>
+
+
+                <div class="console-row">
+
+                  <span>WORKBENCH</span>
+
+                  <strong class="accent-text">
+                    01 / 01
+                  </strong>
+
+                </div>
+
+
+                <div class="console-row">
+
+                  <span>ACTIVE JOB</span>
+
+                  <strong>
+                    01
+                  </strong>
+
+                </div>
+
+
+                <div class="console-row">
+
+                  <span>PART READY</span>
+
+                  <strong>
+                    04
+                  </strong>
+
+                </div>
+
+
+                <div class="console-actions">
+
+                  <Button
+                    href="/motor"
+                    variant="primary"
+                  >
+                    LIHAT MOTOR
+                  </Button>
+
+                  <Button href="/market">
+                    CARI PART
+                  </Button>
+
+                </div>
+
+              </div>
+
+            </div>
+
+
+            <div class="workshop-header-bottom">
+
+              <span>
+                SERVICE / REPAIR / TUNE / BUILD
+              </span>
+
+              <span>
+                BENCH_01
+              </span>
+
+              <span class="system-online">
+                <i></i>
+                SYSTEM READY
+              </span>
+
+            </div>
+
+          </header>
+
+
+
+          <!-- =====================================================
+               STATUS
+          ===================================================== -->
+
+          <section class="workshop-section">
+
+            <div class="section-header">
+
+              <div class="section-heading">
+
+                <span class="section-marker"></span>
+
+                <div>
+                  <span class="section-kicker">
+                    WORKSHOP OVERVIEW
+                  </span>
+
+                  <h2>
+                    STATUS BENGKEL
+                  </h2>
+                </div>
+
+              </div>
+
+              <span class="section-code">
+                01 / SYSTEM
+              </span>
+
+            </div>
+
+
+            <div class="workshop-status-grid">
+
+              {
+                workshopStats.map((stat, index) => (
+                  <article
+                    class:list={[
+                      "workshop-stat",
+                      stat.active && "workshop-stat--active",
+                    ]}
+                  >
+
+                    <div class="workshop-stat-top">
+
+                      <div class="workshop-stat-ident">
+
+                        <span class="workshop-stat-icon">
+
+                          <span
+                            class:list={[
+                              "pixel-icon",
+                              `pixel-icon--${stat.icon}`,
+                              "pixel-icon--small",
+                            ]}
+                          ></span>
+
+                        </span>
+
+                        <span>
+                          {stat.label}
+                        </span>
+
+                      </div>
+
+                      <span>
+                        {String(index + 1).padStart(2, "0")}
+                      </span>
+
+                    </div>
+
+
+                    <strong>
+                      {stat.value}
+                    </strong>
+
+
+                    <div class="workshop-stat-bottom">
+
+                      <div class="workshop-stat-meter">
+
+                        {Array.from({ length: 8 }).map((_, meterIndex) => (
+                          <i
+                            class:filled={
+                              meterIndex < stat.fill
+                            }
+                          ></i>
+                        ))}
+
+                      </div>
+
+                      <span>
+                        {stat.detail}
+                      </span>
+
+                    </div>
+
+                  </article>
+                ))
+              }
+
+            </div>
+
+          </section>
+
+
+
+          <!-- =====================================================
+               ACTIVE ORDER
+          ===================================================== -->
+
+          <section class="workshop-section">
+
+            <div class="section-header">
+
+              <div class="section-heading">
+
+                <span class="section-marker section-marker--accent"></span>
+
+                <div>
+                  <span class="section-kicker">
+                    CURRENT JOB
+                  </span>
+
+                  <h2>
+                    PEKERJAAN AKTIF
+                  </h2>
+                </div>
+
+              </div>
+
+              <span class="section-code">
+                {activeOrder.id}
+              </span>
+
+            </div>
+
+
+            <article class="active-job">
+
+              <div class="active-job-top">
+
+                <div class="active-job-ticket">
+
+                  <span class="active-job-icon">
+                    <span class="pixel-icon pixel-icon--clipboard pixel-icon--small"></span>
+                  </span>
+
+                  <div>
+
+                    <span>
+                      {activeOrder.id}
+                    </span>
+
+                    <strong>
+                      {activeOrder.type}
+                    </strong>
+
+                  </div>
+
+                </div>
+
+
+                <div class="job-running">
+
+                  <i></i>
+
+                  RUNNING
+
+                </div>
+
+              </div>
+
+
+              <div class="active-job-body">
+
+                <div class="active-job-bike">
+
+                  <span class="active-job-bike-code">
+                    CUSTOMER UNIT / NUSA_125
+                  </span>
+
+
+                  <div class="job-bike-cross"></div>
+
+
+                  <div
+                    class="pixel-motor pixel-motor--job"
+                    aria-hidden="true"
+                  >
+
+                    <span class="pixel-motor__body"></span>
+                    <span class="pixel-motor__tank"></span>
+                    <span class="pixel-motor__seat"></span>
+                    <span class="pixel-motor__frame"></span>
+                    <span class="pixel-motor__engine"></span>
+                    <span class="pixel-motor__pipe"></span>
+                    <span class="pixel-motor__front"></span>
+                    <span class="pixel-motor__rear"></span>
+                    <span class="pixel-motor__wheel pixel-motor__wheel--rear"></span>
+                    <span class="pixel-motor__wheel pixel-motor__wheel--front"></span>
+                    <span class="pixel-motor__handle"></span>
+
+                  </div>
+
+
+                  <div class="job-bike-name">
+
+                    <span>
+                      NUSA
+                    </span>
+
+                    <strong>
+                      125
+                    </strong>
+
+                  </div>
+
+
+                  <span class="job-bike-floor"></span>
+
+                </div>
+
+
+                <div class="active-job-content">
+
+                  <div class="active-job-heading">
+
+                    <div>
+
+                      <span class="section-kicker">
+                        CUSTOMER SERVICE
+                      </span>
+
+                      <h3>
+                        {activeOrder.customer}
+                      </h3>
+
+                    </div>
+
+
+                    <div class="customer-job-type">
+
+                      <span>
+                        REQUEST
+                      </span>
+
+                      <strong>
+                        {activeOrder.type}
+                      </strong>
+
+                    </div>
+
+                  </div>
+
+
+                  <p class="active-job-description">
+                    {activeOrder.description}
+                  </p>
+
+
+                  <div class="job-step-list">
+
+                    <div class="job-step job-step--done">
+
+                      <span class="job-step-box">
+                        ✓
+                      </span>
+
+                      <div>
+
+                        <span>
+                          01
+                        </span>
+
+                        <strong>
+                          INSPECTION
+                        </strong>
+
+                        <small>
+                          COMPLETED
+                        </small>
+
+                      </div>
+
+                    </div>
+
+
+                    <div class="job-step">
+
+                      <span class="job-step-box">
+                        02
+                      </span>
+
+                      <div>
+
+                        <span>
+                          02
+                        </span>
+
+                        <strong>
+                          SERVICE
+                        </strong>
+
+                        <small>
+                          CURRENT TASK
+                        </small>
+
+                      </div>
+
+                    </div>
+
+
+                    <div class="job-step">
+
+                      <span class="job-step-box">
+                        03
+                      </span>
+
+                      <div>
+
+                        <span>
+                          03
+                        </span>
+
+                        <strong>
+                          FINAL CHECK
+                        </strong>
+
+                        <small>
+                          WAITING
+                        </small>
+
+                      </div>
+
+                    </div>
+
+                  </div>
+
+
+                  <div class="job-progress">
+
+                    <div class="job-progress-head">
+
+                      <span>
+                        JOB PROGRESS
+                      </span>
+
+                      <strong>
+                        {activeOrder.progress}%
+                      </strong>
+
+                    </div>
+
+
+                    <div class="job-progress-track">
+                      <i
+                        style={`width:${activeOrder.progress}%`}
+                      ></i>
+                    </div>
+
+                  </div>
+
+
+                  <div class="active-job-footer">
+
+                    <div>
+
+                      <span>
+                        CUSTOMER REWARD
+                      </span>
+
+                      <strong>
+                        Rp {activeOrder.reward.toLocaleString("id-ID")}
+                      </strong>
+
+                    </div>
+
+
+                    <div>
+
+                      <span>
+                        DEADLINE
+                      </span>
+
+                      <strong class="accent-text">
+                        {activeOrder.deadline}
+                      </strong>
+
+                    </div>
+
+
+                    <a
+                      href="/workshop"
+                      class="job-action"
+                    >
+                      OPEN WORK
+                      <span>
+                        →
+                      </span>
+                    </a>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            </article>
+
+          </section>
+
+
+
+          <!-- =====================================================
+               WORK TYPES
+          ===================================================== -->
+
+          <section class="workshop-section">
+
+            <div class="section-header">
+
+              <div class="section-heading">
+
+                <span class="section-marker"></span>
+
+                <div>
+
+                  <span class="section-kicker">
+                    AVAILABLE WORK
+                  </span>
+
+                  <h2>
+                    JENIS PEKERJAAN
+                  </h2>
+
+                </div>
+
+              </div>
+
+              <span class="section-code">
+                06 TYPES
+              </span>
+
+            </div>
+
+
+            <div class="work-types-grid">
+
+              {
+                workTypes.map((work, index) => (
+                  <article
+                    class:list={[
+                      "work-type-card",
+                      index === 4 && "work-type-card--featured",
+                    ]}
+                  >
+
+                    <div class="work-type-top">
+
+                      <span class="work-type-number">
+                        {String(index + 1).padStart(2, "0")}
+                      </span>
+
+                      <span class="work-type-status">
+                        AVAILABLE
+                      </span>
+
+                    </div>
+
+
+                    <div class="work-type-icon">
+
+                      <span
+                        class:list={[
+                          "pixel-icon",
+                          `pixel-icon--${work.icon}`,
+                          "pixel-icon--medium",
+                        ]}
+                      ></span>
+
+                    </div>
+
+
+                    <div class="work-type-content">
+
+                      <span class="section-kicker">
+                        {work.eyebrow}
+                      </span>
+
+                      <h3>
+                        {work.name}
+                      </h3>
+
+                      <p>
+                        {work.description}
+                      </p>
+
+                    </div>
+
+
+                    <div class="work-type-footer">
+
+                      <span>
+                        {work.id}
+                      </span>
+
+                      <span>
+                        OPEN →
+                      </span>
+
+                    </div>
+
+                  </article>
+                ))
+              }
+
+            </div>
+
+          </section>
+
+
+
+          <!-- =====================================================
+               ACTIVE PROJECT
+          ===================================================== -->
+
+          <section class="workshop-section">
+
+            <div class="section-header">
+
+              <div class="section-heading">
+
+                <span class="section-marker section-marker--accent"></span>
+
+                <div>
+
+                  <span class="section-kicker">
+                    CURRENT PROJECT
+                  </span>
+
+                  <h2>
+                    MOTOR DI WORKBENCH
+                  </h2>
+
+                </div>
+
+              </div>
+
+              <span class="section-code">
+                {workshopMotor.id}
+              </span>
+
+            </div>
+
+
+            <div class="project-layout">
+
+
+              <!-- MOTOR -->
+
+              <article class="project-motor-card">
+
+                <div class="project-motor-top">
+
+                  <div>
+
+                    <span>
+                      PROJECT_001
+                    </span>
+
+                    <strong>
+                      {workshopMotor.status}
+                    </strong>
+
+                  </div>
+
+                  <span>
+                    BENCH_01
+                  </span>
+
+                </div>
+
+
+                <div class="project-motor-art">
+
+                  <div class="project-motor-grid"></div>
+
+
+                  <div class="project-motor-frame"></div>
+
+
+                  <div
+                    class="pixel-motor pixel-motor--project"
+                    aria-hidden="true"
+                  >
+
+                    <span class="pixel-motor__body"></span>
+                    <span class="pixel-motor__tank"></span>
+                    <span class="pixel-motor__seat"></span>
+                    <span class="pixel-motor__frame"></span>
+                    <span class="pixel-motor__engine"></span>
+                    <span class="pixel-motor__pipe"></span>
+                    <span class="pixel-motor__front"></span>
+                    <span class="pixel-motor__rear"></span>
+                    <span class="pixel-motor__wheel pixel-motor__wheel--rear"></span>
+                    <span class="pixel-motor__wheel pixel-motor__wheel--front"></span>
+                    <span class="pixel-motor__handle"></span>
+
+                  </div>
+
+
+                  <span class="project-motor-floor"></span>
+
+
+                  <div class="project-motor-name">
+
+                    <span>
+                      {workshopMotor.brand}
+                    </span>
+
+                    <strong>
+                      135
+                    </strong>
+
+                  </div>
+
+
+                  <span class="project-motor-tag">
+                    RACE BUILD
+                  </span>
+
+                </div>
+
+
+                <div class="project-motor-info">
+
+                  <span class="section-kicker">
+                    {workshopMotor.brand} / {workshopMotor.year}
+                  </span>
+
+                  <h3>
+                    {workshopMotor.name}
+                  </h3>
+
+                  <span>
+                    {workshopMotor.type} / {workshopMotor.condition}
+                  </span>
+
+                </div>
+
+
+                <div class="project-motor-actions">
+
+                  <a
+                    href="/motor?id=jatra-135"
+                    class="retro-action retro-action--accent"
+                  >
+                    <span class="pixel-icon pixel-icon--search pixel-icon--tiny"></span>
+                    OPEN MOTOR
+                    <span>→</span>
+                  </a>
+
+                  <a
+                    href="/market"
+                    class="retro-action"
+                  >
+                    <span class="pixel-icon pixel-icon--gear pixel-icon--tiny"></span>
+                    FIND PART
+                    <span>→</span>
+                  </a>
+
+                </div>
+
+              </article>
+
+
+
+              <!-- TARGET -->
+
+              <article class="project-target">
+
+                <div class="project-target-head">
+
+                  <div class="project-target-heading">
+
+                    <span class="target-icon">
+                      <span class="pixel-icon pixel-icon--flag pixel-icon--small"></span>
+                    </span>
+
+                    <div>
+
+                      <span class="section-kicker">
+                        BUILD TARGET
+                      </span>
+
+                      <h3>
+                        RACE BUILD
+                      </h3>
+
+                    </div>
+
+                  </div>
+
+                  <span class="target-badge">
+                    TARGET 70
+                  </span>
+
+                </div>
+
+
+                <div class="target-main-score">
+
+                  <div class="target-score-label">
+
+                    <span>
+                      CURRENT BUILD SCORE
+                    </span>
+
+                    <strong>
+                      48 / 70
+                    </strong>
+
+                  </div>
+
+
+                  <div class="target-track">
+
+                    <i
+                      style="width:68.57%"
+                    ></i>
+
+                  </div>
+
+
+                  <div class="target-foot">
+
+                    <span>
+                      CURRENT
+                    </span>
+
+                    <strong>
+                      +22 NEEDED
+                    </strong>
+
+                  </div>
+
+                </div>
+
+
+                <div class="project-checklist">
+
+                  <div class="project-check project-check--done">
+
+                    <span class="project-check-icon">
+                      ✓
+                    </span>
+
+                    <div>
+
+                      <span>
+                        STEP 01
+                      </span>
+
+                      <strong>
+                        MOTOR INSPECTION
+                      </strong>
+
+                      <small>
+                        COMPLETED
+                      </small>
+
+                    </div>
+
+                  </div>
+
+
+                  <div class="project-check">
+
+                    <span class="project-check-icon">
+                      <span class="pixel-icon pixel-icon--gear pixel-icon--tiny"></span>
+                    </span>
+
+                    <div>
+
+                      <span>
+                        STEP 02
+                      </span>
+
+                      <strong>
+                        ENGINE UPGRADE
+                      </strong>
+
+                      <small>
+                        PERFORMANCE PART REQUIRED
+                      </small>
+
+                    </div>
+
+                  </div>
+
+
+                  <div class="project-check">
+
+                    <span class="project-check-icon">
+                      <span class="pixel-icon pixel-icon--bolt pixel-icon--tiny"></span>
+                    </span>
+
+                    <div>
+
+                      <span>
+                        STEP 03
+                      </span>
+
+                      <strong>
+                        TUNE
+                      </strong>
+
+                      <small>
+                        FINAL TUNING NOT SET
+                      </small>
+
+                    </div>
+
+                  </div>
+
+
+                  <div class="project-check">
+
+                    <span class="project-check-icon">
+                      <span class="pixel-icon pixel-icon--check pixel-icon--tiny"></span>
+                    </span>
+
+                    <div>
+
+                      <span>
+                        STEP 04
+                      </span>
+
+                      <strong>
+                        FINAL TEST
+                      </strong>
+
+                      <small>
+                        RACE READINESS CHECK
+                      </small>
+
+                    </div>
+
+                  </div>
+
+                </div>
+
+
+                <div class="project-target-actions">
+
+                  <Button
+                    href="/motor?id=jatra-135"
+                    variant="primary"
+                  >
+                    BUILD MOTOR
+                  </Button>
+
+                  <Button href="/market">
+                    FIND PART
+                  </Button>
+
+                </div>
+
+              </article>
+
+            </div>
+
+          </section>
+
+
+
+          <!-- =====================================================
+               PARTS
+          ===================================================== -->
+
+          <section class="workshop-section">
+
+            <div class="section-header">
+
+              <div class="section-heading">
+
+                <span class="section-marker"></span>
+
+                <div>
+
+                  <span class="section-kicker">
+                    WORKSHOP INVENTORY
+                  </span>
+
+                  <h2>
+                    PART SIAP DIPASANG
+                  </h2>
+
+                </div>
+
+              </div>
+
+              <a
+                href="/market"
+                class="section-link"
+              >
+                SEMUA PART →
+              </a>
+
+            </div>
+
+
+            <div class="workshop-parts-grid">
+
+              {
+                parts.map((part, index) => (
+                  <article class="workshop-part-card">
+
+                    <div class="workshop-part-top">
+
+                      <span>
+                        {part.id}
+                      </span>
+
+                      <span>
+                        {part.status}
+                      </span>
+
+                    </div>
+
+
+                    <div class="workshop-part-art">
+
+                      <span class="part-art-label">
+                        COMPONENT / {part.category}
+                      </span>
+
+
+                      <div
+                        class:list={[
+                          "part-pixel-object",
+                          `part-pixel-object--${part.icon}`,
+                        ]}
+                        aria-hidden="true"
+                      >
+
+                        <span class="part-pixel-shadow"></span>
+                        <span class="part-pixel-main"></span>
+                        <span class="part-pixel-detail part-pixel-detail--1"></span>
+                        <span class="part-pixel-detail part-pixel-detail--2"></span>
+                        <span class="part-pixel-detail part-pixel-detail--3"></span>
+
+                      </div>
+
+
+                      <span class="part-art-index">
+                        0{index + 1}
+                      </span>
+
+                    </div>
+
+
+                    <div class="workshop-part-info">
+
+                      <span class="section-kicker">
+                        {part.category}
+                      </span>
+
+                      <h3>
+                        {part.name}
+                      </h3>
+
+                      <span>
+                        FIT / {part.fit}
+                      </span>
+
+                    </div>
+
+
+                    <a
+                      href="/market"
+                      class="workshop-part-action"
+                    >
+
+                      <span class="pixel-icon pixel-icon--gear pixel-icon--tiny"></span>
+
+                      <span>
+                        PASANG
+                      </span>
+
+                      <span>
+                        →
+                      </span>
+
+                    </a>
+
+                  </article>
+                ))
+              }
+
+            </div>
+
+          </section>
+
+
+
+          <!-- =====================================================
+               CUSTOMER ORDERS
+          ===================================================== -->
+
+          <section class="workshop-section">
+
+            <div class="section-header">
+
+              <div class="section-heading">
+
+                <span class="section-marker"></span>
+
+                <div>
+
+                  <span class="section-kicker">
+                    CUSTOMER BOARD
+                  </span>
+
+                  <h2>
+                    ORDER LAINNYA
+                  </h2>
+
+                </div>
+
+              </div>
+
+              <span class="section-code">
+                {customerOrders.length} LISTINGS
+              </span>
+
+            </div>
+
+
+            <div class="customer-orders">
+
+              {
+                customerOrders.map((order, index) => (
+                  <article
+                    class:list={[
+                      "customer-order",
+                      index === 0 && "customer-order--featured",
+                    ]}
+                  >
+
+                    <div class="customer-order-index">
+
+                      <span>
+                        {String(index + 1).padStart(2, "0")}
+                      </span>
+
+                      <span class="customer-order-icon">
+
+                        <span
+                          class:list={[
+                            "pixel-icon",
+                            `pixel-icon--${order.icon}`,
+                            "pixel-icon--small",
+                          ]}
+                        ></span>
+
+                      </span>
+
+                    </div>
+
+
+                    <div class="customer-order-main">
+
+                      <div class="customer-order-heading">
+
+                        <div>
+
+                          <span class="section-kicker">
+                            {order.type}
+                          </span>
+
+                          <h3>
+                            {order.customer}
+                          </h3>
+
+                        </div>
+
+                        <span class:list={[
+                          "customer-order-status",
+                          order.status === "LOCKED" &&
+                            "customer-order-status--locked",
+                        ]}>
+                          {order.status}
+                        </span>
+
+                      </div>
+
+
+                      <div class="customer-order-motor">
+
+                        <span>
+                          MOTOR
+                        </span>
+
+                        <strong>
+                          {order.motor}
+                        </strong>
+
+                        <span>
+                          TARGET
+                        </span>
+
+                        <strong>
+                          {order.target}
+                        </strong>
+
+                      </div>
+
+                    </div>
+
+
+                    <div class="customer-order-money">
+
+                      <span>
+                        REWARD
+                      </span>
+
+                      <strong>
+                        Rp {order.reward.toLocaleString("id-ID")}
+                      </strong>
+
+                      <small>
+                        BUDGET {order.budget}
+                      </small>
+
+                    </div>
+
+
+                    <a
+                      href="/workshop"
+                      class:list={[
+                        "customer-order-action",
+                        order.status === "LOCKED" &&
+                          "customer-order-action--locked",
+                      ]}
+                    >
+                      {order.status === "LOCKED"
+                        ? "LOCKED"
+                        : "AMBIL ORDER"}
+
+                      <span>
+                        →
+                      </span>
+
+                    </a>
+
+                  </article>
+                ))
+              }
+
+            </div>
+
+          </section>
+
+
+
+          <!-- =====================================================
+               WORKSHOP PRINCIPLE
+          ===================================================== -->
+
+          <section class="workshop-section">
+
+            <article class="workshop-rule">
+
+              <div class="workshop-rule-icon">
+
+                <span class="pixel-icon pixel-icon--wrench pixel-icon--medium"></span>
+
+              </div>
+
+
+              <div class="workshop-rule-content">
+
+                <span class="section-kicker">
+                  WORKSHOP RULE
+                </span>
+
+                <h2>
+                  UANG MASUK DARI
+                  PEKERJAAN, BUKAN
+                  HANYA BALAP
+                </h2>
+
+                <p>
+                  Bengkel bisa menghasilkan uang dari service,
+                  repair, restoration, customer build, dan penjualan
+                  motor. Balapan menjadi jalur lain untuk reputasi,
+                  hadiah, dan sejarah garasi.
+                </p>
+
+              </div>
+
+
+              <div class="workshop-rule-stamp">
+
+                <span>
+                  WORK
+                </span>
+
+                <strong>
+                  01
+                </strong>
+
+              </div>
+
+            </article>
+
+          </section>
+
+
+
+          <!-- =====================================================
+               WORKSHOP LOG
+          ===================================================== -->
+
+          <section class="workshop-section">
+
+            <div class="section-header">
+
+              <div class="section-heading">
+
+                <span class="section-marker"></span>
+
+                <div>
+
+                  <span class="section-kicker">
+                    WORKSHOP HISTORY
+                  </span>
+
+                  <h2>
+                    LOG PEKERJAAN
+                  </h2>
+
+                </div>
+
+              </div>
+
+              <span class="section-code">
+                RECENT / {workshopLog.length}
+              </span>
+
+            </div>
+
+
+            <div class="workshop-log">
+
+              <div class="workshop-log-head">
+
+                <div>
+
+                  <span class="workshop-log-icon">
+                    <span class="pixel-icon pixel-icon--clipboard pixel-icon--small"></span>
+                  </span>
+
+                  <strong>
+                    RECENT ACTIVITY
+                  </strong>
+
+                </div>
+
+                <span>
+                  LIVE LOG
+                </span>
+
+              </div>
+
+
+              <div class="workshop-log-list">
+
+                {
+                  workshopLog.map((log, index) => (
+                    <div class="workshop-log-row">
+
+                      <span class="workshop-log-number">
+                        {String(index + 1).padStart(2, "0")}
+                      </span>
+
+
+                      <span class="workshop-log-time">
+                        {log.time}
+                      </span>
+
+
+                      <span class="workshop-log-icon-small">
+
+                        <span
+                          class:list={[
+                            "pixel-icon",
+                            `pixel-icon--${log.icon}`,
+                            "pixel-icon--small",
+                          ]}
+                        ></span>
+
+                      </span>
+
+
+                      <div class="workshop-log-main">
+
+                        <strong>
+                          {log.action}
+                        </strong>
+
+                        <span>
+                          {log.motor}
+                        </span>
+
+                      </div>
+
+
+                      <span class="workshop-log-detail">
+                        {log.detail}
+                      </span>
+
+                    </div>
+                  ))
+                }
+
+              </div>
+
+            </div>
+
+          </section>
+
+
+
+          <!-- =====================================================
+               FOOTER
+          ===================================================== -->
+
+          <footer class="workshop-footer">
+
+            <div class="footer-line"></div>
+
+            <div class="footer-row">
+
+              <div class="footer-brand">
+
+                <span class="footer-brand-icon">
+                  <span class="pixel-icon pixel-icon--wrench pixel-icon--small"></span>
+                </span>
+
+                <div>
+
+                  <strong>
+                    BENGKEL
+                  </strong>
+
+                  <span>
+                    WORKSHOP MANAGEMENT SYSTEM
+                  </span>
+
+                </div>
+
+              </div>
+
+
+              <span>
+                SERVICE / REPAIR / TUNE / BUILD
+              </span>
+
+
+              <span class="footer-online">
+
+                <i></i>
+
+                SYSTEM ONLINE
+
+              </span>
+
+            </div>
+
+          </footer>
+
+        </div>
+
+      </main>
+
+    </div>
+
+  </div>
+</Layout>
+
+
+<style>
+
+/* =============================================================
+   TOKENS
+   ============================================================= */
+
+.workshop-page {
+
+  --w-black: #050505;
+  --w-black-2: #090909;
+
+  --w-panel: #101010;
+  --w-panel-2: #151515;
+  --w-panel-3: #1c1c1c;
+
+  --w-line: #292929;
+  --w-line-light: #3d3d3d;
+
+  --w-white: #f1f1eb;
+  --w-soft: #d0d0ca;
+
+  --w-muted: #989892;
+  --w-dim: #62625d;
+
+  --w-accent: #b7d83c;
+  --w-accent-dark: #687d27;
+
+}
+
+
+/* =============================================================
+   BASE
+   ============================================================= */
+
+.workshop-main {
+  min-width: 0;
+}
+
+.workshop-section {
+  margin-top: 42px;
+}
+
+.section-header {
+
+  min-height: 55px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 15px;
+
+  margin-bottom: 10px;
+
+  border-bottom: 2px solid var(--w-line);
+
+}
+
+.section-heading {
+
+  display: flex;
+  align-items: center;
+
+  gap: 11px;
+
+}
+
+.section-marker {
+
+  width: 8px;
+  height: 8px;
+
+  flex: 0 0 auto;
+
+  background: var(--w-white);
+
+  box-shadow:
+    4px 4px 0 var(--w-line-light);
+
+}
+
+.section-marker--accent {
+
+  background: var(--w-accent);
+
+  box-shadow:
+    4px 4px 0 var(--w-accent-dark);
+
+}
+
+.section-kicker {
+
+  display: block;
+
+  color: var(--w-dim);
+
+  font-family: var(--font-display);
+  font-size: .51rem;
+  font-weight: 900;
+
+  letter-spacing: .1em;
+
+  text-transform: uppercase;
+
+}
+
+.section-header h2 {
+
+  margin-top: 4px;
+
+  color: var(--w-white);
+
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem,3vw,2rem);
+  font-weight: 900;
+
+  line-height: .9;
+
+  letter-spacing: -.04em;
+
+  text-transform: uppercase;
+
+}
+
+.section-code,
+.section-link {
+
+  color: var(--w-dim);
+
+  font-family: var(--font-display);
+  font-size: .45rem;
+  font-weight: 900;
+
+  letter-spacing: .08em;
+
+  text-transform: uppercase;
+
+}
+
+.section-link {
+
+  color: var(--w-accent);
+
+  text-decoration: none;
+
+}
+
+.section-link:hover {
+
+  color: var(--w-white);
+
+}
+
+.accent-text {
+
+  color: var(--w-accent) !important;
+
+}
+
+
+/* =============================================================
+   PIXEL ICON SYSTEM
+   ============================================================= */
+
+.pixel-icon {
+
+  position: relative;
+
+  display: block;
+
+  width: 18px;
+  height: 18px;
+
+  color: currentColor;
+
+  image-rendering: pixelated;
+
+}
+
+.pixel-icon::before,
+.pixel-icon::after {
+
+  content: "";
+
+  position: absolute;
+
+  display: block;
+
+}
+
+.pixel-icon--tiny {
+
+  width: 10px;
+  height: 10px;
+
+}
+
+.pixel-icon--small {
+
+  width: 18px;
+  height: 18px;
+
+}
+
+.pixel-icon--medium {
+
+  width: 30px;
+  height: 30px;
+
+}
+
+
+/* MOTOR */
+
+.pixel-icon--motorcycle::before {
+
+  left: 1px;
+  bottom: 1px;
+
+  width: 5px;
+  height: 5px;
+
+  border: 2px solid currentColor;
+
+  box-shadow:
+    10px 0 0 -1px var(--w-panel),
+    10px 0 0 currentColor;
+
+}
+
+.pixel-icon--motorcycle::after {
+
+  left: 4px;
+  top: 6px;
+
+  width: 10px;
+  height: 4px;
+
+  background: currentColor;
+
+  box-shadow:
+    -1px 3px 0 -1px currentColor,
+    3px 4px 0 -1px currentColor,
+    7px 3px 0 -1px currentColor;
+
+}
+
+
+/* WRENCH */
+
+.pixel-icon--wrench::before {
+
+  left: 3px;
+  top: 2px;
+
+  width: 5px;
+  height: 5px;
+
+  border: 2px solid currentColor;
+
+  transform: rotate(45deg);
+
+  box-shadow:
+    5px 5px 0 -1px currentColor,
+    8px 8px 0 -1px currentColor;
+
+}
+
+.pixel-icon--wrench::after {
+
+  right: 1px;
+  bottom: 1px;
+
+  width: 6px;
+  height: 6px;
+
+  border: 2px solid currentColor;
+
+}
+
+
+/* TOOLBOX */
+
+.pixel-icon--toolbox::before {
+
+  left: 1px;
+  bottom: 2px;
+
+  width: 16px;
+  height: 10px;
+
+  border: 2px solid currentColor;
+
+}
+
+.pixel-icon--toolbox::after {
+
+  left: 5px;
+  top: 3px;
+
+  width: 8px;
+  height: 4px;
+
+  border: 2px solid currentColor;
+
+}
+
+
+/* PERSON */
+
+.pixel-icon--person::before {
+
+  left: 6px;
+  top: 1px;
+
+  width: 6px;
+  height: 6px;
+
+  background: currentColor;
+
+}
+
+.pixel-icon--person::after {
+
+  left: 3px;
+  bottom: 1px;
+
+  width: 12px;
+  height: 8px;
+
+  background: currentColor;
+
+}
+
+
+/* CLIPBOARD */
+
+.pixel-icon--clipboard::before {
+
+  left: 3px;
+  top: 3px;
+
+  width: 12px;
+  height: 14px;
+
+  border: 2px solid currentColor;
+
+}
+
+.pixel-icon--clipboard::after {
+
+  left: 6px;
+  top: 1px;
+
+  width: 6px;
+  height: 4px;
+
+  background: currentColor;
+
+}
+
+
+/* GEAR */
+
+.pixel-icon--gear::before {
+
+  left: 4px;
+  top: 4px;
+
+  width: 8px;
+  height: 8px;
+
+  border: 2px solid currentColor;
+
+  box-shadow:
+    0 -4px 0 -2px currentColor,
+    0 4px 0 -2px currentColor,
+    4px 0 0 -2px currentColor,
+    -4px 0 0 -2px currentColor;
+
+}
+
+.pixel-icon--gear::after {
+
+  left: 7px;
+  top: 7px;
+
+  width: 3px;
+  height: 3px;
+
+  background: currentColor;
+
+}
+
+
+/* BOLT */
+
+.pixel-icon--bolt::before {
+
+  left: 7px;
+  top: 0;
+
+  width: 7px;
+  height: 18px;
+
+  background: currentColor;
+
+  clip-path:
+    polygon(
+      40% 0,
+      100% 0,
+      65% 42%,
+      100% 42%,
+      18% 100%,
+      38% 57%,
+      0 57%
+    );
+
+}
+
+
+/* HAMMER */
+
+.pixel-icon--hammer::before {
+
+  left: 8px;
+  top: 6px;
+
+  width: 5px;
+  height: 11px;
+
+  background: currentColor;
+
+  transform: rotate(32deg);
+
+}
+
+.pixel-icon--hammer::after {
+
+  left: 2px;
+  top: 2px;
+
+  width: 13px;
+  height: 6px;
+
+  background: currentColor;
+
+}
+
+
+/* CHECK */
+
+.pixel-icon--check::before {
+
+  left: 2px;
+  top: 7px;
+
+  width: 6px;
+  height: 3px;
+
+  border-left: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+
+  transform: rotate(-45deg);
+
+}
+
+
+/* FLAG */
+
+.pixel-icon--flag::before {
+
+  left: 3px;
+  top: 1px;
+
+  width: 3px;
+  height: 17px;
+
+  background: currentColor;
+
+}
+
+.pixel-icon--flag::after {
+
+  left: 6px;
+  top: 2px;
+
+  width: 10px;
+  height: 8px;
+
+  background: currentColor;
+
+  clip-path:
+    polygon(
+      0 0,
+      100% 0,
+      75% 50%,
+      100% 100%,
+      0 100%
+    );
+
+}
+
+
+/* SEARCH */
+
+.pixel-icon--search::before {
+
+  left: 2px;
+  top: 2px;
+
+  width: 9px;
+  height: 9px;
+
+  border: 2px solid currentColor;
+
+}
+
+.pixel-icon--search::after {
+
+  right: 0;
+  bottom: 0;
+
+  width: 7px;
+  height: 2px;
+
+  background: currentColor;
+
+  transform: rotate(45deg);
+
+}
+
+
+/* PLUS */
+
+.pixel-icon--plus::before {
+
+  left: 2px;
+  top: 8px;
+
+  width: 15px;
+  height: 3px;
+
+  background: currentColor;
+
+}
+
+.pixel-icon--plus::after {
+
+  left: 8px;
+  top: 2px;
+
+  width: 3px;
+  height: 15px;
+
+  background: currentColor;
+
+}
+
+
+/* SPARK */
+
+.pixel-icon--spark::before {
+
+  left: 7px;
+  top: 0;
+
+  width: 4px;
+  height: 18px;
+
+  background: currentColor;
+
+}
+
+.pixel-icon--spark::after {
+
+  left: 0;
+  top: 7px;
+
+  width: 18px;
+  height: 4px;
+
+  background: currentColor;
+
+}
+
+
+/* =============================================================
+   HEADER
+   ============================================================= */
+
+.workshop-header {
+
+  overflow: hidden;
+
+  border: 2px solid var(--w-line-light);
+
+  background: var(--w-panel);
+
+  box-shadow:
+    7px 7px 0 var(--w-black);
+
+}
+
+.workshop-header-top,
+.workshop-header-bottom {
+
+  min-height: 31px;
+
+  display: grid;
+
+  align-items: center;
+
+  gap: 15px;
+
+  padding: 0 11px;
+
+  background: var(--w-black-2);
+
+  color: var(--w-dim);
+
+  font-family: var(--font-display);
+  font-size: .45rem;
+  font-weight: 900;
+
+  letter-spacing: .08em;
+
+  text-transform: uppercase;
+
+}
+
+.workshop-header-top {
+
+  grid-template-columns:
+    1fr
+    auto
+    auto;
+
+  border-bottom: 2px solid var(--w-line);
+
+}
+
+.workshop-header-bottom {
+
+  grid-template-columns:
+    1fr
+    auto
+    auto;
+
+  border-top: 2px solid var(--w-line);
+
+}
+
+.workshop-head-left,
+.workshop-head-right,
+.system-online {
+
+  display: flex;
+  align-items: center;
+
+  gap: 7px;
+
+}
+
+.workshop-head-left {
+
+  color: var(--w-soft);
+
+}
+
+.workshop-head-right,
+.system-online {
+
+  color: var(--w-accent);
+
+}
+
+.header-led,
+.system-online i {
+
+  width: 5px;
+  height: 5px;
+
+  background: var(--w-accent);
+
+}
+
+.workshop-header-body {
+
+  min-height: 340px;
+
+  display: grid;
+
+  grid-template-columns:
+    minmax(0,1fr)
+    255px;
+
+  align-items: end;
+
+  gap: 30px;
+
+  padding: 31px;
+
+}
+
+.workshop-header-copy {
+
+  min-width: 0;
+
+}
+
+.workshop-title-meta {
+
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+
+}
+
+.workshop-title-icon {
+
+  width: 26px;
+  height: 26px;
+
+  display: grid;
+  place-items: center;
+
+  border: 1px solid var(--w-line-light);
+
+  color: var(--w-accent);
+
+  background: var(--w-black-2);
+
+}
+
+.workshop-header-copy h1 {
+
+  margin-top: 8px;
+
+  color: var(--w-white);
+
+  font-family: var(--font-display);
+  font-size: clamp(4rem,10vw,7.8rem);
+  font-weight: 900;
+
+  line-height: .74;
+
+  letter-spacing: -.09em;
+
+  text-transform: uppercase;
+
+}
+
+.workshop-title-line {
+
+  width: min(350px,68%);
+
+  height: 3px;
+
+  margin-top: 20px;
+
+  background: var(--w-accent);
+
+}
+
+.workshop-header-copy p {
+
+  max-width: 700px;
+
+  margin-top: 18px;
+
+  color: var(--w-muted);
+
+  font-size: var(--text-sm);
+
+  line-height: 1.65;
+
+}
+
+.workshop-console {
+
+  display: grid;
+
+  gap: 6px;
+
+}
+
+.console-title {
+
+  min-height: 30px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 7px;
+
+  padding: 0 9px;
+
+  border: 1px solid var(--w-line-light);
+
+  background: var(--w-black-2);
+
+  color: var(--w-soft);
+
+  font-family: var(--font-display);
+  font-size: .42rem;
+  font-weight: 900;
+
+  letter-spacing: .08em;
+
+}
+
+.console-title .pixel-icon {
+
+  color: var(--w-accent);
+
+}
+
+.console-row {
+
+  min-height: 36px;
+
+  display: grid;
+
+  grid-template-columns:
+    1fr
+    auto;
+
+  align-items: center;
+
+  padding: 0 10px;
+
+  border: 1px solid var(--w-line);
+
+  background: var(--w-black-2);
+
+}
+
+.console-row span {
+
+  color: var(--w-dim);
+
+  font-family: var(--font-display);
+  font-size: .41rem;
+  font-weight: 900;
+
+}
+
+.console-row strong {
+
+  color: var(--w-white);
+
+  font-family: var(--font-display);
+  font-size: .62rem;
+  font-weight: 900;
+
+}
+
+.console-actions {
+
+  display: grid;
+  gap: 7px;
+
+  margin-top: 5px;
+
+}
+
+
+/* =============================================================
+   STATUS
+   ============================================================= */
+
+.workshop-status-grid {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(4,1fr);
+
+  border-top: 2px solid var(--w-line);
+  border-left: 2px solid var(--w-line);
+
+}
+
+.workshop-stat {
+
+  min-height: 140px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  padding: 13px;
+
+  border-right: 2px solid var(--w-line);
+  border-bottom: 2px solid var(--w-line);
+
+  background: var(--w-panel);
+
+}
+
+.workshop-stat--active {
+
+  background: var(--w-panel-2);
+
+  border-top: 3px solid var(--w-accent);
+
+}
+
+.workshop-stat-top,
+.workshop-stat-bottom {
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 8px;
+
+  color: var(--w-dim);
+
+  font-family: var(--font-display);
+  font-size: .43rem;
+  font-weight: 900;
+
+  text-transform: uppercase;
+
+}
+
+.workshop-stat-ident {
+
+  display: flex;
+  align-items: center;
+
+  gap: 7px;
+
+}
+
+.workshop-stat-icon {
+
+  width: 25px;
+  height: 25px;
+
+  display: grid;
+  place-items: center;
+
+  border: 1px solid var(--w-line-light);
+
+  color: var(--w-soft);
+
+}
+
+.workshop-stat--active .workshop-stat-icon {
+
+  color: var(--w-accent);
+
+  border-color: var(--w-accent-dark);
+
+}
+
+.workshop-stat > strong {
+
+  color: var(--w-white);
+
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  font-weight: 900;
+
+  line-height: .8;
+
+}
+
+.workshop-stat-meter {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(8,1fr);
+
+  flex: 1;
+
+  gap: 3px;
+
+}
+
+.workshop-stat-meter i {
+
+  height: 4px;
+
+  background: var(--w-line-light);
+
+}
+
+.workshop-stat-meter i.filled {
+
+  background: var(--w-accent-dark);
+
+}
+
+.workshop-stat--active
+.workshop-stat-meter i.filled {
+
+  background: var(--w-accent);
+
+}
+
+
+/* =============================================================
+   ACTIVE JOB
+   ============================================================= */
+
+.active-job {
+
+  overflow: hidden;
+
+  border: 2px solid var(--w-line-light);
+
+  background: var(--w-panel);
+
+  box-shadow:
+    7px 7px 0 var(--w-black);
+
+}
+
+.active-job-top {
+
+  min-height: 53px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 12px;
+
+  border-bottom: 2px solid var(--w-line);
+
+  background: var(--w-black-2);
+
+}
+
+.active-job-ticket {
+
+  display: flex;
+  align-items: center;
+
+  gap: 9px;
+
+}
+
+.active-job-icon {
+
+  width: 30px;
+  height: 30px;
+
+  display: grid;
+  place-items: center;
+
+  color: var(--w-accent);
+
+  border: 1px solid var(--w-accent-dark);
+
+}
+
+.active-job-ticket > div {
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 3px;
+
+}
+
+.active-job-ticket span,
+.active-job-ticket strong {
+
+  font-family: var(--font-display);
+  font-weight: 900;
+
+  text-transform: uppercase;
+
+}
+
+.active-job-ticket span {
+
+  color: var(--w-dim);
+
+  font-size: .36rem;
+
+}
+
+.active-job-ticket strong {
+
+  color: var(--w-white);
+
+  font-size: .63rem;
+
+}
+
+.job-running {
+
+  display: flex;
+  align-items: center;
+
+  gap: 6px;
+
+  color: var(--w-accent);
+
+  font-family: var(--font-display);
+  font-size: .41rem;
+  font-weight: 900;
+
+}
+
+.job-running i {
+
+  width: 5px;
+  height: 5px;
+
+  background: var(--w-accent);
+
+}
+
+.active-job-body {
+
+  display: grid;
+
+  grid-template-columns:
+    300px
+    minmax(0,1fr);
+
+}
+
+.active-job-bike {
+
+  min-height: 340px;
+
+  position: relative;
+
+  display: grid;
+  place-items: center;
+
+  overflow: hidden;
+
+  border-right: 2px solid var(--w-line);
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent 49%,
+      rgba(255,255,255,.03) 50%,
+      transparent 51%
+    ),
+    linear-gradient(
+      transparent 49%,
+      rgba(255,255,255,.03) 50%,
+      transparent 51%
+    ),
+    #161816;
+
+  background-size: 22px 22px;
+
+}
+
+.active-job-bike::before {
+
+  content: "";
+
+  position: absolute;
+
+  inset: 0;
+
+  background:
+    radial-gradient(
+      circle at center,
+      rgba(183,216,60,.06),
+      transparent 55%
+    );
+
+}
+
+.active-job-bike-code {
+
+  position: absolute;
+
+  left: 11px;
+  top: 11px;
+
+  z-index: 5;
+
+  color: var(--w-dim);
+
+  font-family: var(--font-display);
+  font-size: .36rem;
+  font-weight: 900;
+
+}
+
+.job-bike-cross {
+
+  position: absolute;
+
+  width: 178px;
+  height: 178px;
+
+  border: 1px dashed rgba(183,216,60,.13);
+
+}
+
+.job-bike-cross::before,
+.job-bike-cross::after {
+
+  content: "";
+
+  position: absolute;
+
+  background: rgba(183,216,60,.1);
+
+}
+
+.job-bike-cross::before {
+
+  left: 50%;
+  top: -15px;
+  bottom: -15px;
+
+  width: 1px;
+
+}
+
+.job-bike-cross::after {
+
+  top: 50%;
+  left: -15px;
+  right: -15px;
+
+  height: 1px;
+
+}
+
+.job-bike-name {
+
+  position: absolute;
+
+  left: 11px;
+  bottom: 12px;
+
+  display: flex;
+  align-items: baseline;
+
+  gap: 5px;
+
+  z-index: 4;
+
+  font-family: var(--font-display);
+
+}
+
+.job-bike-name span {
+
+  color: var(--w-muted);
+
+  font-size: .39rem;
+  font-weight: 900;
+
+}
+
+.job-bike-name strong {
+
+  color: var(--w-white);
+
+  font-size: .77rem;
+  font-weight: 900;
+
+}
+
+.job-bike-floor {
+
+  position: absolute;
+
+  left: 12%;
+  right: 12%;
+  bottom: 27px;
+
+  height: 4px;
+
+  z-index: 4;
+
+  background: var(--w-accent);
+
+  box-shadow:
+    0 5px 0 var(--w-black);
+
+}
+
+.active-job-content {
+
+  min-width: 0;
+
+  padding: 21px;
+
+}
+
+.active-job-heading {
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: flex-start;
+
+  gap: 15px;
+
+  padding-bottom: 13px;
+
+  border-bottom: 1px solid var(--w-line);
+
+}
+
+.active-job-heading h3 {
+
+  margin-top: 5px;
+
+  color: var(--w-white);
+
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 900;
+
+  line-height: .9;
+
+}
+
+.customer-job-type {
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 4px;
+
+  text-align: right;
+
+}
+
+.customer-job-type span {
+
+  color: var(--w-dim);
+
+  font-family: var(--font-display);
+  font-size: .37rem;
+  font-weight: 900;
+
+}
+
+.customer-job-type strong {
+
+  color: var(--w-accent);
+
+  font-family: var(--font-display);
+  font-size: .6rem;
+  font-weight: 900;
+
+}
+
+.active-job-description {
+
+  max-width: 710px;
+
+  margin-top: 14px;
+
+  color: var(--w-muted);
+
+  font-size: .71rem;
+
+  line-height: 1.6;
+
+}
+
+.job-step-list {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(3,1fr);
+
+  gap: 6px;
+
+  margin-top: 17px;
+
+}
+
+.job-step {
+
+  min-height: 70px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+
+  padding: 8px;
+
+  border: 1px solid var(--w-line);
+
+  background: var(--w-black-2);
+
+}
+
+.job-step--done {
+
+  border-color: var(--w-accent-dark);
+
+}
+
+.job-step-box {
+
+  width: 23px;
+  height: 23px;
+
+  flex: 0 0 auto;
+
+  display: grid;
+  place-items: center;
+
+  border: 2px solid var(--w-line-light);
+
+  color: var(--w-dim);
+
+  font-family: var(--font-display);
+  font-size: .53rem;
+  font-weight: 900;
+
+}
+
+.job-step--done .job-step-box {
+
+  border-color: var(--w-accent);
+
+  background: var(--w-accent);
+
+  color: var(--w-black);
+
+}
+
+.job-step > div {
+
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 3px;
+
+}
+
+.job-step > div span {
+
+  color: var(--w-dim);
+
+  font-family: var(--font-display);
+  font-size: .34rem;
+  font-weight: 900;
+
+}
+
+.job-step > div strong {
+
+  color: var(--w-white);
+
+  font-family: var(--font-display);
+  font-size: .43rem;
+  font-weight: 900;
+
+}
+
+.job-step > div small {
+
+  color: var(--w-muted);
+
+  font-size: .37rem;
+
+}
+
+.job-progress {
+
+  margin-top: 18px;
+
+}
+
+.job-progress-head {
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  color: var(--w-dim);
+
+  font-family: var(--font-display);
+  font-size: .39rem;
+  font-weight: 900;
+
+}
+
+.job-progress-head strong {
+
+  color: var(--w-accent);
+
+}
+
+.job-progress-track {
+
+  height: 8px;
+
+  margin-top: 7px;
+
+  border: 1px solid var(--w-line);
+
+  background: var(--w-black-2);
+
+}
+
+.job-progress-track i {
+
+  height: 100%;
+
+  display: block;
+
+  background: var(--w-accent);
+
+}
+
+.active-job-footer {
+
+  display: grid;
+
+  grid-template-columns:
+    minmax(140px,1fr)
+    90px
+    165px;
+
+  align-items: end;
+
+  gap: 15px;
+
+  margin-top: 18px;
+
+  padding-top: 13px;
+
+  border-top: 2px solid var(--w-line);
+
+}
+
+.active-job-footer > div {
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 4px;
+
+}
+
+.active-job-footer span {
+
+  color: var(--w-dim);
+
+  font-family: var(--font-display);
+  font-size: .38rem;
+  font-weight: 900;
+
+}
+
+.active-job-footer strong {
+
+  color: var(--w-white);
+
+  font-family: var(--font-display);
+  font-size: .89rem;
+  font-weight: 900;
+
+}
+
+.job-action {
+
+  min-height: 38px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 10px;
+
+  border: 2px solid var(--w-accent-dark);
+
+  color: var(--w-accent);
+
+  background: var(--w-black-2);
+
+  font-family: var(--font-display);
+  font-size: .42rem;
+  font-weight: 900;
+
+  text-decoration: none;
+
+}
+
+.job-action:hover {
+
+  color: var(--w-black);
+
+  background: var(--w-accent);
+
+}
+
+
+/* =============================================================
+   WORK TYPES
+   ============================================================= */
+
+.work-types-grid {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(3,minmax(0,1fr));
+
+  gap: 10px;
+
+}
+
+.work-type-card {
+
+  min-height: 235px;
+
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+
+  overflow: hidden;
+
+  background: var(--w-panel);
+
+  border: 2px solid var(--w-line);
+
+  box-shadow:
+    4px 4px 0 var(--w-black);
+
+  transition:
+    transform 80ms steps(1),
+    border-color 80ms steps(1);
+
+}
+
+.work-type-card:hover {
+
+  transform: translate(-2px,-2px);
+
+  border-color: var(--w-line-light);
+
+}
+
+.work-type-card--featured {
+
+  border-color: var(--w-accent-dark);
+
+}
+
+.work-type-top {
+
+  min-height: 31px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 9px;
+
+  border-bottom: 2px solid var(--w-line);
+
+  background: var(--w-black-2);
+
+}
+
+.work-type-number,
+.work-type-status {
+
+  color: var(--w-dim);
+
+  font-family: var(--font-display);
+  font-size: .39rem;
+  font-weight: 900;
+
+}
+
+.work-type-card--featured .work-type-status {
+
+  color: var(--w-accent);
+
+}
+
+.work-type-icon {
+
+  width: 62px;
+  height: 62px;
+
+  display: grid;
+  place-items: center;
+
+  margin: 15px 15px 8px;
+
+  border: 2px solid var(--w-line-light);
+
+  color: var(--w-soft);
+
+  background: var(--w-black-2);
+
+  box-shadow:
+    4px 4px 0 var(--w-black);
+
+}
+
+.work-type-card--featured .work-type-icon {
+
+  color: var(--w-accent);
+
+  border-color: var(--w-accent-dark);
+
+}
+
+.work-type-content {
+
+  padding: 0 15px;
+
+}
+
+.work-type-content h3 {
+
+  margin-top: 5px;
+
+  color: var(--w-white);
+
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 900;
+
+  line-height: .95;
+
+}
+
+.work-type-content p {
+
+  margin-top: 7px;
+
+  color: var(--w-muted);
+
+  font-size: .62rem;
+
+  line-height: 1.52;
+
+}
+
+.work-type-footer {
+
+  min-height: 35px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-top: auto;
+
+  padding: 0 12px;
+
+  border-top: 1px solid var(--w-line);
+
+  color: var(--w-dim);
+
+  font-family: var(--font-display);
+  font-size: .38rem;
+  font-weight: 900;
+
+}
+
+.work-type-footer span:last-child {
+
+  color: var(--w-accent);
+
+}
+
+
+/* =============================================================
+   PROJECT
+   ============================================================= */
+
+.project-layout {
+
+  display: grid;
+
+  grid-template-columns:
+    310px
+    minmax(0,1fr);
+
+  gap: 10px;
+
+}
+
+.project-motor-card {
+
+  min-width: 0;
+
+  overflow: hidden;
+
+  background: var(--w-panel);
+
+  border: 2px solid var(--w-line-light);
+
+  box-shadow:
+    6px 6px 0 var(--w-black);
+
+}
+
+.project-motor-top {
+
+  min-height: 31px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 10px;
+
+  background: var(--w-black-2);
+
+  border-bottom: 2px solid var(--w-line);
+
+  font-family: var(--font-display);
+  font-size: .38rem;
+  font-weight: 900;
+
+}
+
+.project-motor-top > div {
+
+  display: flex;
+  align-items: center;
+
+  gap: 7px;
+
+}
+
+.project-motor-top > div span {
+
+  color: var(--w-dim);
+
+}
+
+.project-motor-top > div strong {
+
+  color: var(--w-accent);
+
+}
+
+.project-motor-top > span {
+
+  color: var(--w-dim);
+
+}
+
+.project-motor-art {
+
+  min-height: 245px;
+
+  position: relative;
+
+  display: grid;
+  place-items: center;
+
+  overflow: hidden;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent 49%,
+      rgba(255,255,255,.03) 50%,
+      transparent 51%
+    ),
+    linear-gradient(
+      transparent 49%,
+      rgba(255,255,255,.03) 50%,
+      transparent 51%
+    ),
+    #171917;
+
+  background-size: 20px 20px;
+
+}
+
+.project-motor-grid {
+
+  position: absolute;
+
+  inset: 0;
+
+  opacity: .3;
+
+  background-image:
+    linear-gradient(
+      rgba(255,255,255,.03) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(255,255,255,.03) 1px,
+      transparent 1px
+    );
+
+  background-size: 18px 18px;
+
+}
+
+.project-motor-frame {
+
+  width: 160px;
+  height: 160px;
+
+  position: absolute;
+
+  border: 1px dashed rgba(183,216,60,.12);
+
+}
+
+.pixel-motor {
+
+  width: 190px;
+  height: 108px;
+
+  position: relative;
+
+  color: var(--w-white);
+
+}
+
+.pixel-motor span {
+
+  position: absolute;
+
+  display: block;
+
+}
+
+.pixel-motor__wheel {
+
+  width: 42px;
+  height: 42px;
+
+  bottom: 6px;
+
+  border: 6px solid var(--w-black);
+
+  background: transparent;
+
+  box-shadow:
+    inset 0 0 0 4px var(--w-soft);
+
+}
+
+.pixel-motor__wheel::after {
+
+  content: "";
+
+  position: absolute;
+
+  left: 12px;
+  top: 12px;
+
+  width: 6px;
+  height: 6px;
+
+  background: var(--w-black);
+
+}
+
+.pixel-motor__wheel--rear {
+
+  left: 17px;
+
+}
+
+.pixel-motor__wheel--front {
+
+  right: 17px;
+
+}
+
+.pixel-motor__body {
+
+  left: 41px;
+  top: 43px;
+
+  width: 94px;
+  height: 19px;
+
+  background: var(--w-accent);
+
+  clip-path:
+    polygon(
+      0 30%,
+      18% 30%,
+      28% 0,
+      55% 0,
+      67% 30%,
+      100% 30%,
+      100% 100%,
+      0 100%
+    );
+
+}
+
+.pixel-motor__tank {
+
+  left: 73px;
+  top: 27px;
+
+  width: 38px;
+  height: 18px;
+
+  background: var(--w-white);
+
+  clip-path:
+    polygon(
+      0 0,
+      76% 0,
+      100% 36%,
+      82% 100%,
+      18% 100%
+    );
+
+}
+
+.pixel-motor__seat {
+
+  left: 51px;
+  top: 24px;
+
+  width: 31px;
+  height: 9px;
+
+  background: var(--w-black);
+
+}
+
+.pixel-motor__frame {
+
+  left: 66px;
+  top: 44px;
+
+  width: 44px;
+  height: 33px;
+
+  border-left: 5px solid var(--w-black);
+  border-bottom: 5px solid var(--w-black);
+
+  transform: skew(-17deg);
+
+}
+
+.pixel-motor__engine {
+
+  left: 76px;
+  top: 49px;
+
+  width: 29px;
+  height: 22px;
+
+  background: var(--w-line-light);
+
+  border: 3px solid var(--w-black);
+
+}
+
+.pixel-motor__engine::after {
+
+  content: "";
+
+  position: absolute;
+
+  left: 6px;
+  top: 6px;
+
+  width: 10px;
+  height: 4px;
+
+  background: var(--w-soft);
+
+  box-shadow:
+    0 6px 0 var(--w-soft);
+
+}
+
+.pixel-motor__pipe {
+
+  left: 103px;
+  top: 68px;
+
+  width: 38px;
+  height: 5px;
+
+  border-bottom: 4px solid var(--w-soft);
+
+  transform: rotate(-5deg);
+
+}
+
+.pixel-motor__front {
+
+  right: 38px;
+  top: 41px;
+
+  width: 6px;
+  height: 34px;
+
+  background: var(--w-black);
+
+  transform: rotate(-8deg);
+
+}
+
+.pixel-motor__rear {
+
+  left: 44px;
+  top: 47px;
+
+  width: 5px;
+  height: 26px;
+
+  background: var(--w-black);
+
+}
+
+.pixel-motor__handle {
+
+  right: 23px;
+  top: 27px;
+
+  width: 26px;
+  height: 5px;
+
+  background: var(--w-black);
+
+  transform: rotate(-20deg);
+
+}
+
+.pixel-motor__handle::after {
+
+  content: "";
+
+  position: absolute;
+
+  right: 2px;
+  top: -6px;
+
+  width: 5px;
+  height: 14px;
+
+  background: var(--w-black);
+
+}
+
+.pixel-motor--job {
+
+  position: relative;
+
+  z-index: 3;
+
+  transform: scale(1.08);
+
+  filter:
+    drop-shadow(5px 5px 0 var(--w-black));
+
+}
+
+.pixel-motor--project {
+
+  position: relative;
+
+  z-index: 3;
+
+  transform: scale(1.12);
+
+  filter:
+    drop-shadow(5px 5px 0 var(--w-black));
+
+}
+
+.project-motor-floor {
+
+  position: absolute;
+
+  left: 14%;
+  right: 14%;
+  bottom: 25px;
+
+  height: 4px;
+
+  background: var(--w-line-light);
+
+  box-shadow:
+    0 5px 0 var(--w-black);
+
+}
+
+.project-motor-name {
+
+  position: absolute;
+
+  left: 10px;
+  bottom: 9px;
+
+  display: flex;
+  align-items: baseline;
+
+  gap: 4px;
+
+  z-index: 5;
+
+  font-family: var(--font-display);
+
+}
+
+.project-motor-name span {
+
+  position: static;
+
+  color: var(--w-muted);
+
+  font-size: .36rem;
+  font-weight: 900;
+
+}
+
+.project-motor-name strong {
+
+  position: static;
+
+  color: var(--w-white);
+
+  font-size: .65rem;
+  font-weight: 900;
+
+}
+
+.project-motor-tag {
+
+  position: absolute;
+
+  right: 10px;
+  top: 10px;
+
+  padding: 4px 6px;
+
+  border: 1px solid var(--w-accent-dark);
+
+  background: var(--w-black-2);
+
+  color: var(--w-accent);
+
+  font-family: var(--font-display);
+  font-size: .36rem;
+  font-weight: 900;
+
+  z-index: 5;
+
+}
+
+.project-motor-info {
+
+  padding: 13px;
+
+}
+
+.project-motor-info h3 {
+
+  margin-top: 5px;
+
+  color: var(--w-white);
+
+  font-family: var(--font-display);
+  font-size: 1.28rem;
+  font-weight: 900;
+
+  line-height: .9;
+
+}
+
+.project-motor-info > span:last-child {
+
+  display: block;
+
+  margin-top: 5px;
+
+  color: var(--w-dim);
+
+  font-family: var(--font-display);
+  font-size: .39rem;
+  font-weight: 900;
+
+}
+
+.project-motor-actions {
+
+  display: grid;
+
+  grid-template-columns: 1fr 1fr;
+
+  gap: 6px;
+
+  padding: 0 10px 10px;
+
+}
+
+.retro-action {
+
+  min-height: 37px;
+
+  display: grid;
+
+  grid-template-columns:
+    17px
+    1fr
+    14px;
+
+  align-items: center;
+
+  gap: 6px;
+
+  padding: 0 8px;
+
+  border: 2px solid var(--w-line);
+
+  color: var(--w-muted);
+
+  background: var(--w-black-2);
+
+  font-family: var(--font-display);
+  font-size: .4rem;
+  font-weight: 900;
+
+  text-decoration: none;
+
+}
+
+.retro-action:hover {
+
+  color: var(--w-accent);
+
+  border-color: var(--w-accent-dark);
+
+}
+
+.retro-action--accent {
+
+  color: var(--w-accent);
+
+  border-color: var(--w-accent-dark);
+
+}
+
+.project-target {
+
+  min-width: 0;
+
+  overflow: hidden;
+
+  padding: 18px;
+
+  border: 2px solid var(--w-line);
+
+  background: var(--w-panel);
+
+  box-shadow:
+    5px 5px 0 var(--w-black);
+
+}
+
+.project-target-head {
+
+  display: flex;
+
+  align-items: flex-start;
+
+  justify-content: space-between;
+
+  gap: 12px;
+
+  padding-bottom: 14px;
+
+  border-bottom: 1px solid var(--w-line);
+
+}
+
+.project-target-heading {
+
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+
+}
+
+.target-icon {
+
+  width: 32px;
+  height: 32px;
+
+  display: grid;
+  place-items: center;
+
+  color: var(--w-accent);
+
+  border: 1px solid var(--w-accent-dark);
+
+  background: var(--w-black-2);
+
+}
+
+.project-target-head h3 {
+
+  margin-top: 4px;
+
+  color: var(--w-white);
+
+  font-family: var(--font-display);
+  font-size: 1.24rem;
+  font-weight: 900;
+
+  line-height: .95;
+
+}
+
+.target-badge {
+
+  padding: 5px 7px;
+
+  border: 1px solid var(--w-accent-dark);
+
+  color: var(--w-accent);
+
+  font-family: var(--font-display);
+  font-size: .39rem;
+  font-weight: 900;
+
+}
+
+.target-main-score {
+
+  margin-top: 16px;
+
+}
+
+.target-score-label {
+
+  display: flex;
+  justify-content: space-between;
+
+  color: var(--w-dim);
+
+  font-family: var(--font-display);
+  font-size: .4rem;
+  font-weight: 900;
+
+}
+
+.target-score-label strong {
+
+  color: var(--w-white);
+
+  font-size: .72rem;
+
+}
+
+.target-track {
+
+  height: 8px;
+
+  margin-top: 7px;
+
+  border: 1px solid var(--w-line);
+
+  background: var(--w-black-2);
+
+}
+
+.target-track i {
+
+  height: 100%;
+
+  display: block;
+
+  background: var(--w-accent);
+
+}
+
+.target-foot {
+
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  margin-top: 5px;
+
+  color: var(--w-dim);
+
+  font-family: var(--font-display);
+  font-size: .37rem;
+  font-weight: 900;
+
+}
+
+.target-foot strong {
+
+  color: var(--w-accent);
+
+}
+
+.project-checklist {
+
+  display: grid;
+
+  gap: 0;
+
+  margin-top: 15px;
+
+}
+
+.project-check {
+
+  min-height: 60px;
+
+  display: grid;
+
+  grid-template-columns:
+    30px
+    minmax(0,1fr);
+
+  align-items: center;
+
+  gap: 9px;
+
+  padding: 8px 0;
+
+  border-bottom: 1px solid var(--w-line);
+
+}
+
+.project-check-icon {
+
+  width: 27px;
+  height: 27px;
+
+  display: grid;
+  place-items: center;
+
+  border: 2px solid var(--w-line-light);
+
+  color: var(--w-muted);
+
+}
+
+.project-check--done .project-check-icon {
+
+  border-color: var(--w-accent);
+
+  color: var(--w-black);
+
+  background: var(--w-accent);
+
+}
+
+.project-check > div {
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 3px;
+
+}
+
+.project-check > div span {
+
+  color: var(--w-dim);
+
+  font-family: var(--font-display);
+  font-size: .35rem;
+  font-weight: 900;
+
+}
+
+.project-check > div strong {
+
+  color: var(--w-white);
+
+  font-family: var(--font-display);
+  font-size: .49rem;
+  font-weight: 900;
+
+}
+
+.project-check > div small {
+
+  color: var(--w-muted);
+
+  font-size: .39rem;
+
+}
+
+.project-target-actions {
+
+  display: grid;
+
+  grid-template-columns: 1fr 1fr;
+
+  gap: 7px;
+
+  margin-top: 16px;
+
+}
+
+
+/* =============================================================
+   PARTS
+   ============================================================= */
+
+.workshop-parts-grid {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(4,minmax(0,1fr));
+
+  gap: 10px;
+
+}
+
+.workshop-part-card {
+
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  overflow: hidden;
+
+  background: var(--w-panel);
+
+  border: 2px solid var(--w-line);
+
+  box-shadow:
+    4px 4px 0 var(--w-black);
+
+  transition:
+    transform 80ms steps(1),
+    border-color 80ms steps(1);
+
+}
+
+.workshop-part-card:hover {
+
+  transform: translate(-2px,-2px);
+
+  border-color: var(--w-line-light);
+
+}
+
+.workshop-part-top {
+
+  min-height: 31px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 9px;
+
+  border-bottom: 2px solid var(--w-line);
+
+  background: var(--w-black-2);
+
+  color: var(--w-dim);
+
+  font-family: var(--font-display);
+  font-size: .37rem;
+  font-weight: 900;
+
+}
+
+.workshop-part-top span:last-child {
+
+  color: var(--w-accent);
+
+}
+
+.workshop-part-art {
+
+  min-height: 150px;
+
+  position: relative;
+
+  display: grid;
+  place-items: center;
+
+  overflow: hidden;
+
+  background:
+    repeating-linear-gradient(
+      45deg,
+      #181a18 0 8px,
+      #141614 8px 16px
+    );
+
+  border-bottom: 1px solid var(--w-line);
+
+}
+
+.part-art-label {
+
+  position: absolute;
+
+  left: 9px;
+  top: 8px;
+
+  color: var(--w-dim);
+
+  font-family: var(--font-display);
+  font-size: .34rem;
+  font-weight: 900;
+
+}
+
+.part-art-index {
+
+  position: absolute;
+
+  right: 9px;
+  bottom: 7px;
+
+  color: rgba(241,241,235,.25);
+
+  font-family: var(--font-display);
+  font-size: .35rem;
+  font-weight: 900;
+
+}
+
+.part-pixel-object {
+
+  width: 88px;
+  height: 72px;
+
+  position: relative;
+
+  image-rendering: pixelated;
+
+}
+
+.part-pixel-main,
+.part-pixel-shadow,
+.part-pixel-detail {
+
+  position: absolute;
+
+  display: block;
+
+}
+
+.part-pixel-shadow {
+
+  left: 16px;
+  bottom: 7px;
+
+  width: 56px;
+  height: 7px;
+
+  background: var(--w-black);
+
+  opacity: .65;
+
+}
+
+
+/* CARBURETOR */
+
+.part-pixel-object--carburetor .part-pixel-main {
+
+  left: 28px;
+  top: 14px;
+
+  width: 30px;
+  height: 38px;
+
+  border: 4px solid var(--w-soft);
+
+  background: #242424;
+
+}
+
+.part-pixel-object--carburetor .part-pixel-detail--1 {
+
+  left: 13px;
+  top: 24px;
+
+  width: 17px;
+  height: 10px;
+
+  background: var(--w-soft);
+
+}
+
+.part-pixel-object--carburetor .part-pixel-detail--2 {
+
+  right: 12px;
+  top: 31px;
+
+  width: 14px;
+  height: 4px;
+
+  background: var(--w-soft);
+
+}
+
+.part-pixel-object--carburetor .part-pixel-detail--3 {
+
+  left: 35px;
+  bottom: 8px;
+
+  width: 15px;
+  height: 9px;
+
+  background: var(--w-accent);
+
+}
+
+
+/* CDI */
+
+.part-pixel-object--cdi .part-pixel-main {
+
+  left: 23px;
+  top: 16px;
+
+  width: 42px;
+  height: 29px;
+
+  border: 4px solid var(--w-soft);
+
+  background: #202020;
+
+}
+
+.part-pixel-object--cdi .part-pixel-detail--1 {
+
+  left: 31px;
+  top: 23px;
+
+  width: 5px;
+  height: 5px;
+
+  background: var(--w-accent);
+
+}
+
+.part-pixel-object--cdi .part-pixel-detail--2 {
+
+  left: 41px;
+  top: 23px;
+
+  width: 14px;
+  height: 3px;
+
+  background: var(--w-soft);
+
+}
+
+.part-pixel-object--cdi .part-pixel-detail--3 {
+
+  left: 29px;
+  bottom: 13px;
+
+  width: 32px;
+  height: 4px;
+
+  background: var(--w-line-light);
+
+}
+
+
+/* WHEEL */
+
+.part-pixel-object--wheel .part-pixel-main {
+
+  left: 25px;
+  top: 9px;
+
+  width: 39px;
+  height: 39px;
+
+  border: 6px solid var(--w-soft);
+
+  border-radius: 50%;
+
+}
+
+.part-pixel-object--wheel .part-pixel-detail--1 {
+
+  left: 34px;
+  top: 18px;
+
+  width: 21px;
+  height: 21px;
+
+  border: 3px solid var(--w-line-light);
+
+  border-radius: 50%;
+
+}
+
+.part-pixel-object--wheel .part-pixel-detail--2 {
+
+  left: 44px;
+  top: 29px;
+
+  width: 3px;
+  height: 17px;
+
+  background: var(--w-accent);
+
+  transform: rotate(45deg);
+
+}
+
+.part-pixel-object--wheel .part-pixel-detail--3 {
+
+  left: 22px;
+  bottom: 8px;
+
+  width: 46px;
+  height: 3px;
+
+  background: var(--w-black);
+
+}
+
+
+/* CAM */
+
+.part-pixel-object--cam .part-pixel-main {
+
+  left: 19px;
+  top: 25px;
+
+  width: 51px;
+  height: 14px;
+
+  background: var(--w-soft);
+
+}
+
+.part-pixel-object--cam .part-pixel-detail--1 {
+
+  left: 26px;
+  top: 12px;
+
+  width: 9px;
+  height: 13px;
+
+  background: var(--w-soft);
+
+  transform: rotate(45deg);
+
+}
+
+.part-pixel-object--cam .part-pixel-detail--2 {
+
+  left: 43px;
+  top: 12px;
+
+  width: 9px;
+  height: 13px;
+
+  background: var(--w-soft);
+
+  transform: rotate(45deg);
+
+}
+
+.part-pixel-object--cam .part-pixel-detail--3 {
+
+  left: 35px;
+  top: 29px;
+
+  width: 9px;
+  height: 7px;
+
+  background: var(--w-accent);
+
+}
+
+.workshop-part-info {
+
+  padding: 12px;
+
+}
+
+.workshop-part-info h3 {
+
+  margin-top: 5px;
+
+  color: var(--w-white);
+
+  font-family: var(--font-display);
+  font-size: .76rem;
+  font-weight: 900;
+
+  line-height: .95;
+
+}
+
+.workshop-part-info > span:last-child {
+
+  display: block;
+
+  margin-top: 6px;
+
+  color: var(--w-muted);
+
+  font-size: .4rem;
+
+}
+
+.workshop-part-action {
+
+  min-height: 35px;
+
+  display: grid;
+
+  grid-template-columns:
+    16px
+    1fr
+    14px;
+
+  align-items: center;
+
+  gap: 6px;
+
+  margin: 0 9px 9px;
+
+  padding: 0 8px;
+
+  border: 2px solid var(--w-line-light);
+
+  color: var(--w-muted);
+
+  background: var(--w-black-2);
+
+  font-family: var(--font-display);
+  font-size: .39rem;
+  font-weight: 900;
+
+  text-decoration: none;
+
+}
+
+.workshop-part-action:hover {
+
+  color: var(--w-accent);
+
+  border-color: var(--w-accent-dark);
+
+}
+
+
+/* =============================================================
+   CUSTOMER ORDERS
+   ============================================================= */
+
+.customer-orders {
+
+  border-top: 2px solid var(--w-line);
+
+}
+
+.customer-order {
+
+  min-height: 100px;
+
+  display: grid;
+
+  grid-template-columns:
+    54px
+    minmax(0,1fr)
+    165px
+    135px;
+
+  align-items: center;
+
+  gap: 12px;
+
+  padding: 10px 12px;
+
+  border-bottom: 2px solid var(--w-line);
+
+  background: var(--w-panel);
+
+}
+
+.customer-order:nth-child(2) {
+
+  background: var(--w-panel-2);
+
+}
+
+.customer-order--featured {
+
+  border-left: 3px solid var(--w-accent);
+
+}
+
+.customer-order-index {
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+
+  gap: 7px;
+
+}
+
+.customer-order-index > span:first-child {
+
+  color: var(--w-dim);
+
+  font-family: var(--font-display);
+  font-size: .42rem;
+  font-weight: 900;
+
+}
+
+.customer-order-icon {
+
+  width: 31px;
+  height: 31px;
+
+  display: grid;
+  place-items: center;
+
+  color: var(--w-soft);
+
+  border: 1px solid var(--w-line-light);
+
+}
+
+.customer-order--featured .customer-order-icon {
+
+  color: var(--w-accent);
+
+  border-color: var(--w-accent-dark);
+
+}
+
+.customer-order-main {
+
+  min-width: 0;
+
+}
+
+.customer-order-heading {
+
+  display: flex;
+  align-items: flex-start;
+
+  justify-content: space-between;
+
+  gap: 10px;
+
+}
+
+.customer-order-heading h3 {
+
+  margin-top: 4px;
+
+  color: var(--w-white);
+
+  font-family: var(--font-display);
+  font-size: .9rem;
+  font-weight: 900;
+
+}
+
+.customer-order-status {
+
+  padding: 4px 6px;
+
+  border: 1px solid var(--w-accent-dark);
+
+  color: var(--w-accent);
+
+  font-family: var(--font-display);
+  font-size: .36rem;
+  font-weight: 900;
+
+}
+
+.customer-order-status--locked {
+
+  color: var(--w-dim);
+
+  border-color: var(--w-line-light);
+
+}
+
+.customer-order-motor {
+
+  display: grid;
+
+  grid-template-columns:
+    auto 1fr auto 1fr;
+
+  gap: 7px;
+
+  margin-top: 8px;
+
+  color: var(--w-dim);
+
+  font-family: var(--font-display);
+  font-size: .34rem;
+  font-weight: 900;
+
+  align-items: center;
+
+}
+
+.customer-order-motor strong {
+
+  color: var(--w-soft);
+
+  overflow: hidden;
+
+  font-size: .4rem;
+
+  text-overflow: ellipsis;
+
+  white-space: nowrap;
+
+}
+
+.customer-order-money {
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 4px;
+
+}
+
+.customer-order-money span,
+.customer-order-money small {
+
+  color: var(--w-dim);
+
+  font-family: var(--font-display);
+  font-size: .35rem;
+  font-weight: 900;
+
+}
+
+.customer-order-money strong {
+
+  color: var(--w-white);
+
+  font-family: var(--font-display);
+  font-size: .72rem;
+  font-weight: 900;
+
+}
+
+.customer-order-action {
+
+  min-height: 37px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 9px;
+
+  border: 2px solid var(--w-accent-dark);
+
+  color: var(--w-accent);
+
+  background: var(--w-black-2);
+
+  font-family: var(--font-display);
+  font-size: .39rem;
+  font-weight: 900;
+
+  text-decoration: none;
+
+}
+
+.customer-order-action:hover {
+
+  color: var(--w-black);
+
+  background: var(--w-accent);
+
+}
+
+.customer-order-action--locked {
+
+  border-color: var(--w-line);
+
+  color: var(--w-dim);
+
+  pointer-events: none;
+
+}
+
+
+/* =============================================================
+   WORKSHOP RULE
+   ============================================================= */
+
+.workshop-rule {
+
+  min-height: 230px;
+
+  position: relative;
+
+  display: grid;
+
+  grid-template-columns:
+    76px
+    minmax(0,1fr)
+    70px;
+
+  align-items: center;
+
+  gap: 20px;
+
+  padding: 21px;
+
+  overflow: hidden;
+
+  border: 2px solid var(--w-line);
+
+  background:
+    repeating-linear-gradient(
+      0deg,
+      #191a17 0 5px,
+      #161715 5px 10px
+    );
+
+  box-shadow:
+    6px 6px 0 var(--w-black);
+
+}
+
+.workshop-rule::after {
+
+  content: "WORK";
+
+  position: absolute;
+
+  right: 20px;
+  top: 5px;
+
+  color: rgba(241,241,235,.035);
+
+  font-family: var(--font-display);
+  font-size: 7rem;
+  font-weight: 900;
+
+  line-height: 1;
+
+  pointer-events: none;
+
+}
+
+.workshop-rule-icon {
+
+  width: 70px;
+  height: 70px;
+
+  display: grid;
+  place-items: center;
+
+  color: var(--w-black);
+
+  background: var(--w-accent);
+
+  border: 3px solid var(--w-black);
+
+  box-shadow:
+    5px 5px 0 var(--w-black);
+
+  z-index: 2;
+
+}
+
+.workshop-rule-content {
+
+  position: relative;
+
+  z-index: 2;
+
+}
+
+.workshop-rule-content h2 {
+
+  max-width: 760px;
+
+  margin-top: 5px;
+
+  color: var(--w-white);
+
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem,3.2vw,2.6rem);
+  font-weight: 900;
+
+  line-height: .93;
+
+  text-transform: uppercase;
+
+}
+
+.workshop-rule-content p {
+
+  max-width: 780px;
+
+  margin-top: 10px;
+
+  color: var(--w-muted);
+
+  font-size: var(--text-sm);
+
+  line-height: 1.6;
+
+}
+
+.workshop-rule-stamp {
+
+  position: relative;
+
+  z-index: 3;
+
+  width: 60px;
+  height: 60px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-direction: column;
+
+  border: 2px solid var(--w-accent-dark);
+
+  color: var(--w-accent);
+
+  font-family: var(--font-display);
+
+  transform: rotate(4deg);
+
+}
+
+.workshop-rule-stamp span {
+
+  font-size: .37rem;
+
+}
+
+.workshop-rule-stamp strong {
+
+  font-size: 1.2rem;
+
+}
+
+
+/* =============================================================
+   LOG
+   ============================================================= */
+
+.workshop-log {
+
+  overflow: hidden;
+
+  border: 2px solid var(--w-line);
+
+  background: var(--w-panel);
+
+  box-shadow:
+    5px 5px 0 var(--w-black);
+
+}
+
+.workshop-log-head {
+
+  min-height: 59px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 9px 12px;
+
+  border-bottom: 2px solid var(--w-line);
+
+  background: var(--w-black-2);
+
+}
+
+.workshop-log-head > div {
+
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+
+}
+
+.workshop-log-icon {
+
+  width: 32px;
+  height: 32px;
+
+  display: grid;
+  place-items: center;
+
+  color: var(--w-accent);
+
+  border: 1px solid var(--w-accent-dark);
+
+}
+
+.workshop-log-head strong {
+
+  color: var(--w-white);
+
+  font-family: var(--font-display);
+  font-size: .63rem;
+  font-weight: 900;
+
+}
+
+.workshop-log-head > span {
+
+  color: var(--w-dim);
+
+  font-family: var(--font-display);
+  font-size: .37rem;
+  font-weight: 900;
+
+}
+
+.workshop-log-row {
+
+  min-height: 70px;
+
+  display: grid;
+
+  grid-template-columns:
+    35px
+    55px
+    35px
+    minmax(0,1fr)
+    120px;
+
+  align-items: center;
+
+  gap: 9px;
+
+  padding: 9px 12px;
+
+  border-bottom: 1px solid var(--w-line);
+
+}
+
+.workshop-log-row:last-child {
+
+  border-bottom: 0;
+
+}
+
+.workshop-log-row:hover {
+
+  background: var(--w-panel-2);
+
+}
+
+.workshop-log-number,
+.workshop-log-time {
+
+  color: var(--w-dim);
+
+  font-family: var(--font-display);
+  font-size: .4rem;
+  font-weight: 900;
+
+}
+
+.workshop-log-time {
+
+  color: var(--w-muted);
+
+}
+
+.workshop-log-icon-small {
+
+  width: 29px;
+  height: 29px;
+
+  display: grid;
+  place-items: center;
+
+  color: var(--w-soft);
+
+  border: 1px solid var(--w-line-light);
+
+}
+
+.workshop-log-main {
+
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 4px;
+
+}
+
+.workshop-log-main strong {
+
+  color: var(--w-white);
+
+  font-family: var(--font-display);
+  font-size: .54rem;
+  font-weight: 900;
+
+}
+
+.workshop-log-main span {
+
+  color: var(--w-muted);
+
+  font-size: .43rem;
+
+}
+
+.workshop-log-detail {
+
+  color: var(--w-accent);
+
+  font-family: var(--font-display);
+  font-size: .4rem;
+  font-weight: 900;
+
+  text-align: right;
+
+}
+
+
+/* =============================================================
+   FOOTER
+   ============================================================= */
+
+.workshop-footer {
+
+  margin-top: 48px;
+
+  padding: 10px 0 8px;
+
+  color: var(--w-muted);
+
+  font-family: var(--font-display);
+  font-size: .4rem;
+  font-weight: 900;
+
+  text-transform: uppercase;
+
+}
+
+.footer-line {
+
+  height: 2px;
+
+  margin-bottom: 12px;
+
+  background: var(--w-line-light);
+
+}
+
+.footer-row {
+
+  display: grid;
+
+  grid-template-columns:
+    1fr
+    auto
+    1fr;
+
+  align-items: center;
+
+  gap: 15px;
+
+}
+
+.footer-brand {
+
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+
+}
+
+.footer-brand-icon {
+
+  width: 29px;
+  height: 29px;
+
+  display: grid;
+  place-items: center;
+
+  border: 1px solid var(--w-line-light);
+
+  color: var(--w-accent);
+
+}
+
+.footer-brand > div {
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 3px;
+
+}
+
+.footer-brand strong {
+
+  color: var(--w-white);
+
+  font-size: .56rem;
+
+}
+
+.footer-online {
+
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+
+  gap: 6px;
+
+  color: var(--w-accent);
+
+}
+
+.footer-online i {
+
+  width: 5px;
+  height: 5px;
+
+  background: var(--w-accent);
+
+}
+
+
+/* =============================================================
+   TABLET LARGE
+   ============================================================= */
+
+@media (max-width: 1180px) {
+
+  .workshop-header-body {
+
+    grid-template-columns:
+      minmax(0,1fr)
+      220px;
+
+  }
+
+  .workshop-status-grid {
+
+    grid-template-columns:
+      repeat(2,1fr);
+
+  }
+
+  .work-types-grid {
+
+    grid-template-columns:
+      repeat(2,minmax(0,1fr));
+
+  }
+
+  .workshop-parts-grid {
+
+    grid-template-columns:
+      repeat(2,minmax(0,1fr));
+
+  }
+
+}
+
+
+/* =============================================================
+   TABLET
+   ============================================================= */
+
+@media (max-width: 900px) {
+
+  .workshop-header-body {
+
+    grid-template-columns: 1fr;
+
+    min-height: 0;
+
+  }
+
+  .workshop-console {
+
+    width: min(100%,390px);
+
+  }
+
+  .active-job-body {
+
+    grid-template-columns:
+      230px
+      minmax(0,1fr);
+
+  }
+
+  .project-layout {
+
+    grid-template-columns:
+      270px
+      minmax(0,1fr);
+
+  }
+
+  .customer-order {
+
+    grid-template-columns:
+      45px
+      minmax(0,1fr)
+      135px
+      115px;
+
+  }
+
+}
+
+
+/* =============================================================
+   MOBILE
+   ============================================================= */
+
+@media (max-width: 760px) {
+
+  .workshop-section {
+
+    margin-top: 32px;
+
+  }
+
+  .workshop-header-top {
+
+    grid-template-columns:
+      1fr
+      auto;
+
+  }
+
+  .workshop-head-center {
+
+    display: none;
+
+  }
+
+  .workshop-header-bottom {
+
+    grid-template-columns:
+      1fr
+      auto;
+
+  }
+
+  .workshop-header-bottom > span:nth-child(2) {
+
+    display: none;
+
+  }
+
+  .workshop-header-body {
+
+    padding: 23px 16px;
+
+  }
+
+  .workshop-header-copy h1 {
+
+    font-size:
+      clamp(3.7rem,17vw,6rem);
+
+  }
+
+  .workshop-header-copy p {
+
+    font-size: .74rem;
+
+  }
+
+  .workshop-status-grid {
+
+    grid-template-columns:
+      repeat(2,1fr);
+
+  }
+
+  .active-job-body {
+
+    grid-template-columns:
+      1fr;
+
+  }
+
+  .active-job-bike {
+
+    min-height: 250px;
+
+    border-right: 0;
+
+    border-bottom: 2px solid var(--w-line);
+
+  }
+
+  .active-job-content {
+
+    padding: 17px;
+
+  }
+
+  .active-job-heading {
+
+    align-items: flex-start;
+
+    flex-direction: column;
+
+  }
+
+  .customer-job-type {
+
+    text-align: left;
+
+  }
+
+  .job-step-list {
+
+    grid-template-columns:
+      1fr;
+
+  }
+
+  .active-job-footer {
+
+    grid-template-columns:
+      1fr;
+
+  }
+
+  .job-action {
+
+    width: 100%;
+
+  }
+
+  .work-types-grid {
+
+    grid-template-columns:
+      1fr;
+
+  }
+
+  .project-layout {
+
+    grid-template-columns:
+      1fr;
+
+  }
+
+  .project-motor-art {
+
+    min-height: 230px;
+
+  }
+
+  .workshop-parts-grid {
+
+    grid-template-columns:
+      repeat(2,minmax(0,1fr));
+
+  }
+
+  .customer-order {
+
+    grid-template-columns:
+      38px
+      minmax(0,1fr);
+
+    gap: 8px 10px;
+
+    padding: 12px;
+
+  }
+
+  .customer-order-money,
+  .customer-order-action {
+
+    grid-column:
+      2;
+
+  }
+
+  .customer-order-money {
+
+    margin-top: 2px;
+
+  }
+
+  .customer-order-action {
+
+    width: 100%;
+
+  }
+
+  .customer-order-motor {
+
+    grid-template-columns:
+      auto 1fr;
+
+  }
+
+  .customer-order-motor span:nth-of-type(2) {
+
+    margin-left: 5px;
+
+  }
+
+  .workshop-rule {
+
+    grid-template-columns:
+      1fr;
+
+    gap: 15px;
+
+    padding: 17px;
+
+  }
+
+  .workshop-rule-stamp {
+
+    position: absolute;
+
+    right: 15px;
+    top: 15px;
+
+  }
+
+  .workshop-rule::after {
+
+    display: none;
+
+  }
+
+  .workshop-log-row {
+
+    grid-template-columns:
+      30px
+      45px
+      31px
+      minmax(0,1fr);
+
+  }
+
+  .workshop-log-detail {
+
+    grid-column:
+      4;
+
+    text-align: left;
+
+    margin-top: -5px;
+
+  }
+
+  .footer-row {
+
+    grid-template-columns:
+      1fr;
+
+    align-items: flex-start;
+
+  }
+
+  .footer-online {
+
+    justify-content: flex-start;
+
+  }
+
+}
+
+
+/* =============================================================
+   SMALL PHONE
+   ============================================================= */
+
+@media (max-width: 420px) {
+
+  .workshop-header-top,
+  .workshop-header-bottom {
+
+    font-size: .39rem;
+
+  }
+
+  .workshop-header-bottom {
+
+    grid-template-columns: 1fr;
+
+  }
+
+  .workshop-header-bottom > span:last-child {
+
+    display: none;
+
+  }
+
+  .workshop-header-body {
+
+    padding: 19px 12px;
+
+  }
+
+  .workshop-header-copy h1 {
+
+    font-size:
+      clamp(3rem,18vw,4.7rem);
+
+  }
+
+  .workshop-status-grid {
+
+    grid-template-columns:
+      repeat(2,1fr);
+
+  }
+
+  .workshop-stat {
+
+    min-height: 108px;
+
+    padding: 10px;
+
+  }
+
+  .workshop-stat > strong {
+
+    font-size: 1.5rem;
+
+  }
+
+  .section-header {
+
+    min-height: 48px;
+
+  }
+
+  .section-header h2 {
+
+    font-size: 1.2rem;
+
+  }
+
+  .active-job-top {
+
+    min-height: 47px;
+
+  }
+
+  .active-job-bike {
+
+    min-height: 215px;
+
+  }
+
+  .pixel-motor--job {
+
+    transform: scale(.88);
+
+  }
+
+  .project-target {
+
+    padding: 14px;
+
+  }
+
+  .project-target-head {
+
+    align-items: flex-start;
+
+    flex-direction: column;
+
+  }
+
+  .project-target-actions {
+
+    grid-template-columns:
+      1fr;
+
+  }
+
+  .project-motor-actions {
+
+    grid-template-columns:
+      1fr;
+
+  }
+
+  .workshop-parts-grid {
+
+    grid-template-columns:
+      1fr;
+
+  }
+
+  .workshop-rule {
+
+    min-height: 0;
+
+  }
+
+  .workshop-rule-content h2 {
+
+    font-size: 1.35rem;
+
+  }
+
+  .workshop-log-head > span {
+
+    display: none;
+
+  }
+
+}
+
+</style>

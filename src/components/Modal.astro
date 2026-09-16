@@ -1,0 +1,246 @@
+---
+interface Props {
+  title?: string;
+  eyebrow?: string;
+  open?: boolean;
+  size?: "small" | "medium" | "large";
+  closeLabel?: string;
+}
+
+const {
+  title = "MODAL",
+  eyebrow,
+  open = false,
+  size = "medium",
+  closeLabel = "TUTUP",
+} = Astro.props;
+
+const modalClasses = [
+  "modal",
+  size === "small" && "modal-small",
+  size === "large" && "modal-large",
+]
+  .filter(Boolean)
+  .join(" ");
+---
+
+<div
+  class="modal-backdrop"
+  data-modal-backdrop
+  hidden={!open}
+  aria-hidden={!open}
+>
+  <section
+    class={modalClasses}
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="modal-title"
+  >
+    <header class="modal-header">
+      <div class="modal-heading">
+        {eyebrow && (
+          <div class="eyebrow">
+            {eyebrow}
+          </div>
+        )}
+
+        <h2
+          id="modal-title"
+          class="modal-title"
+        >
+          {title}
+        </h2>
+      </div>
+
+      <button
+        type="button"
+        class="modal-close"
+        data-modal-close
+        aria-label={closeLabel}
+      >
+        <span aria-hidden="true">×</span>
+      </button>
+    </header>
+
+    <div class="modal-body">
+      <slot />
+    </div>
+
+    <footer class="modal-footer">
+      <slot name="footer">
+        <button
+          type="button"
+          class="btn btn-ghost"
+          data-modal-close
+        >
+          {closeLabel}
+        </button>
+      </slot>
+    </footer>
+  </section>
+</div>
+
+<script>
+  const backdrops = document.querySelectorAll<HTMLElement>(
+    "[data-modal-backdrop]"
+  );
+
+  backdrops.forEach((backdrop) => {
+    const closeButtons =
+      backdrop.querySelectorAll<HTMLButtonElement>(
+        "[data-modal-close]"
+      );
+
+    const closeModal = () => {
+      backdrop.hidden = true;
+      backdrop.setAttribute("aria-hidden", "true");
+    };
+
+    closeButtons.forEach((button) => {
+      button.addEventListener("click", closeModal);
+    });
+
+    backdrop.addEventListener("click", (event) => {
+      if (event.target === backdrop) {
+        closeModal();
+      }
+    });
+  });
+</script>
+
+<style>
+  .modal-backdrop {
+    isolation: isolate;
+  }
+
+  .modal {
+    width: min(100%, 620px);
+    max-height: calc(100vh - 40px);
+
+    display: flex;
+    flex-direction: column;
+
+    overflow: hidden;
+
+    background: var(--panel);
+  }
+
+  .modal-small {
+    max-width: 440px;
+  }
+
+  .modal-large {
+    max-width: 900px;
+  }
+
+  .modal-heading {
+    min-width: 0;
+  }
+
+  .modal-header {
+    position: relative;
+    flex: 0 0 auto;
+  }
+
+  .modal-title {
+    min-width: 0;
+    margin: 4px 48px 0 0;
+
+    overflow-wrap: anywhere;
+  }
+
+  .modal-close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+
+    width: 34px;
+    height: 34px;
+
+    display: grid;
+    place-items: center;
+
+    padding: 0;
+
+    background: var(--panel-dark);
+    border: 2px solid var(--line);
+
+    color: var(--cream);
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    font-weight: 900;
+    line-height: 1;
+
+    box-shadow: 2px 2px 0 var(--black);
+
+    cursor: pointer;
+
+    transition:
+      background 80ms steps(1),
+      color 80ms steps(1),
+      border-color 80ms steps(1),
+      transform 80ms steps(1),
+      box-shadow 80ms steps(1);
+  }
+
+  .modal-close:hover {
+    background: var(--cream);
+    border-color: var(--cream);
+    color: var(--black);
+  }
+
+  .modal-close:active {
+    transform: translate(2px, 2px);
+    box-shadow: none;
+  }
+
+  .modal-close:focus-visible {
+    outline: 2px solid var(--lime);
+    outline-offset: 3px;
+  }
+
+  .modal-body {
+    min-width: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  .modal-footer {
+    flex: 0 0 auto;
+    flex-wrap: wrap;
+  }
+
+  @media (max-width: 760px) {
+    .modal-backdrop {
+      align-items: end;
+      padding: 10px;
+    }
+
+    .modal {
+      width: 100%;
+      max-width: none;
+      max-height: calc(100vh - 20px);
+
+      box-shadow:
+        5px 5px 0 var(--black),
+        inset 0 0 0 2px var(--line);
+    }
+
+    .modal-header {
+      padding: 12px;
+    }
+
+    .modal-body {
+      padding: 14px;
+    }
+
+    .modal-footer {
+      padding: 12px;
+    }
+
+    .modal-close {
+      top: 10px;
+      right: 10px;
+    }
+  }
+</style>

@@ -1,0 +1,7761 @@
+﻿---
+import Layout from "../components/Layout.astro";
+import "../styles/global.css";
+import Button from "../components/Button.astro";
+import Navigation from "../components/Navigation.astro";
+
+const raceStats = [
+  {
+    label: "RACE",
+    value: "07",
+    detail: "TOTAL START",
+    icon: "flag",
+    active: true,
+  },
+  {
+    label: "WIN",
+    value: "02",
+    detail: "CAREER WIN",
+    icon: "trophy",
+  },
+  {
+    label: "BEST TIME",
+    value: "08.31",
+    detail: "UNDER 125",
+    icon: "timer",
+  },
+  {
+    label: "SEASON",
+    value: "03/08",
+    detail: "CURRENT ROUND",
+    icon: "chart",
+  },
+];
+
+const raceFilters = [
+  { id: "all", label: "SEMUA", count: 3, active: true },
+  { id: "under125", label: "UNDER 125", count: 1, active: false },
+  { id: "under150", label: "UNDER 150", count: 1, active: false },
+  { id: "open", label: "OPEN", count: 1, active: false },
+];
+
+const officialRaces = [
+  {
+    id: "RACE-001",
+    category: "under125",
+    class: "UNDER 125",
+    type: "OFFICIAL",
+    name: "ABIANSEMAL NIGHT RUN",
+    track: "200 M / ASPAL",
+    weather: "KERING",
+    timeWindow: "22:00 — 23:30",
+    entryFee: "Rp 75.000",
+    prize: "Rp 350.000",
+    bestTime: "08.31",
+    opponents: 8,
+    status: "OPEN",
+    note: "Start bersih. Fokus launch dan consistency.",
+    accent: "lime",
+    distance: "200M",
+  },
+  {
+    id: "RACE-002",
+    category: "under150",
+    class: "UNDER 150",
+    type: "OFFICIAL",
+    name: "MENGWI STREET CUP",
+    track: "250 M / ASPAL",
+    weather: "BERANGIN",
+    timeWindow: "21:30 — 23:00",
+    entryFee: "Rp 100.000",
+    prize: "Rp 500.000",
+    bestTime: "08.67",
+    opponents: 10,
+    status: "OPEN",
+    note: "Saingan lebih rapat. Power dan kontrol harus seimbang.",
+    accent: "white",
+    distance: "250M",
+  },
+  {
+    id: "RACE-003",
+    category: "open",
+    class: "OPEN STREET",
+    type: "LIAR",
+    name: "KUTA TEST NIGHT",
+    track: "200 M / ASPAL",
+    weather: "LEMBAB",
+    timeWindow: "23:00 — 01:00",
+    entryFee: "Rp 125.000",
+    prize: "Rp 650.000",
+    bestTime: "08.18",
+    opponents: 12,
+    status: "OPEN",
+    note: "Event berisiko tinggi. Reward besar, margin salah tipis.",
+    accent: "danger",
+    distance: "200M",
+  },
+];
+
+const selectedRace = officialRaces[0];
+
+const championship = [
+  { position: 1, team: "GARASI SELATAN", wins: 3, points: 126 },
+  { position: 2, team: "BENGKEL UTARA", wins: 2, points: 118 },
+  { position: 3, team: "NUSA GARAGE", wins: 2, points: 112 },
+  { position: 4, team: "RAW POWER", wins: 1, points: 96 },
+  { position: 5, team: "KILAT MOTOR", wins: 1, points: 91 },
+];
+
+const raceTips = [
+  {
+    number: "01",
+    title: "LAUNCH DULU",
+    description:
+      "Start yang konsisten memberi ruang sebelum motor masuk top speed. Jangan mengejar angka power dengan timing start yang buruk.",
+    icon: "bolt",
+  },
+  {
+    number: "02",
+    title: "JANGAN OVER-PUSH",
+    description:
+      "Risk lebih tinggi memang membuka performa tambahan, tetapi wear motor dan tekanan ke joki ikut naik.",
+    icon: "gauge",
+  },
+  {
+    number: "03",
+    title: "BUILD HARUS COCOK",
+    description:
+      "Motor ringan belum tentu ideal untuk semua event. Cocokkan build, grip, reliability, dan karakter joki dengan lintasan.",
+    icon: "wrench",
+  },
+];
+
+const raceHistory = [
+  {
+    result: "1ST",
+    event: "ABIANSEMAL NIGHT RUN",
+    class: "UNDER 125",
+    time: "08.31",
+    prize: "+Rp 350.000",
+    icon: "trophy",
+  },
+  {
+    result: "2ND",
+    event: "MENGWI STREET CUP",
+    class: "UNDER 150",
+    time: "08.67",
+    prize: "+Rp 225.000",
+    icon: "podium",
+  },
+  {
+    result: "4TH",
+    event: "KUTA TEST NIGHT",
+    class: "UNDER 125",
+    time: "08.91",
+    prize: "+Rp 0",
+    icon: "flag",
+  },
+  {
+    result: "1ST",
+    event: "BADUNG OPEN RUN",
+    class: "UNDER 125",
+    time: "08.42",
+    prize: "+Rp 325.000",
+    icon: "trophy",
+  },
+];
+
+const setupMotor = {
+  name: "NUSA 125",
+  build: 41,
+  power: 42,
+  acceleration: 47,
+  grip: 44,
+  reliability: 71,
+};
+
+const setupDriver = {
+  name: 'BIMO "KILAT"',
+  level: 3,
+  reaction: 78,
+  shift: 71,
+  consistency: 82,
+  trait: "CONSISTENT",
+};
+
+const riskOptions = [
+  {
+    id: "safe",
+    number: "01",
+    title: "SAFE",
+    subtitle: "CONSISTENCY",
+    description:
+      "Timing lebih mudah. Performa turun sedikit, tetapi wear motor dan tekanan balap lebih kecil.",
+    fill: 1,
+  },
+  {
+    id: "normal",
+    number: "02",
+    title: "NORMAL",
+    subtitle: "BALANCED",
+    description:
+      "Performa dasar tanpa modifier tambahan. Pilihan standar untuk race routine.",
+    fill: 2,
+  },
+  {
+    id: "push",
+    number: "03",
+    title: "PUSH",
+    subtitle: "MAX OUTPUT",
+    description:
+      "Window timing lebih sempit, performa lebih tinggi, tetapi wear dan tekanan joki ikut meningkat.",
+    fill: 4,
+  },
+];
+---
+
+<Layout
+  title="BENGKEL — RACE"
+  description="Pilih event. Siapkan motor. Bawa build ke lintasan."
+>
+  <div class="page race-page">
+    <div class="game-layout">
+
+      <Navigation active="race" />
+
+      <main class="main">
+
+        <div class="main-inner race-main">
+
+          <!-- =====================================================
+               HEADER
+          ===================================================== -->
+
+          <header class="race-header">
+
+            <div class="race-header-top">
+
+              <div class="race-head-left">
+                <span class="header-led"></span>
+                <span>RACE_01</span>
+              </div>
+
+              <span class="race-head-center">
+                GARAGE / RACE / CONTROL_01
+              </span>
+
+              <div class="race-head-right">
+                <span class="pixel-icon pixel-icon--bolt pixel-icon--tiny"></span>
+                ONLINE
+              </div>
+
+            </div>
+
+
+            <div class="race-header-body">
+
+              <div class="race-header-copy">
+
+                <div class="race-kicker-row">
+
+                  <span class="race-title-icon">
+                    <span class="pixel-icon pixel-icon--flag pixel-icon--small"></span>
+                  </span>
+
+                  <span class="header-kicker">
+                    RACING CONTROL
+                  </span>
+
+                </div>
+
+                <h1>
+                  RACE
+                </h1>
+
+                <div class="header-rule"></div>
+
+                <p>
+                  Pilih event, siapkan motor dan joki,
+                  lalu bawa build kamu ke lintasan.
+                  Timing, setup, dan kontrol menentukan hasil.
+                </p>
+
+              </div>
+
+
+              <div class="race-header-panel">
+
+                <div class="season-box">
+
+                  <div class="season-icon">
+                    <span class="pixel-icon pixel-icon--flag pixel-icon--medium"></span>
+                  </div>
+
+                  <div class="season-copy">
+
+                    <span>
+                      CURRENT SEASON
+                    </span>
+
+                    <strong>
+                      03
+                    </strong>
+
+                    <small>
+                      ROUND 03 / 08
+                    </small>
+
+                  </div>
+
+                </div>
+
+
+                <div class="header-capacity">
+
+                  <div>
+                    <span>RACE</span>
+                    <strong>07 START</strong>
+                  </div>
+
+                  <div>
+                    <span>WIN</span>
+                    <strong>02</strong>
+                  </div>
+
+                  <div>
+                    <span>BEST</span>
+                    <strong>08.31</strong>
+                  </div>
+
+                </div>
+
+
+                <div class="header-actions">
+
+                  <Button
+                    href="/team"
+                    variant="primary"
+                  >
+                    PILIH JOKI
+                  </Button>
+
+                  <Button href="/motor">
+                    PILIH MOTOR
+                  </Button>
+
+                </div>
+
+              </div>
+
+            </div>
+
+
+            <div class="race-header-bottom">
+
+              <span>SETUP / RACE / RESULT</span>
+
+              <span>SEASON 03 / ROUND 03</span>
+
+              <span class="header-system">
+                <i></i>
+                RACE SYSTEM READY
+              </span>
+
+            </div>
+
+          </header>
+
+
+
+          <!-- =====================================================
+               RACING RECORD
+          ===================================================== -->
+
+          <section class="race-section">
+
+            <div class="section-header">
+
+              <div class="section-heading">
+
+                <span class="section-marker"></span>
+
+                <div>
+                  <span class="section-kicker">
+                    RACING RECORD
+                  </span>
+
+                  <h2>
+                    CATATAN BALAP
+                  </h2>
+                </div>
+
+              </div>
+
+              <span class="section-code">
+                SEASON / 03
+              </span>
+
+            </div>
+
+
+            <div class="race-status-grid">
+
+              {
+                raceStats.map((stat, index) => (
+                  <article
+                    class:list={[
+                      "race-status-card",
+                      stat.active && "race-status-card--active",
+                    ]}
+                  >
+
+                    <div class="race-status-head">
+
+                      <div class="race-status-ident">
+
+                        <span class="race-status-icon">
+
+                          <span
+                            class:list={[
+                              "pixel-icon",
+                              `pixel-icon--${stat.icon}`,
+                              "pixel-icon--small",
+                            ]}
+                          ></span>
+
+                        </span>
+
+                        <span>
+                          {stat.label}
+                        </span>
+
+                      </div>
+
+                      <span>
+                        {String(index + 1).padStart(2, "0")}
+                      </span>
+
+                    </div>
+
+
+                    <strong class="race-status-value">
+                      {stat.value}
+                    </strong>
+
+
+                    <div class="race-status-foot">
+
+                      <div class="segment-bar">
+
+                        {Array.from({ length: 8 }).map(
+                          (_, segmentIndex) => (
+                            <i
+                              class:segment-active={
+                                stat.active
+                                  ? segmentIndex < 6
+                                  : segmentIndex < 4 + index
+                              }
+                            ></i>
+                          )
+                        )}
+
+                      </div>
+
+                      <span>
+                        {stat.detail}
+                      </span>
+
+                    </div>
+
+                  </article>
+                ))
+              }
+
+            </div>
+
+          </section>
+
+
+
+          <!-- =====================================================
+               EVENT CONTROL
+          ===================================================== -->
+
+          <section class="race-section">
+
+            <div class="section-header">
+
+              <div class="section-heading">
+
+                <span class="section-marker section-marker--accent"></span>
+
+                <div>
+                  <span class="section-kicker">
+                    EVENT CONTROL
+                  </span>
+
+                  <h2>
+                    PILIH EVENT
+                  </h2>
+                </div>
+
+              </div>
+
+              <span class="section-code">
+                03 OPEN
+              </span>
+
+            </div>
+
+
+            <div class="race-filter-panel">
+
+              <div class="race-filter-main">
+
+                <div class="race-filter-copy">
+
+                  <span class="race-filter-icon">
+                    <span class="pixel-icon pixel-icon--filter pixel-icon--small"></span>
+                  </span>
+
+                  <div>
+
+                    <span>
+                      EVENT FILTER
+                    </span>
+
+                    <strong>
+                      Sesuaikan kelas sebelum masuk
+                      ke race setup.
+                    </strong>
+
+                  </div>
+
+                </div>
+
+
+                <div
+                  class="race-filter-list"
+                  role="group"
+                  aria-label="Race filters"
+                >
+
+                  {
+                    raceFilters.map((filter) => (
+                      <button
+                        type="button"
+                        class:list={[
+                          "race-filter-button",
+                          filter.active &&
+                            "race-filter-button--active",
+                        ]}
+                        data-filter={filter.id}
+                        aria-pressed={
+                          filter.active
+                            ? "true"
+                            : "false"
+                        }
+                      >
+
+                        <span>
+                          {filter.label}
+                        </span>
+
+                        <small>
+                          {String(filter.count).padStart(2, "0")}
+                        </small>
+
+                      </button>
+                    ))
+                  }
+
+                </div>
+
+              </div>
+
+
+              <div class="race-filter-status">
+
+                <span class="race-filter-count">
+                  03
+                </span>
+
+                <span>
+                  EVENT TERSEDIA
+                </span>
+
+              </div>
+
+            </div>
+
+          </section>
+
+
+
+          <!-- =====================================================
+               EVENT LIST
+          ===================================================== -->
+
+          <section class="race-section">
+
+            <div class="section-header">
+
+              <div class="section-heading">
+
+                <span class="section-marker"></span>
+
+                <div>
+                  <span class="section-kicker">
+                    AVAILABLE EVENTS
+                  </span>
+
+                  <h2>
+                    EVENT BALAP
+                  </h2>
+                </div>
+
+              </div>
+
+              <span class="section-link">
+                03 OPEN
+              </span>
+
+            </div>
+
+
+            <div class="race-event-list">
+
+              {
+                officialRaces.map((race, index) => (
+                  <article
+                    class:list={[
+                      "race-event",
+                      index === 0 &&
+                        "race-event--featured",
+                    ]}
+                    data-race-card
+                    data-category={race.category}
+                  >
+
+                    <div class="race-event-visual">
+
+                      <div class="race-event-number">
+                        <span>EVENT</span>
+                        <strong>
+                          {String(index + 1).padStart(2, "0")}
+                        </strong>
+                      </div>
+
+
+                      <div class="race-track">
+
+                        <div class="race-track-surface"></div>
+
+                        <span class="track-line track-line--1"></span>
+                        <span class="track-line track-line--2"></span>
+                        <span class="track-line track-line--3"></span>
+
+                        <span class="track-finish"></span>
+
+                        <span class="track-ruler">
+                          200 M
+                        </span>
+
+                      </div>
+
+
+                      <span
+                        class:list={[
+                          "race-event-type",
+                          race.accent === "danger" &&
+                            "race-event-type--danger",
+                          race.accent === "lime" &&
+                            "race-event-type--accent",
+                        ]}
+                      >
+                        {race.type}
+                      </span>
+
+                    </div>
+
+
+                    <div class="race-event-content">
+
+                      <div class="race-event-top">
+
+                        <div>
+
+                          <div class="race-event-meta">
+
+                            <span>
+                              {race.class}
+                            </span>
+
+                            <i></i>
+
+                            <span>
+                              {race.distance}
+                            </span>
+
+                            <i></i>
+
+                            <span>
+                              {race.weather}
+                            </span>
+
+                          </div>
+
+                          <h3>
+                            {race.name}
+                          </h3>
+
+                        </div>
+
+
+                        <span class="race-status-badge">
+
+                          <i></i>
+
+                          {race.status}
+
+                        </span>
+
+                      </div>
+
+
+                      <p class="race-event-note">
+                        {race.note}
+                      </p>
+
+
+                      <div class="race-spec-grid">
+
+                        <div>
+                          <span>TRACK</span>
+                          <strong>{race.track}</strong>
+                        </div>
+
+                        <div>
+                          <span>TIME WINDOW</span>
+                          <strong>{race.timeWindow}</strong>
+                        </div>
+
+                        <div>
+                          <span>OPPONENTS</span>
+                          <strong>{race.opponents} RIDERS</strong>
+                        </div>
+
+                        <div>
+                          <span>BEST</span>
+                          <strong class="race-accent">
+                            {race.bestTime}
+                          </strong>
+                        </div>
+
+                      </div>
+
+
+                      <div class="race-event-footer">
+
+                        <div class="race-money">
+
+                          <div>
+                            <span>ENTRY</span>
+                            <strong>{race.entryFee}</strong>
+                          </div>
+
+                          <div>
+                            <span>PRIZE</span>
+                            <strong class="race-accent">
+                              {race.prize}
+                            </strong>
+                          </div>
+
+                        </div>
+
+
+                        <button
+                          type="button"
+                          class="race-select-button"
+                          data-select-race={race.id}
+                        >
+                          <span>
+                            SELECT
+                          </span>
+
+                          <strong>
+                            →
+                          </strong>
+
+                        </button>
+
+                      </div>
+
+                    </div>
+
+                  </article>
+                ))
+              }
+
+            </div>
+
+
+            <div
+              class="race-empty"
+              data-empty-state
+              hidden
+            >
+
+              <span class="pixel-icon pixel-icon--search pixel-icon--medium"></span>
+
+              <strong>
+                EVENT TIDAK TERSEDIA
+              </strong>
+
+              <span>
+                Belum ada event open untuk filter tersebut.
+              </span>
+
+            </div>
+
+          </section>
+
+
+
+          <!-- =====================================================
+               RACE SETUP
+          ===================================================== -->
+
+          <section class="race-section">
+
+            <div class="section-header">
+
+              <div class="section-heading">
+
+                <span class="section-marker section-marker--accent"></span>
+
+                <div>
+                  <span class="section-kicker">
+                    RACE PREPARATION
+                  </span>
+
+                  <h2>
+                    RACE SETUP
+                  </h2>
+                </div>
+
+              </div>
+
+              <span class="section-link">
+                SYSTEM READY
+              </span>
+
+            </div>
+
+
+            <div class="race-setup-grid">
+
+
+              <!-- =================================================
+                   EVENT
+              ================================================== -->
+
+              <article class="setup-panel setup-panel--event">
+
+                <div class="setup-panel-top">
+
+                  <div class="setup-panel-ident">
+
+                    <span class="setup-icon">
+                      <span class="pixel-icon pixel-icon--flag pixel-icon--small"></span>
+                    </span>
+
+                    <div>
+                      <span>
+                        SETUP / 01
+                      </span>
+
+                      <strong>
+                        SELECTED EVENT
+                      </strong>
+                    </div>
+
+                  </div>
+
+                  <span class="setup-state">
+                    LOCKED
+                  </span>
+
+                </div>
+
+
+                <div class="setup-event-title">
+
+                  <span>
+                    {selectedRace.id}
+                  </span>
+
+                  <h3 data-selected-event>
+                    {selectedRace.name}
+                  </h3>
+
+                </div>
+
+
+                <div class="setup-event-class">
+                  {selectedRace.class}
+                </div>
+
+
+                <div class="setup-data-grid">
+
+                  <div>
+                    <span>TYPE</span>
+                    <strong data-selected-type>
+                      {selectedRace.type}
+                    </strong>
+                  </div>
+
+                  <div>
+                    <span>TRACK</span>
+                    <strong data-selected-track>
+                      {selectedRace.track}
+                    </strong>
+                  </div>
+
+                  <div>
+                    <span>WEATHER</span>
+                    <strong data-selected-weather>
+                      {selectedRace.weather}
+                    </strong>
+                  </div>
+
+                  <div>
+                    <span>ENTRY</span>
+                    <strong data-selected-entry>
+                      {selectedRace.entryFee}
+                    </strong>
+                  </div>
+
+                  <div>
+                    <span>PRIZE</span>
+                    <strong
+                      class="race-accent"
+                      data-selected-prize
+                    >
+                      {selectedRace.prize}
+                    </strong>
+                  </div>
+
+                </div>
+
+
+                <div class="setup-panel-footer">
+
+                  <div class="setup-ready">
+
+                    <i></i>
+
+                    EVENT TERPILIH
+
+                  </div>
+
+                  <span
+                    class="setup-code"
+                    data-selected-code
+                  >
+                    {selectedRace.id}
+                  </span>
+
+                </div>
+
+              </article>
+
+
+
+              <!-- =================================================
+                   MOTOR
+              ================================================== -->
+
+              <article class="setup-panel">
+
+                <div class="setup-panel-top">
+
+                  <div class="setup-panel-ident">
+
+                    <span class="setup-icon">
+                      <span class="pixel-icon pixel-icon--motorcycle pixel-icon--small"></span>
+                    </span>
+
+                    <div>
+                      <span>
+                        SETUP / 02
+                      </span>
+
+                      <strong>
+                        MOTOR
+                      </strong>
+                    </div>
+
+                  </div>
+
+                  <span class="setup-state setup-state--accent">
+                    READY
+                  </span>
+
+                </div>
+
+
+                <div class="setup-heading-block">
+
+                  <div>
+
+                    <span>
+                      GARAGE SLOT
+                    </span>
+
+                    <h3>
+                      {setupMotor.name}
+                    </h3>
+
+                  </div>
+
+                  <span class="setup-level">
+                    BUILD
+                  </span>
+
+                </div>
+
+
+                <div class="motor-setup-display">
+
+                  <div class="motor-stage">
+
+                    <span class="stage-cross"></span>
+                    <span class="stage-line"></span>
+
+                    <div
+                      class="setup-bike"
+                      aria-hidden="true"
+                    >
+                      <span class="setup-bike__wheel setup-bike__wheel--rear"></span>
+                      <span class="setup-bike__wheel setup-bike__wheel--front"></span>
+                      <span class="setup-bike__frame"></span>
+                      <span class="setup-bike__body"></span>
+                      <span class="setup-bike__tank"></span>
+                      <span class="setup-bike__seat"></span>
+                      <span class="setup-bike__engine"></span>
+                      <span class="setup-bike__pipe"></span>
+                      <span class="setup-bike__fork"></span>
+                      <span class="setup-bike__handle"></span>
+                    </div>
+
+                  </div>
+
+
+                  <div class="setup-meter-list">
+
+                    <div class="setup-meter-row">
+                      <span>BUILD</span>
+                      <strong>{setupMotor.build}</strong>
+
+                      <div>
+                        <i style={`width:${setupMotor.build}%`}></i>
+                      </div>
+                    </div>
+
+                    <div class="setup-meter-row">
+                      <span>POWER</span>
+                      <strong>{setupMotor.power}</strong>
+
+                      <div>
+                        <i style={`width:${setupMotor.power}%`}></i>
+                      </div>
+                    </div>
+
+                    <div class="setup-meter-row">
+                      <span>ACCEL</span>
+                      <strong>{setupMotor.acceleration}</strong>
+
+                      <div>
+                        <i style={`width:${setupMotor.acceleration}%`}></i>
+                      </div>
+                    </div>
+
+                    <div class="setup-meter-row">
+                      <span>GRIP</span>
+                      <strong>{setupMotor.grip}</strong>
+
+                      <div>
+                        <i style={`width:${setupMotor.grip}%`}></i>
+                      </div>
+                    </div>
+
+                    <div class="setup-meter-row">
+                      <span>RELIAB.</span>
+                      <strong class="race-accent">
+                        {setupMotor.reliability}
+                      </strong>
+
+                      <div>
+                        <i
+                          class="is-accent"
+                          style={`width:${setupMotor.reliability}%`}
+                        ></i>
+                      </div>
+                    </div>
+
+                  </div>
+
+                </div>
+
+
+                <Button
+                  href="/motor"
+                  size="small"
+                >
+                  CHANGE MOTOR
+                </Button>
+
+              </article>
+
+
+
+              <!-- =================================================
+                   JOKI
+              ================================================== -->
+
+              <article class="setup-panel">
+
+                <div class="setup-panel-top">
+
+                  <div class="setup-panel-ident">
+
+                    <span class="setup-icon">
+                      <span class="pixel-icon pixel-icon--helmet pixel-icon--small"></span>
+                    </span>
+
+                    <div>
+                      <span>
+                        SETUP / 03
+                      </span>
+
+                      <strong>
+                        JOKI
+                      </strong>
+                    </div>
+
+                  </div>
+
+                  <span class="setup-state setup-state--accent">
+                    READY
+                  </span>
+
+                </div>
+
+
+                <div class="setup-heading-block">
+
+                  <div>
+
+                    <span>
+                      SIGNED DRIVER
+                    </span>
+
+                    <h3>
+                      {setupDriver.name}
+                    </h3>
+
+                  </div>
+
+                  <span class="setup-level">
+                    LV. {setupDriver.level}
+                  </span>
+
+                </div>
+
+
+                <div class="driver-setup-display">
+
+                  <div class="driver-stage">
+
+                    <span class="driver-shadow"></span>
+                    <span class="driver-head"></span>
+                    <span class="driver-helmet"></span>
+                    <span class="driver-visor"></span>
+                    <span class="driver-neck"></span>
+                    <span class="driver-body"></span>
+                    <span class="driver-arm driver-arm--left"></span>
+                    <span class="driver-arm driver-arm--right"></span>
+
+                    <span class="driver-stage-code">
+                      RIDER / 03
+                    </span>
+
+                  </div>
+
+
+                  <div class="driver-stat-grid">
+
+                    <div>
+                      <span>REACTION</span>
+                      <strong>
+                        {setupDriver.reaction}
+                      </strong>
+                    </div>
+
+                    <div>
+                      <span>SHIFT</span>
+                      <strong>
+                        {setupDriver.shift}
+                      </strong>
+                    </div>
+
+                    <div>
+                      <span>CONSISTENCY</span>
+                      <strong class="race-accent">
+                        {setupDriver.consistency}
+                      </strong>
+                    </div>
+
+                    <div>
+                      <span>TRAIT</span>
+                      <strong>
+                        {setupDriver.trait}
+                      </strong>
+                    </div>
+
+                  </div>
+
+                </div>
+
+
+                <Button
+                  href="/team"
+                  size="small"
+                >
+                  CHANGE JOKI
+                </Button>
+
+              </article>
+
+            </div>
+
+          </section>
+
+
+
+          <!-- =====================================================
+               RISK
+          ===================================================== -->
+
+          <section class="race-section">
+
+            <div class="section-header">
+
+              <div class="section-heading">
+
+                <span class="section-marker"></span>
+
+                <div>
+                  <span class="section-kicker">
+                    RACE CONTROL
+                  </span>
+
+                  <h2>
+                    RISK LEVEL
+                  </h2>
+                </div>
+
+              </div>
+
+              <span class="section-code">
+                CHOOSE / BEFORE START
+              </span>
+
+            </div>
+
+
+            <div class="risk-grid">
+
+              {
+                riskOptions.map((risk, index) => (
+                  <button
+                    type="button"
+                    class:list={[
+                      "risk-card",
+                      index === 1 &&
+                        "risk-card--active",
+                    ]}
+                    data-risk={risk.id}
+                    aria-pressed={
+                      index === 1
+                        ? "true"
+                        : "false"
+                    }
+                  >
+
+                    <div class="risk-card-top">
+
+                      <span class="risk-number">
+                        {risk.number}
+                      </span>
+
+                      <span class="risk-tag">
+                        {risk.subtitle}
+                      </span>
+
+                    </div>
+
+
+                    <div class="risk-card-body">
+
+                      <strong>
+                        {risk.title}
+                      </strong>
+
+                      <p>
+                        {risk.description}
+                      </p>
+
+                    </div>
+
+
+                    <div class="risk-card-bottom">
+
+                      <div class="risk-meter">
+
+                        {
+                          Array.from({
+                            length: 4,
+                          }).map(
+                            (_, meterIndex) => (
+                              <i
+                                class:active={
+                                  meterIndex <
+                                  risk.fill
+                                }
+                              ></i>
+                            )
+                          )
+                        }
+
+                      </div>
+
+                      <span class="risk-check">
+                        ✓
+                      </span>
+
+                    </div>
+
+                  </button>
+                ))
+              }
+
+            </div>
+
+          </section>
+
+
+
+          <!-- =====================================================
+               START RACE
+          ===================================================== -->
+
+          <section class="race-section">
+
+            <article class="start-race">
+
+              <div class="start-race-topbar">
+
+                <span>
+                  RACE CONTROL / FINAL CHECK
+                </span>
+
+                <span>
+                  READY
+                </span>
+
+              </div>
+
+
+              <div class="start-race-body">
+
+                <div class="start-race-copy">
+
+                  <span class="section-kicker">
+                    FINAL CHECK
+                  </span>
+
+                  <h2>
+                    SIAP TURUN?
+                  </h2>
+
+
+                  <div class="final-build">
+
+                    <span data-final-event>
+                      {selectedRace.name}
+                    </span>
+
+                    <i>/</i>
+
+                    <span>
+                      {setupMotor.name}
+                    </span>
+
+                    <i>/</i>
+
+                    <span>
+                      {setupDriver.name}
+                    </span>
+
+                  </div>
+
+
+                  <div class="final-status">
+
+                    <span>
+                      <i></i>
+                      MOTOR READY
+                    </span>
+
+                    <span>
+                      <i></i>
+                      JOKI READY
+                    </span>
+
+                    <span>
+                      <i></i>
+                      EVENT READY
+                    </span>
+
+                  </div>
+
+                </div>
+
+
+                <div class="start-race-data">
+
+                  <div>
+
+                    <span>
+                      ENTRY
+                    </span>
+
+                    <strong data-start-entry>
+                      {selectedRace.entryFee}
+                    </strong>
+
+                  </div>
+
+                  <div>
+
+                    <span>
+                      PRIZE
+                    </span>
+
+                    <strong
+                      class="race-accent"
+                      data-start-prize
+                    >
+                      {selectedRace.prize}
+                    </strong>
+
+                  </div>
+
+                  <div>
+
+                    <span>
+                      RISK
+                    </span>
+
+                    <strong data-selected-risk>
+                      NORMAL
+                    </strong>
+
+                  </div>
+
+                </div>
+
+
+                <div class="start-race-action">
+
+                  <Button
+                    href="/race/start"
+                    variant="primary"
+                    size="large"
+                    id="start-race-button"
+                  >
+                    START RACE
+                  </Button>
+
+                  <span>
+                    ENTRY AKAN DIPOTONG SAAT START
+                  </span>
+
+                </div>
+
+              </div>
+
+            </article>
+
+          </section>
+
+
+
+          <!-- =====================================================
+               CHAMPIONSHIP
+          ===================================================== -->
+
+          <section class="race-section">
+
+            <div class="section-header">
+
+              <div class="section-heading">
+
+                <span class="section-marker section-marker--accent"></span>
+
+                <div>
+                  <span class="section-kicker">
+                    OFFICIAL SEASON
+                  </span>
+
+                  <h2>
+                    CHAMPIONSHIP
+                  </h2>
+                </div>
+
+              </div>
+
+              <span class="section-code">
+                ROUND 03 / 08
+              </span>
+
+            </div>
+
+
+            <div class="table-panel">
+
+              <div class="table-header">
+
+                <span>POS</span>
+                <span>TEAM</span>
+                <span>WINS</span>
+                <span>PTS</span>
+
+              </div>
+
+
+              <div class="championship-list">
+
+                {
+                  championship.map((team) => (
+                    <div
+                      class:list={[
+                        "championship-row",
+                        team.team ===
+                          "NUSA GARAGE" &&
+                          "championship-row--player",
+                      ]}
+                    >
+
+                      <div class="championship-position">
+                        #{team.position}
+                      </div>
+
+
+                      <div class="championship-team">
+
+                        <span class="team-mark"></span>
+
+                        <div>
+
+                          <strong>
+                            {team.team}
+                          </strong>
+
+                          {team.team ===
+                            "NUSA GARAGE" && (
+                            <span class="you-label">
+                              YOUR TEAM
+                            </span>
+                          )}
+
+                        </div>
+
+                      </div>
+
+
+                      <div class="championship-value">
+                        {team.wins}
+                      </div>
+
+
+                      <div class="championship-points">
+                        {team.points}
+                      </div>
+
+                    </div>
+                  ))
+                }
+
+              </div>
+
+            </div>
+
+          </section>
+
+
+
+          <!-- =====================================================
+               TIPS
+          ===================================================== -->
+
+          <section class="race-section">
+
+            <div class="section-header">
+
+              <div class="section-heading">
+
+                <span class="section-marker"></span>
+
+                <div>
+                  <span class="section-kicker">
+                    RACE CONTROL
+                  </span>
+
+                  <h2>
+                    DASAR BALAP
+                  </h2>
+                </div>
+
+              </div>
+
+              <span class="section-code">
+                FIELD NOTES / 03
+              </span>
+
+            </div>
+
+
+            <div class="tip-grid">
+
+              {
+                raceTips.map((tip) => (
+                  <article class="tip-card">
+
+                    <div class="tip-top">
+
+                      <span class="tip-number">
+                        {tip.number}
+                      </span>
+
+                      <span class="tip-icon">
+                        <span
+                          class:list={[
+                            "pixel-icon",
+                            `pixel-icon--${tip.icon}`,
+                            "pixel-icon--small",
+                          ]}
+                        ></span>
+                      </span>
+
+                    </div>
+
+
+                    <h3>
+                      {tip.title}
+                    </h3>
+
+
+                    <p>
+                      {tip.description}
+                    </p>
+
+
+                    <div class="tip-footer">
+
+                      <span>
+                        RACE CONTROL
+                      </span>
+
+                      <strong>
+                        →
+                      </strong>
+
+                    </div>
+
+                  </article>
+                ))
+              }
+
+            </div>
+
+          </section>
+
+
+
+          <!-- =====================================================
+               HISTORY
+          ===================================================== -->
+
+          <section class="race-section">
+
+            <div class="section-header">
+
+              <div class="section-heading">
+
+                <span class="section-marker section-marker--accent"></span>
+
+                <div>
+                  <span class="section-kicker">
+                    RACING HISTORY
+                  </span>
+
+                  <h2>
+                    HASIL TERAKHIR
+                  </h2>
+                </div>
+
+              </div>
+
+              <span class="section-code">
+                DRIVER / BIMO
+              </span>
+
+            </div>
+
+
+            <div class="history-panel">
+
+              <div class="history-top">
+
+                <div class="history-identity">
+
+                  <span class="history-icon">
+                    <span class="pixel-icon pixel-icon--trophy pixel-icon--small"></span>
+                  </span>
+
+                  <div>
+
+                    <strong>
+                      02 CAREER WIN
+                    </strong>
+
+                    <span>
+                      07 TOTAL RACE / 28.6% WIN RATE
+                    </span>
+
+                  </div>
+
+                </div>
+
+
+                <span class="history-driver">
+                  ACTIVE DRIVER
+                </span>
+
+              </div>
+
+
+              <div class="history-list">
+
+                {
+                  raceHistory.map((race) => (
+                    <article class="history-row">
+
+                      <div class="history-result">
+
+                        <span class="history-result-icon">
+
+                          <span
+                            class:list={[
+                              "pixel-icon",
+                              `pixel-icon--${race.icon}`,
+                              "pixel-icon--small",
+                            ]}
+                          ></span>
+
+                        </span>
+
+                        <strong>
+                          {race.result}
+                        </strong>
+
+                      </div>
+
+
+                      <div class="history-main">
+
+                        <strong>
+                          {race.event}
+                        </strong>
+
+                        <span>
+                          {race.class} / FINISHED
+                        </span>
+
+                      </div>
+
+
+                      <div class="history-cell">
+
+                        <span>
+                          TIME
+                        </span>
+
+                        <strong>
+                          {race.time}
+                        </strong>
+
+                      </div>
+
+
+                      <div class="history-cell history-prize">
+
+                        <span>
+                          PRIZE
+                        </span>
+
+                        <strong>
+                          {race.prize}
+                        </strong>
+
+                      </div>
+
+                    </article>
+                  ))
+                }
+
+              </div>
+
+            </div>
+
+          </section>
+
+
+
+          <!-- =====================================================
+               FOOTER
+          ===================================================== -->
+
+          <footer class="race-footer">
+
+            <div class="race-footer-line"></div>
+
+            <div class="race-footer-body">
+
+              <div class="race-footer-brand">
+
+                <div class="race-footer-logo">
+                  <span class="pixel-icon pixel-icon--flag pixel-icon--small"></span>
+                </div>
+
+                <div>
+
+                  <strong>
+                    BENGKEL
+                  </strong>
+
+                  <span>
+                    RACING CONTROL SYSTEM
+                  </span>
+
+                </div>
+
+              </div>
+
+
+              <div class="race-footer-flow">
+
+                <span>SETUP</span>
+                <strong>→</strong>
+                <span>RACE</span>
+                <strong>→</strong>
+                <span>RESULT</span>
+
+              </div>
+
+
+              <div class="race-footer-status">
+
+                <i></i>
+
+                SYSTEM ONLINE
+
+              </div>
+
+            </div>
+
+          </footer>
+
+        </div>
+
+      </main>
+
+    </div>
+  </div>
+
+
+
+  <!-- ===========================================================
+       INTERACTION
+  ============================================================ -->
+
+  <script>
+    const raceData = {
+      "RACE-001": {
+        name: "ABIANSEMAL NIGHT RUN",
+        type: "OFFICIAL",
+        track: "200 M / ASPAL",
+        weather: "KERING",
+        entry: "Rp 75.000",
+        prize: "Rp 350.000",
+      },
+
+      "RACE-002": {
+        name: "MENGWI STREET CUP",
+        type: "OFFICIAL",
+        track: "250 M / ASPAL",
+        weather: "BERANGIN",
+        entry: "Rp 100.000",
+        prize: "Rp 500.000",
+      },
+
+      "RACE-003": {
+        name: "KUTA TEST NIGHT",
+        type: "LIAR",
+        track: "200 M / ASPAL",
+        weather: "LEMBAB",
+        entry: "Rp 125.000",
+        prize: "Rp 650.000",
+      },
+    } as const;
+
+    const filterButtons = Array.from(
+      document.querySelectorAll<HTMLElement>(
+        "[data-filter]"
+      )
+    );
+
+    const raceCards = Array.from(
+      document.querySelectorAll<HTMLElement>(
+        "[data-race-card]"
+      )
+    );
+
+    const emptyState = document.querySelector<HTMLElement>(
+      "[data-empty-state]"
+    );
+
+    const selectedEvent = document.querySelector<HTMLElement>(
+      "[data-selected-event]"
+    );
+
+    const selectedType = document.querySelector<HTMLElement>(
+      "[data-selected-type]"
+    );
+
+    const selectedTrack = document.querySelector<HTMLElement>(
+      "[data-selected-track]"
+    );
+
+    const selectedWeather =
+      document.querySelector<HTMLElement>(
+        "[data-selected-weather]"
+      );
+
+    const selectedEntry =
+      document.querySelector<HTMLElement>(
+        "[data-selected-entry]"
+      );
+
+    const selectedPrize =
+      document.querySelector<HTMLElement>(
+        "[data-selected-prize]"
+      );
+
+    const selectedCode =
+      document.querySelector<HTMLElement>(
+        "[data-selected-code]"
+      );
+
+    const startEntry =
+      document.querySelector<HTMLElement>(
+        "[data-start-entry]"
+      );
+
+    const startPrize =
+      document.querySelector<HTMLElement>(
+        "[data-start-prize]"
+      );
+
+    const selectedRisk =
+      document.querySelector<HTMLElement>(
+        "[data-selected-risk]"
+      );
+
+    const finalEvent =
+      document.querySelector<HTMLElement>(
+        "[data-final-event]"
+      );
+
+    const riskButtons = Array.from(
+      document.querySelectorAll<HTMLButtonElement>(
+        "[data-risk]"
+      )
+    );
+
+    const eventButtons = Array.from(
+      document.querySelectorAll<HTMLButtonElement>(
+        "[data-select-race]"
+      )
+    );
+
+    const applyFilter = (filterId: string) => {
+      let visibleCount = 0;
+
+      raceCards.forEach((card) => {
+        const show =
+          filterId === "all" ||
+          card.dataset.category === filterId;
+
+        card.hidden = !show;
+
+        if (show) {
+          visibleCount += 1;
+        }
+      });
+
+      if (emptyState) {
+        emptyState.hidden = visibleCount !== 0;
+      }
+    };
+
+    filterButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        filterButtons.forEach((item) => {
+          const active = item === button;
+
+          item.classList.toggle(
+            "race-filter-button--active",
+            active
+          );
+
+          item.setAttribute(
+            "aria-pressed",
+            active ? "true" : "false"
+          );
+        });
+
+        applyFilter(
+          button.dataset.filter || "all"
+        );
+      });
+    });
+
+    const updateRace = (raceId: string) => {
+      const race =
+        raceData[raceId as keyof typeof raceData];
+
+      if (!race) return;
+
+      if (selectedEvent) {
+        selectedEvent.textContent = race.name;
+      }
+
+      if (finalEvent) {
+        finalEvent.textContent = race.name;
+      }
+
+      if (selectedType) {
+        selectedType.textContent = race.type;
+      }
+
+      if (selectedTrack) {
+        selectedTrack.textContent = race.track;
+      }
+
+      if (selectedWeather) {
+        selectedWeather.textContent = race.weather;
+      }
+
+      if (selectedEntry) {
+        selectedEntry.textContent = race.entry;
+      }
+
+      if (selectedPrize) {
+        selectedPrize.textContent = race.prize;
+      }
+
+      if (selectedCode) {
+        selectedCode.textContent = raceId;
+      }
+
+      if (startEntry) {
+        startEntry.textContent = race.entry;
+      }
+
+      if (startPrize) {
+        startPrize.textContent = race.prize;
+      }
+
+      eventButtons.forEach((button) => {
+        const active =
+          button.dataset.selectRace === raceId;
+
+        button.classList.toggle(
+          "race-select-button--active",
+          active
+        );
+      });
+
+      raceCards.forEach((card) => {
+        const selected =
+          card.querySelector(
+            `[data-select-race="${raceId}"]`
+          ) !== null;
+
+        card.classList.toggle(
+          "race-event--selected",
+          selected
+        );
+      });
+    };
+
+    eventButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const raceId =
+          button.dataset.selectRace;
+
+        if (!raceId) return;
+
+        updateRace(raceId);
+
+        document
+          .querySelector(".setup-panel--event")
+          ?.scrollIntoView({
+            behavior: "smooth",
+            block: "center",
+          });
+      });
+    });
+
+    riskButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+
+        riskButtons.forEach((item) => {
+          const active = item === button;
+
+          item.classList.toggle(
+            "risk-card--active",
+            active
+          );
+
+          item.setAttribute(
+            "aria-pressed",
+            active ? "true" : "false"
+          );
+        });
+
+        const riskLabel =
+          button.querySelector(
+            ".risk-card-body strong"
+          )?.textContent || "NORMAL";
+
+        if (selectedRisk) {
+          selectedRisk.textContent =
+            riskLabel;
+        }
+      });
+    });
+
+    updateRace("RACE-001");
+    applyFilter("all");
+  </script>
+
+
+  <style>
+
+    /* =============================================================
+       DESIGN TOKENS
+       SAME LANGUAGE AS GARAGE PAGE
+       ============================================================= */
+
+    .race-page {
+
+      --g-black: #050505;
+      --g-black-2: #090909;
+
+      --g-panel: #101010;
+      --g-panel-2: #151515;
+      --g-panel-3: #1b1b1b;
+
+      --g-line: #292929;
+      --g-line-light: #3d3d3d;
+
+      --g-white: #f1f1eb;
+      --g-soft: #d0d0ca;
+
+      --g-muted: #979791;
+      --g-dim: #61615c;
+
+      --g-accent: #b7d83c;
+      --g-accent-dark: #687d27;
+
+      --g-danger: #c65a51;
+
+      min-width: 0;
+    }
+
+
+    .race-accent {
+      color: var(--g-accent) !important;
+    }
+
+
+    /* =============================================================
+       RHYTHM
+       ============================================================= */
+
+    .race-section {
+      margin-top: 42px;
+    }
+
+
+    /* =============================================================
+       ICON SYSTEM
+       SAME PIXEL LANGUAGE
+       ============================================================= */
+
+    .race-page .pixel-icon {
+      position: relative;
+
+      display: block;
+
+      width: 18px;
+      height: 18px;
+
+      color: currentColor;
+
+      image-rendering: pixelated;
+    }
+
+    .race-page .pixel-icon::before,
+    .race-page .pixel-icon::after {
+      content: "";
+      position: absolute;
+      display: block;
+    }
+
+    .race-page .pixel-icon--tiny {
+      width: 10px;
+      height: 10px;
+    }
+
+    .race-page .pixel-icon--small {
+      width: 18px;
+      height: 18px;
+    }
+
+    .race-page .pixel-icon--medium {
+      width: 30px;
+      height: 30px;
+    }
+
+
+    /* FLAG */
+
+    .race-page .pixel-icon--flag::before {
+      left: 3px;
+      top: 1px;
+
+      width: 3px;
+      height: 17px;
+
+      background: currentColor;
+    }
+
+    .race-page .pixel-icon--flag::after {
+      left: 6px;
+      top: 2px;
+
+      width: 10px;
+      height: 8px;
+
+      background: currentColor;
+
+      clip-path:
+        polygon(
+          0 0,
+          100% 0,
+          72% 50%,
+          100% 100%,
+          0 100%
+        );
+    }
+
+
+    /* MOTORCYCLE */
+
+    .race-page .pixel-icon--motorcycle::before {
+      left: 1px;
+      bottom: 1px;
+
+      width: 5px;
+      height: 5px;
+
+      border: 2px solid currentColor;
+
+      box-shadow:
+        10px 0 0 -1px var(--g-panel),
+        10px 0 0 0 currentColor;
+    }
+
+    .race-page .pixel-icon--motorcycle::after {
+      left: 4px;
+      top: 6px;
+
+      width: 10px;
+      height: 4px;
+
+      background: currentColor;
+
+      box-shadow:
+        -1px 3px 0 -1px currentColor,
+        3px 4px 0 -1px currentColor,
+        7px 3px 0 -1px currentColor;
+    }
+
+
+    /* HELMET */
+
+    .race-page .pixel-icon--helmet::before {
+      left: 2px;
+      top: 3px;
+
+      width: 14px;
+      height: 10px;
+
+      border: 2px solid currentColor;
+      border-bottom: 0;
+    }
+
+    .race-page .pixel-icon--helmet::after {
+      left: 7px;
+      top: 10px;
+
+      width: 9px;
+      height: 5px;
+
+      background: currentColor;
+    }
+
+
+    /* WRENCH */
+
+    .race-page .pixel-icon--wrench::before {
+      left: 3px;
+      top: 2px;
+
+      width: 5px;
+      height: 5px;
+
+      border: 2px solid currentColor;
+
+      transform: rotate(45deg);
+
+      box-shadow:
+        5px 5px 0 -1px currentColor,
+        8px 8px 0 -1px currentColor;
+    }
+
+    .race-page .pixel-icon--wrench::after {
+      right: 1px;
+      bottom: 1px;
+
+      width: 6px;
+      height: 6px;
+
+      border: 2px solid currentColor;
+    }
+
+
+    /* BOLT */
+
+    .race-page .pixel-icon--bolt::before {
+      left: 7px;
+      top: 0;
+
+      width: 7px;
+      height: 10px;
+
+      background: currentColor;
+
+      clip-path:
+        polygon(
+          40% 0,
+          100% 0,
+          65% 42%,
+          100% 42%,
+          18% 100%,
+          38% 57%,
+          0 57%
+        );
+    }
+
+
+    /* SEARCH */
+
+    .race-page .pixel-icon--search::before {
+      left: 2px;
+      top: 2px;
+
+      width: 9px;
+      height: 9px;
+
+      border: 2px solid currentColor;
+    }
+
+    .race-page .pixel-icon--search::after {
+      right: 0;
+      bottom: 0;
+
+      width: 7px;
+      height: 2px;
+
+      background: currentColor;
+
+      transform: rotate(45deg);
+    }
+
+
+    /* FILTER */
+
+    .race-page .pixel-icon--filter::before {
+      left: 1px;
+      top: 3px;
+
+      width: 16px;
+      height: 3px;
+
+      background: currentColor;
+
+      box-shadow:
+        3px 5px 0 currentColor,
+        6px 10px 0 currentColor;
+    }
+
+    .race-page .pixel-icon--filter::after {
+      left: 8px;
+      top: 6px;
+
+      width: 3px;
+      height: 11px;
+
+      background: currentColor;
+    }
+
+
+    /* TROPHY */
+
+    .race-page .pixel-icon--trophy::before {
+      left: 5px;
+      top: 2px;
+
+      width: 9px;
+      height: 11px;
+
+      border: 2px solid currentColor;
+
+      background: transparent;
+    }
+
+    .race-page .pixel-icon--trophy::after {
+      left: 4px;
+      top: 4px;
+
+      width: 3px;
+      height: 6px;
+
+      background: currentColor;
+
+      box-shadow:
+        11px 0 0 currentColor,
+        4px 11px 0 currentColor,
+        1px 14px 0 currentColor,
+        8px 14px 0 currentColor;
+    }
+
+
+    /* TIMER */
+
+    .race-page .pixel-icon--timer::before {
+      left: 3px;
+      top: 3px;
+
+      width: 12px;
+      height: 12px;
+
+      border: 2px solid currentColor;
+
+      border-radius: 50%;
+    }
+
+    .race-page .pixel-icon--timer::after {
+      left: 8px;
+      top: 6px;
+
+      width: 3px;
+      height: 7px;
+
+      background: currentColor;
+
+      box-shadow:
+        3px -2px 0 currentColor,
+        -1px -6px 0 currentColor;
+    }
+
+
+    /* CHART */
+
+    .race-page .pixel-icon--chart::before {
+      left: 2px;
+      bottom: 2px;
+
+      width: 4px;
+      height: 8px;
+
+      background: currentColor;
+
+      box-shadow:
+        6px -4px 0 currentColor,
+        12px -10px 0 currentColor;
+    }
+
+    .race-page .pixel-icon--chart::after {
+      left: 2px;
+      bottom: 0;
+
+      width: 16px;
+      height: 2px;
+
+      background: currentColor;
+    }
+
+
+    /* GAUGE */
+
+    .race-page .pixel-icon--gauge::before {
+      left: 2px;
+      top: 3px;
+
+      width: 14px;
+      height: 12px;
+
+      border: 2px solid currentColor;
+      border-bottom: 0;
+      border-radius: 12px 12px 0 0;
+    }
+
+    .race-page .pixel-icon--gauge::after {
+      left: 8px;
+      top: 6px;
+
+      width: 3px;
+      height: 7px;
+
+      background: currentColor;
+
+      transform: rotate(35deg);
+      transform-origin: bottom center;
+    }
+
+
+    /* PODIUM */
+
+    .race-page .pixel-icon--podium::before {
+      left: 2px;
+      bottom: 2px;
+
+      width: 5px;
+      height: 7px;
+
+      background: currentColor;
+
+      box-shadow:
+        6px -5px 0 currentColor,
+        12px -2px 0 currentColor;
+    }
+
+    .race-page .pixel-icon--podium::after {
+      left: 2px;
+      bottom: 0;
+
+      width: 16px;
+      height: 2px;
+
+      background: currentColor;
+    }
+
+
+    /* =============================================================
+       HEADER
+       ============================================================= */
+
+    .race-header {
+      overflow: hidden;
+
+      background: var(--g-panel);
+
+      border: 2px solid var(--g-line-light);
+
+      box-shadow:
+        7px 7px 0 var(--g-black);
+    }
+
+
+    .race-header-top,
+    .race-header-bottom {
+
+      min-height: 31px;
+
+      display: grid;
+
+      align-items: center;
+
+      gap: 15px;
+
+      padding: 0 11px;
+
+      color: var(--g-dim);
+
+      background: var(--g-black-2);
+
+      font-family: var(--font-display);
+      font-size: .47rem;
+      font-weight: 900;
+
+      letter-spacing: .08em;
+
+      text-transform: uppercase;
+    }
+
+
+    .race-header-top {
+
+      grid-template-columns:
+        1fr
+        auto
+        auto;
+
+      border-bottom:
+        2px solid var(--g-line);
+    }
+
+
+    .race-header-bottom {
+
+      grid-template-columns:
+        1fr
+        auto
+        auto;
+
+      border-top:
+        2px solid var(--g-line);
+    }
+
+
+    .race-head-left,
+    .race-head-right,
+    .header-system {
+
+      display: flex;
+      align-items: center;
+
+      gap: 7px;
+    }
+
+
+    .race-head-left {
+      color: var(--g-soft);
+    }
+
+
+    .race-head-right,
+    .header-system {
+
+      color: var(--g-accent);
+    }
+
+
+    .header-led,
+    .header-system i {
+
+      width: 5px;
+      height: 5px;
+
+      display: block;
+
+      background: var(--g-accent);
+    }
+
+
+    .race-header-body {
+
+      min-height: 345px;
+
+      display: grid;
+
+      grid-template-columns:
+        minmax(0, 1fr)
+        260px;
+
+      align-items: end;
+
+      gap: 30px;
+
+      padding: 32px;
+
+      background:
+        linear-gradient(
+          90deg,
+          rgba(255,255,255,.018),
+          transparent 45%
+        ),
+        var(--g-panel);
+    }
+
+
+    .race-header-copy {
+      min-width: 0;
+    }
+
+
+    .race-kicker-row {
+
+      display: flex;
+      align-items: center;
+
+      gap: 9px;
+    }
+
+
+    .race-title-icon {
+
+      width: 25px;
+      height: 25px;
+
+      display: grid;
+      place-items: center;
+
+      border: 1px solid var(--g-line-light);
+
+      color: var(--g-accent);
+
+      background: var(--g-black-2);
+    }
+
+
+    .header-kicker {
+
+      color: var(--g-dim);
+
+      font-family: var(--font-display);
+      font-size: .55rem;
+      font-weight: 900;
+
+      letter-spacing: .1em;
+
+      text-transform: uppercase;
+    }
+
+
+    .race-header-copy h1 {
+
+      margin-top: 9px;
+
+      color: var(--g-white);
+
+      font-family: var(--font-display);
+      font-size:
+        clamp(4rem, 11vw, 8rem);
+
+      font-weight: 900;
+
+      line-height: .74;
+
+      letter-spacing: -.09em;
+
+      text-transform: uppercase;
+    }
+
+
+    .header-rule {
+
+      width:
+        min(340px, 65%);
+
+      height: 3px;
+
+      margin-top: 20px;
+
+      background: var(--g-accent);
+    }
+
+
+    .race-header-copy p {
+
+      max-width: 680px;
+
+      margin-top: 18px;
+
+      color: var(--g-muted);
+
+      font-size:
+        var(--text-sm);
+
+      line-height:
+        1.65;
+    }
+
+
+    .race-header-panel {
+
+      display: grid;
+
+      gap: 8px;
+    }
+
+
+    .season-box {
+
+      display: grid;
+
+      grid-template-columns:
+        54px
+        1fr;
+
+      gap: 10px;
+
+      padding: 11px;
+
+      border: 2px solid var(--g-line);
+
+      background: var(--g-black-2);
+    }
+
+
+    .season-icon {
+
+      width: 54px;
+      height: 54px;
+
+      display: grid;
+      place-items: center;
+
+      border: 1px solid var(--g-line-light);
+
+      color: var(--g-accent);
+    }
+
+
+    .season-copy {
+
+      display: grid;
+
+      grid-template-columns:
+        1fr
+        auto;
+
+      grid-template-rows:
+        auto
+        1fr;
+
+      gap: 2px 7px;
+    }
+
+
+    .season-copy span {
+
+      color: var(--g-dim);
+
+      font-family: var(--font-display);
+      font-size: .43rem;
+      font-weight: 900;
+    }
+
+
+    .season-copy strong {
+
+      grid-row:
+        1 / span 2;
+
+      color: var(--g-accent);
+
+      font-family: var(--font-display);
+      font-size: 2rem;
+      font-weight: 900;
+
+      line-height:
+        .8;
+    }
+
+
+    .season-copy small {
+
+      color: var(--g-muted);
+
+      font-family: var(--font-display);
+      font-size: .42rem;
+      font-weight: 900;
+    }
+
+
+    .header-capacity {
+
+      display: grid;
+
+      grid-template-columns:
+        repeat(3, 1fr);
+
+      gap: 5px;
+    }
+
+
+    .header-capacity > div {
+
+      padding: 8px;
+
+      border: 1px solid var(--g-line);
+
+      background: var(--g-black-2);
+    }
+
+
+    .header-capacity span,
+    .header-capacity strong {
+
+      display: block;
+    }
+
+
+    .header-capacity span {
+
+      color: var(--g-dim);
+
+      font-family: var(--font-display);
+      font-size: .38rem;
+      font-weight: 900;
+    }
+
+
+    .header-capacity strong {
+
+      margin-top: 4px;
+
+      color: var(--g-white);
+
+      font-family: var(--font-display);
+      font-size: .62rem;
+      font-weight: 900;
+    }
+
+
+    .header-actions {
+
+      display: grid;
+
+      gap: 7px;
+    }
+
+
+
+    /* =============================================================
+       SECTION
+       ============================================================= */
+
+    .race-page .section-header {
+
+      min-height: 55px;
+
+      margin-bottom: 10px;
+
+      border-bottom:
+        2px solid var(--g-line);
+    }
+
+
+    .race-page .section-heading {
+
+      display: flex;
+      align-items: center;
+
+      gap: 11px;
+    }
+
+
+    .race-page .section-marker {
+
+      width: 8px;
+      height: 8px;
+
+      flex: 0 0 auto;
+
+      background: var(--g-white);
+
+      box-shadow:
+        4px 4px 0 var(--g-line-light);
+    }
+
+
+    .race-page .section-marker--accent {
+
+      background: var(--g-accent);
+
+      box-shadow:
+        4px 4px 0 var(--g-accent-dark);
+    }
+
+
+    .race-page .section-kicker {
+
+      display: block;
+
+      color: var(--g-dim);
+
+      font-family: var(--font-display);
+      font-size: .52rem;
+      font-weight: 900;
+
+      letter-spacing: .1em;
+
+      text-transform: uppercase;
+    }
+
+
+    .race-page .section-header h2 {
+
+      margin-top: 4px;
+
+      color: var(--g-white);
+
+      font-family: var(--font-display);
+      font-size:
+        clamp(1.35rem, 3vw, 2rem);
+
+      font-weight: 900;
+
+      line-height: .9;
+
+      letter-spacing: -.04em;
+
+      text-transform: uppercase;
+    }
+
+
+    .race-page .section-code,
+    .race-page .section-link {
+
+      color: var(--g-dim);
+
+      font-family: var(--font-display);
+      font-size: .48rem;
+      font-weight: 900;
+
+      letter-spacing: .08em;
+
+      text-transform: uppercase;
+    }
+
+
+    .race-page .section-link {
+
+      color: var(--g-accent);
+    }
+
+
+
+    /* =============================================================
+       STATUS
+       ============================================================= */
+
+    .race-status-grid {
+
+      display: grid;
+
+      grid-template-columns:
+        repeat(4, 1fr);
+
+      border-top:
+        2px solid var(--g-line);
+
+      border-left:
+        2px solid var(--g-line);
+    }
+
+
+    .race-status-card {
+
+      min-height: 142px;
+
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+
+      padding: 13px;
+
+      border-right:
+        2px solid var(--g-line);
+
+      border-bottom:
+        2px solid var(--g-line);
+
+      background: var(--g-panel);
+    }
+
+
+    .race-status-card--active {
+
+      background: var(--g-panel-2);
+
+      border-top:
+        3px solid var(--g-accent);
+    }
+
+
+    .race-status-head,
+    .race-status-foot {
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 8px;
+
+      color: var(--g-dim);
+
+      font-family: var(--font-display);
+      font-size: .45rem;
+      font-weight: 900;
+
+      text-transform: uppercase;
+    }
+
+
+    .race-status-ident {
+
+      display: flex;
+      align-items: center;
+
+      gap: 7px;
+    }
+
+
+    .race-status-icon {
+
+      width: 25px;
+      height: 25px;
+
+      display: grid;
+      place-items: center;
+
+      border: 1px solid var(--g-line-light);
+
+      color: var(--g-soft);
+    }
+
+
+    .race-status-card--active
+    .race-status-icon {
+
+      color: var(--g-accent);
+
+      border-color:
+        var(--g-accent-dark);
+    }
+
+
+    .race-status-value {
+
+      color: var(--g-white);
+
+      font-family: var(--font-display);
+      font-size: 2rem;
+      font-weight: 900;
+
+      line-height: .8;
+    }
+
+
+    .segment-bar {
+
+      display: grid;
+
+      grid-template-columns:
+        repeat(8, 1fr);
+
+      flex: 1;
+
+      gap: 3px;
+    }
+
+
+    .segment-bar i {
+
+      height: 4px;
+
+      background: var(--g-line-light);
+    }
+
+
+    .segment-bar .segment-active {
+
+      background: var(--g-accent-dark);
+    }
+
+
+    .race-status-card--active
+    .segment-bar
+    .segment-active {
+
+      background: var(--g-accent);
+    }
+
+
+
+    /* =============================================================
+       FILTER
+       ============================================================= */
+
+    .race-filter-panel {
+
+      display: grid;
+
+      grid-template-columns:
+        minmax(0, 1fr)
+        135px;
+
+      background: var(--g-panel);
+
+      border: 2px solid var(--g-line-light);
+
+      box-shadow:
+        5px 5px 0 var(--g-black);
+    }
+
+
+    .race-filter-main {
+      padding: 15px;
+    }
+
+
+    .race-filter-copy {
+
+      display: flex;
+      align-items: center;
+
+      gap: 10px;
+    }
+
+
+    .race-filter-icon {
+
+      width: 29px;
+      height: 29px;
+
+      display: grid;
+      place-items: center;
+
+      border: 1px solid var(--g-line-light);
+
+      color: var(--g-accent);
+
+      background: var(--g-black-2);
+    }
+
+
+    .race-filter-copy > div {
+
+      display: flex;
+      flex-direction: column;
+
+      gap: 3px;
+    }
+
+
+    .race-filter-copy span {
+
+      color: var(--g-dim);
+
+      font-family: var(--font-display);
+      font-size: .4rem;
+      font-weight: 900;
+
+      text-transform: uppercase;
+    }
+
+
+    .race-filter-copy strong {
+
+      color: var(--g-white);
+
+      font-size: .68rem;
+
+      line-height: 1.35;
+    }
+
+
+    .race-filter-list {
+
+      display: flex;
+      flex-wrap: wrap;
+
+      gap: 6px;
+
+      margin-top: 13px;
+      padding-top: 12px;
+
+      border-top:
+        1px solid var(--g-line);
+    }
+
+
+    .race-filter-button {
+
+      min-height: 36px;
+
+      display: inline-flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 10px;
+
+      padding: 7px 10px;
+
+      border: 2px solid var(--g-line);
+
+      background: var(--g-panel-2);
+
+      color: var(--g-muted);
+
+      font-family: var(--font-display);
+      font-size: .4rem;
+      font-weight: 900;
+
+      letter-spacing: .06em;
+
+      text-transform: uppercase;
+
+      cursor: pointer;
+
+      transition:
+        transform 70ms steps(1),
+        border-color 70ms steps(1),
+        color 70ms steps(1),
+        background 70ms steps(1);
+    }
+
+
+    .race-filter-button:hover {
+
+      border-color:
+        var(--g-line-light);
+
+      color: var(--g-white);
+
+      background: var(--g-panel-3);
+    }
+
+
+    .race-filter-button:active {
+
+      transform:
+        translate(2px, 2px);
+    }
+
+
+    .race-filter-button:focus-visible {
+
+      outline:
+        2px solid var(--g-accent);
+
+      outline-offset: 3px;
+    }
+
+
+    .race-filter-button small {
+
+      min-width: 20px;
+
+      padding: 2px 4px;
+
+      color: var(--g-dim);
+
+      background: var(--g-black);
+
+      font-size: .38rem;
+
+      text-align: center;
+    }
+
+
+    .race-filter-button--active {
+
+      border-color:
+        var(--g-accent);
+
+      background:
+        var(--g-accent);
+
+      color: var(--g-black);
+
+      box-shadow:
+        3px 3px 0 var(--g-black);
+    }
+
+
+    .race-filter-button--active small {
+
+      background: var(--g-black);
+
+      color: var(--g-accent);
+    }
+
+
+    .race-filter-status {
+
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+
+      padding: 12px;
+
+      border-left:
+        2px solid var(--g-line);
+
+      background: var(--g-black-2);
+
+      color: var(--g-dim);
+
+      font-family: var(--font-display);
+      font-size: .4rem;
+      font-weight: 900;
+
+      letter-spacing: .08em;
+
+      text-transform: uppercase;
+    }
+
+
+    .race-filter-count {
+
+      color: var(--g-accent);
+
+      font-size: 2rem;
+
+      line-height: 1;
+    }
+
+
+
+    /* =============================================================
+       EVENTS
+       ============================================================= */
+
+    .race-event-list {
+
+      display: grid;
+
+      gap: 10px;
+    }
+
+
+    .race-event {
+
+      display: grid;
+
+      grid-template-columns:
+        185px
+        minmax(0, 1fr);
+
+      min-width: 0;
+
+      overflow: hidden;
+
+      background: var(--g-panel);
+
+      border: 2px solid var(--g-line-light);
+
+      box-shadow:
+        5px 5px 0 var(--g-black);
+
+      transition:
+        transform 70ms steps(1),
+        border-color 70ms steps(1),
+        box-shadow 70ms steps(1);
+    }
+
+
+    .race-event:hover {
+
+      transform:
+        translate(-2px, -2px);
+
+      border-color:
+        var(--g-line-light);
+
+      box-shadow:
+        7px 7px 0 var(--g-black);
+    }
+
+
+    .race-event--featured {
+
+      border-color:
+        var(--g-accent-dark);
+    }
+
+
+    .race-event--selected {
+
+      border-color:
+        var(--g-accent);
+
+      box-shadow:
+        6px 6px 0 var(--g-black);
+    }
+
+
+    .race-event[hidden] {
+
+      display: none;
+    }
+
+
+    .race-event-visual {
+
+      min-height: 250px;
+
+      position: relative;
+
+      overflow: hidden;
+
+      display: grid;
+      place-items: center;
+
+      border-right:
+        2px solid var(--g-line);
+
+      background:
+        linear-gradient(
+          135deg,
+          #191b19 25%,
+          #151715 25%,
+          #151715 50%,
+          #191b19 50%,
+          #191b19 75%,
+          #151715 75%
+        );
+
+      background-size: 22px 22px;
+    }
+
+
+    .race-event-number {
+
+      position: absolute;
+
+      left: 11px;
+      top: 11px;
+
+      display: flex;
+      flex-direction: column;
+
+      gap: 3px;
+    }
+
+
+    .race-event-number span {
+
+      color: var(--g-dim);
+
+      font-family: var(--font-display);
+      font-size: .38rem;
+      font-weight: 900;
+    }
+
+
+    .race-event-number strong {
+
+      color: var(--g-white);
+
+      font-family: var(--font-display);
+      font-size: 2.3rem;
+      font-weight: 900;
+
+      line-height: .8;
+
+      letter-spacing:
+        -.08em;
+    }
+
+
+    .race-event-type {
+
+      position: absolute;
+
+      top: 11px;
+      right: 11px;
+
+      padding:
+        5px 7px;
+
+      border:
+        1px solid var(--g-line-light);
+
+      background:
+        var(--g-black-2);
+
+      color: var(--g-soft);
+
+      font-family: var(--font-display);
+      font-size: .37rem;
+      font-weight: 900;
+
+      letter-spacing: .07em;
+
+      text-transform:
+        uppercase;
+    }
+
+
+    .race-event-type--accent {
+
+      color: var(--g-accent);
+
+      border-color:
+        var(--g-accent-dark);
+    }
+
+
+    .race-event-type--danger {
+
+      color: var(--g-danger);
+
+      border-color:
+        var(--g-danger);
+    }
+
+
+    .race-track {
+
+      width: 128px;
+      height: 164px;
+
+      position: relative;
+
+      overflow: hidden;
+
+      border: 2px solid var(--g-black);
+
+      background: #191a17;
+
+      box-shadow:
+        5px 5px 0 var(--g-black);
+
+      transform:
+        perspective(500px)
+        rotateX(10deg);
+    }
+
+
+    .race-track-surface {
+
+      position: absolute;
+      inset: 0;
+
+      background:
+        repeating-linear-gradient(
+          to bottom,
+          #24251f 0 8px,
+          #1f201b 8px 16px
+        );
+    }
+
+
+    .track-line {
+
+      position: absolute;
+
+      left: 14px;
+      width: 96px;
+
+      height: 3px;
+
+      background: var(--g-line-light);
+    }
+
+
+    .track-line--1 {
+      top: 39px;
+    }
+
+
+    .track-line--2 {
+      top: 80px;
+    }
+
+
+    .track-line--3 {
+      top: 121px;
+    }
+
+
+    .track-finish {
+
+      position: absolute;
+
+      left: 9px;
+      right: 9px;
+      top: 9px;
+
+      height: 17px;
+
+      border:
+        2px solid var(--g-black);
+
+      background:
+        linear-gradient(
+          90deg,
+          var(--g-white) 0 9px,
+          var(--g-black) 9px 18px,
+          var(--g-white) 18px 27px,
+          var(--g-black) 27px 36px,
+          var(--g-white) 36px 45px,
+          var(--g-black) 45px 54px,
+          var(--g-white) 54px 63px,
+          var(--g-black) 63px 72px,
+          var(--g-white) 72px 81px,
+          var(--g-black) 81px 90px
+        );
+    }
+
+
+    .track-ruler {
+
+      position: absolute;
+
+      left: 8px;
+      bottom: 8px;
+
+      color:
+        rgba(241,241,235,.3);
+
+      font-family:
+        var(--font-display);
+
+      font-size: .37rem;
+      font-weight: 900;
+    }
+
+
+    .race-event-content {
+
+      min-width: 0;
+
+      padding: 17px;
+    }
+
+
+    .race-event-top {
+
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+
+      gap: 14px;
+    }
+
+
+    .race-event-meta {
+
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+
+      gap: 7px;
+
+      color: var(--g-dim);
+
+      font-family:
+        var(--font-display);
+
+      font-size: .39rem;
+      font-weight: 900;
+
+      letter-spacing: .07em;
+
+      text-transform:
+        uppercase;
+    }
+
+
+    .race-event-meta i {
+
+      width: 3px;
+      height: 3px;
+
+      background:
+        var(--g-line-light);
+    }
+
+
+    .race-event-top h3 {
+
+      margin-top: 7px;
+
+      color: var(--g-white);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        clamp(1.45rem, 3vw, 2.25rem);
+
+      font-weight: 900;
+
+      line-height: .9;
+
+      letter-spacing: -.05em;
+
+      text-transform: uppercase;
+    }
+
+
+    .race-status-badge {
+
+      display: inline-flex;
+      align-items: center;
+
+      gap: 6px;
+
+      padding:
+        5px 7px;
+
+      border:
+        1px solid var(--g-accent-dark);
+
+      color:
+        var(--g-accent);
+
+      background:
+        var(--g-black-2);
+
+      font-family:
+        var(--font-display);
+
+      font-size: .37rem;
+      font-weight: 900;
+
+      white-space:
+        nowrap;
+    }
+
+
+    .race-status-badge i {
+
+      width: 5px;
+      height: 5px;
+
+      background:
+        var(--g-accent);
+    }
+
+
+    .race-event-note {
+
+      max-width: 700px;
+
+      margin-top: 11px;
+
+      color: var(--g-muted);
+
+      font-size: .72rem;
+
+      line-height:
+        1.55;
+    }
+
+
+    .race-spec-grid {
+
+      display: grid;
+
+      grid-template-columns:
+        repeat(4, minmax(0,1fr));
+
+      gap: 6px;
+
+      margin-top: 15px;
+    }
+
+
+    .race-spec-grid > div {
+
+      min-width: 0;
+
+      display: flex;
+      flex-direction: column;
+
+      gap: 4px;
+
+      padding: 8px;
+
+      border:
+        1px solid var(--g-line);
+
+      background:
+        var(--g-black-2);
+    }
+
+
+    .race-spec-grid span,
+    .race-money span {
+
+      color: var(--g-dim);
+
+      font-family:
+        var(--font-display);
+
+      font-size: .36rem;
+      font-weight: 900;
+    }
+
+
+    .race-spec-grid strong,
+    .race-money strong {
+
+      color: var(--g-white);
+
+      font-family:
+        var(--font-display);
+
+      font-size: .55rem;
+      font-weight: 900;
+
+      overflow-wrap:
+        anywhere;
+
+      text-transform:
+        uppercase;
+    }
+
+
+    .race-event-footer {
+
+      display: flex;
+
+      align-items:
+        center;
+
+      justify-content:
+        space-between;
+
+      gap: 14px;
+
+      margin-top: 13px;
+      padding-top: 13px;
+
+      border-top:
+        1px solid var(--g-line);
+    }
+
+
+    .race-money {
+
+      display: flex;
+
+      gap: 24px;
+    }
+
+
+    .race-money > div {
+
+      display: flex;
+      flex-direction: column;
+
+      gap: 4px;
+    }
+
+
+    .race-money strong {
+
+      font-size: .73rem;
+    }
+
+
+    .race-select-button {
+
+      min-height: 39px;
+
+      display: inline-flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 16px;
+
+      min-width: 110px;
+
+      padding:
+        0 10px;
+
+      border:
+        2px solid var(--g-line-light);
+
+      background:
+        var(--g-panel-2);
+
+      color:
+        var(--g-white);
+
+      box-shadow:
+        3px 3px 0 var(--g-black);
+
+      font-family:
+        var(--font-display);
+
+      font-size: .39rem;
+      font-weight: 900;
+
+      letter-spacing: .06em;
+
+      cursor: pointer;
+
+      text-transform:
+        uppercase;
+    }
+
+
+    .race-select-button:hover,
+    .race-select-button--active {
+
+      border-color:
+        var(--g-accent);
+
+      background:
+        var(--g-accent);
+
+      color:
+        var(--g-black);
+    }
+
+
+    .race-select-button:active {
+
+      transform:
+        translate(2px,2px);
+    }
+
+
+    .race-empty {
+
+      min-height: 185px;
+
+      display: flex;
+      flex-direction: column;
+
+      align-items: center;
+      justify-content: center;
+
+      gap: 7px;
+
+      border:
+        2px dashed var(--g-line-light);
+
+      background:
+        var(--g-panel);
+    }
+
+
+    .race-empty[hidden] {
+      display: none;
+    }
+
+
+    .race-empty .pixel-icon {
+      color: var(--g-dim);
+    }
+
+
+    .race-empty strong {
+
+      color: var(--g-white);
+
+      font-family:
+        var(--font-display);
+
+      font-size: .72rem;
+      font-weight: 900;
+    }
+
+
+    .race-empty span:last-child {
+
+      color:
+        var(--g-dim);
+
+      font-size:
+        .62rem;
+    }
+
+
+
+    /* =============================================================
+       SETUP
+       ============================================================= */
+
+    .race-setup-grid {
+
+      display: grid;
+
+      grid-template-columns:
+        minmax(0,1.15fr)
+        repeat(2,minmax(0,.925fr));
+
+      gap: 8px;
+    }
+
+
+    .setup-panel {
+
+      min-width: 0;
+
+      display: flex;
+      flex-direction: column;
+
+      padding: 14px;
+
+      background:
+        var(--g-panel);
+
+      border:
+        2px solid var(--g-line);
+
+      box-shadow:
+        5px 5px 0 var(--g-black);
+    }
+
+
+    .setup-panel--event {
+
+      border-color:
+        var(--g-accent-dark);
+    }
+
+
+    .setup-panel-top {
+
+      min-height: 35px;
+
+      display: flex;
+
+      align-items: center;
+
+      justify-content: space-between;
+
+      gap: 10px;
+
+      padding-bottom: 10px;
+
+      border-bottom:
+        1px solid var(--g-line);
+    }
+
+
+    .setup-panel-ident {
+
+      display: flex;
+
+      align-items: center;
+
+      gap: 8px;
+    }
+
+
+    .setup-icon {
+
+      width: 29px;
+      height: 29px;
+
+      display: grid;
+
+      place-items: center;
+
+      border:
+        1px solid var(--g-line-light);
+
+      color:
+        var(--g-accent);
+
+      background:
+        var(--g-black-2);
+    }
+
+
+    .setup-panel-ident > div {
+
+      display: flex;
+      flex-direction: column;
+
+      gap: 3px;
+    }
+
+
+    .setup-panel-ident span {
+
+      color:
+        var(--g-dim);
+
+      font-family:
+        var(--font-display);
+
+      font-size: .36rem;
+      font-weight: 900;
+
+      text-transform:
+        uppercase;
+    }
+
+
+    .setup-panel-ident strong {
+
+      color:
+        var(--g-white);
+
+      font-family:
+        var(--font-display);
+
+      font-size: .58rem;
+      font-weight: 900;
+    }
+
+
+    .setup-state {
+
+      color:
+        var(--g-dim);
+
+      font-family:
+        var(--font-display);
+
+      font-size: .39rem;
+      font-weight: 900;
+    }
+
+
+    .setup-state--accent {
+
+      color:
+        var(--g-accent);
+    }
+
+
+    .setup-event-title {
+
+      margin-top: 15px;
+    }
+
+
+    .setup-event-title > span {
+
+      color:
+        var(--g-dim);
+
+      font-family:
+        var(--font-display);
+
+      font-size: .38rem;
+      font-weight: 900;
+    }
+
+
+    .setup-event-title h3 {
+
+      margin-top: 5px;
+
+      color:
+        var(--g-white);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        clamp(1.25rem,2.8vw,1.9rem);
+
+      font-weight:
+        900;
+
+      line-height:
+        .9;
+
+      letter-spacing:
+        -.045em;
+
+      text-transform:
+        uppercase;
+    }
+
+
+    .setup-event-class {
+
+      display: inline-flex;
+      align-self: flex-start;
+
+      margin-top: 10px;
+
+      padding:
+        5px 7px;
+
+      border:
+        1px solid var(--g-accent-dark);
+
+      color:
+        var(--g-accent);
+
+      background:
+        var(--g-black-2);
+
+      font-family:
+        var(--font-display);
+
+      font-size: .4rem;
+      font-weight: 900;
+    }
+
+
+    .setup-data-grid {
+
+      display: grid;
+
+      grid-template-columns:
+        repeat(2,minmax(0,1fr));
+
+      gap: 6px;
+
+      margin-top: 14px;
+    }
+
+
+    .setup-data-grid > div {
+
+      min-width: 0;
+
+      display: flex;
+      flex-direction: column;
+
+      gap: 4px;
+
+      padding:
+        8px;
+
+      border:
+        1px solid var(--g-line);
+
+      background:
+        var(--g-black-2);
+    }
+
+
+    .setup-data-grid > div:last-child {
+
+      grid-column:
+        1 / -1;
+    }
+
+
+    .setup-data-grid span {
+
+      color:
+        var(--g-dim);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        .35rem;
+
+      font-weight:
+        900;
+    }
+
+
+    .setup-data-grid strong {
+
+      color:
+        var(--g-white);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        .55rem;
+
+      font-weight:
+        900;
+
+      overflow-wrap:
+        anywhere;
+
+      text-transform:
+        uppercase;
+    }
+
+
+    .setup-panel-footer {
+
+      display: flex;
+
+      align-items:
+        center;
+
+      justify-content:
+        space-between;
+
+      gap:
+        10px;
+
+      margin-top:
+        auto;
+
+      padding-top:
+        12px;
+
+      border-top:
+        1px solid var(--g-line);
+    }
+
+
+    .setup-ready {
+
+      display: inline-flex;
+
+      align-items:
+        center;
+
+      gap: 7px;
+
+      color:
+        var(--g-muted);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        .38rem;
+
+      font-weight:
+        900;
+    }
+
+
+    .setup-ready i {
+
+      width:
+        5px;
+
+      height:
+        5px;
+
+      background:
+        var(--g-accent);
+    }
+
+
+    .setup-code {
+
+      color:
+        var(--g-dim);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        .37rem;
+
+      font-weight:
+        900;
+    }
+
+
+    .setup-heading-block {
+
+      display:
+        flex;
+
+      align-items:
+        flex-start;
+
+      justify-content:
+        space-between;
+
+      gap:
+        10px;
+
+      margin-top:
+        14px;
+    }
+
+
+    .setup-heading-block > div {
+
+      min-width:
+        0;
+    }
+
+
+    .setup-heading-block span:first-child {
+
+      display:
+        block;
+
+      color:
+        var(--g-dim);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        .35rem;
+
+      font-weight:
+        900;
+    }
+
+
+    .setup-heading-block h3 {
+
+      margin-top:
+        5px;
+
+      color:
+        var(--g-white);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        1.08rem;
+
+      font-weight:
+        900;
+
+      line-height:
+        .9;
+
+      text-transform:
+        uppercase;
+    }
+
+
+    .setup-level {
+
+      padding:
+        5px 6px;
+
+      color:
+        var(--g-accent);
+
+      border:
+        1px solid var(--g-accent-dark);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        .36rem;
+
+      font-weight:
+        900;
+    }
+
+
+    .motor-setup-display,
+    .driver-setup-display {
+
+      display:
+        grid;
+
+      grid-template-columns:
+        112px minmax(0,1fr);
+
+      gap:
+        9px;
+
+      margin-top:
+        14px;
+    }
+
+
+    .motor-stage,
+    .driver-stage {
+
+      min-height:
+        174px;
+
+      position:
+        relative;
+
+      display:
+        grid;
+
+      place-items:
+        center;
+
+      overflow:
+        hidden;
+
+      border:
+        1px solid var(--g-line);
+
+      background:
+        repeating-linear-gradient(
+          135deg,
+          #171917 0 8px,
+          #131513 8px 16px
+        );
+    }
+
+
+    .stage-cross {
+
+      position:
+        absolute;
+
+      width:
+        92px;
+
+      height:
+        92px;
+
+      border:
+        1px dashed
+        rgba(241,241,235,.08);
+    }
+
+
+    .stage-line {
+
+      position:
+        absolute;
+
+      left:
+        12%;
+
+      right:
+        12%;
+
+      bottom:
+        25px;
+
+      height:
+        3px;
+
+      background:
+        var(--g-line-light);
+    }
+
+
+    .setup-bike {
+
+      position:
+        relative;
+
+      width:
+        170px;
+
+      height:
+        98px;
+
+      color:
+        var(--g-white);
+
+      transform:
+        scale(.66);
+
+      image-rendering:
+        pixelated;
+
+      filter:
+        drop-shadow(
+          5px 5px 0 var(--g-black)
+        );
+    }
+
+
+    .setup-bike span {
+
+      position:
+        absolute;
+
+      display:
+        block;
+    }
+
+
+    .setup-bike__wheel {
+
+      bottom:
+        5px;
+
+      width:
+        34px;
+
+      height:
+        34px;
+
+      border:
+        5px solid var(--g-black);
+
+      box-shadow:
+        inset
+        0 0 0 2px var(--g-soft);
+    }
+
+
+    .setup-bike__wheel--rear {
+      left:
+        17px;
+    }
+
+
+    .setup-bike__wheel--front {
+      right:
+        17px;
+    }
+
+
+    .setup-bike__frame {
+
+      left:
+        47px;
+
+      top:
+        53px;
+
+      width:
+        70px;
+
+      height:
+        4px;
+
+      background:
+        var(--g-white);
+
+      transform:
+        skew(-18deg);
+    }
+
+
+    .setup-bike__body {
+
+      left:
+        58px;
+
+      top:
+        41px;
+
+      width:
+        48px;
+
+      height:
+        19px;
+
+      background:
+        var(--g-accent);
+
+      clip-path:
+        polygon(
+          0 30%,
+          23% 0,
+          82% 0,
+          100% 60%,
+          77% 100%,
+          15% 100%
+        );
+    }
+
+
+    .setup-bike__tank {
+
+      left:
+        63px;
+
+      top:
+        28px;
+
+      width:
+        35px;
+
+      height:
+        20px;
+
+      background:
+        var(--g-white);
+
+      border:
+        3px solid var(--g-black);
+
+      clip-path:
+        polygon(
+          0 18%,
+          24% 0,
+          82% 0,
+          100% 50%,
+          77% 100%,
+          20% 100%
+        );
+    }
+
+
+    .setup-bike__seat {
+
+      left:
+        59px;
+
+      top:
+        20px;
+
+      width:
+        37px;
+
+      height:
+        8px;
+
+      background:
+        var(--g-black);
+    }
+
+
+    .setup-bike__engine {
+
+      left:
+        69px;
+
+      top:
+        50px;
+
+      width:
+        22px;
+
+      height:
+        20px;
+
+      background:
+        var(--g-line);
+
+      border:
+        3px solid var(--g-black);
+    }
+
+
+    .setup-bike__pipe {
+
+      left:
+        83px;
+
+      top:
+        67px;
+
+      width:
+        43px;
+
+      height:
+        6px;
+
+      border-bottom:
+        4px solid var(--g-soft);
+
+      transform:
+        skew(18deg);
+    }
+
+
+    .setup-bike__fork {
+
+      right:
+        35px;
+
+      top:
+        34px;
+
+      width:
+        4px;
+
+      height:
+        34px;
+
+      background:
+        var(--g-black);
+
+      transform:
+        rotate(18deg);
+      transform-origin:
+        top center;
+    }
+
+
+    .setup-bike__handle {
+
+      right:
+        19px;
+
+      top:
+        29px;
+
+      width:
+        21px;
+
+      height:
+        5px;
+
+      background:
+        var(--g-black);
+    }
+
+
+    .setup-meter-list {
+
+      display:
+        flex;
+
+      flex-direction:
+        column;
+
+      justify-content:
+        center;
+
+      gap:
+        9px;
+    }
+
+
+    .setup-meter-row {
+
+      display:
+        grid;
+
+      grid-template-columns:
+        45px 23px minmax(0,1fr);
+
+      align-items:
+        center;
+
+      gap:
+        5px;
+    }
+
+
+    .setup-meter-row > span {
+
+      color:
+        var(--g-dim);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        .34rem;
+
+      font-weight:
+        900;
+    }
+
+
+    .setup-meter-row strong {
+
+      color:
+        var(--g-white);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        .48rem;
+
+      font-weight:
+        900;
+
+      text-align:
+        right;
+    }
+
+
+    .setup-meter-row > div {
+
+      height:
+        5px;
+
+      overflow:
+        hidden;
+
+      border:
+        1px solid var(--g-line);
+
+      background:
+        var(--g-black);
+    }
+
+
+    .setup-meter-row i {
+
+      display:
+        block;
+
+      height:
+        100%;
+
+      background:
+        var(--g-soft);
+    }
+
+
+    .setup-meter-row i.is-accent {
+
+      background:
+        var(--g-accent);
+    }
+
+
+    .setup-panel > .btn {
+
+      width:
+        100%;
+
+      margin-top:
+        12px;
+    }
+
+
+    /* DRIVER */
+
+    .driver-shadow {
+
+      position:
+        absolute;
+
+      left:
+        19px;
+
+      bottom:
+        17px;
+
+      width:
+        73px;
+
+      height:
+        8px;
+
+      background:
+        var(--g-black);
+    }
+
+
+    .driver-head {
+
+      position:
+        absolute;
+
+      left:
+        45px;
+
+      top:
+        36px;
+
+      width:
+        24px;
+
+      height:
+        29px;
+
+      background:
+        #b7b7af;
+
+      border:
+        4px solid
+        var(--g-black);
+    }
+
+
+    .driver-helmet {
+
+      position:
+        absolute;
+
+      left:
+        37px;
+
+      top:
+        24px;
+
+      width:
+        42px;
+
+      height:
+        27px;
+
+      background:
+        var(--g-white);
+
+      border:
+        4px solid
+        var(--g-black);
+    }
+
+
+    .driver-visor {
+
+      position:
+        absolute;
+
+      left:
+        58px;
+
+      top:
+        36px;
+
+      width:
+        23px;
+
+      height:
+        8px;
+
+      background:
+        var(--g-black);
+
+      border:
+        2px solid
+        var(--g-line-light);
+    }
+
+
+    .driver-neck {
+
+      position:
+        absolute;
+
+      left:
+        53px;
+
+      top:
+        61px;
+
+      width:
+        11px;
+
+      height:
+        9px;
+
+      background:
+        #898982;
+
+      border:
+        3px solid
+        var(--g-black);
+    }
+
+
+    .driver-body {
+
+      position:
+        absolute;
+
+      left:
+        29px;
+
+      top:
+        67px;
+
+      width:
+        57px;
+
+      height:
+        45px;
+
+      background:
+        #6d3834;
+
+      border:
+        4px solid
+        var(--g-black);
+
+      clip-path:
+        polygon(
+          19% 0,
+          76% 0,
+          100% 26%,
+          87% 100%,
+          12% 100%,
+          0 26%
+        );
+    }
+
+
+    .driver-arm {
+
+      position:
+        absolute;
+
+      top:
+        73px;
+
+      width:
+        15px;
+
+      height:
+        37px;
+
+      background:
+        #6d3834;
+
+      border:
+        4px solid
+        var(--g-black);
+    }
+
+
+    .driver-arm--left {
+
+      left:
+        15px;
+
+      transform:
+        rotate(18deg);
+    }
+
+
+    .driver-arm--right {
+
+      right:
+        15px;
+
+      transform:
+        rotate(-18deg);
+    }
+
+
+    .driver-stage-code {
+
+      position:
+        absolute;
+
+      right:
+        7px;
+
+      bottom:
+        6px;
+
+      color:
+        rgba(241,241,235,.28);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        .34rem;
+
+      font-weight:
+        900;
+    }
+
+
+    .driver-stat-grid {
+
+      display:
+        grid;
+
+      grid-template-columns:
+        repeat(2,1fr);
+
+      gap:
+        6px;
+
+      align-content:
+        center;
+    }
+
+
+    .driver-stat-grid > div {
+
+      min-height:
+        46px;
+
+      display:
+        flex;
+
+      flex-direction:
+        column;
+
+      justify-content:
+        center;
+
+      gap:
+        4px;
+
+      padding:
+        7px;
+
+      border:
+        1px solid var(--g-line);
+
+      background:
+        var(--g-black-2);
+    }
+
+
+    .driver-stat-grid span {
+
+      color:
+        var(--g-dim);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        .33rem;
+
+      font-weight:
+        900;
+    }
+
+
+    .driver-stat-grid strong {
+
+      color:
+        var(--g-white);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        .55rem;
+
+      font-weight:
+        900;
+    }
+
+
+
+    /* =============================================================
+       RISK
+       ============================================================= */
+
+    .risk-grid {
+
+      display:
+        grid;
+
+      grid-template-columns:
+        repeat(3,1fr);
+
+      gap:
+        8px;
+    }
+
+
+    .risk-card {
+
+      min-width:
+        0;
+
+      min-height:
+        170px;
+
+      display:
+        flex;
+
+      flex-direction:
+        column;
+
+      padding:
+        13px;
+
+      text-align:
+        left;
+
+      border:
+        2px solid var(--g-line);
+
+      background:
+        var(--g-panel);
+
+      color:
+        var(--g-white);
+
+      cursor:
+        pointer;
+
+      transition:
+        transform 70ms steps(1),
+        background 70ms steps(1),
+        border-color 70ms steps(1);
+    }
+
+
+    .risk-card:hover {
+
+      transform:
+        translate(-2px,-2px);
+
+      border-color:
+        var(--g-line-light);
+
+      background:
+        var(--g-panel-2);
+    }
+
+
+    .risk-card:focus-visible {
+
+      outline:
+        2px solid var(--g-accent);
+
+      outline-offset:
+        3px;
+    }
+
+
+    .risk-card--active {
+
+      border-color:
+        var(--g-accent);
+
+      box-shadow:
+        5px 5px 0 var(--g-black);
+    }
+
+
+    .risk-card-top {
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      justify-content:
+        space-between;
+
+      gap:
+        10px;
+    }
+
+
+    .risk-number {
+
+      width:
+        28px;
+
+      height:
+        28px;
+
+      display:
+        grid;
+
+      place-items:
+        center;
+
+      border:
+        2px solid var(--g-line-light);
+
+      background:
+        var(--g-black-2);
+
+      color:
+        var(--g-dim);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        .45rem;
+
+      font-weight:
+        900;
+    }
+
+
+    .risk-card--active
+    .risk-number {
+
+      color:
+        var(--g-black);
+
+      background:
+        var(--g-accent);
+
+      border-color:
+        var(--g-accent);
+    }
+
+
+    .risk-tag {
+
+      color:
+        var(--g-dim);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        .36rem;
+
+      font-weight:
+        900;
+
+      letter-spacing:
+        .07em;
+    }
+
+
+    .risk-card-body {
+
+      padding:
+        17px 0;
+    }
+
+
+    .risk-card-body strong {
+
+      color:
+        var(--g-white);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        1.1rem;
+
+      font-weight:
+        900;
+
+      line-height:
+        .9;
+
+      text-transform:
+        uppercase;
+    }
+
+
+    .risk-card-body p {
+
+      margin-top:
+        8px;
+
+      color:
+        var(--g-muted);
+
+      font-size:
+        .64rem;
+
+      line-height:
+        1.55;
+    }
+
+
+    .risk-card-bottom {
+
+      margin-top:
+        auto;
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      justify-content:
+        space-between;
+
+      gap:
+        10px;
+
+      padding-top:
+        10px;
+
+      border-top:
+        1px solid var(--g-line);
+    }
+
+
+    .risk-meter {
+
+      display:
+        flex;
+
+      gap:
+        4px;
+    }
+
+
+    .risk-meter i {
+
+      width:
+        22px;
+
+      height:
+        5px;
+
+      background:
+        var(--g-line-light);
+    }
+
+
+    .risk-meter i.active {
+
+      background:
+        var(--g-accent-dark);
+    }
+
+
+    .risk-card[data-risk="safe"]
+    .risk-meter i.active {
+
+      background:
+        var(--g-white);
+    }
+
+
+    .risk-card[data-risk="push"]
+    .risk-meter i.active {
+
+      background:
+        var(--g-danger);
+    }
+
+
+    .risk-card--active
+    .risk-meter i.active {
+
+      background:
+        var(--g-accent);
+    }
+
+
+    .risk-card[data-risk="push"].risk-card--active
+    .risk-meter i.active {
+
+      background:
+        var(--g-danger);
+    }
+
+
+    .risk-check {
+
+      width:
+        19px;
+
+      height:
+        19px;
+
+      display:
+        grid;
+
+      place-items:
+        center;
+
+      border:
+        1px solid var(--g-line-light);
+
+      color:
+        transparent;
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        .47rem;
+
+      font-weight:
+        900;
+    }
+
+
+    .risk-card--active
+    .risk-check {
+
+      color:
+        var(--g-black);
+
+      background:
+        var(--g-accent);
+
+      border-color:
+        var(--g-accent);
+    }
+
+
+
+    /* =============================================================
+       START RACE
+       ============================================================= */
+
+    .start-race {
+
+      overflow:
+        hidden;
+
+      border:
+        2px solid var(--g-line-light);
+
+      background:
+        var(--g-panel);
+
+      box-shadow:
+        7px 7px 0 var(--g-black);
+    }
+
+
+    .start-race-topbar {
+
+      min-height:
+        32px;
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      justify-content:
+        space-between;
+
+      padding:
+        0 11px;
+
+      color:
+        var(--g-dim);
+
+      background:
+        var(--g-black-2);
+
+      border-bottom:
+        2px solid var(--g-line);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        .4rem;
+
+      font-weight:
+        900;
+
+      letter-spacing:
+        .08em;
+
+      text-transform:
+        uppercase;
+    }
+
+
+    .start-race-topbar span:last-child {
+
+      color:
+        var(--g-accent);
+    }
+
+
+    .start-race-body {
+
+      display:
+        grid;
+
+      grid-template-columns:
+        minmax(0,1.3fr)
+        auto
+        190px;
+
+      align-items:
+        end;
+
+      gap:
+        16px;
+
+      padding:
+        18px;
+
+      background:
+        repeating-linear-gradient(
+          to bottom,
+          #181816 0 5px,
+          #131310 5px 10px
+        );
+    }
+
+
+    .start-race-copy h2 {
+
+      margin-top:
+        5px;
+
+      color:
+        var(--g-white);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        clamp(2.2rem,5vw,4.1rem);
+
+      font-weight:
+        900;
+
+      line-height:
+        .8;
+
+      letter-spacing:
+        -.075em;
+
+      text-transform:
+        uppercase;
+    }
+
+
+    .final-build {
+
+      display:
+        flex;
+
+      flex-wrap:
+        wrap;
+
+      align-items:
+        center;
+
+      gap:
+        6px;
+
+      margin-top:
+        11px;
+
+      color:
+        var(--g-soft);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        .42rem;
+
+      font-weight:
+        900;
+
+      text-transform:
+        uppercase;
+    }
+
+
+    .final-build i {
+
+      color:
+        var(--g-dim);
+    }
+
+
+    .final-status {
+
+      display:
+        flex;
+
+      flex-wrap:
+        wrap;
+
+      gap:
+        9px;
+
+      margin-top:
+        11px;
+
+      color:
+        var(--g-dim);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        .37rem;
+
+      font-weight:
+        900;
+
+      text-transform:
+        uppercase;
+    }
+
+
+    .final-status span {
+
+      display:
+        inline-flex;
+
+      align-items:
+        center;
+
+      gap:
+        5px;
+    }
+
+
+    .final-status i {
+
+      width:
+        5px;
+
+      height:
+        5px;
+
+      background:
+        var(--g-accent);
+    }
+
+
+    .start-race-data {
+
+      display:
+        grid;
+
+      grid-template-columns:
+        repeat(3,minmax(65px,1fr));
+
+      gap:
+        5px;
+    }
+
+
+    .start-race-data > div {
+
+      min-width:
+        0;
+
+      display:
+        flex;
+
+      flex-direction:
+        column;
+
+      gap:
+        5px;
+
+      padding:
+        8px;
+
+      background:
+        var(--g-panel);
+
+      border:
+        1px solid var(--g-line);
+    }
+
+
+    .start-race-data span {
+
+      color:
+        var(--g-dim);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        .35rem;
+
+      font-weight:
+        900;
+    }
+
+
+    .start-race-data strong {
+
+      color:
+        var(--g-white);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        .55rem;
+
+      font-weight:
+        900;
+
+      overflow-wrap:
+        anywhere;
+    }
+
+
+    .start-race-action {
+
+      min-width:
+        0;
+    }
+
+
+    .start-race-action .btn {
+
+      width:
+        100%;
+    }
+
+
+    .start-race-action > span {
+
+      display:
+        block;
+
+      margin-top:
+        6px;
+
+      color:
+        var(--g-dim);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        .34rem;
+
+      font-weight:
+        900;
+
+      text-align:
+        center;
+
+      letter-spacing:
+        .04em;
+    }
+
+
+
+    /* =============================================================
+       TABLE
+       ============================================================= */
+
+    .table-panel,
+    .history-panel {
+
+      overflow:
+        hidden;
+
+      background:
+        var(--g-panel);
+
+      border:
+        2px solid var(--g-line-light);
+
+      box-shadow:
+        6px 6px 0 var(--g-black);
+    }
+
+
+    .table-header {
+
+      min-height:
+        36px;
+
+      display:
+        grid;
+
+      grid-template-columns:
+        54px
+        minmax(0,1fr)
+        65px
+        75px;
+
+      align-items:
+        center;
+
+      gap:
+        10px;
+
+      padding:
+        0 12px;
+
+      background:
+        var(--g-black-2);
+
+      border-bottom:
+        1px solid var(--g-line);
+
+      color:
+        var(--g-dim);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        .36rem;
+
+      font-weight:
+        900;
+
+      text-transform:
+        uppercase;
+    }
+
+
+    .table-header span:nth-child(n+3) {
+
+      text-align:
+        right;
+    }
+
+
+    .championship-row {
+
+      min-height:
+        62px;
+
+      display:
+        grid;
+
+      grid-template-columns:
+        54px
+        minmax(0,1fr)
+        65px
+        75px;
+
+      align-items:
+        center;
+
+      gap:
+        10px;
+
+      padding:
+        8px 12px;
+
+      border-bottom:
+        1px solid var(--g-line);
+
+      background:
+        var(--g-panel);
+    }
+
+
+    .championship-row:last-child {
+
+      border-bottom:
+        0;
+    }
+
+
+    .championship-row:hover {
+
+      background:
+        var(--g-panel-2);
+    }
+
+
+    .championship-row--player {
+
+      background:
+        rgba(183,216,60,.055);
+    }
+
+
+    .championship-position {
+
+      color:
+        var(--g-accent);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        .57rem;
+
+      font-weight:
+        900;
+    }
+
+
+    .championship-team {
+
+      min-width:
+        0;
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      gap:
+        9px;
+    }
+
+
+    .team-mark {
+
+      width:
+        9px;
+
+      height:
+        9px;
+
+      flex:
+        0 0 auto;
+
+      border:
+        2px solid var(--g-black);
+
+      background:
+        var(--g-line-light);
+
+      box-shadow:
+        2px 2px 0 var(--g-black);
+    }
+
+
+    .championship-row--player
+    .team-mark {
+
+      background:
+        var(--g-accent);
+    }
+
+
+    .championship-team > div {
+
+      min-width:
+        0;
+    }
+
+
+    .championship-team strong {
+
+      display:
+        block;
+
+      color:
+        var(--g-white);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        .5rem;
+
+      font-weight:
+        900;
+
+      overflow-wrap:
+        anywhere;
+    }
+
+
+    .you-label {
+
+      display:
+        block;
+
+      margin-top:
+        3px;
+
+      color:
+        var(--g-accent);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        .33rem;
+
+      font-weight:
+        900;
+    }
+
+
+    .championship-value,
+    .championship-points {
+
+      color:
+        var(--g-white);
+
+      font-family:
+        var(--font-display);
+
+      font-weight:
+        900;
+
+      text-align:
+        right;
+    }
+
+
+    .championship-value {
+
+      font-size:
+        .52rem;
+    }
+
+
+    .championship-points {
+
+      font-size:
+        .72rem;
+    }
+
+
+
+    /* =============================================================
+       TIPS
+       ============================================================= */
+
+    .tip-grid {
+
+      display:
+        grid;
+
+      grid-template-columns:
+        repeat(3,1fr);
+
+      gap:
+        8px;
+    }
+
+
+    .tip-card {
+
+      min-height:
+        212px;
+
+      display:
+        flex;
+
+      flex-direction:
+        column;
+
+      padding:
+        13px;
+
+      background:
+        var(--g-panel);
+
+      border:
+        2px solid var(--g-line-light);
+
+      box-shadow:
+        5px 5px 0 var(--g-black);
+    }
+
+
+    .tip-card:hover {
+
+      border-color:
+        var(--g-line-light);
+    }
+
+
+    .tip-top {
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      justify-content:
+        space-between;
+    }
+
+
+    .tip-number {
+
+      color:
+        var(--g-accent);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        1.15rem;
+
+      font-weight:
+        900;
+    }
+
+
+    .tip-icon {
+
+      width:
+        28px;
+
+      height:
+        28px;
+
+      display:
+        grid;
+
+      place-items:
+        center;
+
+      color:
+        var(--g-soft);
+
+      border:
+        1px solid var(--g-line);
+
+      background:
+        var(--g-black-2);
+    }
+
+
+    .tip-card h3 {
+
+      margin-top:
+        26px;
+
+      color:
+        var(--g-white);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        1rem;
+
+      font-weight:
+        900;
+
+      line-height:
+        .92;
+
+      text-transform:
+        uppercase;
+    }
+
+
+    .tip-card p {
+
+      margin-top:
+        8px;
+
+      color:
+        var(--g-muted);
+
+      font-size:
+        .66rem;
+
+      line-height:
+        1.58;
+    }
+
+
+    .tip-footer {
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      justify-content:
+        space-between;
+
+      gap:
+        10px;
+
+      margin-top:
+        auto;
+
+      padding-top:
+        11px;
+
+      border-top:
+        1px solid var(--g-line);
+
+      color:
+        var(--g-dim);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        .36rem;
+
+      font-weight:
+        900;
+    }
+
+
+    .tip-footer strong {
+
+      color:
+        var(--g-accent);
+
+      font-size:
+        1rem;
+    }
+
+
+
+    /* =============================================================
+       HISTORY
+       ============================================================= */
+
+    .history-top {
+
+      min-height:
+        55px;
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      justify-content:
+        space-between;
+
+      gap:
+        15px;
+
+      padding:
+        10px 12px;
+
+      background:
+        var(--g-black-2);
+
+      border-bottom:
+        1px solid var(--g-line);
+    }
+
+
+    .history-identity {
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      gap:
+        9px;
+    }
+
+
+    .history-icon {
+
+      width:
+        30px;
+
+      height:
+        30px;
+
+      display:
+        grid;
+
+      place-items:
+        center;
+
+      border:
+        1px solid var(--g-line-light);
+
+      color:
+        var(--g-accent);
+    }
+
+
+    .history-identity > div {
+
+      display:
+        flex;
+
+      flex-direction:
+        column;
+
+      gap:
+        3px;
+    }
+
+
+    .history-identity strong {
+
+      color:
+        var(--g-white);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        .53rem;
+
+      font-weight:
+        900;
+    }
+
+
+    .history-identity span {
+
+      color:
+        var(--g-dim);
+
+      font-size:
+        .37rem;
+
+      text-transform:
+        uppercase;
+    }
+
+
+    .history-driver {
+
+      padding:
+        5px 7px;
+
+      color:
+        var(--g-accent);
+
+      border:
+        1px solid var(--g-accent-dark);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        .36rem;
+
+      font-weight:
+        900;
+
+      text-transform:
+        uppercase;
+    }
+
+
+    .history-row {
+
+      min-height:
+        65px;
+
+      display:
+        grid;
+
+      grid-template-columns:
+        70px
+        minmax(0,1fr)
+        80px
+        125px;
+
+      align-items:
+        center;
+
+      gap:
+        10px;
+
+      padding:
+        9px 12px;
+
+      border-bottom:
+        1px solid var(--g-line);
+    }
+
+
+    .history-row:last-child {
+      border-bottom:
+        0;
+    }
+
+
+    .history-row:hover {
+
+      background:
+        var(--g-panel-2);
+    }
+
+
+    .history-result {
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      gap:
+        8px;
+    }
+
+
+    .history-result-icon {
+
+      width:
+        26px;
+
+      height:
+        26px;
+
+      display:
+        grid;
+
+      place-items:
+        center;
+
+      border:
+        1px solid var(--g-line-light);
+
+      color:
+        var(--g-accent);
+    }
+
+
+    .history-result strong {
+
+      color:
+        var(--g-accent);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        .48rem;
+
+      font-weight:
+        900;
+    }
+
+
+    .history-main {
+
+      min-width:
+        0;
+
+      display:
+        flex;
+
+      flex-direction:
+        column;
+
+      gap:
+        3px;
+    }
+
+
+    .history-main strong {
+
+      color:
+        var(--g-white);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        .48rem;
+
+      font-weight:
+        900;
+
+      overflow-wrap:
+        anywhere;
+
+      text-transform:
+        uppercase;
+    }
+
+
+    .history-main span {
+
+      color:
+        var(--g-dim);
+
+      font-size:
+        .36rem;
+
+      text-transform:
+        uppercase;
+    }
+
+
+    .history-cell {
+
+      display:
+        flex;
+
+      flex-direction:
+        column;
+
+      gap:
+        4px;
+    }
+
+
+    .history-cell span {
+
+      color:
+        var(--g-dim);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        .34rem;
+
+      font-weight:
+        900;
+    }
+
+
+    .history-cell strong {
+
+      color:
+        var(--g-white);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        .5rem;
+
+      font-weight:
+        900;
+    }
+
+
+    .history-prize strong {
+
+      color:
+        var(--g-accent);
+    }
+
+
+
+    /* =============================================================
+       FOOTER
+       ============================================================= */
+
+    .race-footer {
+
+      margin-top:
+        48px;
+    }
+
+
+    .race-footer-line {
+
+      height:
+        2px;
+
+      background:
+        var(--g-line-light);
+    }
+
+
+    .race-footer-body {
+
+      min-height:
+        78px;
+
+      display:
+        grid;
+
+      grid-template-columns:
+        1fr
+        auto
+        1fr;
+
+      align-items:
+        center;
+
+      gap:
+        16px;
+
+      color:
+        var(--g-dim);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        .42rem;
+
+      font-weight:
+        900;
+
+      letter-spacing:
+        .08em;
+
+      text-transform:
+        uppercase;
+    }
+
+
+    .race-footer-brand {
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      gap:
+        8px;
+    }
+
+
+    .race-footer-logo {
+
+      width:
+        30px;
+
+      height:
+        30px;
+
+      display:
+        grid;
+
+      place-items:
+        center;
+
+      border:
+        1px solid var(--g-line-light);
+
+      color:
+        var(--g-accent);
+    }
+
+
+    .race-footer-brand > div:last-child {
+
+      display:
+        flex;
+
+      flex-direction:
+        column;
+
+      gap:
+        4px;
+    }
+
+
+    .race-footer-brand strong {
+
+      color:
+        var(--g-white);
+
+      font-size:
+        .58rem;
+    }
+
+
+    .race-footer-flow {
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      gap:
+        8px;
+
+      text-align:
+        center;
+    }
+
+
+    .race-footer-flow strong {
+
+      color:
+        var(--g-accent);
+
+      font-size:
+        .9rem;
+    }
+
+
+    .race-footer-status {
+
+      display:
+        flex;
+
+      justify-content:
+        flex-end;
+
+      align-items:
+        center;
+
+      gap:
+        7px;
+
+      color:
+        var(--g-accent);
+    }
+
+
+    .race-footer-status i {
+
+      width:
+        5px;
+
+      height:
+        5px;
+
+      background:
+        var(--g-accent);
+    }
+
+
+
+    /* =============================================================
+       LARGE TABLET
+       ============================================================= */
+
+    @media (max-width: 1180px) {
+
+      .race-header-body {
+
+        grid-template-columns:
+          minmax(0,1fr)
+          220px;
+      }
+
+
+      .race-status-grid {
+
+        grid-template-columns:
+          repeat(2,1fr);
+      }
+
+
+      .race-event {
+
+        grid-template-columns:
+          160px
+          minmax(0,1fr);
+      }
+
+
+      .race-spec-grid {
+
+        grid-template-columns:
+          repeat(2,1fr);
+      }
+
+
+      .race-setup-grid {
+
+        grid-template-columns:
+          repeat(2,1fr);
+      }
+
+
+      .setup-panel--event {
+
+        grid-column:
+          1 / -1;
+      }
+
+
+      .start-race-body {
+
+        grid-template-columns:
+          minmax(0,1fr)
+          auto;
+      }
+
+
+      .start-race-copy {
+
+        grid-column:
+          1 / -1;
+      }
+
+
+      .start-race-action {
+
+        min-width:
+          180px;
+      }
+
+
+      .history-row {
+
+        grid-template-columns:
+          64px
+          minmax(0,1fr)
+          80px;
+      }
+
+
+      .history-prize {
+
+        display:
+          none;
+      }
+
+    }
+
+
+
+    /* =============================================================
+       TABLET
+       ============================================================= */
+
+    @media (max-width: 900px) {
+
+      .race-header-body {
+
+        grid-template-columns:
+          1fr;
+
+        align-items:
+          start;
+      }
+
+
+      .race-header-panel {
+
+        width:
+          min(100%,390px);
+      }
+
+
+      .race-event {
+
+        grid-template-columns:
+          1fr;
+      }
+
+
+      .race-event-visual {
+
+        min-height:
+          175px;
+
+        border-right:
+          0;
+
+        border-bottom:
+          2px solid var(--g-line);
+      }
+
+
+      .race-track {
+
+        width:
+          195px;
+
+        height:
+          92px;
+
+        transform:
+          perspective(500px)
+          rotateX(8deg);
+      }
+
+
+      .track-line {
+
+        left:
+          14px;
+
+        width:
+          163px;
+      }
+
+
+      .track-line--1 {
+        top:
+          22px;
+      }
+
+
+      .track-line--2 {
+        top:
+          44px;
+      }
+
+
+      .track-line--3 {
+        top:
+          66px;
+      }
+
+
+      .track-finish {
+
+        top:
+          6px;
+      }
+
+
+      .race-event-footer {
+
+        align-items:
+          stretch;
+
+        flex-direction:
+          column;
+      }
+
+
+      .race-select-button {
+
+        width:
+          100%;
+
+        justify-content:
+          center;
+      }
+
+
+      .risk-grid {
+
+        grid-template-columns:
+          1fr;
+      }
+
+
+      .tip-grid {
+
+        grid-template-columns:
+          1fr;
+      }
+
+
+      .tip-card {
+
+        min-height:
+          190px;
+      }
+
+
+      .table-header,
+      .championship-row {
+
+        grid-template-columns:
+          44px
+          minmax(0,1fr)
+          55px
+          65px;
+      }
+
+    }
+
+
+
+    /* =============================================================
+       MOBILE
+       ============================================================= */
+
+    @media (max-width: 760px) {
+
+      .race-section {
+
+        margin-top:
+          32px;
+      }
+
+
+      .race-header-top {
+
+        grid-template-columns:
+          1fr
+          auto;
+      }
+
+
+      .race-head-center {
+
+        display:
+          none;
+      }
+
+
+      .race-header-bottom {
+
+        grid-template-columns:
+          1fr
+          auto;
+      }
+
+
+      .race-header-bottom > span:nth-child(2) {
+
+        display:
+          none;
+      }
+
+
+      .race-header-body {
+
+        min-height:
+          0;
+
+        padding:
+          23px 16px;
+      }
+
+
+      .race-header-copy h1 {
+
+        font-size:
+          clamp(3.7rem,17vw,6rem);
+      }
+
+
+      .race-header-copy p {
+
+        font-size:
+          .75rem;
+      }
+
+
+      .header-actions {
+
+        grid-template-columns:
+          1fr
+          1fr;
+      }
+
+
+      .race-page .section-header {
+
+        min-height:
+          50px;
+      }
+
+
+      .race-page .section-code {
+
+        display:
+          none;
+      }
+
+
+      .race-filter-panel {
+
+        grid-template-columns:
+          1fr;
+      }
+
+
+      .race-filter-status {
+
+        min-height:
+          58px;
+
+        flex-direction:
+          row;
+
+        align-items:
+          center;
+
+        border-left:
+          0;
+
+        border-top:
+          2px solid var(--g-line);
+      }
+
+
+      .race-filter-list {
+
+        display:
+          grid;
+
+        grid-template-columns:
+          repeat(2,1fr);
+      }
+
+
+      .race-filter-button {
+
+        width:
+          100%;
+      }
+
+
+      .race-event-content {
+
+        padding:
+          14px;
+      }
+
+
+      .race-event-top {
+
+        flex-direction:
+          column;
+      }
+
+
+      .motor-setup-display,
+      .driver-setup-display {
+
+        grid-template-columns:
+          105px
+          minmax(0,1fr);
+      }
+
+
+      .start-race-body {
+
+        grid-template-columns:
+          1fr;
+      }
+
+
+      .start-race-copy {
+
+        grid-column:
+          auto;
+      }
+
+
+      .start-race-data {
+
+        grid-template-columns:
+          repeat(3,minmax(0,1fr));
+      }
+
+
+      .start-race-action {
+
+        min-width:
+          0;
+      }
+
+
+      .history-top {
+
+        align-items:
+          flex-start;
+
+        flex-direction:
+          column;
+      }
+
+
+      .history-row {
+
+        grid-template-columns:
+          58px
+          minmax(0,1fr);
+
+        align-items:
+          start;
+
+        gap:
+          7px 9px;
+
+        padding-block:
+          12px;
+      }
+
+
+      .history-cell {
+
+        grid-column:
+          2;
+      }
+
+
+      .history-prize {
+
+        display:
+          flex;
+      }
+
+
+      .race-footer-body {
+
+        grid-template-columns:
+          1fr;
+
+        align-items:
+          flex-start;
+
+        padding:
+          15px 0;
+      }
+
+
+      .race-footer-flow {
+
+        text-align:
+          left;
+      }
+
+
+      .race-footer-status {
+
+        justify-content:
+          flex-start;
+      }
+
+    }
+
+
+
+    /* =============================================================
+       SMALL PHONE
+       ============================================================= */
+
+    @media (max-width: 420px) {
+
+      .race-header-top,
+      .race-header-bottom {
+
+        font-size:
+          .41rem;
+      }
+
+
+      .race-header-bottom {
+
+        grid-template-columns:
+          1fr;
+      }
+
+
+      .race-header-bottom > span:nth-child(3) {
+
+        display:
+          none;
+      }
+
+
+      .race-header-body {
+
+        padding:
+          19px 12px;
+      }
+
+
+      .race-header-copy h1 {
+
+        font-size:
+          clamp(3rem,18vw,4.7rem);
+      }
+
+
+      .header-actions {
+
+        grid-template-columns:
+          1fr;
+      }
+
+
+      .season-box {
+
+        grid-template-columns:
+          46px
+          1fr;
+      }
+
+
+      .season-icon {
+
+        width:
+          46px;
+
+        height:
+          46px;
+      }
+
+
+      .race-status-card {
+
+        min-height:
+          116px;
+      }
+
+
+      .race-status-value {
+
+        font-size:
+          1.65rem;
+      }
+
+
+      .race-filter-list {
+
+        grid-template-columns:
+          1fr;
+      }
+
+
+      .race-event-content {
+
+        padding:
+          12px;
+      }
+
+
+      .race-spec-grid {
+
+        grid-template-columns:
+          1fr;
+      }
+
+
+      .race-money {
+
+        align-items:
+          flex-start;
+
+        flex-direction:
+          column;
+
+        gap:
+          8px;
+      }
+
+
+      .race-select-button {
+
+        min-height:
+          37px;
+      }
+
+
+      .race-setup-grid {
+
+        grid-template-columns:
+          1fr;
+      }
+
+
+      .setup-panel--event {
+
+        grid-column:
+          auto;
+      }
+
+
+      .setup-data-grid {
+
+        grid-template-columns:
+          1fr;
+      }
+
+
+      .setup-data-grid > div:last-child {
+
+        grid-column:
+          auto;
+      }
+
+
+      .motor-setup-display,
+      .driver-setup-display {
+
+        grid-template-columns:
+          1fr;
+      }
+
+
+      .motor-stage,
+      .driver-stage {
+
+        min-height:
+          110px;
+      }
+
+
+      .start-race-data {
+
+        grid-template-columns:
+          1fr;
+      }
+
+
+      .table-header {
+
+        display:
+          none;
+      }
+
+
+      .championship-row {
+
+        grid-template-columns:
+          42px
+          minmax(0,1fr)
+          52px;
+      }
+
+
+      .championship-points {
+
+        display:
+          none;
+      }
+
+
+      .history-row {
+
+        grid-template-columns:
+          52px
+          minmax(0,1fr);
+      }
+
+    }
+
+
+
+    /* =============================================================
+       VERY SMALL PHONE
+       ============================================================= */
+
+    @media (max-width: 360px) {
+
+      .header-actions {
+
+        grid-template-columns:
+          1fr;
+      }
+
+
+      .race-status-grid {
+
+        grid-template-columns:
+          1fr;
+      }
+
+
+      .race-filter-list {
+
+        grid-template-columns:
+          1fr;
+      }
+
+
+      .risk-card {
+
+        min-height:
+          160px;
+      }
+
+
+      .driver-stat-grid {
+
+        grid-template-columns:
+          1fr;
+      }
+
+
+      .setup-meter-row {
+
+        grid-template-columns:
+          43px
+          22px
+          minmax(0,1fr);
+      }
+
+    }
+
+  </style>
+</Layout>

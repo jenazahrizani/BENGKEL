@@ -1,0 +1,595 @@
+---
+interface Part {
+  id?: string;
+  name: string;
+  category?: string;
+  type?: "ENGINE" | "ELECTRICAL" | "TRANSMISSION" | "BRAKE" | "SUSPENSION" | "EXHAUST" | "TIRE" | "BODY" | string;
+  quality?: "STOCK" | "AFTERMARKET" | "PERFORMANCE" | "SPECIAL" | string;
+  condition?: "GOOD" | "WORN" | "BROKEN" | string;
+
+  power?: number;
+  acceleration?: number;
+  grip?: number;
+  reliability?: number;
+
+  price?: string;
+  value?: string;
+
+  installed?: boolean;
+  compatible?: boolean;
+  quantity?: number;
+}
+
+interface Props {
+  part: Part;
+  compact?: boolean;
+  showActions?: boolean;
+  actionLabel?: string;
+  actionHref?: string;
+}
+
+const {
+  part,
+  compact = false,
+  showActions = true,
+  actionLabel = "DETAIL PART",
+  actionHref = "/market",
+} = Astro.props;
+
+const power = Math.max(
+  0,
+  Math.min(100, part.power ?? 0)
+);
+
+const acceleration = Math.max(
+  0,
+  Math.min(100, part.acceleration ?? 0)
+);
+
+const grip = Math.max(
+  0,
+  Math.min(100, part.grip ?? 0)
+);
+
+const reliability = Math.max(
+  0,
+  Math.min(100, part.reliability ?? 0)
+);
+
+const qualityClass =
+  part.quality === "SPECIAL"
+    ? "badge-lime"
+    : part.quality === "PERFORMANCE"
+      ? "badge-orange"
+      : part.quality === "AFTERMARKET"
+        ? "badge-green"
+        : "";
+
+const conditionClass =
+  part.condition === "GOOD"
+    ? "badge-green"
+    : part.condition === "WORN"
+      ? "badge-orange"
+      : part.condition === "BROKEN"
+        ? "badge-red"
+        : "";
+
+const compatibleClass =
+  part.compatible === false
+    ? "status-danger"
+    : "status-good";
+
+const cardClasses = [
+  "part-card",
+  compact && "part-card--compact",
+]
+  .filter(Boolean)
+  .join(" ");
+---
+
+<article class={cardClasses}>
+  <div class="part-visual" aria-hidden="true">
+    <div class="part-pixel">
+      <span class="part-shape part-shape--one"></span>
+      <span class="part-shape part-shape--two"></span>
+      <span class="part-shape part-shape--three"></span>
+      <span class="part-shape part-shape--four"></span>
+    </div>
+
+    <span class="part-visual-label">
+      {part.category ?? part.type ?? "PART"}
+    </span>
+  </div>
+
+  <div class="part-content">
+    <div class="part-header">
+      <div class="part-title-group">
+        <span class="eyebrow">
+          {part.category ?? part.type ?? "COMPONENT"}
+        </span>
+
+        <h3 class="part-name">
+          {part.name}
+        </h3>
+      </div>
+
+      <div class="part-badges">
+        {part.quality && (
+          <span class:list={["badge", qualityClass]}>
+            {part.quality}
+          </span>
+        )}
+
+        {part.condition && (
+          <span class:list={["badge", conditionClass]}>
+            {part.condition}
+          </span>
+        )}
+      </div>
+    </div>
+
+    {(part.power !== undefined ||
+      part.acceleration !== undefined ||
+      part.grip !== undefined ||
+      part.reliability !== undefined) && (
+      <div class="part-stats">
+        {part.power !== undefined && (
+          <div class="part-stat">
+            <div class="part-stat-header">
+              <span>POWER</span>
+              <strong>
+                {part.power > 0 ? "+" : ""}
+                {part.power}
+              </strong>
+            </div>
+
+            <div class="progress">
+              <div
+                class="progress-fill"
+                style={`width: ${power}%;`}
+              ></div>
+            </div>
+          </div>
+        )}
+
+        {part.acceleration !== undefined && (
+          <div class="part-stat">
+            <div class="part-stat-header">
+              <span>ACCELERATION</span>
+              <strong>
+                {part.acceleration > 0 ? "+" : ""}
+                {part.acceleration}
+              </strong>
+            </div>
+
+            <div class="progress">
+              <div
+                class="progress-fill"
+                style={`width: ${acceleration}%;`}
+              ></div>
+            </div>
+          </div>
+        )}
+
+        {part.grip !== undefined && (
+          <div class="part-stat">
+            <div class="part-stat-header">
+              <span>GRIP</span>
+              <strong>
+                {part.grip > 0 ? "+" : ""}
+                {part.grip}
+              </strong>
+            </div>
+
+            <div class="progress">
+              <div
+                class="progress-fill"
+                style={`width: ${grip}%;`}
+              ></div>
+            </div>
+          </div>
+        )}
+
+        {part.reliability !== undefined && (
+          <div class="part-stat">
+            <div class="part-stat-header">
+              <span>RELIABILITY</span>
+              <strong>
+                {part.reliability > 0 ? "+" : ""}
+                {part.reliability}
+              </strong>
+            </div>
+
+            <div class="progress progress-green">
+              <div
+                class="progress-fill"
+                style={`width: ${reliability}%;`}
+              ></div>
+            </div>
+          </div>
+        )}
+      </div>
+    )}
+
+    <div class="part-meta">
+      {part.compatible !== undefined && (
+        <div class="meta-row">
+          <span class="label">
+            COMPATIBILITY
+          </span>
+
+          <span
+            class:list={[
+              "status",
+              compatibleClass,
+            ]}
+          >
+            {part.compatible
+              ? "COMPATIBLE"
+              : "NOT COMPATIBLE"}
+          </span>
+        </div>
+      )}
+
+      {part.installed !== undefined && (
+        <div class="meta-row">
+          <span class="label">
+            STATUS
+          </span>
+
+          <span
+            class:list={[
+              "status",
+              part.installed
+                ? "status-active"
+                : "",
+            ]}
+          >
+            {part.installed
+              ? "INSTALLED"
+              : "IN STOCK"}
+          </span>
+        </div>
+      )}
+
+      {part.quantity !== undefined && (
+        <div class="meta-row">
+          <span class="label">
+            STOCK
+          </span>
+
+          <strong class="meta-value">
+            {part.quantity}
+          </strong>
+        </div>
+      )}
+    </div>
+
+    {(part.price || part.value) && (
+      <div class="part-price">
+        <span class="label">
+          {part.price ? "PRICE" : "VALUE"}
+        </span>
+
+        <strong class="price">
+          {part.price ?? part.value}
+        </strong>
+      </div>
+    )}
+
+    {showActions && (
+      <div class="part-actions">
+        <a
+          href={actionHref}
+          class="btn btn-primary"
+        >
+          {actionLabel}
+        </a>
+      </div>
+    )}
+  </div>
+</article>
+
+<style>
+  .part-card {
+    display: grid;
+    grid-template-columns: 150px minmax(0, 1fr);
+
+    min-width: 0;
+    overflow: hidden;
+
+    background: var(--panel);
+    border: 2px solid var(--line);
+
+    box-shadow: var(--shadow-small);
+
+    transition:
+      transform 120ms steps(2),
+      border-color 120ms steps(2),
+      background 120ms steps(2);
+  }
+
+  .part-card:hover {
+    background: var(--panel-light);
+    border-color: var(--line-light);
+    transform: translate(-2px, -2px);
+  }
+
+  .part-card--compact {
+    grid-template-columns: 120px minmax(0, 1fr);
+  }
+
+  .part-visual {
+    position: relative;
+
+    min-height: 100%;
+
+    display: grid;
+    place-items: center;
+
+    background:
+      linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.025),
+        rgba(0, 0, 0, 0.2)
+      ),
+      repeating-linear-gradient(
+        45deg,
+        #20201c 0 8px,
+        #191916 8px 16px
+      );
+
+    border-right: 2px solid var(--line);
+    overflow: hidden;
+  }
+
+  .part-visual-label {
+    position: absolute;
+    left: 8px;
+    bottom: 7px;
+
+    color: var(--cream-muted);
+
+    font-family: var(--font-display);
+    font-size: 0.58rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+
+    text-transform: uppercase;
+  }
+
+  .part-pixel {
+    position: relative;
+    width: 82px;
+    height: 82px;
+  }
+
+  .part-shape {
+    position: absolute;
+    display: block;
+
+    background: var(--metal);
+    border: 4px solid var(--black);
+  }
+
+  .part-shape--one {
+    left: 15px;
+    top: 24px;
+
+    width: 48px;
+    height: 34px;
+
+    background: var(--metal-light);
+
+    box-shadow:
+      4px 4px 0 var(--metal-dark),
+      inset 0 -6px 0 rgba(0, 0, 0, 0.18);
+  }
+
+  .part-shape--two {
+    left: 24px;
+    top: 8px;
+
+    width: 28px;
+    height: 24px;
+
+    background: var(--red);
+  }
+
+  .part-shape--three {
+    left: 7px;
+    top: 33px;
+
+    width: 18px;
+    height: 18px;
+
+    background: var(--black);
+  }
+
+  .part-shape--four {
+    right: 7px;
+    top: 35px;
+
+    width: 20px;
+    height: 14px;
+
+    background: var(--yellow);
+  }
+
+  .part-content {
+    min-width: 0;
+    padding: 14px;
+  }
+
+  .part-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .part-title-group {
+    min-width: 0;
+  }
+
+  .part-name {
+    margin-top: 4px;
+
+    color: var(--cream);
+
+    font-family: var(--font-display);
+    font-size: var(--text-lg);
+    font-weight: 900;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+
+    overflow-wrap: anywhere;
+    text-transform: uppercase;
+  }
+
+  .part-badges {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 5px;
+
+    flex-shrink: 0;
+  }
+
+  .part-stats {
+    display: grid;
+    gap: 9px;
+    margin-top: 14px;
+  }
+
+  .part-stat {
+    min-width: 0;
+  }
+
+  .part-stat-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+
+    margin-bottom: 4px;
+
+    color: var(--cream-muted);
+
+    font-family: var(--font-display);
+    font-size: 0.58rem;
+    font-weight: 900;
+    letter-spacing: 0.06em;
+
+    text-transform: uppercase;
+  }
+
+  .part-stat-header strong {
+    color: var(--cream);
+    font-size: 0.64rem;
+  }
+
+  .part-meta {
+    display: grid;
+    gap: 7px;
+
+    margin-top: 14px;
+    padding-top: 11px;
+
+    border-top: 1px solid var(--line);
+  }
+
+  .meta-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+
+    min-width: 0;
+  }
+
+  .meta-row .status {
+    flex-shrink: 0;
+  }
+
+  .meta-value {
+    color: var(--cream);
+    font-family: var(--font-display);
+    font-size: var(--text-sm);
+    font-weight: 900;
+  }
+
+  .part-price {
+    margin-top: 14px;
+    padding-top: 11px;
+
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 12px;
+
+    border-top: 1px solid var(--line);
+  }
+
+  .part-actions {
+    margin-top: 12px;
+  }
+
+  .part-actions .btn {
+    width: 100%;
+  }
+
+  @media (max-width: 900px) {
+    .part-card {
+      grid-template-columns: 120px minmax(0, 1fr);
+    }
+
+    .part-visual {
+      min-height: 170px;
+    }
+  }
+
+  @media (max-width: 760px) {
+    .part-card,
+    .part-card--compact {
+      display: block;
+    }
+
+    .part-visual {
+      min-height: 145px;
+
+      border-right: 0;
+      border-bottom: 2px solid var(--line);
+    }
+
+    .part-content {
+      padding: 13px;
+    }
+
+    .part-header {
+      flex-direction: column;
+    }
+
+    .part-badges {
+      justify-content: flex-start;
+    }
+  }
+
+  @media (max-width: 420px) {
+    .part-meta {
+      gap: 8px;
+    }
+
+    .meta-row {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .part-price {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 4px;
+    }
+  }
+</style>

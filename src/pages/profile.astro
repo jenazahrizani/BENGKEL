@@ -1,0 +1,6007 @@
+﻿---
+import Layout from "../components/Layout.astro";
+import "../styles/global.css";
+import Button from "../components/Button.astro";
+import Navigation from "../components/Navigation.astro";
+
+const profile = {
+  garageName: "NUSA GARAGE",
+  ownerName: "BIMO",
+  reputation: 24,
+  reputationTier: "LOCAL NAME",
+  garageLevel: 1,
+  founded: "DAY 18",
+};
+
+const careerStats = [
+  {
+    label: "MOTOR",
+    value: "12",
+    detail: "TOTAL HANDLED",
+    icon: "motorcycle",
+  },
+  {
+    label: "BUILD",
+    value: "08",
+    detail: "PROJECT COMPLETE",
+    icon: "wrench",
+  },
+  {
+    label: "RACE",
+    value: "07",
+    detail: "TOTAL START",
+    icon: "flag",
+  },
+  {
+    label: "WIN",
+    value: "02",
+    detail: "CAREER WIN",
+    icon: "trophy",
+  },
+];
+
+const reputationMilestones = [
+  {
+    tier: "UNKNOWN",
+    required: 0,
+    reached: true,
+  },
+  {
+    tier: "LOCAL NAME",
+    required: 10,
+    reached: true,
+  },
+  {
+    tier: "ESTABLISHED",
+    required: 35,
+    reached: false,
+  },
+  {
+    tier: "KNOWN GARAGE",
+    required: 60,
+    reached: false,
+  },
+  {
+    tier: "CITY NAME",
+    required: 100,
+    reached: false,
+  },
+  {
+    tier: "REGIONAL",
+    required: 150,
+    reached: false,
+  },
+  {
+    tier: "LEGENDARY",
+    required: 250,
+    reached: false,
+  },
+];
+
+const mastery = [
+  {
+    level: "STYLE / 01",
+    title: "BUILDER",
+    description:
+      "Fokus pada meracik motor, upgrade komponen, tuning, dan membangun unit dengan karakter yang kuat.",
+    value: 68,
+    icon: "wrench",
+  },
+  {
+    level: "STYLE / 02",
+    title: "TRADER",
+    description:
+      "Mencari unit murah, membaca peluang market, membeli project, lalu menjual dengan margin yang sehat.",
+    value: 54,
+    icon: "search",
+  },
+  {
+    level: "STYLE / 03",
+    title: "WORKSHOP",
+    description:
+      "Mengembangkan reputasi melalui order pelanggan, service, repair, dan pekerjaan rutin bengkel.",
+    value: 76,
+    icon: "toolbox",
+  },
+  {
+    level: "STYLE / 04",
+    title: "RACER",
+    description:
+      "Mengejar catatan waktu, memilih event, mengatur risk, dan membangun kombinasi motor-joki yang cocok.",
+    value: 42,
+    icon: "flag",
+  },
+];
+
+const records = [
+  {
+    label: "BEST TIME",
+    value: "08.31",
+    suffix: "UNDER 125",
+    icon: "timer",
+  },
+  {
+    label: "HIGHEST SALE",
+    value: "24.5M",
+    suffix: "MOTOR VALUE",
+    icon: "coin",
+  },
+  {
+    label: "BEST BUILD",
+    value: "82",
+    suffix: "BUILD SCORE",
+    icon: "wrench",
+  },
+  {
+    label: "LONGEST STREAK",
+    value: "05",
+    suffix: "JOB STREAK",
+    icon: "bolt",
+  },
+  {
+    label: "MOST EXPENSIVE",
+    value: "31M",
+    suffix: "UNIT HANDLED",
+    icon: "motorcycle",
+  },
+  {
+    label: "RACE WINS",
+    value: "02",
+    suffix: "CAREER WIN",
+    icon: "trophy",
+  },
+];
+
+const hallOfFame = [
+  {
+    title: "NUSA 125 / STREET BUILD",
+    category: "MOTOR",
+    detail: "BEST BUILD",
+    value: "82 SCORE",
+  },
+  {
+    title: "ABIANSEMAL NIGHT RUN",
+    category: "RACE",
+    detail: "BEST TIME",
+    value: "08.31",
+  },
+  {
+    title: "FIRST 10M SALE",
+    category: "MARKET",
+    detail: "FIRST MAJOR SALE",
+    value: "10.2M",
+  },
+  {
+    title: "FIVE JOB STREAK",
+    category: "WORKSHOP",
+    detail: "ORDER CHAIN",
+    value: "05 JOB",
+  },
+];
+
+const history = [
+  {
+    period: "DAY 18",
+    title: "MENYELESAIKAN ABIANSEMAL NIGHT RUN",
+    detail: "Bimo membawa NUSA 125 finis pertama di kelas UNDER 125.",
+    value: "+350K",
+  },
+  {
+    period: "DAY 17",
+    title: "STREET BUILD SELESAI",
+    detail: "Build score NUSA 125 naik ke angka 82 setelah tuning terakhir.",
+    value: "+82 BUILD",
+  },
+  {
+    period: "DAY 15",
+    title: "ORDER CUSTOMER KE-08",
+    detail: "Service rutin dan brake setup selesai tanpa komplain.",
+    value: "+450K",
+  },
+  {
+    period: "DAY 13",
+    title: "UNIT PERTAMA TERJUAL",
+    detail: "Project lama berhasil dilepas setelah market refresh.",
+    value: "+10.2M",
+  },
+  {
+    period: "DAY 01",
+    title: "BENGKEL DIBUKA",
+    detail: "Garage kecil dengan satu bench dan dua slot motor dimulai.",
+    value: "LEVEL 01",
+  },
+];
+
+const identityTags = [
+  {
+    label: "BUILDER",
+    icon: "wrench",
+    accent: true,
+  },
+  {
+    label: "TRADER",
+    icon: "search",
+  },
+  {
+    label: "WORKSHOP",
+    icon: "toolbox",
+  },
+  {
+    label: "RACER",
+    icon: "flag",
+  },
+];
+
+const saveStatus = {
+  version: "0.1",
+  state: "LOCAL SAVE",
+  slot: "SAVE_01",
+  lastSave: "JUST NOW",
+};
+---
+
+<Layout
+  title="BENGKEL — PROFILE"
+  description="Catatan perjalanan garage: reputasi, mastery, records, milestone, dan sejarah."
+>
+  <div class="page profile-page">
+    <div class="game-layout">
+
+      <Navigation active="profile" />
+
+      <main class="main">
+
+        <div class="main-inner profile-main">
+
+          <!-- =====================================================
+               HEADER
+          ===================================================== -->
+
+          <header class="profile-header">
+
+            <div class="profile-header-top">
+
+              <div class="profile-head-left">
+                <span class="header-led"></span>
+                <span>PROFILE_01</span>
+              </div>
+
+              <span class="profile-head-center">
+                GARAGE / IDENTITY / RECORDS
+              </span>
+
+              <div class="profile-head-right">
+                <span class="pixel-icon pixel-icon--person pixel-icon--tiny"></span>
+                OWNER ONLINE
+              </div>
+
+            </div>
+
+
+            <div class="profile-header-body">
+
+              <div class="profile-header-copy">
+
+                <div class="profile-kicker-row">
+
+                  <span class="profile-title-icon">
+                    <span class="pixel-icon pixel-icon--person pixel-icon--small"></span>
+                  </span>
+
+                  <span class="header-kicker">
+                    GARAGE OWNER PROFILE
+                  </span>
+
+                </div>
+
+                <h1>
+                  PROFILE
+                </h1>
+
+                <div class="header-rule"></div>
+
+                <p>
+                  Catatan perjalanan garage:
+                  reputasi, mastery, personal records,
+                  milestone, dan sejarah yang kamu bangun
+                  dari motor pertama sampai lintasan.
+                </p>
+
+              </div>
+
+
+              <div class="profile-header-panel">
+
+                <div class="owner-box">
+
+                  <div class="owner-mark">
+                    BM
+                  </div>
+
+                  <div class="owner-copy">
+
+                    <span>
+                      GARAGE OWNER
+                    </span>
+
+                    <strong>
+                      {profile.ownerName}
+                    </strong>
+
+                    <small>
+                      {profile.garageName}
+                    </small>
+
+                  </div>
+
+                  <div class="owner-level">
+
+                    <span>
+                      LVL
+                    </span>
+
+                    <strong>
+                      {String(profile.garageLevel).padStart(2, "0")}
+                    </strong>
+
+                  </div>
+
+                </div>
+
+
+                <div class="header-capacity">
+
+                  <div>
+                    <span>REP</span>
+                    <strong>{profile.reputation}</strong>
+                  </div>
+
+                  <div>
+                    <span>RACE</span>
+                    <strong>07</strong>
+                  </div>
+
+                  <div>
+                    <span>WIN</span>
+                    <strong>02</strong>
+                  </div>
+
+                </div>
+
+
+                <div class="header-actions">
+
+                  <Button
+                    href="/garage"
+                    variant="primary"
+                  >
+                    OPEN GARAGE
+                  </Button>
+
+                  <Button href="/race">
+                    RACE CONTROL
+                  </Button>
+
+                </div>
+
+              </div>
+
+            </div>
+
+
+            <div class="profile-header-bottom">
+
+              <span>
+                PROFILE / MASTERY / LEGACY
+              </span>
+
+              <span>
+                {profile.reputationTier} / {profile.reputation} REP
+              </span>
+
+              <span class="header-system">
+                <i></i>
+                PROFILE SYSTEM READY
+              </span>
+
+            </div>
+
+          </header>
+
+
+
+          <!-- =====================================================
+               IDENTITY
+          ===================================================== -->
+
+          <section class="profile-section">
+
+            <div class="section-header">
+
+              <div class="section-heading">
+
+                <span class="section-marker section-marker--accent"></span>
+
+                <div>
+                  <span class="section-kicker">
+                    GARAGE IDENTITY
+                  </span>
+
+                  <h2>
+                    SIAPA KAMU
+                  </h2>
+                </div>
+
+              </div>
+
+              <span class="section-code">
+                OWNER / 01
+              </span>
+
+            </div>
+
+
+            <article class="identity-card">
+
+              <div class="identity-emblem">
+
+                <div class="identity-emblem-inner">
+
+                  <span>
+                    BM
+                  </span>
+
+                  <strong>
+                    01
+                  </strong>
+
+                </div>
+
+              </div>
+
+
+              <div class="identity-main">
+
+                <div class="identity-kicker">
+                  GARAGE OWNER
+                </div>
+
+                <h3>
+                  {profile.garageName}
+                </h3>
+
+                <strong class="identity-owner">
+                  {profile.ownerName}
+                </strong>
+
+                <p>
+                  Dealer ketika mencari peluang.
+                  Builder ketika melihat potensi.
+                  Workshop ketika pelanggan datang.
+                  Racer ketika waktunya turun lintasan.
+                </p>
+
+
+                <div class="identity-tags">
+
+                  {
+                    identityTags.map((tag) => (
+                      <span
+                        class:list={[
+                          "identity-tag",
+                          tag.accent &&
+                            "identity-tag--accent",
+                        ]}
+                      >
+
+                        <span class="identity-tag-icon">
+
+                          <span
+                            class:list={[
+                              "pixel-icon",
+                              `pixel-icon--${tag.icon}`,
+                              "pixel-icon--tiny",
+                            ]}
+                          ></span>
+
+                        </span>
+
+                        {tag.label}
+
+                      </span>
+                    ))
+                  }
+
+                </div>
+
+              </div>
+
+
+              <div class="identity-reputation">
+
+                <span>
+                  REPUTATION
+                </span>
+
+                <strong>
+                  {profile.reputation}
+                </strong>
+
+                <small>
+                  {profile.reputationTier}
+                </small>
+
+                <div class="identity-rep-line">
+
+                  {
+                    Array.from({ length: 8 }).map(
+                      (_, index) => (
+                        <i
+                          class:active={
+                            index <
+                            Math.ceil(
+                              profile.reputation /
+                                35 *
+                                8
+                            )
+                          }
+                        ></i>
+                      )
+                    )
+                  }
+
+                </div>
+
+              </div>
+
+            </article>
+
+          </section>
+
+
+
+          <!-- =====================================================
+               CAREER STATUS
+          ===================================================== -->
+
+          <section class="profile-section">
+
+            <div class="section-header">
+
+              <div class="section-heading">
+
+                <span class="section-marker"></span>
+
+                <div>
+                  <span class="section-kicker">
+                    CAREER OVERVIEW
+                  </span>
+
+                  <h2>
+                    CATATAN GARASI
+                  </h2>
+                </div>
+
+              </div>
+
+              <span class="section-code">
+                LIVE / 04
+              </span>
+
+            </div>
+
+
+            <div class="career-grid">
+
+              {
+                careerStats.map((stat, index) => (
+                  <article
+                    class:list={[
+                      "career-card",
+                      index === 0 &&
+                        "career-card--active",
+                    ]}
+                  >
+
+                    <div class="career-card-head">
+
+                      <div class="career-ident">
+
+                        <span class="career-icon">
+
+                          <span
+                            class:list={[
+                              "pixel-icon",
+                              `pixel-icon--${stat.icon}`,
+                              "pixel-icon--small",
+                            ]}
+                          ></span>
+
+                        </span>
+
+                        <span>
+                          {stat.label}
+                        </span>
+
+                      </div>
+
+                      <span>
+                        0{index + 1}
+                      </span>
+
+                    </div>
+
+
+                    <strong class="career-value">
+                      {stat.value}
+                    </strong>
+
+
+                    <div class="career-footer">
+
+                      <div class="segment-bar">
+
+                        {
+                          Array.from({
+                            length: 8,
+                          }).map(
+                            (_, segmentIndex) => (
+                              <i
+                                class:segment-active={
+                                  segmentIndex <
+                                  index + 4
+                                }
+                              ></i>
+                            )
+                          )
+                        }
+
+                      </div>
+
+                      <span>
+                        {stat.detail}
+                      </span>
+
+                    </div>
+
+                  </article>
+                ))
+              }
+
+            </div>
+
+          </section>
+
+
+
+          <!-- =====================================================
+               REPUTATION
+          ===================================================== -->
+
+          <section class="profile-section">
+
+            <div class="section-header">
+
+              <div class="section-heading">
+
+                <span class="section-marker section-marker--accent"></span>
+
+                <div>
+                  <span class="section-kicker">
+                    REPUTATION SYSTEM
+                  </span>
+
+                  <h2>
+                    NAMA DI DUNIA GARASI
+                  </h2>
+                </div>
+
+              </div>
+
+              <span class="section-link">
+                {profile.reputation} REP
+              </span>
+
+            </div>
+
+
+            <article class="reputation-panel">
+
+              <div class="reputation-main">
+
+                <div class="reputation-current">
+
+                  <span class="section-kicker">
+                    CURRENT TIER
+                  </span>
+
+                  <strong>
+                    {profile.reputationTier}
+                  </strong>
+
+                  <p>
+                    Reputasi tumbuh dari pekerjaan pelanggan,
+                    build motor, transaksi market, kemenangan,
+                    dan konsistensi garage.
+                  </p>
+
+                </div>
+
+
+                <div class="reputation-next">
+
+                  <span>
+                    NEXT TIER
+                  </span>
+
+                  <strong>
+                    ESTABLISHED
+                  </strong>
+
+                  <small>
+                    35 REP REQUIRED
+                  </small>
+
+                </div>
+
+              </div>
+
+
+              <div class="reputation-progress">
+
+                <div class="progress-head">
+
+                  <span>
+                    PROGRESS TO NEXT TIER
+                  </span>
+
+                  <strong>
+                    24 / 35 REP
+                  </strong>
+
+                </div>
+
+                <div class="progress-track">
+
+                  <i
+                    style={`width:${(profile.reputation / 35) * 100}%`}
+                  ></i>
+
+                </div>
+
+              </div>
+
+
+              <div class="milestone-grid">
+
+                {
+                  reputationMilestones.map(
+                    (milestone, index) => (
+                      <div
+                        class:list={[
+                          "milestone",
+                          milestone.reached &&
+                            "milestone--reached",
+                        ]}
+                      >
+
+                        <div class="milestone-top">
+
+                          <span>
+                            {String(index + 1).padStart(
+                              2,
+                              "0"
+                            )}
+                          </span>
+
+                          <span>
+                            {milestone.required}
+                          </span>
+
+                        </div>
+
+
+                        <div class="milestone-mark">
+
+                          {
+                            milestone.reached
+                              ? "✓"
+                              : "—"
+                          }
+
+                        </div>
+
+
+                        <strong>
+                          {milestone.tier}
+                        </strong>
+
+                        <small>
+                          {milestone.required} REP
+                        </small>
+
+                      </div>
+                    )
+                  )
+                }
+
+              </div>
+
+            </article>
+
+          </section>
+
+
+
+          <!-- =====================================================
+               MASTERY
+          ===================================================== -->
+
+          <section class="profile-section">
+
+            <div class="section-header">
+
+              <div class="section-heading">
+
+                <span class="section-marker"></span>
+
+                <div>
+                  <span class="section-kicker">
+                    GARAGE MASTERY
+                  </span>
+
+                  <h2>
+                    GAYA BERMAIN
+                  </h2>
+                </div>
+
+              </div>
+
+              <span class="section-code">
+                FOUR PATHS
+              </span>
+
+            </div>
+
+
+            <div class="mastery-grid">
+
+              {
+                mastery.map((item, index) => (
+                  <article class="mastery-card">
+
+                    <div class="mastery-top">
+
+                      <div class="mastery-index">
+                        {item.level}
+                      </div>
+
+                      <span class="mastery-icon">
+
+                        <span
+                          class:list={[
+                            "pixel-icon",
+                            `pixel-icon--${item.icon}`,
+                            "pixel-icon--small",
+                          ]}
+                        ></span>
+
+                      </span>
+
+                    </div>
+
+
+                    <h3>
+                      {item.title}
+                    </h3>
+
+
+                    <p>
+                      {item.description}
+                    </p>
+
+
+                    <div class="mastery-progress">
+
+                      <div class="mastery-progress-head">
+
+                        <span>
+                          MASTERY
+                        </span>
+
+                        <strong>
+                          {item.value}%
+                        </strong>
+
+                      </div>
+
+                      <div class="progress-track">
+
+                        <i
+                          style={`width:${item.value}%`}
+                        ></i>
+
+                      </div>
+
+                    </div>
+
+
+                    <div class="mastery-footer">
+
+                      <span>
+                        HISTORY / IDENTITY
+                      </span>
+
+                      <strong>
+                        →
+                      </strong>
+
+                    </div>
+
+                  </article>
+                ))
+              }
+
+            </div>
+
+          </section>
+
+
+
+          <!-- =====================================================
+               PERSONAL RECORDS
+          ===================================================== -->
+
+          <section class="profile-section">
+
+            <div class="section-header">
+
+              <div class="section-heading">
+
+                <span class="section-marker section-marker--accent"></span>
+
+                <div>
+                  <span class="section-kicker">
+                    PERSONAL RECORDS
+                  </span>
+
+                  <h2>
+                    BEST OF GARAGE
+                  </h2>
+                </div>
+
+              </div>
+
+              <span class="section-code">
+                RECORDS / 06
+              </span>
+
+            </div>
+
+
+            <div class="records-grid">
+
+              {
+                records.map((record, index) => (
+                  <article class="record-card">
+
+                    <span class="record-number">
+                      {String(index + 1).padStart(
+                        2,
+                        "0"
+                      )}
+                    </span>
+
+
+                    <span class="record-icon">
+
+                      <span
+                        class:list={[
+                          "pixel-icon",
+                          `pixel-icon--${record.icon}`,
+                          "pixel-icon--small",
+                        ]}
+                      ></span>
+
+                    </span>
+
+
+                    <span class="record-label">
+                      {record.label}
+                    </span>
+
+
+                    <strong>
+                      {record.value}
+                    </strong>
+
+
+                    <span class="record-suffix">
+                      {record.suffix}
+                    </span>
+
+                  </article>
+                ))
+              }
+
+            </div>
+
+          </section>
+
+
+
+          <!-- =====================================================
+               HALL OF FAME
+          ===================================================== -->
+
+          <section class="profile-section">
+
+            <div class="section-header">
+
+              <div class="section-heading">
+
+                <span class="section-marker"></span>
+
+                <div>
+                  <span class="section-kicker">
+                    GARAGE LEGACY
+                  </span>
+
+                  <h2>
+                    HALL OF FAME
+                  </h2>
+                </div>
+
+              </div>
+
+              <span class="section-code">
+                {hallOfFame.length} ENTRIES
+              </span>
+
+            </div>
+
+
+            <article class="legacy-panel">
+
+              <div class="legacy-head">
+
+                <div>
+                  <span>
+                    HISTORIC ENTRIES
+                  </span>
+
+                  <strong>
+                    MOTOR & MOMENT
+                  </strong>
+                </div>
+
+                <span>
+                  LEGACY / 01
+                </span>
+
+              </div>
+
+
+              <div class="legacy-list">
+
+                {
+                  hallOfFame.map((entry, index) => (
+                    <div class="legacy-row">
+
+                      <div class="legacy-index">
+                        #{String(index + 1).padStart(
+                          2,
+                          "0"
+                        )}
+                      </div>
+
+
+                      <div class="legacy-main">
+
+                        <strong>
+                          {entry.title}
+                        </strong>
+
+                        <span>
+                          {entry.category}
+                          {" / "}
+                          {entry.detail}
+                        </span>
+
+                      </div>
+
+
+                      <div class="legacy-value">
+                        {entry.value}
+                      </div>
+
+                    </div>
+                  ))
+                }
+
+              </div>
+
+
+              <div class="legacy-footer">
+
+                <div>
+
+                  <span>
+                    LEGACY PRINCIPLE
+                  </span>
+
+                  <strong>
+                    MOTOR & JOKI BISA MENINGGALKAN SEJARAH
+                  </strong>
+
+                </div>
+
+                <span class="legacy-arrow">
+                  →
+                </span>
+
+              </div>
+
+            </article>
+
+          </section>
+
+
+
+          <!-- =====================================================
+               TIMELINE
+          ===================================================== -->
+
+          <section class="profile-section">
+
+            <div class="section-header">
+
+              <div class="section-heading">
+
+                <span class="section-marker section-marker--accent"></span>
+
+                <div>
+                  <span class="section-kicker">
+                    CAREER HISTORY
+                  </span>
+
+                  <h2>
+                    GARAGE TIMELINE
+                  </h2>
+                </div>
+
+              </div>
+
+              <span class="section-code">
+                LOG / {history.length}
+              </span>
+
+            </div>
+
+
+            <article class="timeline-panel">
+
+              <div class="timeline-head">
+
+                <span>
+                  RECENT EVENTS
+                </span>
+
+                <span class="timeline-live">
+                  <i></i>
+                  LIVE LOG
+                </span>
+
+              </div>
+
+
+              <div class="timeline-list">
+
+                {
+                  history.map((item, index) => (
+                    <div class="timeline-row">
+
+                      <div class="timeline-period">
+                        {item.period}
+                      </div>
+
+
+                      <div class="timeline-marker">
+
+                        <i></i>
+
+                      </div>
+
+
+                      <div class="timeline-main">
+
+                        <strong>
+                          {item.title}
+                        </strong>
+
+                        <span>
+                          {item.detail}
+                        </span>
+
+                      </div>
+
+
+                      <div class="timeline-value">
+                        {item.value}
+                      </div>
+
+                    </div>
+                  ))
+                }
+
+              </div>
+
+            </article>
+
+          </section>
+
+
+
+          <!-- =====================================================
+               SAVE / SYSTEM
+          ===================================================== -->
+
+          <section class="profile-section">
+
+            <div class="section-header">
+
+              <div class="section-heading">
+
+                <span class="section-marker"></span>
+
+                <div>
+                  <span class="section-kicker">
+                    PROFILE SYSTEM
+                  </span>
+
+                  <h2>
+                    SAVE & STATUS
+                  </h2>
+                </div>
+
+              </div>
+
+              <span class="section-code">
+                SYSTEM / ONLINE
+              </span>
+
+            </div>
+
+
+            <div class="system-grid">
+
+              <article class="system-card system-card--save">
+
+                <div class="system-card-head">
+
+                  <div class="system-card-icon">
+                    <span class="pixel-icon pixel-icon--save pixel-icon--small"></span>
+                  </div>
+
+                  <div>
+
+                    <span>
+                      SAVE SLOT
+                    </span>
+
+                    <strong>
+                      {saveStatus.slot}
+                    </strong>
+
+                  </div>
+
+                  <span class="system-live">
+                    <i></i>
+                    {saveStatus.state}
+                  </span>
+
+                </div>
+
+
+                <div class="system-card-data">
+
+                  <div>
+                    <span>VERSION</span>
+                    <strong>{saveStatus.version}</strong>
+                  </div>
+
+                  <div>
+                    <span>LAST SAVE</span>
+                    <strong>{saveStatus.lastSave}</strong>
+                  </div>
+
+                  <div>
+                    <span>GARAGE</span>
+                    <strong>{profile.garageName}</strong>
+                  </div>
+
+                </div>
+
+
+                <Button
+                  size="small"
+                  variant="primary"
+                >
+                  SAVE STATUS
+                </Button>
+
+              </article>
+
+
+              <article class="system-card">
+
+                <div class="system-card-head">
+
+                  <div class="system-card-icon">
+                    <span class="pixel-icon pixel-icon--chart pixel-icon--small"></span>
+                  </div>
+
+                  <div>
+
+                    <span>
+                      PROFILE DATA
+                    </span>
+
+                    <strong>
+                      LOCAL RECORD
+                    </strong>
+
+                  </div>
+
+                </div>
+
+
+                <p>
+                  Semua record, reputation,
+                  mastery, history, dan identitas
+                  garage menggunakan sistem data
+                  lokal pada versi awal game.
+                </p>
+
+
+                <a
+                  href="/garage"
+                  class="retro-button"
+                >
+                  BACK TO GARAGE →
+                </a>
+
+              </article>
+
+
+              <article class="system-card">
+
+                <div class="system-card-head">
+
+                  <div class="system-card-icon">
+                    <span class="pixel-icon pixel-icon--bolt pixel-icon--small"></span>
+                  </div>
+
+                  <div>
+
+                    <span>
+                      GAME BUILD
+                    </span>
+
+                    <strong>
+                      CURRENT VERSION
+                    </strong>
+
+                  </div>
+
+                </div>
+
+
+                <div class="version-display">
+                  v{saveStatus.version}
+                </div>
+
+
+                <div class="version-detail">
+                  GARAGE / MARKET / WORKSHOP / TEAM / RACE
+                </div>
+
+              </article>
+
+            </div>
+
+          </section>
+
+
+
+          <!-- =====================================================
+               FOOTER
+          ===================================================== -->
+
+          <footer class="profile-footer">
+
+            <div class="profile-footer-line"></div>
+
+
+            <div class="profile-footer-body">
+
+              <div class="profile-footer-brand">
+
+                <div class="profile-footer-logo">
+
+                  <span class="pixel-icon pixel-icon--person pixel-icon--small"></span>
+
+                </div>
+
+                <div>
+
+                  <strong>
+                    BENGKEL
+                  </strong>
+
+                  <span>
+                    GARAGE OWNER PROFILE
+                  </span>
+
+                </div>
+
+              </div>
+
+
+              <div class="profile-footer-flow">
+
+                <span>
+                  IDENTITY
+                </span>
+
+                <strong>
+                  →
+                </strong>
+
+                <span>
+                  RECORD
+                </span>
+
+                <strong>
+                  →
+                </strong>
+
+                <span>
+                  LEGACY
+                </span>
+
+              </div>
+
+
+              <div class="profile-footer-status">
+
+                <i></i>
+
+                PROFILE ONLINE
+
+              </div>
+
+            </div>
+
+          </footer>
+
+        </div>
+
+      </main>
+
+    </div>
+  </div>
+
+
+  <style>
+
+    /* =============================================================
+       DESIGN TOKENS
+       EXACT GARAGE FAMILY
+       ============================================================= */
+
+    .profile-page {
+
+      --g-black: #050505;
+      --g-black-2: #090909;
+
+      --g-panel: #101010;
+      --g-panel-2: #151515;
+      --g-panel-3: #1b1b1b;
+
+      --g-line: #292929;
+      --g-line-light: #3d3d3d;
+
+      --g-white: #f1f1eb;
+      --g-soft: #d0d0ca;
+
+      --g-muted: #979791;
+      --g-dim: #61615c;
+
+      --g-accent: #b7d83c;
+      --g-accent-dark: #687d27;
+
+      --g-danger: #c65a51;
+
+      min-width: 0;
+    }
+
+
+    /* =============================================================
+       RHYTHM
+       ============================================================= */
+
+    .profile-section {
+      margin-top: 42px;
+    }
+
+
+    /* =============================================================
+       ICON SYSTEM
+       ============================================================= */
+
+    .profile-page .pixel-icon {
+
+      position: relative;
+
+      display: block;
+
+      width: 18px;
+      height: 18px;
+
+      color: currentColor;
+
+      image-rendering: pixelated;
+    }
+
+
+    .profile-page .pixel-icon::before,
+    .profile-page .pixel-icon::after {
+
+      content: "";
+
+      position: absolute;
+
+      display: block;
+    }
+
+
+    .profile-page .pixel-icon--tiny {
+
+      width: 10px;
+      height: 10px;
+    }
+
+
+    .profile-page .pixel-icon--small {
+
+      width: 18px;
+      height: 18px;
+    }
+
+
+    .profile-page .pixel-icon--medium {
+
+      width: 30px;
+      height: 30px;
+    }
+
+
+    .profile-page .pixel-icon--person::before {
+
+      left: 6px;
+      top: 1px;
+
+      width: 6px;
+      height: 6px;
+
+      background: currentColor;
+    }
+
+
+    .profile-page .pixel-icon--person::after {
+
+      left: 3px;
+      bottom: 1px;
+
+      width: 12px;
+      height: 8px;
+
+      background: currentColor;
+    }
+
+
+    .profile-page .pixel-icon--motorcycle::before {
+
+      left: 1px;
+      bottom: 1px;
+
+      width: 5px;
+      height: 5px;
+
+      border: 2px solid currentColor;
+
+      box-shadow:
+        10px 0 0 -1px var(--g-panel),
+        10px 0 0 0 currentColor;
+    }
+
+
+    .profile-page .pixel-icon--motorcycle::after {
+
+      left: 4px;
+      top: 6px;
+
+      width: 10px;
+      height: 4px;
+
+      background: currentColor;
+
+      box-shadow:
+        -1px 3px 0 -1px currentColor,
+        3px 4px 0 -1px currentColor,
+        7px 3px 0 -1px currentColor;
+    }
+
+
+    .profile-page .pixel-icon--wrench::before {
+
+      left: 3px;
+      top: 2px;
+
+      width: 5px;
+      height: 5px;
+
+      border: 2px solid currentColor;
+
+      transform:
+        rotate(45deg);
+
+      box-shadow:
+        5px 5px 0 -1px currentColor,
+        8px 8px 0 -1px currentColor;
+    }
+
+
+    .profile-page .pixel-icon--wrench::after {
+
+      right: 1px;
+      bottom: 1px;
+
+      width: 6px;
+      height: 6px;
+
+      border: 2px solid currentColor;
+    }
+
+
+    .profile-page .pixel-icon--flag::before {
+
+      left: 3px;
+      top: 1px;
+
+      width: 3px;
+      height: 17px;
+
+      background: currentColor;
+    }
+
+
+    .profile-page .pixel-icon--flag::after {
+
+      left: 6px;
+      top: 2px;
+
+      width: 10px;
+      height: 8px;
+
+      background: currentColor;
+
+      clip-path:
+        polygon(
+          0 0,
+          100% 0,
+          72% 50%,
+          100% 100%,
+          0 100%
+        );
+    }
+
+
+    .profile-page .pixel-icon--trophy::before {
+
+      left: 5px;
+      top: 2px;
+
+      width: 9px;
+      height: 11px;
+
+      border: 2px solid currentColor;
+
+      background: transparent;
+    }
+
+
+    .profile-page .pixel-icon--trophy::after {
+
+      left: 4px;
+      top: 4px;
+
+      width: 3px;
+      height: 6px;
+
+      background: currentColor;
+
+      box-shadow:
+        11px 0 0 currentColor,
+        4px 11px 0 currentColor,
+        1px 14px 0 currentColor,
+        8px 14px 0 currentColor;
+    }
+
+
+    .profile-page .pixel-icon--timer::before {
+
+      left: 3px;
+      top: 3px;
+
+      width: 12px;
+      height: 12px;
+
+      border:
+        2px solid currentColor;
+
+      border-radius:
+        50%;
+    }
+
+
+    .profile-page .pixel-icon--timer::after {
+
+      left: 8px;
+      top: 6px;
+
+      width: 3px;
+      height: 7px;
+
+      background: currentColor;
+
+      box-shadow:
+        3px -2px 0 currentColor,
+        -1px -6px 0 currentColor;
+    }
+
+
+    .profile-page .pixel-icon--bolt::before {
+
+      left: 7px;
+      top: 0;
+
+      width: 7px;
+      height: 10px;
+
+      background: currentColor;
+
+      clip-path:
+        polygon(
+          40% 0,
+          100% 0,
+          65% 42%,
+          100% 42%,
+          18% 100%,
+          38% 57%,
+          0 57%
+        );
+    }
+
+
+    .profile-page .pixel-icon--search::before {
+
+      left: 2px;
+      top: 2px;
+
+      width: 9px;
+      height: 9px;
+
+      border:
+        2px solid currentColor;
+    }
+
+
+    .profile-page .pixel-icon--search::after {
+
+      right: 0;
+      bottom: 0;
+
+      width: 7px;
+      height: 2px;
+
+      background: currentColor;
+
+      transform:
+        rotate(45deg);
+    }
+
+
+    .profile-page .pixel-icon--toolbox::before {
+
+      left: 1px;
+      bottom: 2px;
+
+      width: 16px;
+      height: 10px;
+
+      border:
+        2px solid currentColor;
+    }
+
+
+    .profile-page .pixel-icon--toolbox::after {
+
+      left: 5px;
+      top: 3px;
+
+      width: 8px;
+      height: 4px;
+
+      border:
+        2px solid currentColor;
+    }
+
+
+    .profile-page .pixel-icon--chart::before {
+
+      left: 2px;
+      bottom: 2px;
+
+      width: 4px;
+      height: 8px;
+
+      background: currentColor;
+
+      box-shadow:
+        6px -4px 0 currentColor,
+        12px -10px 0 currentColor;
+    }
+
+
+    .profile-page .pixel-icon--chart::after {
+
+      left: 2px;
+      bottom: 0;
+
+      width: 16px;
+      height: 2px;
+
+      background: currentColor;
+    }
+
+
+    .profile-page .pixel-icon--save::before {
+
+      left: 2px;
+      top: 2px;
+
+      width: 14px;
+      height: 14px;
+
+      border:
+        2px solid currentColor;
+
+      background:
+        transparent;
+    }
+
+
+    .profile-page .pixel-icon--save::after {
+
+      left: 5px;
+      top: 4px;
+
+      width: 8px;
+      height: 5px;
+
+      background:
+        currentColor;
+
+      box-shadow:
+        1px 8px 0 -1px currentColor;
+    }
+
+
+    .profile-page .pixel-icon--coin::before {
+
+      left: 3px;
+      top: 3px;
+
+      width: 12px;
+      height: 12px;
+
+      border:
+        2px solid currentColor;
+
+      box-shadow:
+        3px 3px 0 -1px currentColor;
+    }
+
+
+
+    /* =============================================================
+       HEADER
+       ============================================================= */
+
+    .profile-header {
+
+      overflow:
+        hidden;
+
+      background:
+        var(--g-panel);
+
+      border:
+        2px solid var(--g-line-light);
+
+      box-shadow:
+        7px 7px 0 var(--g-black);
+    }
+
+
+    .profile-header-top,
+    .profile-header-bottom {
+
+      min-height:
+        31px;
+
+      display:
+        grid;
+
+      align-items:
+        center;
+
+      gap:
+        15px;
+
+      padding:
+        0 11px;
+
+      color:
+        var(--g-dim);
+
+      background:
+        var(--g-black-2);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        .47rem;
+
+      font-weight:
+        900;
+
+      letter-spacing:
+        .08em;
+
+      text-transform:
+        uppercase;
+    }
+
+
+    .profile-header-top {
+
+      grid-template-columns:
+        1fr
+        auto
+        auto;
+
+      border-bottom:
+        2px solid var(--g-line);
+    }
+
+
+    .profile-header-bottom {
+
+      grid-template-columns:
+        1fr
+        auto
+        auto;
+
+      border-top:
+        2px solid var(--g-line);
+    }
+
+
+    .profile-head-left,
+    .profile-head-right,
+    .header-system {
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      gap:
+        7px;
+    }
+
+
+    .profile-head-left {
+
+      color:
+        var(--g-soft);
+    }
+
+
+    .profile-head-right,
+    .header-system {
+
+      color:
+        var(--g-accent);
+    }
+
+
+    .header-led,
+    .header-system i {
+
+      width:
+        5px;
+
+      height:
+        5px;
+
+      display:
+        block;
+
+      background:
+        var(--g-accent);
+    }
+
+
+    .profile-header-body {
+
+      min-height:
+        345px;
+
+      display:
+        grid;
+
+      grid-template-columns:
+        minmax(0,1fr)
+        260px;
+
+      align-items:
+        end;
+
+      gap:
+        30px;
+
+      padding:
+        32px;
+
+      background:
+        linear-gradient(
+          90deg,
+          rgba(255,255,255,.018),
+          transparent 45%
+        ),
+        var(--g-panel);
+    }
+
+
+    .profile-header-copy {
+      min-width:
+        0;
+    }
+
+
+    .profile-kicker-row {
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      gap:
+        9px;
+    }
+
+
+    .profile-title-icon {
+
+      width:
+        25px;
+
+      height:
+        25px;
+
+      display:
+        grid;
+
+      place-items:
+        center;
+
+      border:
+        1px solid var(--g-line-light);
+
+      color:
+        var(--g-accent);
+
+      background:
+        var(--g-black-2);
+    }
+
+
+    .header-kicker {
+
+      color:
+        var(--g-dim);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        .55rem;
+
+      font-weight:
+        900;
+
+      letter-spacing:
+        .1em;
+
+      text-transform:
+        uppercase;
+    }
+
+
+    .profile-header-copy h1 {
+
+      margin-top:
+        9px;
+
+      color:
+        var(--g-white);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        clamp(4rem,11vw,8rem);
+
+      font-weight:
+        900;
+
+      line-height:
+        .74;
+
+      letter-spacing:
+        -.09em;
+
+      text-transform:
+        uppercase;
+    }
+
+
+    .header-rule {
+
+      width:
+        min(340px,65%);
+
+      height:
+        3px;
+
+      margin-top:
+        20px;
+
+      background:
+        var(--g-accent);
+    }
+
+
+    .profile-header-copy p {
+
+      max-width:
+        680px;
+
+      margin-top:
+        18px;
+
+      color:
+        var(--g-muted);
+
+      font-size:
+        var(--text-sm);
+
+      line-height:
+        1.65;
+    }
+
+
+    .profile-header-panel {
+
+      display:
+        grid;
+
+      gap:
+        8px;
+    }
+
+
+    .owner-box {
+
+      display:
+        grid;
+
+      grid-template-columns:
+        54px
+        minmax(0,1fr)
+        45px;
+
+      gap:
+        10px;
+
+      padding:
+        11px;
+
+      border:
+        2px solid var(--g-line);
+
+      background:
+        var(--g-black-2);
+    }
+
+
+    .owner-mark {
+
+      width:
+        54px;
+
+      height:
+        54px;
+
+      display:
+        grid;
+
+      place-items:
+        center;
+
+      border:
+        2px solid var(--g-black);
+
+      background:
+        var(--g-accent);
+
+      color:
+        var(--g-black);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        .75rem;
+
+      font-weight:
+        900;
+
+      box-shadow:
+        3px 3px 0 var(--g-black);
+    }
+
+
+    .owner-copy {
+
+      min-width:
+        0;
+
+      display:
+        grid;
+
+      align-content:
+        center;
+
+      gap:
+        3px;
+    }
+
+
+    .owner-copy span,
+    .owner-copy small {
+
+      color:
+        var(--g-dim);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        .36rem;
+
+      font-weight:
+        900;
+    }
+
+
+    .owner-copy strong {
+
+      color:
+        var(--g-white);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        .72rem;
+
+      font-weight:
+        900;
+    }
+
+
+    .owner-level {
+
+      display:
+        flex;
+
+      align-items:
+        flex-end;
+
+      justify-content:
+        center;
+
+      flex-direction:
+        column;
+
+      border-left:
+        1px solid var(--g-line);
+
+      padding-left:
+        8px;
+    }
+
+
+    .owner-level span {
+
+      color:
+        var(--g-dim);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        .36rem;
+
+      font-weight:
+        900;
+    }
+
+
+    .owner-level strong {
+
+      color:
+        var(--g-accent);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        1.1rem;
+
+      font-weight:
+        900;
+
+      line-height:
+        .9;
+    }
+
+
+    .header-capacity {
+
+      display:
+        grid;
+
+      grid-template-columns:
+        repeat(3,1fr);
+
+      gap:
+        5px;
+    }
+
+
+    .header-capacity > div {
+
+      padding:
+        8px;
+
+      border:
+        1px solid var(--g-line);
+
+      background:
+        var(--g-black-2);
+    }
+
+
+    .header-capacity span,
+    .header-capacity strong {
+
+      display:
+        block;
+    }
+
+
+    .header-capacity span {
+
+      color:
+        var(--g-dim);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        .38rem;
+
+      font-weight:
+        900;
+    }
+
+
+    .header-capacity strong {
+
+      margin-top:
+        4px;
+
+      color:
+        var(--g-white);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        .62rem;
+
+      font-weight:
+        900;
+    }
+
+
+    .header-actions {
+
+      display:
+        grid;
+
+      gap:
+        7px;
+    }
+
+
+
+    /* =============================================================
+       SECTION HEADER
+       ============================================================= */
+
+    .profile-page .section-header {
+
+      min-height:
+        55px;
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      justify-content:
+        space-between;
+
+      gap:
+        15px;
+
+      margin-bottom:
+        10px;
+
+      border-bottom:
+        2px solid var(--g-line);
+    }
+
+
+    .profile-page .section-heading {
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      gap:
+        11px;
+    }
+
+
+    .profile-page .section-marker {
+
+      width:
+        8px;
+
+      height:
+        8px;
+
+      flex:
+        0 0 auto;
+
+      background:
+        var(--g-white);
+
+      box-shadow:
+        4px 4px 0 var(--g-line-light);
+    }
+
+
+    .profile-page .section-marker--accent {
+
+      background:
+        var(--g-accent);
+
+      box-shadow:
+        4px 4px 0 var(--g-accent-dark);
+    }
+
+
+    .profile-page .section-kicker {
+
+      display:
+        block;
+
+      color:
+        var(--g-dim);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        .52rem;
+
+      font-weight:
+        900;
+
+      letter-spacing:
+        .1em;
+
+      text-transform:
+        uppercase;
+    }
+
+
+    .profile-page .section-header h2 {
+
+      margin-top:
+        4px;
+
+      color:
+        var(--g-white);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        clamp(1.35rem,3vw,2rem);
+
+      font-weight:
+        900;
+
+      line-height:
+        .9;
+
+      letter-spacing:
+        -.04em;
+
+      text-transform:
+        uppercase;
+    }
+
+
+    .profile-page .section-code,
+    .profile-page .section-link {
+
+      color:
+        var(--g-dim);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        .48rem;
+
+      font-weight:
+        900;
+
+      letter-spacing:
+        .08em;
+
+      text-transform:
+        uppercase;
+    }
+
+
+    .profile-page .section-link {
+
+      color:
+        var(--g-accent);
+    }
+
+
+
+    /* =============================================================
+       IDENTITY
+       ============================================================= */
+
+    .identity-card {
+
+      min-width:
+        0;
+
+      display:
+        grid;
+
+      grid-template-columns:
+        112px
+        minmax(0,1fr)
+        145px;
+
+      align-items:
+        center;
+
+      gap:
+        22px;
+
+      padding:
+        20px;
+
+      overflow:
+        hidden;
+
+      background:
+        repeating-linear-gradient(
+          0deg,
+          #1d1f1b 0 5px,
+          #181a17 5px 10px
+        );
+
+      border:
+        2px solid var(--g-line-light);
+
+      box-shadow:
+        7px 7px 0 var(--g-black);
+    }
+
+
+    .identity-emblem {
+
+      width:
+        102px;
+
+      height:
+        102px;
+
+      display:
+        grid;
+
+      place-items:
+        center;
+
+      border:
+        4px solid var(--g-black);
+
+      background:
+        var(--g-accent);
+
+      box-shadow:
+        5px 5px 0 var(--g-black);
+    }
+
+
+    .identity-emblem-inner {
+
+      width:
+        76px;
+
+      height:
+        76px;
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      justify-content:
+        center;
+
+      flex-direction:
+        column;
+
+      gap:
+        4px;
+
+      border:
+        2px solid rgba(5,5,5,.35);
+    }
+
+
+    .identity-emblem-inner span {
+
+      color:
+        var(--g-black);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        1.55rem;
+
+      font-weight:
+        900;
+
+      line-height:
+        .85;
+    }
+
+
+    .identity-emblem-inner strong {
+
+      color:
+        var(--g-black);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        .42rem;
+
+      font-weight:
+        900;
+
+      letter-spacing:
+        .08em;
+    }
+
+
+    .identity-main {
+      min-width:
+        0;
+    }
+
+
+    .identity-kicker {
+
+      color:
+        var(--g-dim);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        .42rem;
+
+      font-weight:
+        900;
+
+      letter-spacing:
+        .08em;
+
+      text-transform:
+        uppercase;
+    }
+
+
+    .identity-main h3 {
+
+      margin-top:
+        5px;
+
+      color:
+        var(--g-white);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        clamp(1.65rem,4vw,2.8rem);
+
+      font-weight:
+        900;
+
+      line-height:
+        .87;
+
+      letter-spacing:
+        -.06em;
+
+      text-transform:
+        uppercase;
+    }
+
+
+    .identity-owner {
+
+      display:
+        block;
+
+      margin-top:
+        6px;
+
+      color:
+        var(--g-accent);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        .55rem;
+
+      font-weight:
+        900;
+    }
+
+
+    .identity-main p {
+
+      max-width:
+        650px;
+
+      margin-top:
+        11px;
+
+      color:
+        var(--g-muted);
+
+      font-size:
+        .69rem;
+
+      line-height:
+        1.6;
+    }
+
+
+    .identity-tags {
+
+      display:
+        flex;
+
+      flex-wrap:
+        wrap;
+
+      gap:
+        6px;
+
+      margin-top:
+        13px;
+    }
+
+
+    .identity-tag {
+
+      min-height:
+        27px;
+
+      display:
+        inline-flex;
+
+      align-items:
+        center;
+
+      gap:
+        6px;
+
+      padding:
+        5px 7px;
+
+      border:
+        1px solid var(--g-line-light);
+
+      background:
+        var(--g-black-2);
+
+      color:
+        var(--g-soft);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        .36rem;
+
+      font-weight:
+        900;
+    }
+
+
+    .identity-tag--accent {
+
+      border-color:
+        var(--g-accent-dark);
+
+      color:
+        var(--g-accent);
+    }
+
+
+    .identity-tag-icon {
+
+      width:
+        17px;
+
+      height:
+        17px;
+
+      display:
+        grid;
+
+      place-items:
+        center;
+    }
+
+
+    .identity-reputation {
+
+      display:
+        flex;
+
+      align-items:
+        flex-end;
+
+      flex-direction:
+        column;
+
+      gap:
+        4px;
+
+      padding-left:
+        14px;
+
+      border-left:
+        1px solid var(--g-line);
+
+      text-align:
+        right;
+    }
+
+
+    .identity-reputation > span {
+
+      color:
+        var(--g-dim);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        .36rem;
+
+      font-weight:
+        900;
+    }
+
+
+    .identity-reputation strong {
+
+      color:
+        var(--g-accent);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        2.5rem;
+
+      font-weight:
+        900;
+
+      line-height:
+        .8;
+    }
+
+
+    .identity-reputation small {
+
+      color:
+        var(--g-soft);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        .42rem;
+
+      font-weight:
+        900;
+    }
+
+
+    .identity-rep-line {
+
+      width:
+        105px;
+
+      display:
+        grid;
+
+      grid-template-columns:
+        repeat(8,1fr);
+
+      gap:
+        3px;
+
+      margin-top:
+        7px;
+    }
+
+
+    .identity-rep-line i {
+
+      height:
+        4px;
+
+      background:
+        var(--g-line-light);
+    }
+
+
+    .identity-rep-line i.active {
+
+      background:
+        var(--g-accent);
+    }
+
+
+
+    /* =============================================================
+       CAREER
+       ============================================================= */
+
+    .career-grid {
+
+      display:
+        grid;
+
+      grid-template-columns:
+        repeat(4,1fr);
+
+      border-top:
+        2px solid var(--g-line);
+
+      border-left:
+        2px solid var(--g-line);
+    }
+
+
+    .career-card {
+
+      min-height:
+        142px;
+
+      display:
+        flex;
+
+      flex-direction:
+        column;
+
+      justify-content:
+        space-between;
+
+      padding:
+        13px;
+
+      border-right:
+        2px solid var(--g-line);
+
+      border-bottom:
+        2px solid var(--g-line);
+
+      background:
+        var(--g-panel);
+    }
+
+
+    .career-card--active {
+
+      background:
+        var(--g-panel-2);
+
+      border-top:
+        3px solid var(--g-accent);
+    }
+
+
+    .career-card-head {
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      justify-content:
+        space-between;
+
+      gap:
+        8px;
+
+      color:
+        var(--g-dim);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        .43rem;
+
+      font-weight:
+        900;
+
+      text-transform:
+        uppercase;
+    }
+
+
+    .career-ident {
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      gap:
+        7px;
+    }
+
+
+    .career-icon {
+
+      width:
+        25px;
+
+      height:
+        25px;
+
+      display:
+        grid;
+
+      place-items:
+        center;
+
+      border:
+        1px solid var(--g-line-light);
+
+      color:
+        var(--g-soft);
+    }
+
+
+    .career-card--active .career-icon {
+
+      color:
+        var(--g-accent);
+
+      border-color:
+        var(--g-accent-dark);
+    }
+
+
+    .career-value {
+
+      color:
+        var(--g-white);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        2rem;
+
+      font-weight:
+        900;
+
+      line-height:
+        .8;
+    }
+
+
+    .career-footer {
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      gap:
+        8px;
+    }
+
+
+    .career-footer > span {
+
+      color:
+        var(--g-dim);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        .34rem;
+
+      font-weight:
+        900;
+    }
+
+
+    .segment-bar {
+
+      display:
+        grid;
+
+      grid-template-columns:
+        repeat(8,1fr);
+
+      flex:
+        1;
+
+      gap:
+        3px;
+    }
+
+
+    .segment-bar i {
+
+      height:
+        4px;
+
+      background:
+        var(--g-line-light);
+    }
+
+
+    .segment-bar i.segment-active {
+
+      background:
+        var(--g-accent-dark);
+    }
+
+
+    .career-card--active
+    .segment-bar i.segment-active {
+
+      background:
+        var(--g-accent);
+    }
+
+
+
+    /* =============================================================
+       REPUTATION
+       ============================================================= */
+
+    .reputation-panel {
+
+      overflow:
+        hidden;
+
+      background:
+        var(--g-panel);
+
+      border:
+        2px solid var(--g-line-light);
+
+      box-shadow:
+        6px 6px 0 var(--g-black);
+    }
+
+
+    .reputation-main {
+
+      display:
+        grid;
+
+      grid-template-columns:
+        minmax(0,1fr)
+        220px;
+
+      gap:
+        14px;
+
+      padding:
+        18px;
+    }
+
+
+    .reputation-current strong {
+
+      display:
+        block;
+
+      margin-top:
+        5px;
+
+      color:
+        var(--g-accent);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        2rem;
+
+      font-weight:
+        900;
+
+      line-height:
+        .85;
+    }
+
+
+    .reputation-current p {
+
+      max-width:
+        680px;
+
+      margin-top:
+        10px;
+
+      color:
+        var(--g-muted);
+
+      font-size:
+        .68rem;
+
+      line-height:
+        1.6;
+    }
+
+
+    .reputation-next {
+
+      padding:
+        12px;
+
+      border:
+        1px solid var(--g-line-light);
+
+      background:
+        var(--g-black-2);
+
+      display:
+        flex;
+
+      flex-direction:
+        column;
+
+      justify-content:
+        center;
+
+      gap:
+        4px;
+    }
+
+
+    .reputation-next span {
+
+      color:
+        var(--g-dim);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        .36rem;
+
+      font-weight:
+        900;
+    }
+
+
+    .reputation-next strong {
+
+      color:
+        var(--g-white);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        1rem;
+
+      font-weight:
+        900;
+    }
+
+
+    .reputation-next small {
+
+      color:
+        var(--g-muted);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        .38rem;
+
+      font-weight:
+        900;
+    }
+
+
+    .reputation-progress {
+
+      padding:
+        14px 18px;
+
+      border-top:
+        2px solid var(--g-line);
+
+      border-bottom:
+        1px solid var(--g-line);
+
+      background:
+        var(--g-black-2);
+    }
+
+
+    .progress-head {
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      justify-content:
+        space-between;
+
+      gap:
+        10px;
+
+      color:
+        var(--g-dim);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        .37rem;
+
+      font-weight:
+        900;
+
+      text-transform:
+        uppercase;
+    }
+
+
+    .progress-head strong {
+
+      color:
+        var(--g-accent);
+    }
+
+
+    .progress-track {
+
+      height:
+        7px;
+
+      margin-top:
+        7px;
+
+      overflow:
+        hidden;
+
+      border:
+        1px solid var(--g-line);
+
+      background:
+        var(--g-black);
+    }
+
+
+    .progress-track i {
+
+      height:
+        100%;
+
+      display:
+        block;
+
+      background:
+        var(--g-accent);
+    }
+
+
+    .milestone-grid {
+
+      display:
+        grid;
+
+      grid-template-columns:
+        repeat(7,1fr);
+
+      gap:
+        0;
+    }
+
+
+    .milestone {
+
+      min-width:
+        0;
+
+      min-height:
+        112px;
+
+      display:
+        flex;
+
+      flex-direction:
+        column;
+
+      gap:
+        7px;
+
+      padding:
+        10px;
+
+      border-right:
+        1px solid var(--g-line);
+
+      background:
+        var(--g-panel);
+    }
+
+
+    .milestone:last-child {
+
+      border-right:
+        0;
+    }
+
+
+    .milestone--reached {
+
+      background:
+        var(--g-panel-2);
+    }
+
+
+    .milestone-top {
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      justify-content:
+        space-between;
+
+      color:
+        var(--g-dim);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        .32rem;
+
+      font-weight:
+        900;
+    }
+
+
+    .milestone-mark {
+
+      width:
+        26px;
+
+      height:
+        26px;
+
+      display:
+        grid;
+
+      place-items:
+        center;
+
+      border:
+        2px solid var(--g-line-light);
+
+      background:
+        var(--g-black-2);
+
+      color:
+        var(--g-dim);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        .5rem;
+
+      font-weight:
+        900;
+    }
+
+
+    .milestone--reached .milestone-mark {
+
+      color:
+        var(--g-black);
+
+      background:
+        var(--g-accent);
+
+      border-color:
+        var(--g-accent);
+    }
+
+
+    .milestone > strong {
+
+      color:
+        var(--g-white);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        .42rem;
+
+      font-weight:
+        900;
+
+      line-height:
+        .95;
+
+      overflow-wrap:
+        anywhere;
+    }
+
+
+    .milestone > small {
+
+      color:
+        var(--g-dim);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        .32rem;
+
+      font-weight:
+        900;
+    }
+
+
+
+    /* =============================================================
+       MASTERY
+       ============================================================= */
+
+    .mastery-grid {
+
+      display:
+        grid;
+
+      grid-template-columns:
+        repeat(2,1fr);
+
+      gap:
+        8px;
+    }
+
+
+    .mastery-card {
+
+      min-height:
+        215px;
+
+      position:
+        relative;
+
+      display:
+        flex;
+
+      flex-direction:
+        column;
+
+      padding:
+        14px;
+
+      background:
+        var(--g-panel);
+
+      border:
+        2px solid var(--g-line-light);
+
+      box-shadow:
+        5px 5px 0 var(--g-black);
+    }
+
+
+    .mastery-card:hover {
+
+      background:
+        var(--g-panel-2);
+    }
+
+
+    .mastery-top {
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      justify-content:
+        space-between;
+
+      gap:
+        10px;
+    }
+
+
+    .mastery-index {
+
+      color:
+        var(--g-accent);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        .39rem;
+
+      font-weight:
+        900;
+
+      letter-spacing:
+        .08em;
+    }
+
+
+    .mastery-icon {
+
+      width:
+        29px;
+
+      height:
+        29px;
+
+      display:
+        grid;
+
+      place-items:
+        center;
+
+      border:
+        1px solid var(--g-line-light);
+
+      color:
+        var(--g-soft);
+
+      background:
+        var(--g-black-2);
+    }
+
+
+    .mastery-card h3 {
+
+      margin-top:
+        23px;
+
+      color:
+        var(--g-white);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        1rem;
+
+      font-weight:
+        900;
+
+      line-height:
+        .9;
+
+      text-transform:
+        uppercase;
+    }
+
+
+    .mastery-card p {
+
+      max-width:
+        620px;
+
+      margin-top:
+        8px;
+
+      color:
+        var(--g-muted);
+
+      font-size:
+        .65rem;
+
+      line-height:
+        1.55;
+    }
+
+
+    .mastery-progress {
+
+      margin-top:
+        auto;
+
+      padding-top:
+        14px;
+    }
+
+
+    .mastery-progress-head {
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      justify-content:
+        space-between;
+
+      gap:
+        10px;
+
+      color:
+        var(--g-dim);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        .36rem;
+
+      font-weight:
+        900;
+    }
+
+
+    .mastery-progress-head strong {
+
+      color:
+        var(--g-accent);
+    }
+
+
+    .mastery-progress .progress-track {
+
+      margin-top:
+        6px;
+    }
+
+
+    .mastery-footer {
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      justify-content:
+        space-between;
+
+      gap:
+        10px;
+
+      margin-top:
+        12px;
+
+      padding-top:
+        10px;
+
+      border-top:
+        1px solid var(--g-line);
+
+      color:
+        var(--g-dim);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        .35rem;
+
+      font-weight:
+        900;
+    }
+
+
+    .mastery-footer strong {
+
+      color:
+        var(--g-accent);
+
+      font-size:
+        .9rem;
+    }
+
+
+
+    /* =============================================================
+       RECORDS
+       ============================================================= */
+
+    .records-grid {
+
+      display:
+        grid;
+
+      grid-template-columns:
+        repeat(3,1fr);
+
+      gap:
+        8px;
+    }
+
+
+    .record-card {
+
+      min-width:
+        0;
+
+      min-height:
+        145px;
+
+      position:
+        relative;
+
+      display:
+        flex;
+
+      flex-direction:
+        column;
+
+      justify-content:
+        flex-end;
+
+      gap:
+        4px;
+
+      padding:
+        13px;
+
+      overflow:
+        hidden;
+
+      border:
+        2px solid var(--g-line-light);
+
+      background:
+        var(--g-panel);
+
+      box-shadow:
+        5px 5px 0 var(--g-black);
+    }
+
+
+    .record-card:hover {
+
+      background:
+        var(--g-panel-2);
+    }
+
+
+    .record-number {
+
+      position:
+        absolute;
+
+      top:
+        8px;
+
+      right:
+        10px;
+
+      color:
+        rgba(241,241,235,.045);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        3rem;
+
+      font-weight:
+        900;
+
+      line-height:
+        1;
+    }
+
+
+    .record-icon {
+
+      width:
+        29px;
+
+      height:
+        29px;
+
+      display:
+        grid;
+
+      place-items:
+        center;
+
+      margin-bottom:
+        auto;
+
+      border:
+        1px solid var(--g-line-light);
+
+      color:
+        var(--g-accent);
+
+      background:
+        var(--g-black-2);
+    }
+
+
+    .record-label {
+
+      color:
+        var(--g-dim);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        .36rem;
+
+      font-weight:
+        900;
+    }
+
+
+    .record-card > strong {
+
+      color:
+        var(--g-white);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        1.2rem;
+
+      font-weight:
+        900;
+
+      line-height:
+        .9;
+
+      overflow-wrap:
+        anywhere;
+    }
+
+
+    .record-suffix {
+
+      color:
+        var(--g-accent);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        .35rem;
+
+      font-weight:
+        900;
+    }
+
+
+
+    /* =============================================================
+       LEGACY
+       ============================================================= */
+
+    .legacy-panel,
+    .timeline-panel {
+
+      overflow:
+        hidden;
+
+      background:
+        var(--g-panel);
+
+      border:
+        2px solid var(--g-line-light);
+
+      box-shadow:
+        6px 6px 0 var(--g-black);
+    }
+
+
+    .legacy-head,
+    .timeline-head {
+
+      min-height:
+        58px;
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      justify-content:
+        space-between;
+
+      gap:
+        14px;
+
+      padding:
+        10px 13px;
+
+      border-bottom:
+        2px solid var(--g-line);
+
+      background:
+        var(--g-black-2);
+    }
+
+
+    .legacy-head > div,
+    .timeline-head > div {
+
+      display:
+        flex;
+
+      flex-direction:
+        column;
+
+      gap:
+        3px;
+    }
+
+
+    .legacy-head span,
+    .timeline-head span {
+
+      color:
+        var(--g-dim);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        .36rem;
+
+      font-weight:
+        900;
+
+      text-transform:
+        uppercase;
+    }
+
+
+    .legacy-head strong {
+
+      color:
+        var(--g-white);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        .73rem;
+
+      font-weight:
+        900;
+    }
+
+
+    .legacy-list {
+
+      display:
+        grid;
+    }
+
+
+    .legacy-row {
+
+      min-height:
+        69px;
+
+      display:
+        grid;
+
+      grid-template-columns:
+        58px
+        minmax(0,1fr)
+        135px;
+
+      align-items:
+        center;
+
+      gap:
+        12px;
+
+      padding:
+        10px 13px;
+
+      border-bottom:
+        1px solid var(--g-line);
+    }
+
+
+    .legacy-row:last-child {
+
+      border-bottom:
+        0;
+    }
+
+
+    .legacy-row:hover {
+
+      background:
+        var(--g-panel-2);
+    }
+
+
+    .legacy-index {
+
+      color:
+        var(--g-accent);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        .55rem;
+
+      font-weight:
+        900;
+    }
+
+
+    .legacy-main {
+
+      min-width:
+        0;
+
+      display:
+        flex;
+
+      flex-direction:
+        column;
+
+      gap:
+        3px;
+    }
+
+
+    .legacy-main strong {
+
+      color:
+        var(--g-white);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        .52rem;
+
+      font-weight:
+        900;
+
+      overflow-wrap:
+        anywhere;
+    }
+
+
+    .legacy-main span {
+
+      color:
+        var(--g-dim);
+
+      font-size:
+        .36rem;
+
+      text-transform:
+        uppercase;
+    }
+
+
+    .legacy-value {
+
+      color:
+        var(--g-accent);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        .5rem;
+
+      font-weight:
+        900;
+
+      text-align:
+        right;
+    }
+
+
+    .legacy-footer {
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      justify-content:
+        space-between;
+
+      gap:
+        15px;
+
+      padding:
+        12px 13px;
+
+      border-top:
+        2px solid var(--g-line);
+
+      background:
+        var(--g-black-2);
+    }
+
+
+    .legacy-footer > div {
+
+      min-width:
+        0;
+
+      display:
+        flex;
+
+      flex-direction:
+        column;
+
+      gap:
+        4px;
+    }
+
+
+    .legacy-footer span {
+
+      color:
+        var(--g-dim);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        .35rem;
+
+      font-weight:
+        900;
+    }
+
+
+    .legacy-footer strong {
+
+      color:
+        var(--g-white);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        .43rem;
+
+      font-weight:
+        900;
+
+      text-transform:
+        uppercase;
+    }
+
+
+    .legacy-arrow {
+
+      color:
+        var(--g-accent) !important;
+
+      font-size:
+        1rem !important;
+    }
+
+
+
+    /* =============================================================
+       TIMELINE
+       ============================================================= */
+
+    .timeline-head {
+
+      min-height:
+        43px;
+    }
+
+
+    .timeline-live {
+
+      display:
+        inline-flex !important;
+
+      align-items:
+        center;
+
+      gap:
+        7px;
+
+      color:
+        var(--g-accent) !important;
+    }
+
+
+    .timeline-live i {
+
+      width:
+        5px;
+
+      height:
+        5px;
+
+      background:
+        var(--g-accent);
+    }
+
+
+    .timeline-row {
+
+      min-height:
+        72px;
+
+      display:
+        grid;
+
+      grid-template-columns:
+        80px
+        29px
+        minmax(0,1fr)
+        125px;
+
+      align-items:
+        center;
+
+      gap:
+        10px;
+
+      padding:
+        10px 13px;
+
+      border-bottom:
+        1px solid var(--g-line);
+    }
+
+
+    .timeline-row:last-child {
+
+      border-bottom:
+        0;
+    }
+
+
+    .timeline-row:hover {
+
+      background:
+        var(--g-panel-2);
+    }
+
+
+    .timeline-period {
+
+      color:
+        var(--g-muted);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        .38rem;
+
+      font-weight:
+        900;
+    }
+
+
+    .timeline-marker {
+
+      height:
+        100%;
+
+      position:
+        relative;
+
+      display:
+        grid;
+
+      place-items:
+        center;
+    }
+
+
+    .timeline-marker::before {
+
+      content:
+        "";
+
+      position:
+        absolute;
+
+      top:
+        -18px;
+
+      bottom:
+        -18px;
+
+      left:
+        50%;
+
+      width:
+        2px;
+
+      transform:
+        translateX(-50%);
+
+      background:
+        var(--g-line);
+    }
+
+
+    .timeline-row:first-child
+    .timeline-marker::before {
+
+      top:
+        50%;
+    }
+
+
+    .timeline-row:last-child
+    .timeline-marker::before {
+
+      bottom:
+        50%;
+    }
+
+
+    .timeline-marker i {
+
+      position:
+        relative;
+
+      z-index:
+        2;
+
+      width:
+        9px;
+
+      height:
+        9px;
+
+      background:
+        var(--g-accent);
+
+      border:
+        2px solid var(--g-black);
+
+      box-shadow:
+        2px 2px 0 var(--g-black);
+    }
+
+
+    .timeline-main {
+
+      min-width:
+        0;
+
+      display:
+        flex;
+
+      flex-direction:
+        column;
+
+      gap:
+        3px;
+    }
+
+
+    .timeline-main strong {
+
+      color:
+        var(--g-white);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        .48rem;
+
+      font-weight:
+        900;
+
+      overflow-wrap:
+        anywhere;
+    }
+
+
+    .timeline-main span {
+
+      color:
+        var(--g-dim);
+
+      font-size:
+        .36rem;
+    }
+
+
+    .timeline-value {
+
+      color:
+        var(--g-accent);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        .47rem;
+
+      font-weight:
+        900;
+
+      text-align:
+        right;
+    }
+
+
+
+    /* =============================================================
+       SYSTEM
+       ============================================================= */
+
+    .system-grid {
+
+      display:
+        grid;
+
+      grid-template-columns:
+        1.15fr
+        .925fr
+        .925fr;
+
+      gap:
+        8px;
+    }
+
+
+    .system-card {
+
+      min-width:
+        0;
+
+      min-height:
+        190px;
+
+      display:
+        flex;
+
+      flex-direction:
+        column;
+
+      padding:
+        14px;
+
+      background:
+        var(--g-panel);
+
+      border:
+        2px solid var(--g-line);
+
+      box-shadow:
+        5px 5px 0 var(--g-black);
+    }
+
+
+    .system-card--save {
+
+      border-color:
+        var(--g-accent-dark);
+    }
+
+
+    .system-card-head {
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      gap:
+        9px;
+
+      padding-bottom:
+        10px;
+
+      border-bottom:
+        1px solid var(--g-line);
+    }
+
+
+    .system-card-icon {
+
+      width:
+        31px;
+
+      height:
+        31px;
+
+      display:
+        grid;
+
+      place-items:
+        center;
+
+      color:
+        var(--g-accent);
+
+      border:
+        1px solid var(--g-line-light);
+
+      background:
+        var(--g-black-2);
+    }
+
+
+    .system-card-head > div:nth-child(2) {
+
+      min-width:
+        0;
+
+      display:
+        flex;
+
+      flex-direction:
+        column;
+
+      gap:
+        3px;
+    }
+
+
+    .system-card-head span {
+
+      color:
+        var(--g-dim);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        .35rem;
+
+      font-weight:
+        900;
+    }
+
+
+    .system-card-head strong {
+
+      color:
+        var(--g-white);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        .55rem;
+
+      font-weight:
+        900;
+    }
+
+
+    .system-live {
+
+      margin-left:
+        auto;
+
+      display:
+        inline-flex !important;
+
+      align-items:
+        center;
+
+      gap:
+        5px;
+
+      color:
+        var(--g-accent) !important;
+
+      white-space:
+        nowrap;
+    }
+
+
+    .system-live i {
+
+      width:
+        5px;
+
+      height:
+        5px;
+
+      background:
+        var(--g-accent);
+    }
+
+
+    .system-card-data {
+
+      display:
+        grid;
+
+      grid-template-columns:
+        repeat(3,1fr);
+
+      gap:
+        5px;
+
+      margin-top:
+        13px;
+    }
+
+
+    .system-card-data > div {
+
+      display:
+        flex;
+
+      flex-direction:
+        column;
+
+      gap:
+        4px;
+
+      padding:
+        7px;
+
+      border:
+        1px solid var(--g-line);
+
+      background:
+        var(--g-black-2);
+    }
+
+
+    .system-card-data span {
+
+      color:
+        var(--g-dim);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        .32rem;
+
+      font-weight:
+        900;
+    }
+
+
+    .system-card-data strong {
+
+      color:
+        var(--g-white);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        .42rem;
+
+      font-weight:
+        900;
+
+      overflow-wrap:
+        anywhere;
+    }
+
+
+    .system-card > .btn {
+
+      width:
+        100%;
+
+      margin-top:
+        auto;
+    }
+
+
+    .system-card > p {
+
+      margin-top:
+        14px;
+
+      color:
+        var(--g-muted);
+
+      font-size:
+        .63rem;
+
+      line-height:
+        1.6;
+    }
+
+
+    .system-card > .retro-button {
+
+      width:
+        100%;
+
+      margin-top:
+        auto;
+    }
+
+
+    .version-display {
+
+      margin-top:
+        20px;
+
+      color:
+        var(--g-accent);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        2.3rem;
+
+      font-weight:
+        900;
+
+      line-height:
+        .8;
+    }
+
+
+    .version-detail {
+
+      margin-top:
+        auto;
+
+      color:
+        var(--g-dim);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        .34rem;
+
+      font-weight:
+        900;
+
+      line-height:
+        1.5;
+    }
+
+
+    /* =============================================================
+       RETRO BUTTON
+       ============================================================= */
+
+    .retro-button {
+
+      min-height:
+        31px;
+
+      display:
+        inline-flex;
+
+      align-items:
+        center;
+
+      justify-content:
+        center;
+
+      padding:
+        0 10px;
+
+      border:
+        2px solid var(--g-line-light);
+
+      background:
+        var(--g-panel-2);
+
+      box-shadow:
+        3px 3px 0 var(--g-black);
+
+      color:
+        var(--g-white);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        .42rem;
+
+      font-weight:
+        900;
+
+      letter-spacing:
+        .05em;
+
+      text-decoration:
+        none;
+
+      text-transform:
+        uppercase;
+    }
+
+
+    .retro-button:hover {
+
+      transform:
+        translate(2px,2px);
+
+      box-shadow:
+        1px 1px 0 var(--g-black);
+
+      color:
+        var(--g-accent);
+
+      border-color:
+        var(--g-accent-dark);
+    }
+
+
+
+    /* =============================================================
+       FOOTER
+       ============================================================= */
+
+    .profile-footer {
+
+      margin-top:
+        48px;
+    }
+
+
+    .profile-footer-line {
+
+      height:
+        2px;
+
+      background:
+        var(--g-line-light);
+    }
+
+
+    .profile-footer-body {
+
+      min-height:
+        78px;
+
+      display:
+        grid;
+
+      grid-template-columns:
+        1fr
+        auto
+        1fr;
+
+      align-items:
+        center;
+
+      gap:
+        16px;
+
+      color:
+        var(--g-dim);
+
+      font-family:
+        var(--font-display);
+
+      font-size:
+        .42rem;
+
+      font-weight:
+        900;
+
+      letter-spacing:
+        .08em;
+
+      text-transform:
+        uppercase;
+    }
+
+
+    .profile-footer-brand {
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      gap:
+        8px;
+    }
+
+
+    .profile-footer-logo {
+
+      width:
+        30px;
+
+      height:
+        30px;
+
+      display:
+        grid;
+
+      place-items:
+        center;
+
+      border:
+        1px solid var(--g-line-light);
+
+      color:
+        var(--g-accent);
+    }
+
+
+    .profile-footer-brand > div:last-child {
+
+      display:
+        flex;
+
+      flex-direction:
+        column;
+
+      gap:
+        4px;
+    }
+
+
+    .profile-footer-brand strong {
+
+      color:
+        var(--g-white);
+
+      font-size:
+        .58rem;
+    }
+
+
+    .profile-footer-flow {
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      gap:
+        8px;
+    }
+
+
+    .profile-footer-flow strong {
+
+      color:
+        var(--g-accent);
+
+      font-size:
+        .9rem;
+    }
+
+
+    .profile-footer-status {
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      justify-content:
+        flex-end;
+
+      gap:
+        7px;
+
+      color:
+        var(--g-accent);
+    }
+
+
+    .profile-footer-status i {
+
+      width:
+        5px;
+
+      height:
+        5px;
+
+      background:
+        var(--g-accent);
+    }
+
+
+
+    /* =============================================================
+       LARGE TABLET
+       ============================================================= */
+
+    @media (max-width: 1180px) {
+
+      .profile-header-body {
+
+        grid-template-columns:
+          minmax(0,1fr)
+          220px;
+      }
+
+
+      .identity-card {
+
+        grid-template-columns:
+          96px
+          minmax(0,1fr);
+      }
+
+
+      .identity-reputation {
+
+        grid-column:
+          2;
+
+        align-items:
+          flex-start;
+
+        padding:
+          13px 0 0;
+
+        border-left:
+          0;
+
+        border-top:
+          1px solid var(--g-line);
+
+        text-align:
+          left;
+      }
+
+
+      .identity-rep-line {
+
+        width:
+          120px;
+      }
+
+
+      .career-grid {
+
+        grid-template-columns:
+          repeat(2,1fr);
+      }
+
+
+      .milestone-grid {
+
+        grid-template-columns:
+          repeat(4,1fr);
+      }
+
+
+      .milestone:nth-child(4) {
+
+        border-right:
+          0;
+      }
+
+
+      .milestone:nth-child(n+5) {
+
+        border-top:
+          1px solid var(--g-line);
+      }
+
+
+      .milestone:nth-child(7) {
+
+        border-right:
+          0;
+      }
+
+
+      .system-grid {
+
+        grid-template-columns:
+          1fr 1fr;
+      }
+
+
+      .system-card:first-child {
+
+        grid-column:
+          1 / -1;
+      }
+
+    }
+
+
+
+    /* =============================================================
+       TABLET
+       ============================================================= */
+
+    @media (max-width: 900px) {
+
+      .profile-header-body {
+
+        grid-template-columns:
+          1fr;
+
+        align-items:
+          start;
+      }
+
+
+      .profile-header-panel {
+
+        width:
+          min(100%,390px);
+      }
+
+
+      .mastery-grid {
+
+        grid-template-columns:
+          1fr;
+      }
+
+
+      .records-grid {
+
+        grid-template-columns:
+          repeat(2,1fr);
+      }
+
+
+      .legacy-row {
+
+        grid-template-columns:
+          52px
+          minmax(0,1fr)
+          110px;
+      }
+
+
+      .timeline-row {
+
+        grid-template-columns:
+          75px
+          25px
+          minmax(0,1fr)
+          95px;
+      }
+
+    }
+
+
+
+    /* =============================================================
+       MOBILE
+       ============================================================= */
+
+    @media (max-width: 760px) {
+
+      .profile-section {
+
+        margin-top:
+          32px;
+      }
+
+
+      .profile-header-top {
+
+        grid-template-columns:
+          1fr
+          auto;
+      }
+
+
+      .profile-head-center {
+
+        display:
+          none;
+      }
+
+
+      .profile-header-bottom {
+
+        grid-template-columns:
+          1fr
+          auto;
+      }
+
+
+      .profile-header-bottom > span:nth-child(2) {
+
+        display:
+          none;
+      }
+
+
+      .profile-header-body {
+
+        min-height:
+          0;
+
+        padding:
+          23px 16px;
+      }
+
+
+      .profile-header-copy h1 {
+
+        font-size:
+          clamp(3.7rem,17vw,6rem);
+      }
+
+
+      .profile-header-copy p {
+
+        font-size:
+          .75rem;
+      }
+
+
+      .header-actions {
+
+        grid-template-columns:
+          1fr
+          1fr;
+      }
+
+
+      .profile-page .section-header {
+
+        min-height:
+          50px;
+      }
+
+
+      .profile-page .section-code {
+
+        display:
+          none;
+      }
+
+
+      .identity-card {
+
+        grid-template-columns:
+          76px
+          minmax(0,1fr);
+
+        gap:
+          14px;
+
+        padding:
+          16px;
+      }
+
+
+      .identity-emblem {
+
+        width:
+          68px;
+
+        height:
+          68px;
+      }
+
+
+      .identity-emblem-inner {
+
+        width:
+          52px;
+
+        height:
+          52px;
+      }
+
+
+      .identity-emblem-inner span {
+
+        font-size:
+          1.05rem;
+      }
+
+
+      .identity-main h3 {
+
+        font-size:
+          1.45rem;
+      }
+
+
+      .identity-reputation {
+
+        grid-column:
+          1 / -1;
+      }
+
+
+      .identity-tags {
+
+        gap:
+          5px;
+      }
+
+
+      .career-grid {
+
+        grid-template-columns:
+          repeat(2,1fr);
+      }
+
+
+      .reputation-main {
+
+        grid-template-columns:
+          1fr;
+      }
+
+
+      .milestone-grid {
+
+        grid-template-columns:
+          repeat(2,1fr);
+      }
+
+
+      .milestone {
+
+        border-right:
+          1px solid var(--g-line);
+      }
+
+
+      .milestone:nth-child(even) {
+
+        border-right:
+          0;
+      }
+
+
+      .milestone:nth-child(n+3) {
+
+        border-top:
+          1px solid var(--g-line);
+      }
+
+
+      .records-grid {
+
+        grid-template-columns:
+          repeat(2,1fr);
+      }
+
+
+      .system-grid {
+
+        grid-template-columns:
+          1fr;
+      }
+
+
+      .system-card:first-child {
+
+        grid-column:
+          auto;
+      }
+
+
+      .timeline-row {
+
+        grid-template-columns:
+          62px
+          23px
+          minmax(0,1fr);
+
+        align-items:
+          start;
+
+        gap:
+          8px;
+
+        min-height:
+          78px;
+      }
+
+
+      .timeline-value {
+
+        grid-column:
+          3;
+
+        text-align:
+          left;
+      }
+
+
+      .profile-footer-body {
+
+        grid-template-columns:
+          1fr;
+
+        align-items:
+          flex-start;
+
+        padding:
+          15px 0;
+      }
+
+
+      .profile-footer-status {
+
+        justify-content:
+          flex-start;
+      }
+
+    }
+
+
+
+    /* =============================================================
+       SMALL PHONE
+       ============================================================= */
+
+    @media (max-width: 420px) {
+
+      .profile-header-top,
+      .profile-header-bottom {
+
+        font-size:
+          .41rem;
+      }
+
+
+      .profile-header-bottom {
+
+        grid-template-columns:
+          1fr;
+      }
+
+
+      .profile-header-bottom > span:nth-child(3) {
+
+        display:
+          none;
+      }
+
+
+      .profile-header-body {
+
+        padding:
+          19px 12px;
+      }
+
+
+      .profile-header-copy h1 {
+
+        font-size:
+          clamp(3rem,18vw,4.7rem);
+      }
+
+
+      .header-actions {
+
+        grid-template-columns:
+          1fr;
+      }
+
+
+      .owner-box {
+
+        grid-template-columns:
+          46px
+          minmax(0,1fr);
+
+        gap:
+          9px;
+      }
+
+
+      .owner-mark {
+
+        width:
+          46px;
+
+        height:
+          46px;
+      }
+
+
+      .owner-level {
+
+        grid-column:
+          2;
+
+        flex-direction:
+          row;
+
+        align-items:
+          center;
+
+        justify-content:
+          flex-start;
+
+        gap:
+          6px;
+
+        padding:
+          7px 0 0;
+
+        border-left:
+          0;
+
+        border-top:
+          1px solid var(--g-line);
+      }
+
+
+      .career-card {
+
+        min-height:
+          116px;
+      }
+
+
+      .career-value {
+
+        font-size:
+          1.65rem;
+      }
+
+
+      .identity-card {
+
+        grid-template-columns:
+          1fr;
+      }
+
+
+      .identity-reputation {
+
+        grid-column:
+          auto;
+
+        align-items:
+          flex-start;
+
+        text-align:
+          left;
+      }
+
+
+      .milestone-grid {
+
+        grid-template-columns:
+          1fr;
+      }
+
+
+      .milestone,
+      .milestone:nth-child(even) {
+
+        border-right:
+          0;
+      }
+
+
+      .milestone + .milestone {
+
+        border-top:
+          1px solid var(--g-line);
+      }
+
+
+      .mastery-card {
+
+        min-height:
+          200px;
+      }
+
+
+      .records-grid {
+
+        grid-template-columns:
+          1fr;
+      }
+
+
+      .record-card {
+
+        min-height:
+          125px;
+      }
+
+
+      .legacy-head {
+
+        align-items:
+          flex-start;
+
+        flex-direction:
+          column;
+      }
+
+
+      .legacy-row {
+
+        grid-template-columns:
+          38px
+          minmax(0,1fr);
+      }
+
+
+      .legacy-value {
+
+        grid-column:
+          2;
+
+        text-align:
+          left;
+      }
+
+
+      .legacy-footer {
+
+        align-items:
+          flex-start;
+
+        flex-direction:
+          column;
+      }
+
+
+      .timeline-row {
+
+        grid-template-columns:
+          1fr 21px;
+
+        gap:
+          7px;
+      }
+
+
+      .timeline-period {
+
+        grid-column:
+          1;
+      }
+
+
+      .timeline-marker {
+
+        grid-column:
+          2;
+
+        grid-row:
+          1 / span 3;
+      }
+
+
+      .timeline-main {
+
+        grid-column:
+          1;
+      }
+
+
+      .timeline-value {
+
+        grid-column:
+          1;
+      }
+
+
+      .system-card-data {
+
+        grid-template-columns:
+          1fr;
+      }
+
+
+      .system-live {
+
+        display:
+          none !important;
+      }
+
+    }
+
+
+
+    /* =============================================================
+       VERY SMALL PHONE
+       ============================================================= */
+
+    @media (max-width: 360px) {
+
+      .career-grid {
+
+        grid-template-columns:
+          1fr;
+      }
+
+
+      .header-capacity {
+
+        grid-template-columns:
+          1fr 1fr;
+      }
+
+
+      .header-capacity > div:last-child {
+
+        grid-column:
+          1 / -1;
+      }
+
+
+      .identity-tags {
+
+        display:
+          grid;
+
+        grid-template-columns:
+          1fr
+          1fr;
+      }
+
+
+      .identity-tag {
+
+        justify-content:
+          flex-start;
+      }
+
+    }
+
+  </style>
+</Layout>

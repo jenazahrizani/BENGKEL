@@ -1,0 +1,754 @@
+---
+interface Driver {
+  id?: string;
+  name: string;
+  nickname?: string;
+  age?: number;
+
+  reaction?: number;
+  shift?: number;
+  consistency?: number;
+
+  trait?:
+    | "AGGRESSIVE"
+    | "TECHNICAL"
+    | "CONSISTENT"
+    | "COMEBACK"
+    | "ROOKIE"
+    | string;
+
+  level?: number;
+  experience?: number;
+  wins?: number;
+  races?: number;
+
+  fee?: string;
+  signingFee?: string;
+  salary?: string;
+
+  status?: "AVAILABLE" | "SIGNED" | "RACING" | "DEVELOPING" | "RETIRED" | string;
+  team?: string;
+}
+
+interface Props {
+  driver: Driver;
+  compact?: boolean;
+  showActions?: boolean;
+  actionLabel?: string;
+  actionHref?: string;
+}
+
+const {
+  driver,
+  compact = false,
+  showActions = true,
+  actionLabel = "DETAIL JOKI",
+  actionHref = "/team",
+} = Astro.props;
+
+const reaction = Math.max(
+  0,
+  Math.min(100, driver.reaction ?? 0)
+);
+
+const shift = Math.max(
+  0,
+  Math.min(100, driver.shift ?? 0)
+);
+
+const consistency = Math.max(
+  0,
+  Math.min(100, driver.consistency ?? 0)
+);
+
+const experience = Math.max(
+  0,
+  Math.min(100, driver.experience ?? 0)
+);
+
+const traitClass =
+  driver.trait === "AGGRESSIVE"
+    ? "badge-red"
+    : driver.trait === "TECHNICAL"
+      ? "badge-orange"
+      : driver.trait === "CONSISTENT"
+        ? "badge-green"
+        : driver.trait === "COMEBACK"
+          ? "badge-lime"
+          : driver.trait === "ROOKIE"
+            ? ""
+            : "";
+
+const statusClass =
+  driver.status === "SIGNED" ||
+  driver.status === "RACING"
+    ? "status-active"
+    : driver.status === "DEVELOPING"
+      ? "status-good"
+      : driver.status === "AVAILABLE"
+        ? "status-warning"
+        : driver.status === "RETIRED"
+          ? ""
+          : "status-good";
+
+const cardClasses = [
+  "driver-card",
+  compact && "driver-card--compact",
+]
+  .filter(Boolean)
+  .join(" ");
+---
+
+<article class={cardClasses}>
+  <!-- =====================================================
+       DRIVER VISUAL
+       ===================================================== -->
+
+  <div class="driver-visual" aria-hidden="true">
+    <div class="portrait">
+      <span class="portrait-hair"></span>
+      <span class="portrait-head"></span>
+      <span class="portrait-face"></span>
+      <span class="portrait-body"></span>
+      <span class="portrait-shirt"></span>
+    </div>
+
+    <span class="driver-number">
+      {driver.level !== undefined
+        ? `LV.${driver.level}`
+        : "JOKI"}
+    </span>
+  </div>
+
+  <!-- =====================================================
+       DRIVER CONTENT
+       ===================================================== -->
+
+  <div class="driver-content">
+    <div class="driver-header">
+      <div class="driver-title-group">
+        <span class="eyebrow">
+          {driver.team ?? "GARAGE DRIVER"}
+        </span>
+
+        <h3 class="driver-name">
+          {driver.name}
+        </h3>
+
+        {driver.nickname && (
+          <div class="driver-nickname">
+            "{driver.nickname}"
+          </div>
+        )}
+      </div>
+
+      {driver.status && (
+        <span
+          class:list={[
+            "status",
+            statusClass,
+          ]}
+        >
+          {driver.status}
+        </span>
+      )}
+    </div>
+
+    <!-- ===================================================
+         DRIVER STATS
+         =================================================== -->
+
+    <div class="driver-stats">
+      <div class="driver-stat">
+        <div class="driver-stat-header">
+          <span>REACTION</span>
+          <strong>{reaction}</strong>
+        </div>
+
+        <div class="progress">
+          <div
+            class="progress-fill"
+            style={`width: ${reaction}%;`}
+          ></div>
+        </div>
+      </div>
+
+      <div class="driver-stat">
+        <div class="driver-stat-header">
+          <span>SHIFT</span>
+          <strong>{shift}</strong>
+        </div>
+
+        <div class="progress">
+          <div
+            class="progress-fill"
+            style={`width: ${shift}%;`}
+          ></div>
+        </div>
+      </div>
+
+      <div class="driver-stat">
+        <div class="driver-stat-header">
+          <span>CONSISTENCY</span>
+          <strong>{consistency}</strong>
+        </div>
+
+        <div class="progress progress-green">
+          <div
+            class="progress-fill"
+            style={`width: ${consistency}%;`}
+          ></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================================================
+         TRAIT
+         =================================================== -->
+
+    {driver.trait && (
+      <div class="driver-trait">
+        <span class="label">
+          TRAIT
+        </span>
+
+        <span class:list={["badge", traitClass]}>
+          {driver.trait}
+        </span>
+      </div>
+    )}
+
+    <!-- ===================================================
+         EXPERIENCE
+         =================================================== -->
+
+    {driver.experience !== undefined && (
+      <div class="driver-experience">
+        <div class="experience-header">
+          <span class="label">
+            EXPERIENCE
+          </span>
+
+          <strong>
+            {experience}%
+          </strong>
+        </div>
+
+        <div class="progress">
+          <div
+            class="progress-fill"
+            style={`width: ${experience}%;`}
+          ></div>
+        </div>
+      </div>
+    )}
+
+    <!-- ===================================================
+         CAREER STATS
+         =================================================== -->
+
+    {(driver.wins !== undefined ||
+      driver.races !== undefined ||
+      driver.age !== undefined) && (
+      <div class="career-grid">
+        {driver.wins !== undefined && (
+          <div class="career-stat">
+            <span class="label">
+              WINS
+            </span>
+
+            <strong>
+              {driver.wins}
+            </strong>
+          </div>
+        )}
+
+        {driver.races !== undefined && (
+          <div class="career-stat">
+            <span class="label">
+              RACES
+            </span>
+
+            <strong>
+              {driver.races}
+            </strong>
+          </div>
+        )}
+
+        {driver.age !== undefined && (
+          <div class="career-stat">
+            <span class="label">
+              AGE
+            </span>
+
+            <strong>
+              {driver.age}
+            </strong>
+          </div>
+        )}
+      </div>
+    )}
+
+    <!-- ===================================================
+         CONTRACT
+         =================================================== -->
+
+    {(driver.fee ||
+      driver.signingFee ||
+      driver.salary) && (
+      <div class="driver-contract">
+        {driver.fee && (
+          <div class="contract-row">
+            <span class="label">
+              RACE FEE
+            </span>
+
+            <strong class="price price-small">
+              {driver.fee}
+            </strong>
+          </div>
+        )}
+
+        {driver.signingFee && (
+          <div class="contract-row">
+            <span class="label">
+              SIGNING FEE
+            </span>
+
+            <strong class="price price-small">
+              {driver.signingFee}
+            </strong>
+          </div>
+        )}
+
+        {driver.salary && (
+          <div class="contract-row">
+            <span class="label">
+              SALARY
+            </span>
+
+            <strong class="price price-small">
+              {driver.salary}
+            </strong>
+          </div>
+        )}
+      </div>
+    )}
+
+    <!-- ===================================================
+         ACTION
+         =================================================== -->
+
+    {showActions && (
+      <div class="driver-actions">
+        <a
+          href={actionHref}
+          class="btn btn-primary"
+        >
+          {actionLabel}
+        </a>
+      </div>
+    )}
+  </div>
+</article>
+
+<style>
+  .driver-card {
+    display: grid;
+    grid-template-columns: 150px minmax(0, 1fr);
+
+    min-width: 0;
+    overflow: hidden;
+
+    background: var(--panel);
+    border: 2px solid var(--line);
+
+    box-shadow: var(--shadow-small);
+
+    transition:
+      transform 120ms steps(2),
+      background 120ms steps(2),
+      border-color 120ms steps(2);
+  }
+
+  .driver-card:hover {
+    background: var(--panel-light);
+    border-color: var(--line-light);
+    transform: translate(-2px, -2px);
+  }
+
+  .driver-card--compact {
+    grid-template-columns: 118px minmax(0, 1fr);
+  }
+
+  /* =======================================================
+     DRIVER VISUAL
+     ======================================================= */
+
+  .driver-visual {
+    position: relative;
+
+    min-height: 100%;
+
+    display: grid;
+    place-items: center;
+
+    background:
+      linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.025),
+        rgba(0, 0, 0, 0.2)
+      ),
+      repeating-linear-gradient(
+        0deg,
+        #20201c 0 6px,
+        #181815 6px 12px
+      );
+
+    border-right: 2px solid var(--line);
+
+    overflow: hidden;
+  }
+
+  .driver-visual::before {
+    content: "";
+
+    position: absolute;
+    top: 14px;
+    left: 10px;
+    right: 10px;
+
+    height: 4px;
+
+    background: var(--yellow);
+
+    box-shadow:
+      0 0 12px rgba(229, 195, 77, 0.18),
+      0 4px 0 var(--black);
+  }
+
+  .driver-number {
+    position: absolute;
+    left: 8px;
+    bottom: 7px;
+
+    color: var(--cream-muted);
+
+    font-family: var(--font-display);
+    font-size: 0.58rem;
+    font-weight: 900;
+    letter-spacing: 0.08em;
+
+    text-transform: uppercase;
+  }
+
+  /* =======================================================
+     PIXEL PORTRAIT
+     ======================================================= */
+
+  .portrait {
+    position: relative;
+
+    width: 90px;
+    height: 110px;
+  }
+
+  .portrait-hair {
+    position: absolute;
+
+    left: 22px;
+    top: 10px;
+
+    width: 46px;
+    height: 34px;
+
+    background: var(--black);
+    border: 4px solid var(--black);
+  }
+
+  .portrait-head {
+    position: absolute;
+
+    left: 27px;
+    top: 25px;
+
+    width: 38px;
+    height: 42px;
+
+    background: var(--cream-soft);
+    border: 4px solid var(--black);
+  }
+
+  .portrait-face {
+    position: absolute;
+
+    left: 37px;
+    top: 43px;
+
+    width: 18px;
+    height: 6px;
+
+    background: var(--black);
+
+    box-shadow:
+      8px 0 0 var(--black),
+      4px 8px 0 var(--black);
+  }
+
+  .portrait-body {
+    position: absolute;
+
+    left: 14px;
+    top: 63px;
+
+    width: 62px;
+    height: 40px;
+
+    background: var(--metal-dark);
+    border: 4px solid var(--black);
+  }
+
+  .portrait-shirt {
+    position: absolute;
+
+    left: 29px;
+    top: 71px;
+
+    width: 32px;
+    height: 26px;
+
+    background: var(--red);
+    border: 3px solid var(--black);
+  }
+
+  /* =======================================================
+     CONTENT
+     ======================================================= */
+
+  .driver-content {
+    min-width: 0;
+    padding: 14px;
+  }
+
+  .driver-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .driver-title-group {
+    min-width: 0;
+  }
+
+  .driver-name {
+    margin-top: 4px;
+
+    color: var(--cream);
+
+    font-family: var(--font-display);
+    font-size: var(--text-xl);
+    font-weight: 900;
+    line-height: 1;
+
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+
+    overflow-wrap: anywhere;
+  }
+
+  .driver-nickname {
+    margin-top: 5px;
+
+    color: var(--cream-muted);
+
+    font-size: var(--text-xs);
+    font-weight: 900;
+    text-transform: uppercase;
+  }
+
+  /* =======================================================
+     STATS
+     ======================================================= */
+
+  .driver-stats {
+    display: grid;
+    gap: 10px;
+
+    margin-top: 16px;
+  }
+
+  .driver-stat {
+    min-width: 0;
+  }
+
+  .driver-stat-header,
+  .experience-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+
+    margin-bottom: 4px;
+
+    color: var(--cream-muted);
+
+    font-family: var(--font-display);
+    font-size: 0.6rem;
+    font-weight: 900;
+    letter-spacing: 0.06em;
+
+    text-transform: uppercase;
+  }
+
+  .driver-stat-header strong,
+  .experience-header strong {
+    color: var(--cream);
+    font-size: 0.66rem;
+  }
+
+  /* =======================================================
+     TRAIT
+     ======================================================= */
+
+  .driver-trait {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+
+    margin-top: 14px;
+    padding-top: 11px;
+
+    border-top: 1px solid var(--line);
+  }
+
+  /* =======================================================
+     EXPERIENCE
+     ======================================================= */
+
+  .driver-experience {
+    margin-top: 14px;
+    padding-top: 11px;
+
+    border-top: 1px solid var(--line);
+  }
+
+  /* =======================================================
+     CAREER
+     ======================================================= */
+
+  .career-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 7px;
+
+    margin-top: 14px;
+    padding-top: 11px;
+
+    border-top: 1px solid var(--line);
+  }
+
+  .career-stat {
+    min-width: 0;
+    padding: 8px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+
+    background: var(--panel-dark);
+    border: 1px solid var(--line);
+  }
+
+  .career-stat strong {
+    color: var(--cream);
+
+    font-family: var(--font-display);
+    font-size: var(--text-md);
+    font-weight: 900;
+  }
+
+  /* =======================================================
+     CONTRACT
+     ======================================================= */
+
+  .driver-contract {
+    display: grid;
+    gap: 7px;
+
+    margin-top: 14px;
+    padding-top: 11px;
+
+    border-top: 1px solid var(--line);
+  }
+
+  .contract-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  /* =======================================================
+     ACTION
+     ======================================================= */
+
+  .driver-actions {
+    margin-top: 14px;
+  }
+
+  .driver-actions .btn {
+    width: 100%;
+  }
+
+  /* =======================================================
+     RESPONSIVE
+     ======================================================= */
+
+  @media (max-width: 900px) {
+    .driver-card,
+    .driver-card--compact {
+      grid-template-columns: 125px minmax(0, 1fr);
+    }
+  }
+
+  @media (max-width: 760px) {
+    .driver-card,
+    .driver-card--compact {
+      display: block;
+    }
+
+    .driver-visual {
+      min-height: 155px;
+
+      border-right: 0;
+      border-bottom: 2px solid var(--line);
+    }
+
+    .driver-content {
+      padding: 13px;
+    }
+
+    .driver-header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .career-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 420px) {
+    .career-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .contract-row {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 3px;
+    }
+  }
+</style>

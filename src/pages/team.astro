@@ -1,0 +1,5291 @@
+﻿---
+import Layout from "../components/Layout.astro";
+import "../styles/global.css";
+import Button from "../components/Button.astro";
+import Navigation from "../components/Navigation.astro";
+
+const teamStats = [
+  {
+    label: "JOKI",
+    value: "01 / 01",
+    detail: "SIGNED",
+    icon: "helmet",
+    fill: 7,
+    active: true,
+  },
+  {
+    label: "RACE",
+    value: "07",
+    detail: "TOTAL RACE",
+    icon: "flag",
+    fill: 6,
+  },
+  {
+    label: "WIN",
+    value: "02",
+    detail: "CAREER WIN",
+    icon: "trophy",
+    fill: 3,
+  },
+  {
+    label: "TEAM EXP",
+    value: "68%",
+    detail: "LEVEL 3",
+    icon: "chart",
+    fill: 5,
+  },
+];
+
+const mainDriver = {
+  id: "DRV-001",
+  name: 'BIMO "KILAT"',
+  nickname: "KILAT",
+  age: 21,
+  specialty: "CONSISTENCY",
+  level: 3,
+  exp: 68,
+  raceFee: 250000,
+  status: "SIGNED",
+  stats: {
+    skill: 72,
+    consistency: 86,
+    launch: 78,
+    control: 69,
+    nerve: 74,
+    experience: 68,
+  },
+  wins: 2,
+  races: 7,
+};
+
+const development = [
+  {
+    label: "SKILL",
+    current: 72,
+    next: 80,
+    icon: "target",
+  },
+  {
+    label: "CONSISTENCY",
+    current: 86,
+    next: 90,
+    icon: "chart",
+  },
+  {
+    label: "LAUNCH",
+    current: 78,
+    next: 85,
+    icon: "bolt",
+  },
+  {
+    label: "CONTROL",
+    current: 69,
+    next: 78,
+    icon: "steering",
+  },
+  {
+    label: "NERVE",
+    current: 74,
+    next: 82,
+    icon: "helmet",
+  },
+  {
+    label: "EXPERIENCE",
+    current: 68,
+    next: 75,
+    icon: "flag",
+  },
+];
+
+const availableDrivers = [
+  {
+    id: "DRV-002",
+    name: 'RIZAL "TANGAN BESI"',
+    nickname: "TANGAN BESI",
+    level: 2,
+    age: 24,
+    specialty: "LAUNCH",
+    raceFee: 180000,
+    skill: 64,
+    consistency: 58,
+    launch: 82,
+    nerve: 77,
+    status: "AVAILABLE",
+  },
+  {
+    id: "DRV-003",
+    name: 'DANU "PENDEK"',
+    nickname: "PENDEK",
+    level: 2,
+    age: 19,
+    specialty: "CONTROL",
+    raceFee: 150000,
+    skill: 61,
+    consistency: 71,
+    launch: 67,
+    nerve: 65,
+    status: "AVAILABLE",
+  },
+  {
+    id: "DRV-004",
+    name: 'REZA "KABEL"',
+    nickname: "KABEL",
+    level: 1,
+    age: 20,
+    specialty: "AGGRESSIVE",
+    raceFee: 120000,
+    skill: 55,
+    consistency: 49,
+    launch: 76,
+    nerve: 84,
+    status: "LOCKED",
+  },
+];
+
+const teamRoles = [
+  {
+    title: "CONSISTENT",
+    stat: "CONTROL",
+    icon: "chart",
+    description:
+      "Joki dengan performa lebih stabil. Cocok untuk mengejar catatan waktu dan menjaga hasil race.",
+  },
+  {
+    title: "LAUNCHER",
+    stat: "START",
+    icon: "bolt",
+    description:
+      "Spesialis start agresif. Nilai launch tinggi membantu mendapatkan posisi awal.",
+  },
+  {
+    title: "HOT HEAD",
+    stat: "NERVE",
+    icon: "helmet",
+    description:
+      "Berani mengambil risiko ketika tekanan tinggi. Potensi besar, tetapi hasil bisa lebih fluktuatif.",
+  },
+];
+
+const driverHistory = [
+  {
+    event: "ABIANSEMAL NIGHT RUN",
+    class: "UNDER 125",
+    result: "1ST PLACE",
+    time: "08.42",
+    status: "WIN",
+    icon: "trophy",
+  },
+  {
+    event: "MENGWI STREET CUP",
+    class: "UNDER 150",
+    result: "2ND PLACE",
+    time: "08.67",
+    status: "PODIUM",
+    icon: "flag",
+  },
+  {
+    event: "KUTA TEST NIGHT",
+    class: "UNDER 125",
+    result: "4TH PLACE",
+    time: "08.91",
+    status: "FINISH",
+    icon: "flag",
+  },
+  {
+    event: "BADUNG OPEN RUN",
+    class: "UNDER 125",
+    result: "1ST PLACE",
+    time: "08.31",
+    status: "WIN",
+    icon: "trophy",
+  },
+];
+
+const teamLog = [
+  {
+    time: "22:14",
+    action: "RACE WIN",
+    detail: "ABIANSEMAL NIGHT RUN",
+    icon: "trophy",
+  },
+  {
+    time: "20:41",
+    action: "DRIVER ASSIGNED",
+    detail: "BIMO / NUSA 125",
+    icon: "helmet",
+  },
+  {
+    time: "18:32",
+    action: "LEVEL UP",
+    detail: "LEVEL 02 → LEVEL 03",
+    icon: "chart",
+  },
+  {
+    time: "16:07",
+    action: "CONTRACT",
+    detail: "BIMO / RENEWED",
+    icon: "document",
+  },
+];
+---
+
+<Layout
+  title="BENGKEL — TEAM"
+  description="Kelola joki dan sejarah tim."
+>
+  <div class="page team-page">
+
+    <div class="game-layout">
+
+      <Navigation active="team" />
+
+      <main class="main">
+
+        <div class="main-inner team-main">
+
+
+          <!-- =====================================================
+               HEADER
+          ===================================================== -->
+
+          <header class="team-header">
+
+            <div class="team-header-top">
+
+              <div class="team-head-left">
+                <span class="header-led"></span>
+                <span>TEAM_01</span>
+              </div>
+
+              <span class="team-head-center">
+                GARAGE / TEAM / DRIVER ROOM
+              </span>
+
+              <div class="team-head-right">
+                <span class="pixel-icon pixel-icon--helmet pixel-icon--tiny"></span>
+                ACTIVE
+              </div>
+
+            </div>
+
+
+            <div class="team-header-body">
+
+              <div class="team-header-copy">
+
+                <div class="team-title-meta">
+
+                  <span class="team-title-icon">
+                    <span class="pixel-icon pixel-icon--helmet pixel-icon--small"></span>
+                  </span>
+
+                  <span class="eyebrow">
+                    DRIVER MANAGEMENT
+                  </span>
+
+                </div>
+
+
+                <h1>
+                  TEAM
+                </h1>
+
+
+                <div class="team-title-line"></div>
+
+
+                <p>
+                  Joki bukan sekadar biaya race.
+                  Pilih karakter yang cocok dengan motor,
+                  kembangkan skill, tentukan role, lalu
+                  bangun sejarah tim dari satu lintasan ke
+                  lintasan berikutnya.
+                </p>
+
+              </div>
+
+
+              <div class="team-console">
+
+                <div class="console-title">
+
+                  <span class="pixel-icon pixel-icon--helmet pixel-icon--tiny"></span>
+
+                  TEAM CONSOLE
+
+                </div>
+
+
+                <div class="console-row">
+
+                  <span>DRIVER</span>
+
+                  <strong class="accent-text">
+                    01 / 01
+                  </strong>
+
+                </div>
+
+
+                <div class="console-row">
+
+                  <span>LEVEL</span>
+
+                  <strong>
+                    LV. 03
+                  </strong>
+
+                </div>
+
+
+                <div class="console-row">
+
+                  <span>CAREER WIN</span>
+
+                  <strong>
+                    02
+                  </strong>
+
+                </div>
+
+
+                <div class="console-actions">
+
+                  <Button
+                    href="/race"
+                    variant="primary"
+                  >
+                    SIAPKAN RACE
+                  </Button>
+
+                  <Button href="/garage">
+                    GARASI
+                  </Button>
+
+                </div>
+
+              </div>
+
+            </div>
+
+
+            <div class="team-header-bottom">
+
+              <span>
+                DRIVER / DEVELOPMENT / RACE / HISTORY
+              </span>
+
+              <span>
+                DRIVER_SLOT 01
+              </span>
+
+              <span class="system-online">
+                <i></i>
+                TEAM READY
+              </span>
+
+            </div>
+
+          </header>
+
+
+
+          <!-- =====================================================
+               TEAM STATUS
+          ===================================================== -->
+
+          <section class="team-section">
+
+            <div class="section-header">
+
+              <div class="section-heading">
+
+                <span class="section-marker"></span>
+
+                <div>
+
+                  <span class="section-kicker">
+                    TEAM OVERVIEW
+                  </span>
+
+                  <h2>
+                    STATUS TIM
+                  </h2>
+
+                </div>
+
+              </div>
+
+              <span class="section-code">
+                01 / TEAM
+              </span>
+
+            </div>
+
+
+            <div class="team-status-grid">
+
+              {
+                teamStats.map((stat, index) => (
+                  <article
+                    class:list={[
+                      "team-stat",
+                      stat.active && "team-stat--active",
+                    ]}
+                  >
+
+                    <div class="team-stat-top">
+
+                      <div class="team-stat-ident">
+
+                        <span class="team-stat-icon">
+
+                          <span
+                            class:list={[
+                              "pixel-icon",
+                              `pixel-icon--${stat.icon}`,
+                              "pixel-icon--small",
+                            ]}
+                          ></span>
+
+                        </span>
+
+                        <span>
+                          {stat.label}
+                        </span>
+
+                      </div>
+
+                      <span>
+                        {String(index + 1).padStart(2, "0")}
+                      </span>
+
+                    </div>
+
+
+                    <strong>
+                      {stat.value}
+                    </strong>
+
+
+                    <div class="team-stat-bottom">
+
+                      <div class="team-stat-meter">
+
+                        {Array.from({ length: 8 }).map((_, meterIndex) => (
+                          <i
+                            class:filled={
+                              meterIndex < Math.ceil(stat.fill * .8)
+                            }
+                          ></i>
+                        ))}
+
+                      </div>
+
+                      <span>
+                        {stat.detail}
+                      </span>
+
+                    </div>
+
+                  </article>
+                ))
+              }
+
+            </div>
+
+          </section>
+
+
+
+          <!-- =====================================================
+               MAIN DRIVER
+          ===================================================== -->
+
+          <section class="team-section">
+
+            <div class="section-header">
+
+              <div class="section-heading">
+
+                <span class="section-marker section-marker--accent"></span>
+
+                <div>
+
+                  <span class="section-kicker">
+                    ACTIVE DRIVER
+                  </span>
+
+                  <h2>
+                    JOKI UTAMA
+                  </h2>
+
+                </div>
+
+              </div>
+
+              <span class="section-code">
+                {mainDriver.id}
+              </span>
+
+            </div>
+
+
+            <div class="driver-main">
+
+
+              <!-- DRIVER PORTRAIT -->
+
+              <article class="driver-card">
+
+                <div class="driver-card-top">
+
+                  <div>
+
+                    <span>
+                      {mainDriver.id}
+                    </span>
+
+                    <strong>
+                      SIGNED
+                    </strong>
+
+                  </div>
+
+                  <span>
+                    LV. {mainDriver.level}
+                  </span>
+
+                </div>
+
+
+                <div class="driver-portrait">
+
+                  <div class="portrait-grid"></div>
+
+                  <div class="portrait-frame">
+
+                    <div class="pixel-driver">
+
+                      <span class="driver-head"></span>
+                      <span class="driver-helmet"></span>
+                      <span class="driver-visor"></span>
+                      <span class="driver-neck"></span>
+                      <span class="driver-body"></span>
+                      <span class="driver-arm driver-arm--left"></span>
+                      <span class="driver-arm driver-arm--right"></span>
+
+                    </div>
+
+                  </div>
+
+
+                  <span class="portrait-code">
+                    DRIVER / PROFILE_01
+                  </span>
+
+                  <span class="portrait-bottom">
+                    BIMO / KILAT
+                  </span>
+
+                  <span class="portrait-role">
+                    CONSISTENCY
+                  </span>
+
+                </div>
+
+
+                <div class="driver-card-info">
+
+                  <span class="section-kicker">
+                    MAIN DRIVER
+                  </span>
+
+                  <h3>
+                    {mainDriver.name}
+                  </h3>
+
+                  <div class="driver-subline">
+
+                    <span>
+                      AGE {mainDriver.age}
+                    </span>
+
+                    <span>
+                      / 
+                    </span>
+
+                    <strong>
+                      {mainDriver.specialty}
+                    </strong>
+
+                  </div>
+
+                </div>
+
+
+                <div class="driver-mini-stats">
+
+                  <div>
+                    <span>SKILL</span>
+                    <strong>{mainDriver.stats.skill}</strong>
+                  </div>
+
+                  <div>
+                    <span>CONSIST.</span>
+                    <strong>{mainDriver.stats.consistency}</strong>
+                  </div>
+
+                  <div>
+                    <span>LAUNCH</span>
+                    <strong>{mainDriver.stats.launch}</strong>
+                  </div>
+
+                  <div>
+                    <span>NERVE</span>
+                    <strong>{mainDriver.stats.nerve}</strong>
+                  </div>
+
+                </div>
+
+              </article>
+
+
+
+              <!-- DRIVER COMMAND -->
+
+              <article class="driver-command">
+
+                <div class="driver-command-head">
+
+                  <div class="driver-heading">
+
+                    <span class="driver-command-icon">
+                      <span class="pixel-icon pixel-icon--helmet pixel-icon--small"></span>
+                    </span>
+
+                    <div>
+
+                      <span class="section-kicker">
+                        DRIVER PROFILE
+                      </span>
+
+                      <h3>
+                        PROFILE / KILAT
+                      </h3>
+
+                    </div>
+
+                  </div>
+
+
+                  <span class="driver-signed">
+                    SIGNED
+                  </span>
+
+                </div>
+
+
+                <div class="driver-summary">
+
+                  <div class="driver-summary-card">
+
+                    <span>
+                      SPECIALTY
+                    </span>
+
+                    <strong>
+                      {mainDriver.specialty}
+                    </strong>
+
+                    <small>
+                      STABLE RUNS
+                    </small>
+
+                  </div>
+
+
+                  <div class="driver-summary-card">
+
+                    <span>
+                      RACE FEE
+                    </span>
+
+                    <strong>
+                      Rp {mainDriver.raceFee.toLocaleString("id-ID")}
+                    </strong>
+
+                    <small>
+                      PER RACE
+                    </small>
+
+                  </div>
+
+
+                  <div class="driver-summary-card">
+
+                    <span>
+                      CAREER
+                    </span>
+
+                    <strong>
+                      {mainDriver.wins} W / {mainDriver.races} R
+                    </strong>
+
+                    <small>
+                      CURRENT RECORD
+                    </small>
+
+                  </div>
+
+                </div>
+
+
+                <div class="skill-overview">
+
+                  <div class="skill-overview-head">
+
+                    <div>
+
+                      <span class="section-kicker">
+                        DRIVER PERFORMANCE
+                      </span>
+
+                      <strong>
+                        PERFORMANCE PROFILE
+                      </strong>
+
+                    </div>
+
+                    <span>
+                      LV. {mainDriver.level}
+                    </span>
+
+                  </div>
+
+
+                  <div class="skill-list">
+
+                    {
+                      Object.entries(mainDriver.stats).map(([label, value]) => (
+                        <div class="skill-row">
+
+                          <div class="skill-label">
+
+                            <span>
+                              {label === "acceleration"
+                                ? "LAUNCH"
+                                : label}
+                            </span>
+
+                            <strong>
+                              {value}
+                            </strong>
+
+                          </div>
+
+                          <div class="skill-track">
+
+                            <i
+                              style={`width:${value}%`}
+                            ></i>
+
+                          </div>
+
+                        </div>
+                      ))
+                    }
+
+                  </div>
+
+                </div>
+
+
+                <div class="driver-command-actions">
+
+                  <Button
+                    href="/race"
+                    variant="primary"
+                  >
+                    ASSIGN TO RACE
+                  </Button>
+
+                  <Button href="/team">
+                    VIEW HISTORY
+                  </Button>
+
+                </div>
+
+
+                <div class="driver-note">
+
+                  <span class="driver-note-icon">
+                    <span class="pixel-icon pixel-icon--chart pixel-icon--small"></span>
+                  </span>
+
+                  <div>
+
+                    <strong>
+                      KONSISTEN ADALAH SENJATA
+                    </strong>
+
+                    <p>
+                      Joki dengan consistency tinggi
+                      cenderung menghasilkan performa yang
+                      lebih dekat dengan kemampuan dasarnya.
+                    </p>
+
+                  </div>
+
+                </div>
+
+              </article>
+
+            </div>
+
+          </section>
+
+
+
+          <!-- =====================================================
+               DEVELOPMENT
+          ===================================================== -->
+
+          <section class="team-section">
+
+            <div class="section-header">
+
+              <div class="section-heading">
+
+                <span class="section-marker"></span>
+
+                <div>
+
+                  <span class="section-kicker">
+                    DEVELOPMENT
+                  </span>
+
+                  <h2>
+                    PERKEMBANGAN JOKI
+                  </h2>
+
+                </div>
+
+              </div>
+
+              <span class="section-code">
+                EXP 68%
+              </span>
+
+            </div>
+
+
+            <article class="development-panel">
+
+              <div class="development-main">
+
+                <div class="development-level">
+
+                  <span class="section-kicker">
+                    NEXT LEVEL
+                  </span>
+
+                  <h3>
+                    LEVEL {mainDriver.level} → {mainDriver.level + 1}
+                  </h3>
+
+                </div>
+
+
+                <div class="development-exp">
+
+                  <strong>
+                    {mainDriver.exp}%
+                  </strong>
+
+                  <span>
+                    EXPERIENCE
+                  </span>
+
+                </div>
+
+              </div>
+
+
+              <div class="development-track">
+
+                <div class="development-track-top">
+
+                  <span>
+                    EXPERIENCE TO NEXT LEVEL
+                  </span>
+
+                  <strong>
+                    {mainDriver.exp} / 100
+                  </strong>
+
+                </div>
+
+                <div class="development-progress">
+
+                  <i
+                    style={`width:${mainDriver.exp}%`}
+                  ></i>
+
+                </div>
+
+                <div class="development-track-bottom">
+
+                  <span>
+                    LEVEL {mainDriver.level}
+                  </span>
+
+                  <span>
+                    32% TO GO
+                  </span>
+
+                  <span>
+                    LEVEL {mainDriver.level + 1}
+                  </span>
+
+                </div>
+
+              </div>
+
+
+              <div class="development-grid">
+
+                {
+                  development.map((stat) => (
+                    <article class="development-stat">
+
+                      <div class="development-stat-head">
+
+                        <span class="development-stat-icon">
+
+                          <span
+                            class:list={[
+                              "pixel-icon",
+                              `pixel-icon--${stat.icon}`,
+                              "pixel-icon--tiny",
+                            ]}
+                          ></span>
+
+                        </span>
+
+                        <span>
+                          {stat.label}
+                        </span>
+
+                        <strong>
+                          {stat.current}
+                        </strong>
+
+                      </div>
+
+
+                      <div class="development-stat-track">
+
+                        <i
+                          style={`width:${stat.current}%`}
+                        ></i>
+
+                      </div>
+
+
+                      <div class="development-stat-foot">
+
+                        <span>
+                          CURRENT
+                        </span>
+
+                        <strong>
+                          NEXT {stat.next}
+                        </strong>
+
+                      </div>
+
+                    </article>
+                  ))
+                }
+
+              </div>
+
+
+              <div class="development-footer">
+
+                <span>
+                  DEVELOPMENT METHOD
+                </span>
+
+                <strong>
+                  RACE / EXPERIENCE / WINS
+                </strong>
+
+              </div>
+
+            </article>
+
+          </section>
+
+
+
+          <!-- =====================================================
+               SCOUT
+          ===================================================== -->
+
+          <section class="team-section">
+
+            <div class="section-header">
+
+              <div class="section-heading">
+
+                <span class="section-marker section-marker--accent"></span>
+
+                <div>
+
+                  <span class="section-kicker">
+                    DRIVER SCOUT
+                  </span>
+
+                  <h2>
+                    JOKI TERSEDIA
+                  </h2>
+
+                </div>
+
+              </div>
+
+              <span class="section-code">
+                03 CANDIDATES
+              </span>
+
+            </div>
+
+
+            <div class="scout-grid">
+
+              {
+                availableDrivers.map((driver, index) => (
+                  <article
+                    class:list={[
+                      "scout-card",
+                      driver.status === "LOCKED" &&
+                        "scout-card--locked",
+                    ]}
+                  >
+
+                    <div class="scout-top">
+
+                      <span>
+                        {driver.id}
+                      </span>
+
+                      <span>
+                        {driver.status}
+                      </span>
+
+                    </div>
+
+
+                    <div class="scout-portrait">
+
+                      <div class="scout-head">
+                        <span class="scout-face"></span>
+                        <span class="scout-hair"></span>
+                        <span class="scout-visor"></span>
+                        <span class="scout-neck"></span>
+                        <span class="scout-shirt"></span>
+                      </div>
+
+                      <span class="scout-code">
+                        SCOUT / 0{index + 1}
+                      </span>
+
+                      <span class="scout-specialty">
+                        {driver.specialty}
+                      </span>
+
+                    </div>
+
+
+                    <div class="scout-info">
+
+                      <span class="section-kicker">
+                        LEVEL {driver.level} / AGE {driver.age}
+                      </span>
+
+                      <h3>
+                        {driver.name}
+                      </h3>
+
+
+                      <div class="scout-profile">
+
+                        <div>
+
+                          <span>
+                            SKILL
+                          </span>
+
+                          <strong>
+                            {driver.skill}
+                          </strong>
+
+                        </div>
+
+                        <div>
+
+                          <span>
+                            CONSIST.
+                          </span>
+
+                          <strong>
+                            {driver.consistency}
+                          </strong>
+
+                        </div>
+
+                        <div>
+
+                          <span>
+                            LAUNCH
+                          </span>
+
+                          <strong>
+                            {driver.launch}
+                          </strong>
+
+                        </div>
+
+                        <div>
+
+                          <span>
+                            NERVE
+                          </span>
+
+                          <strong>
+                            {driver.nerve}
+                          </strong>
+
+                        </div>
+
+                      </div>
+
+
+                      <div class="scout-footer">
+
+                        <div>
+
+                          <span>
+                            RACE FEE
+                          </span>
+
+                          <strong>
+                            Rp {driver.raceFee.toLocaleString("id-ID")}
+                          </strong>
+
+                        </div>
+
+                        <a
+                          href="/team"
+                          class:list={[
+                            "scout-action",
+                            driver.status === "LOCKED" &&
+                              "scout-action--locked",
+                          ]}
+                        >
+                          {driver.status === "LOCKED"
+                            ? "LOCKED"
+                            : "SCOUT"}
+
+                          <span>
+                            →
+                          </span>
+
+                        </a>
+
+                      </div>
+
+                    </div>
+
+                  </article>
+                ))
+              }
+
+            </div>
+
+          </section>
+
+
+
+          <!-- =====================================================
+               ROLES
+          ===================================================== -->
+
+          <section class="team-section">
+
+            <div class="section-header">
+
+              <div class="section-heading">
+
+                <span class="section-marker"></span>
+
+                <div>
+
+                  <span class="section-kicker">
+                    DRIVER TYPES
+                  </span>
+
+                  <h2>
+                    GAYA BERMAIN JOKI
+                  </h2>
+
+                </div>
+
+              </div>
+
+              <span class="section-code">
+                ROLE / 03
+              </span>
+
+            </div>
+
+
+            <div class="roles-grid">
+
+              {
+                teamRoles.map((role, index) => (
+                  <article class="role-card">
+
+                    <div class="role-top">
+
+                      <span>
+                        ROLE_{String(index + 1).padStart(2, "0")}
+                      </span>
+
+                      <span>
+                        {role.stat}
+                      </span>
+
+                    </div>
+
+
+                    <div class="role-icon">
+
+                      <span
+                        class:list={[
+                          "pixel-icon",
+                          `pixel-icon--${role.icon}`,
+                          "pixel-icon--medium",
+                        ]}
+                      ></span>
+
+                    </div>
+
+
+                    <div class="role-content">
+
+                      <span class="section-kicker">
+                        DRIVER STYLE
+                      </span>
+
+                      <h3>
+                        {role.title}
+                      </h3>
+
+                      <p>
+                        {role.description}
+                      </p>
+
+                    </div>
+
+
+                    <div class="role-footer">
+
+                      <span>
+                        {role.stat}
+                      </span>
+
+                      <strong>
+                        SELECT →
+                      </strong>
+
+                    </div>
+
+                  </article>
+                ))
+              }
+
+            </div>
+
+          </section>
+
+
+
+          <!-- =====================================================
+               HISTORY
+          ===================================================== -->
+
+          <section class="team-section">
+
+            <div class="section-header">
+
+              <div class="section-heading">
+
+                <span class="section-marker"></span>
+
+                <div>
+
+                  <span class="section-kicker">
+                    DRIVER HISTORY
+                  </span>
+
+                  <h2>
+                    RIWAYAT BALAP
+                  </h2>
+
+                </div>
+
+              </div>
+
+              <span class="section-code">
+                BIMO / KILAT
+              </span>
+
+            </div>
+
+
+            <div class="race-history">
+
+              <div class="race-history-head">
+
+                <div>
+
+                  <span class="history-head-icon">
+                    <span class="pixel-icon pixel-icon--flag pixel-icon--small"></span>
+                  </span>
+
+                  <div>
+
+                    <span class="section-kicker">
+                      RACE LOG
+                    </span>
+
+                    <strong>
+                      CAREER HISTORY
+                    </strong>
+
+                  </div>
+
+                </div>
+
+
+                <span>
+                  2 WINS / 7 RACE
+                </span>
+
+              </div>
+
+
+              <div class="race-history-list">
+
+                {
+                  driverHistory.map((race, index) => (
+                    <article class="race-history-row">
+
+                      <span class="race-history-number">
+                        {String(index + 1).padStart(2, "0")}
+                      </span>
+
+
+                      <span class="race-history-icon">
+
+                        <span
+                          class:list={[
+                            "pixel-icon",
+                            `pixel-icon--${race.icon}`,
+                            "pixel-icon--small",
+                          ]}
+                        ></span>
+
+                      </span>
+
+
+                      <div class="race-history-main">
+
+                        <span>
+                          {race.class}
+                        </span>
+
+                        <strong>
+                          {race.event}
+                        </strong>
+
+                      </div>
+
+
+                      <div class="race-history-time">
+
+                        <span>
+                          TIME
+                        </span>
+
+                        <strong>
+                          {race.time}
+                        </strong>
+
+                      </div>
+
+
+                      <div class="race-history-result">
+
+                        <span>
+                          {race.status}
+                        </span>
+
+                        <strong>
+                          {race.result}
+                        </strong>
+
+                      </div>
+
+                    </article>
+                  ))
+                }
+
+              </div>
+
+            </div>
+
+          </section>
+
+
+
+          <!-- =====================================================
+               TEAM PRINCIPLE
+          ===================================================== -->
+
+          <section class="team-section">
+
+            <article class="team-rule">
+
+              <div class="team-rule-icon">
+
+                <span class="pixel-icon pixel-icon--helmet pixel-icon--medium"></span>
+
+              </div>
+
+
+              <div class="team-rule-content">
+
+                <span class="section-kicker">
+                  TEAM PRINCIPLE
+                </span>
+
+                <h2>
+                  JOKI ADALAH BAGIAN
+                  DARI SEJARAH GARASI
+                </h2>
+
+                <p>
+                  Setiap joki punya perkembangan, kemenangan,
+                  kekalahan, gaya mengemudi, dan catatan sendiri.
+                  Bahkan setelah dilepas atau berhenti balap,
+                  sejarahnya tetap menjadi bagian dari legacy garasi.
+                </p>
+
+              </div>
+
+
+              <div class="team-rule-stamp">
+
+                <span>
+                  TEAM
+                </span>
+
+                <strong>
+                  01
+                </strong>
+
+              </div>
+
+            </article>
+
+          </section>
+
+
+
+          <!-- =====================================================
+               TEAM LOG
+          ===================================================== -->
+
+          <section class="team-section">
+
+            <div class="section-header">
+
+              <div class="section-heading">
+
+                <span class="section-marker"></span>
+
+                <div>
+
+                  <span class="section-kicker">
+                    TEAM HISTORY
+                  </span>
+
+                  <h2>
+                    LOG TIM
+                  </h2>
+
+                </div>
+
+              </div>
+
+              <span class="section-code">
+                RECENT / 04
+              </span>
+
+            </div>
+
+
+            <div class="team-log">
+
+              <div class="team-log-head">
+
+                <div>
+
+                  <span class="team-log-icon">
+                    <span class="pixel-icon pixel-icon--document pixel-icon--small"></span>
+                  </span>
+
+                  <strong>
+                    RECENT TEAM ACTIVITY
+                  </strong>
+
+                </div>
+
+                <span>
+                  LIVE LOG
+                </span>
+
+              </div>
+
+
+              <div class="team-log-list">
+
+                {
+                  teamLog.map((log, index) => (
+                    <div class="team-log-row">
+
+                      <span class="team-log-number">
+                        {String(index + 1).padStart(2, "0")}
+                      </span>
+
+                      <span class="team-log-time">
+                        {log.time}
+                      </span>
+
+                      <span class="team-log-symbol">
+
+                        <span
+                          class:list={[
+                            "pixel-icon",
+                            `pixel-icon--${log.icon}`,
+                            "pixel-icon--small",
+                          ]}
+                        ></span>
+
+                      </span>
+
+                      <div class="team-log-main">
+
+                        <strong>
+                          {log.action}
+                        </strong>
+
+                        <span>
+                          {log.detail}
+                        </span>
+
+                      </div>
+
+                      <span class="team-log-status">
+                        COMPLETE
+                      </span>
+
+                    </div>
+                  ))
+                }
+
+              </div>
+
+            </div>
+
+          </section>
+
+
+
+          <!-- =====================================================
+               FOOTER
+          ===================================================== -->
+
+          <footer class="team-footer">
+
+            <div class="footer-line"></div>
+
+            <div class="footer-row">
+
+              <div class="footer-brand">
+
+                <span class="footer-brand-icon">
+                  <span class="pixel-icon pixel-icon--helmet pixel-icon--small"></span>
+                </span>
+
+                <div>
+
+                  <strong>
+                    BENGKEL
+                  </strong>
+
+                  <span>
+                    TEAM MANAGEMENT SYSTEM
+                  </span>
+
+                </div>
+
+              </div>
+
+
+              <span>
+                DRIVER / RACE / DEVELOPMENT / HISTORY
+              </span>
+
+
+              <span class="footer-online">
+
+                <i></i>
+
+                SYSTEM ONLINE
+
+              </span>
+
+            </div>
+
+          </footer>
+
+        </div>
+
+      </main>
+
+    </div>
+
+  </div>
+</Layout>
+
+
+<style>
+
+/* =============================================================
+   TOKENS
+   ============================================================= */
+
+.team-page {
+
+  --t-black: #050505;
+  --t-black-2: #090909;
+
+  --t-panel: #101010;
+  --t-panel-2: #151515;
+  --t-panel-3: #1c1c1c;
+
+  --t-line: #292929;
+  --t-line-light: #3d3d3d;
+
+  --t-white: #f1f1eb;
+  --t-soft: #d0d0ca;
+
+  --t-muted: #989892;
+  --t-dim: #62625d;
+
+  --t-accent: #b7d83c;
+  --t-accent-dark: #687d27;
+
+  --t-danger: #c65a51;
+
+}
+
+
+/* =============================================================
+   BASE
+   ============================================================= */
+
+.team-main {
+
+  min-width: 0;
+
+}
+
+.team-section {
+
+  margin-top: 42px;
+
+}
+
+.section-header {
+
+  min-height: 55px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 15px;
+
+  margin-bottom: 10px;
+
+  border-bottom: 2px solid var(--t-line);
+
+}
+
+.section-heading {
+
+  display: flex;
+  align-items: center;
+
+  gap: 11px;
+
+}
+
+.section-marker {
+
+  width: 8px;
+  height: 8px;
+
+  flex: 0 0 auto;
+
+  background: var(--t-white);
+
+  box-shadow:
+    4px 4px 0 var(--t-line-light);
+
+}
+
+.section-marker--accent {
+
+  background: var(--t-accent);
+
+  box-shadow:
+    4px 4px 0 var(--t-accent-dark);
+
+}
+
+.section-kicker {
+
+  display: block;
+
+  color: var(--t-dim);
+
+  font-family: var(--font-display);
+  font-size: .51rem;
+  font-weight: 900;
+
+  letter-spacing: .1em;
+
+  text-transform: uppercase;
+
+}
+
+.section-header h2 {
+
+  margin-top: 4px;
+
+  color: var(--t-white);
+
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem,3vw,2rem);
+  font-weight: 900;
+
+  line-height: .9;
+
+  letter-spacing: -.04em;
+
+  text-transform: uppercase;
+
+}
+
+.section-code {
+
+  color: var(--t-dim);
+
+  font-family: var(--font-display);
+  font-size: .44rem;
+  font-weight: 900;
+
+  letter-spacing: .08em;
+
+  text-transform: uppercase;
+
+}
+
+.eyebrow {
+
+  color: var(--t-dim);
+
+  font-family: var(--font-display);
+  font-size: .53rem;
+  font-weight: 900;
+
+  letter-spacing: .1em;
+
+  text-transform: uppercase;
+
+}
+
+.accent-text {
+
+  color: var(--t-accent) !important;
+
+}
+
+
+/* =============================================================
+   PIXEL ICON SYSTEM
+   ============================================================= */
+
+.pixel-icon {
+
+  position: relative;
+
+  display: block;
+
+  width: 18px;
+  height: 18px;
+
+  color: currentColor;
+
+  image-rendering: pixelated;
+
+}
+
+.pixel-icon::before,
+.pixel-icon::after {
+
+  content: "";
+
+  position: absolute;
+
+  display: block;
+
+}
+
+.pixel-icon--tiny {
+
+  width: 10px;
+  height: 10px;
+
+}
+
+.pixel-icon--small {
+
+  width: 18px;
+  height: 18px;
+
+}
+
+.pixel-icon--medium {
+
+  width: 30px;
+  height: 30px;
+
+}
+
+
+/* HELMET */
+
+.pixel-icon--helmet::before {
+
+  left: 2px;
+  top: 3px;
+
+  width: 14px;
+  height: 10px;
+
+  border: 2px solid currentColor;
+
+  border-bottom: 0;
+
+}
+
+.pixel-icon--helmet::after {
+
+  left: 7px;
+  top: 10px;
+
+  width: 9px;
+  height: 5px;
+
+  background: currentColor;
+
+}
+
+
+/* FLAG */
+
+.pixel-icon--flag::before {
+
+  left: 3px;
+  top: 1px;
+
+  width: 3px;
+  height: 17px;
+
+  background: currentColor;
+
+}
+
+.pixel-icon--flag::after {
+
+  left: 6px;
+  top: 2px;
+
+  width: 10px;
+  height: 8px;
+
+  background: currentColor;
+
+  clip-path:
+    polygon(
+      0 0,
+      100% 0,
+      75% 50%,
+      100% 100%,
+      0 100%
+    );
+
+}
+
+
+/* TROPHY */
+
+.pixel-icon--trophy::before {
+
+  left: 5px;
+  top: 2px;
+
+  width: 8px;
+  height: 10px;
+
+  border: 2px solid currentColor;
+
+  border-bottom: 0;
+
+}
+
+.pixel-icon--trophy::after {
+
+  left: 4px;
+  bottom: 2px;
+
+  width: 10px;
+  height: 3px;
+
+  background: currentColor;
+
+  box-shadow:
+    3px -3px 0 -1px currentColor,
+    1px 3px 0 currentColor;
+
+}
+
+
+/* CHART */
+
+.pixel-icon--chart::before {
+
+  left: 2px;
+  bottom: 2px;
+
+  width: 3px;
+  height: 7px;
+
+  background: currentColor;
+
+  box-shadow:
+    5px -3px 0 currentColor,
+    10px -7px 0 currentColor;
+
+}
+
+.pixel-icon--chart::after {
+
+  left: 2px;
+  bottom: 1px;
+
+  width: 14px;
+  height: 2px;
+
+  background: currentColor;
+
+}
+
+
+/* BOLT */
+
+.pixel-icon--bolt::before {
+
+  left: 6px;
+  top: 0;
+
+  width: 8px;
+  height: 18px;
+
+  background: currentColor;
+
+  clip-path:
+    polygon(
+      40% 0,
+      100% 0,
+      64% 42%,
+      100% 42%,
+      18% 100%,
+      38% 57%,
+      0 57%
+    );
+
+}
+
+
+/* STEERING */
+
+.pixel-icon--steering::before {
+
+  left: 2px;
+  top: 3px;
+
+  width: 14px;
+  height: 10px;
+
+  border: 3px solid currentColor;
+
+  border-radius: 50%;
+
+}
+
+.pixel-icon--steering::after {
+
+  left: 8px;
+  top: 9px;
+
+  width: 3px;
+  height: 7px;
+
+  background: currentColor;
+
+}
+
+
+/* TARGET */
+
+.pixel-icon--target::before {
+
+  left: 2px;
+  top: 2px;
+
+  width: 14px;
+  height: 14px;
+
+  border: 2px solid currentColor;
+
+  border-radius: 50%;
+
+}
+
+.pixel-icon--target::after {
+
+  left: 7px;
+  top: 7px;
+
+  width: 4px;
+  height: 4px;
+
+  background: currentColor;
+
+}
+
+
+/* DOCUMENT */
+
+.pixel-icon--document::before {
+
+  left: 3px;
+  top: 2px;
+
+  width: 12px;
+  height: 15px;
+
+  border: 2px solid currentColor;
+
+}
+
+.pixel-icon--document::after {
+
+  left: 6px;
+  top: 7px;
+
+  width: 6px;
+  height: 2px;
+
+  background: currentColor;
+
+  box-shadow:
+    0 4px 0 currentColor;
+
+}
+
+
+/* =============================================================
+   HEADER
+   ============================================================= */
+
+.team-header {
+
+  overflow: hidden;
+
+  background: var(--t-panel);
+
+  border: 2px solid var(--t-line-light);
+
+  box-shadow:
+    7px 7px 0 var(--t-black);
+
+}
+
+.team-header-top,
+.team-header-bottom {
+
+  min-height: 31px;
+
+  display: grid;
+  align-items: center;
+
+  gap: 15px;
+
+  padding: 0 11px;
+
+  background: var(--t-black-2);
+
+  color: var(--t-dim);
+
+  font-family: var(--font-display);
+  font-size: .45rem;
+  font-weight: 900;
+
+  letter-spacing: .08em;
+
+  text-transform: uppercase;
+
+}
+
+.team-header-top {
+
+  grid-template-columns:
+    1fr
+    auto
+    auto;
+
+  border-bottom: 2px solid var(--t-line);
+
+}
+
+.team-header-bottom {
+
+  grid-template-columns:
+    1fr
+    auto
+    auto;
+
+  border-top: 2px solid var(--t-line);
+
+}
+
+.team-head-left,
+.team-head-right,
+.system-online {
+
+  display: flex;
+  align-items: center;
+
+  gap: 7px;
+
+}
+
+.team-head-left {
+
+  color: var(--t-soft);
+
+}
+
+.team-head-right,
+.system-online {
+
+  color: var(--t-accent);
+
+}
+
+.header-led,
+.system-online i {
+
+  width: 5px;
+  height: 5px;
+
+  background: var(--t-accent);
+
+}
+
+.team-header-body {
+
+  min-height: 350px;
+
+  display: grid;
+
+  grid-template-columns:
+    minmax(0,1fr)
+    255px;
+
+  align-items: end;
+
+  gap: 30px;
+
+  padding: 31px;
+
+}
+
+.team-header-copy {
+
+  min-width: 0;
+
+}
+
+.team-title-meta {
+
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+
+}
+
+.team-title-icon {
+
+  width: 26px;
+  height: 26px;
+
+  display: grid;
+  place-items: center;
+
+  color: var(--t-accent);
+
+  border: 1px solid var(--t-line-light);
+
+  background: var(--t-black-2);
+
+}
+
+.team-header-copy h1 {
+
+  margin-top: 8px;
+
+  color: var(--t-white);
+
+  font-family: var(--font-display);
+  font-size: clamp(4rem,10vw,7.8rem);
+  font-weight: 900;
+
+  line-height: .74;
+
+  letter-spacing: -.09em;
+
+}
+
+.team-title-line {
+
+  width: min(340px,66%);
+
+  height: 3px;
+
+  margin-top: 20px;
+
+  background: var(--t-accent);
+
+}
+
+.team-header-copy p {
+
+  max-width: 700px;
+
+  margin-top: 18px;
+
+  color: var(--t-muted);
+
+  font-size: var(--text-sm);
+
+  line-height: 1.65;
+
+}
+
+.team-console {
+
+  display: grid;
+
+  gap: 6px;
+
+}
+
+.console-title {
+
+  min-height: 30px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 7px;
+
+  padding: 0 9px;
+
+  border: 1px solid var(--t-line-light);
+
+  background: var(--t-black-2);
+
+  color: var(--t-soft);
+
+  font-family: var(--font-display);
+  font-size: .42rem;
+  font-weight: 900;
+
+  letter-spacing: .08em;
+
+}
+
+.console-title .pixel-icon {
+
+  color: var(--t-accent);
+
+}
+
+.console-row {
+
+  min-height: 36px;
+
+  display: grid;
+
+  grid-template-columns: 1fr auto;
+
+  align-items: center;
+
+  padding: 0 10px;
+
+  border: 1px solid var(--t-line);
+
+  background: var(--t-black-2);
+
+}
+
+.console-row span {
+
+  color: var(--t-dim);
+
+  font-family: var(--font-display);
+  font-size: .4rem;
+  font-weight: 900;
+
+}
+
+.console-row strong {
+
+  color: var(--t-white);
+
+  font-family: var(--font-display);
+  font-size: .61rem;
+  font-weight: 900;
+
+}
+
+.console-actions {
+
+  display: grid;
+
+  gap: 7px;
+
+  margin-top: 5px;
+
+}
+
+
+/* =============================================================
+   STATUS
+   ============================================================= */
+
+.team-status-grid {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(4,1fr);
+
+  border-top: 2px solid var(--t-line);
+  border-left: 2px solid var(--t-line);
+
+}
+
+.team-stat {
+
+  min-height: 140px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  padding: 13px;
+
+  border-right: 2px solid var(--t-line);
+  border-bottom: 2px solid var(--t-line);
+
+  background: var(--t-panel);
+
+}
+
+.team-stat--active {
+
+  background: var(--t-panel-2);
+
+  border-top: 3px solid var(--t-accent);
+
+}
+
+.team-stat-top,
+.team-stat-bottom {
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 8px;
+
+  color: var(--t-dim);
+
+  font-family: var(--font-display);
+  font-size: .43rem;
+  font-weight: 900;
+
+}
+
+.team-stat-ident {
+
+  display: flex;
+  align-items: center;
+
+  gap: 7px;
+
+}
+
+.team-stat-icon {
+
+  width: 25px;
+  height: 25px;
+
+  display: grid;
+  place-items: center;
+
+  border: 1px solid var(--t-line-light);
+
+  color: var(--t-soft);
+
+}
+
+.team-stat--active .team-stat-icon {
+
+  color: var(--t-accent);
+
+  border-color: var(--t-accent-dark);
+
+}
+
+.team-stat > strong {
+
+  color: var(--t-white);
+
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  font-weight: 900;
+
+  line-height: .8;
+
+}
+
+.team-stat-meter {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(8,1fr);
+
+  flex: 1;
+
+  gap: 3px;
+
+}
+
+.team-stat-meter i {
+
+  height: 4px;
+
+  background: var(--t-line-light);
+
+}
+
+.team-stat-meter i.filled {
+
+  background: var(--t-accent-dark);
+
+}
+
+.team-stat--active
+.team-stat-meter i.filled {
+
+  background: var(--t-accent);
+
+}
+
+
+/* =============================================================
+   MAIN DRIVER
+   ============================================================= */
+
+.driver-main {
+
+  display: grid;
+
+  grid-template-columns:
+    310px
+    minmax(0,1fr);
+
+  gap: 10px;
+
+}
+
+.driver-card {
+
+  min-width: 0;
+
+  overflow: hidden;
+
+  background: var(--t-panel);
+
+  border: 2px solid var(--t-line-light);
+
+  box-shadow:
+    6px 6px 0 var(--t-black);
+
+}
+
+.driver-card-top {
+
+  min-height: 32px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 10px;
+
+  border-bottom: 2px solid var(--t-line);
+
+  background: var(--t-black-2);
+
+  font-family: var(--font-display);
+  font-size: .39rem;
+  font-weight: 900;
+
+}
+
+.driver-card-top > div {
+
+  display: flex;
+  align-items: center;
+
+  gap: 7px;
+
+}
+
+.driver-card-top > div span {
+
+  color: var(--t-dim);
+
+}
+
+.driver-card-top > div strong {
+
+  color: var(--t-accent);
+
+}
+
+.driver-card-top > span {
+
+  color: var(--t-accent);
+
+}
+
+.driver-portrait {
+
+  min-height: 300px;
+
+  position: relative;
+
+  display: grid;
+  place-items: center;
+
+  overflow: hidden;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent 49%,
+      rgba(255,255,255,.03) 50%,
+      transparent 51%
+    ),
+    linear-gradient(
+      transparent 49%,
+      rgba(255,255,255,.03) 50%,
+      transparent 51%
+    ),
+    #161816;
+
+  background-size: 22px 22px;
+
+}
+
+.portrait-grid {
+
+  position: absolute;
+
+  inset: 0;
+
+  opacity: .35;
+
+  background-image:
+    linear-gradient(
+      rgba(255,255,255,.025) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(255,255,255,.025) 1px,
+      transparent 1px
+    );
+
+  background-size: 16px 16px;
+
+}
+
+.portrait-frame {
+
+  width: 170px;
+  height: 215px;
+
+  position: relative;
+
+  display: grid;
+  place-items: center;
+
+  border: 1px dashed rgba(183,216,60,.15);
+
+}
+
+.pixel-driver {
+
+  width: 115px;
+  height: 185px;
+
+  position: relative;
+
+  z-index: 3;
+
+  filter:
+    drop-shadow(6px 6px 0 var(--t-black));
+
+}
+
+.pixel-driver span {
+
+  position: absolute;
+
+  display: block;
+
+}
+
+.driver-head {
+
+  left: 33px;
+  top: 20px;
+
+  width: 50px;
+  height: 56px;
+
+  background: #b8b8b0;
+
+  border: 4px solid var(--t-black);
+
+}
+
+.driver-helmet {
+
+  left: 25px;
+  top: 9px;
+
+  width: 65px;
+  height: 51px;
+
+  background: var(--t-accent);
+
+  border: 5px solid var(--t-black);
+
+  clip-path:
+    polygon(
+      9% 100%,
+      0 48%,
+      22% 10%,
+      55% 0,
+      90% 17%,
+      100% 61%,
+      83% 89%,
+      63% 100%
+    );
+
+}
+
+.driver-visor {
+
+  left: 32px;
+  top: 36px;
+
+  width: 50px;
+  height: 14px;
+
+  background: var(--t-black);
+
+  border: 3px solid var(--t-line-light);
+
+}
+
+.driver-neck {
+
+  left: 49px;
+  top: 73px;
+
+  width: 22px;
+  height: 17px;
+
+  background: #989890;
+
+  border: 3px solid var(--t-black);
+
+}
+
+.driver-body {
+
+  left: 19px;
+  top: 84px;
+
+  width: 79px;
+  height: 85px;
+
+  background: #262826;
+
+  border: 5px solid var(--t-black);
+
+  clip-path:
+    polygon(
+      20% 0,
+      80% 0,
+      100% 20%,
+      88% 100%,
+      12% 100%,
+      0 20%
+    );
+
+}
+
+.driver-arm {
+
+  width: 20px;
+  height: 75px;
+
+  background: #303330;
+
+  border: 4px solid var(--t-black);
+
+}
+
+.driver-arm--left {
+
+  left: 5px;
+  top: 91px;
+
+  transform: rotate(10deg);
+
+}
+
+.driver-arm--right {
+
+  right: 5px;
+  top: 91px;
+
+  transform: rotate(-10deg);
+
+}
+
+.portrait-code {
+
+  position: absolute;
+
+  top: 11px;
+  left: 11px;
+
+  color: var(--t-dim);
+
+  font-family: var(--font-display);
+  font-size: .36rem;
+  font-weight: 900;
+
+  z-index: 5;
+
+}
+
+.portrait-bottom {
+
+  position: absolute;
+
+  left: 11px;
+  bottom: 11px;
+
+  color: var(--t-muted);
+
+  font-family: var(--font-display);
+  font-size: .4rem;
+  font-weight: 900;
+
+  z-index: 5;
+
+}
+
+.portrait-role {
+
+  position: absolute;
+
+  right: 11px;
+  top: 11px;
+
+  padding: 4px 6px;
+
+  color: var(--t-accent);
+
+  background: var(--t-black-2);
+
+  border: 1px solid var(--t-accent-dark);
+
+  font-family: var(--font-display);
+  font-size: .36rem;
+  font-weight: 900;
+
+  z-index: 5;
+
+}
+
+.driver-card-info {
+
+  padding: 14px;
+
+}
+
+.driver-card-info h3 {
+
+  margin-top: 5px;
+
+  color: var(--t-white);
+
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 900;
+
+  line-height: .92;
+
+}
+
+.driver-subline {
+
+  display: flex;
+  align-items: center;
+
+  gap: 6px;
+
+  margin-top: 7px;
+
+  color: var(--t-dim);
+
+  font-family: var(--font-display);
+  font-size: .38rem;
+  font-weight: 900;
+
+}
+
+.driver-subline strong {
+
+  color: var(--t-accent);
+
+}
+
+.driver-mini-stats {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(4,1fr);
+
+  border-top: 1px solid var(--t-line);
+
+}
+
+.driver-mini-stats > div {
+
+  padding: 8px;
+
+  border-right: 1px solid var(--t-line);
+
+}
+
+.driver-mini-stats > div:last-child {
+
+  border-right: 0;
+
+}
+
+.driver-mini-stats span,
+.driver-mini-stats strong {
+
+  display: block;
+
+}
+
+.driver-mini-stats span {
+
+  color: var(--t-dim);
+
+  font-family: var(--font-display);
+  font-size: .33rem;
+  font-weight: 900;
+
+}
+
+.driver-mini-stats strong {
+
+  margin-top: 4px;
+
+  color: var(--t-white);
+
+  font-family: var(--font-display);
+  font-size: .65rem;
+  font-weight: 900;
+
+}
+
+
+/* COMMAND */
+
+.driver-command {
+
+  min-width: 0;
+
+  padding: 18px;
+
+  background: var(--t-panel);
+
+  border: 2px solid var(--t-line);
+
+  box-shadow:
+    5px 5px 0 var(--t-black);
+
+}
+
+.driver-command-head {
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 15px;
+
+  padding-bottom: 14px;
+
+  border-bottom: 1px solid var(--t-line);
+
+}
+
+.driver-heading {
+
+  display: flex;
+  align-items: center;
+
+  gap: 9px;
+
+}
+
+.driver-command-icon {
+
+  width: 33px;
+  height: 33px;
+
+  display: grid;
+  place-items: center;
+
+  color: var(--t-accent);
+
+  border: 1px solid var(--t-accent-dark);
+
+  background: var(--t-black-2);
+
+}
+
+.driver-heading h3 {
+
+  margin-top: 4px;
+
+  color: var(--t-white);
+
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 900;
+
+}
+
+.driver-signed {
+
+  padding: 5px 7px;
+
+  color: var(--t-accent);
+
+  border: 1px solid var(--t-accent-dark);
+
+  font-family: var(--font-display);
+  font-size: .4rem;
+  font-weight: 900;
+
+}
+
+.driver-summary {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(3,1fr);
+
+  gap: 6px;
+
+  margin-top: 15px;
+
+}
+
+.driver-summary-card {
+
+  min-width: 0;
+
+  padding: 10px;
+
+  border: 1px solid var(--t-line);
+
+  background: var(--t-black-2);
+
+}
+
+.driver-summary-card span,
+.driver-summary-card small {
+
+  display: block;
+
+  color: var(--t-dim);
+
+  font-family: var(--font-display);
+  font-size: .34rem;
+  font-weight: 900;
+
+}
+
+.driver-summary-card strong {
+
+  display: block;
+
+  margin-top: 5px;
+
+  color: var(--t-white);
+
+  font-family: var(--font-display);
+  font-size: .63rem;
+  font-weight: 900;
+
+}
+
+.driver-summary-card small {
+
+  margin-top: 4px;
+
+  color: var(--t-muted);
+
+}
+
+.skill-overview {
+
+  margin-top: 17px;
+
+  padding-top: 14px;
+
+  border-top: 1px solid var(--t-line);
+
+}
+
+.skill-overview-head {
+
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+
+  gap: 10px;
+
+}
+
+.skill-overview-head strong {
+
+  display: block;
+
+  margin-top: 4px;
+
+  color: var(--t-white);
+
+  font-family: var(--font-display);
+  font-size: .58rem;
+  font-weight: 900;
+
+}
+
+.skill-overview-head > span {
+
+  color: var(--t-accent);
+
+  font-family: var(--font-display);
+  font-size: .42rem;
+  font-weight: 900;
+
+}
+
+.skill-list {
+
+  display: grid;
+
+  gap: 7px;
+
+  margin-top: 13px;
+
+}
+
+.skill-label {
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  color: var(--t-dim);
+
+  font-family: var(--font-display);
+  font-size: .37rem;
+  font-weight: 900;
+
+}
+
+.skill-label strong {
+
+  color: var(--t-white);
+
+}
+
+.skill-track {
+
+  height: 6px;
+
+  margin-top: 4px;
+
+  background: var(--t-black-2);
+
+  border: 1px solid var(--t-line);
+
+}
+
+.skill-track i {
+
+  height: 100%;
+
+  display: block;
+
+  background: var(--t-accent);
+
+}
+
+.driver-command-actions {
+
+  display: grid;
+
+  grid-template-columns:
+    1fr
+    1fr;
+
+  gap: 7px;
+
+  margin-top: 17px;
+
+}
+
+.driver-note {
+
+  display: grid;
+
+  grid-template-columns: 36px minmax(0,1fr);
+
+  gap: 9px;
+
+  margin-top: 15px;
+
+  padding: 10px;
+
+  border-left: 4px solid var(--t-accent);
+
+  background: var(--t-black-2);
+
+}
+
+.driver-note-icon {
+
+  width: 30px;
+  height: 30px;
+
+  display: grid;
+  place-items: center;
+
+  color: var(--t-accent);
+
+  border: 1px solid var(--t-accent-dark);
+
+}
+
+.driver-note strong {
+
+  color: var(--t-white);
+
+  font-family: var(--font-display);
+  font-size: .49rem;
+  font-weight: 900;
+
+}
+
+.driver-note p {
+
+  margin-top: 4px;
+
+  color: var(--t-muted);
+
+  font-size: .58rem;
+
+  line-height: 1.5;
+
+}
+
+
+/* =============================================================
+   DEVELOPMENT
+   ============================================================= */
+
+.development-panel {
+
+  overflow: hidden;
+
+  border: 2px solid var(--t-line);
+
+  background: var(--t-panel);
+
+  box-shadow:
+    5px 5px 0 var(--t-black);
+
+}
+
+.development-main {
+
+  display: flex;
+
+  align-items: flex-end;
+  justify-content: space-between;
+
+  gap: 15px;
+
+  padding: 17px;
+
+  border-bottom: 1px solid var(--t-line);
+
+  background: var(--t-black-2);
+
+}
+
+.development-level h3 {
+
+  margin-top: 5px;
+
+  color: var(--t-white);
+
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 900;
+
+}
+
+.development-exp {
+
+  text-align: right;
+
+}
+
+.development-exp strong {
+
+  display: block;
+
+  color: var(--t-accent);
+
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  font-weight: 900;
+
+  line-height: .8;
+
+}
+
+.development-exp span {
+
+  color: var(--t-dim);
+
+  font-family: var(--font-display);
+  font-size: .36rem;
+  font-weight: 900;
+
+}
+
+.development-track {
+
+  padding: 15px 17px 0;
+
+}
+
+.development-track-top,
+.development-track-bottom {
+
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 10px;
+
+  color: var(--t-dim);
+
+  font-family: var(--font-display);
+  font-size: .37rem;
+  font-weight: 900;
+
+}
+
+.development-track-top strong {
+
+  color: var(--t-white);
+
+}
+
+.development-progress {
+
+  height: 10px;
+
+  margin-top: 7px;
+
+  border: 1px solid var(--t-line-light);
+
+  background: var(--t-black-2);
+
+}
+
+.development-progress i {
+
+  height: 100%;
+
+  display: block;
+
+  background: var(--t-accent);
+
+}
+
+.development-track-bottom {
+
+  margin-top: 5px;
+
+}
+
+.development-track-bottom span:nth-child(2) {
+
+  color: var(--t-accent);
+
+}
+
+.development-grid {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(3,minmax(0,1fr));
+
+  gap: 7px;
+
+  padding: 17px;
+
+}
+
+.development-stat {
+
+  padding: 10px;
+
+  border: 1px solid var(--t-line);
+
+  background: var(--t-black-2);
+
+}
+
+.development-stat-head {
+
+  display: grid;
+
+  grid-template-columns: 23px 1fr auto;
+
+  align-items: center;
+
+  gap: 6px;
+
+}
+
+.development-stat-icon {
+
+  width: 22px;
+  height: 22px;
+
+  display: grid;
+  place-items: center;
+
+  border: 1px solid var(--t-line-light);
+
+  color: var(--t-soft);
+
+}
+
+.development-stat-head > span:nth-child(2) {
+
+  color: var(--t-dim);
+
+  font-family: var(--font-display);
+  font-size: .36rem;
+  font-weight: 900;
+
+}
+
+.development-stat-head strong {
+
+  color: var(--t-white);
+
+  font-family: var(--font-display);
+  font-size: .55rem;
+  font-weight: 900;
+
+}
+
+.development-stat-track {
+
+  height: 5px;
+
+  margin-top: 8px;
+
+  background: var(--t-panel-2);
+
+}
+
+.development-stat-track i {
+
+  height: 100%;
+
+  display: block;
+
+  background: var(--t-accent-dark);
+
+}
+
+.development-stat-foot {
+
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  margin-top: 5px;
+
+  font-family: var(--font-display);
+  font-size: .33rem;
+  font-weight: 900;
+
+}
+
+.development-stat-foot span {
+
+  color: var(--t-dim);
+
+}
+
+.development-stat-foot strong {
+
+  color: var(--t-accent);
+
+}
+
+.development-footer {
+
+  min-height: 46px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 12px;
+
+  padding: 0 17px;
+
+  border-top: 1px solid var(--t-line);
+
+}
+
+.development-footer span {
+
+  color: var(--t-dim);
+
+  font-family: var(--font-display);
+  font-size: .38rem;
+  font-weight: 900;
+
+}
+
+.development-footer strong {
+
+  color: var(--t-white);
+
+  font-family: var(--font-display);
+  font-size: .43rem;
+  font-weight: 900;
+
+}
+
+
+/* =============================================================
+   SCOUT
+   ============================================================= */
+
+.scout-grid {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(3,minmax(0,1fr));
+
+  gap: 10px;
+
+}
+
+.scout-card {
+
+  overflow: hidden;
+
+  background: var(--t-panel);
+
+  border: 2px solid var(--t-line);
+
+  box-shadow:
+    4px 4px 0 var(--t-black);
+
+  transition:
+    transform 80ms steps(1),
+    border-color 80ms steps(1);
+
+}
+
+.scout-card:hover {
+
+  transform: translate(-2px,-2px);
+
+  border-color: var(--t-line-light);
+
+}
+
+.scout-card--locked {
+
+  opacity: .66;
+
+}
+
+.scout-top {
+
+  min-height: 31px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 9px;
+
+  border-bottom: 2px solid var(--t-line);
+
+  background: var(--t-black-2);
+
+  color: var(--t-dim);
+
+  font-family: var(--font-display);
+  font-size: .37rem;
+  font-weight: 900;
+
+}
+
+.scout-top span:last-child {
+
+  color: var(--t-accent);
+
+}
+
+.scout-card--locked .scout-top span:last-child {
+
+  color: var(--t-dim);
+
+}
+
+.scout-portrait {
+
+  min-height: 175px;
+
+  position: relative;
+
+  display: grid;
+  place-items: center;
+
+  overflow: hidden;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent 49%,
+      rgba(255,255,255,.03) 50%,
+      transparent 51%
+    ),
+    #161816;
+
+  background-size: 19px 19px;
+
+}
+
+.scout-head {
+
+  width: 80px;
+  height: 110px;
+
+  position: relative;
+
+}
+
+.scout-head span {
+
+  position: absolute;
+
+  display: block;
+
+}
+
+.scout-face {
+
+  left: 24px;
+  top: 16px;
+
+  width: 34px;
+  height: 40px;
+
+  background: #a8a8a0;
+
+  border: 3px solid var(--t-black);
+
+}
+
+.scout-hair {
+
+  left: 20px;
+  top: 8px;
+
+  width: 43px;
+  height: 25px;
+
+  background: var(--t-line-light);
+
+  border: 3px solid var(--t-black);
+
+}
+
+.scout-visor {
+
+  left: 24px;
+  top: 25px;
+
+  width: 34px;
+  height: 9px;
+
+  background: var(--t-black);
+
+}
+
+.scout-neck {
+
+  left: 34px;
+  top: 53px;
+
+  width: 15px;
+  height: 12px;
+
+  background: #888880;
+
+  border: 2px solid var(--t-black);
+
+}
+
+.scout-shirt {
+
+  left: 10px;
+  top: 62px;
+
+  width: 60px;
+  height: 47px;
+
+  background: #292b29;
+
+  border: 3px solid var(--t-black);
+
+}
+
+.scout-code {
+
+  position: absolute;
+
+  left: 9px;
+  top: 9px;
+
+  color: var(--t-dim);
+
+  font-family: var(--font-display);
+  font-size: .34rem;
+  font-weight: 900;
+
+}
+
+.scout-specialty {
+
+  position: absolute;
+
+  right: 9px;
+  top: 9px;
+
+  padding: 4px 5px;
+
+  border: 1px solid var(--t-accent-dark);
+
+  color: var(--t-accent);
+
+  background: var(--t-black-2);
+
+  font-family: var(--font-display);
+  font-size: .33rem;
+  font-weight: 900;
+
+}
+
+.scout-info {
+
+  padding: 12px;
+
+}
+
+.scout-info h3 {
+
+  margin-top: 5px;
+
+  color: var(--t-white);
+
+  font-family: var(--font-display);
+  font-size: .87rem;
+  font-weight: 900;
+
+  line-height: .95;
+
+}
+
+.scout-profile {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(4,1fr);
+
+  gap: 4px;
+
+  margin-top: 11px;
+
+}
+
+.scout-profile > div {
+
+  padding: 7px;
+
+  border: 1px solid var(--t-line);
+
+  background: var(--t-black-2);
+
+}
+
+.scout-profile span {
+
+  display: block;
+
+  color: var(--t-dim);
+
+  font-family: var(--font-display);
+  font-size: .32rem;
+  font-weight: 900;
+
+}
+
+.scout-profile strong {
+
+  display: block;
+
+  margin-top: 4px;
+
+  color: var(--t-white);
+
+  font-family: var(--font-display);
+  font-size: .55rem;
+  font-weight: 900;
+
+}
+
+.scout-footer {
+
+  display: flex;
+
+  align-items: flex-end;
+  justify-content: space-between;
+
+  gap: 10px;
+
+  margin-top: 12px;
+  padding-top: 11px;
+
+  border-top: 1px solid var(--t-line);
+
+}
+
+.scout-footer > div {
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 3px;
+
+}
+
+.scout-footer > div span {
+
+  color: var(--t-dim);
+
+  font-family: var(--font-display);
+  font-size: .33rem;
+  font-weight: 900;
+
+}
+
+.scout-footer strong {
+
+  color: var(--t-white);
+
+  font-family: var(--font-display);
+  font-size: .62rem;
+  font-weight: 900;
+
+}
+
+.scout-action {
+
+  min-width: 80px;
+
+  min-height: 34px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 8px;
+
+  border: 2px solid var(--t-accent-dark);
+
+  color: var(--t-accent);
+
+  background: var(--t-black-2);
+
+  font-family: var(--font-display);
+  font-size: .38rem;
+  font-weight: 900;
+
+  text-decoration: none;
+
+}
+
+.scout-action:hover {
+
+  color: var(--t-black);
+
+  background: var(--t-accent);
+
+}
+
+.scout-action--locked {
+
+  border-color: var(--t-line);
+
+  color: var(--t-dim);
+
+  pointer-events: none;
+
+}
+
+
+/* =============================================================
+   ROLES
+   ============================================================= */
+
+.roles-grid {
+
+  display: grid;
+
+  grid-template-columns:
+    repeat(3,minmax(0,1fr));
+
+  gap: 10px;
+
+}
+
+.role-card {
+
+  min-height: 240px;
+
+  display: flex;
+  flex-direction: column;
+
+  overflow: hidden;
+
+  background: var(--t-panel);
+
+  border: 2px solid var(--t-line);
+
+  box-shadow:
+    4px 4px 0 var(--t-black);
+
+}
+
+.role-card:hover {
+
+  border-color: var(--t-line-light);
+
+}
+
+.role-top {
+
+  min-height: 31px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 9px;
+
+  border-bottom: 2px solid var(--t-line);
+
+  background: var(--t-black-2);
+
+  color: var(--t-dim);
+
+  font-family: var(--font-display);
+  font-size: .37rem;
+  font-weight: 900;
+
+}
+
+.role-top span:last-child {
+
+  color: var(--t-accent);
+
+}
+
+.role-icon {
+
+  width: 58px;
+  height: 58px;
+
+  display: grid;
+  place-items: center;
+
+  margin: 15px;
+
+  border: 2px solid var(--t-line-light);
+
+  color: var(--t-soft);
+
+  background: var(--t-black-2);
+
+  box-shadow:
+    4px 4px 0 var(--t-black);
+
+}
+
+.role-content {
+
+  padding: 0 15px;
+
+}
+
+.role-content h3 {
+
+  margin-top: 5px;
+
+  color: var(--t-white);
+
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 900;
+
+}
+
+.role-content p {
+
+  margin-top: 7px;
+
+  color: var(--t-muted);
+
+  font-size: .62rem;
+
+  line-height: 1.55;
+
+}
+
+.role-footer {
+
+  min-height: 37px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-top: auto;
+
+  padding: 0 12px;
+
+  border-top: 1px solid var(--t-line);
+
+  color: var(--t-dim);
+
+  font-family: var(--font-display);
+  font-size: .37rem;
+  font-weight: 900;
+
+}
+
+.role-footer strong {
+
+  color: var(--t-accent);
+
+}
+
+
+/* =============================================================
+   RACE HISTORY
+   ============================================================= */
+
+.race-history {
+
+  overflow: hidden;
+
+  background: var(--t-panel);
+
+  border: 2px solid var(--t-line);
+
+  box-shadow:
+    5px 5px 0 var(--t-black);
+
+}
+
+.race-history-head {
+
+  min-height: 59px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 15px;
+
+  padding: 9px 12px;
+
+  border-bottom: 2px solid var(--t-line);
+
+  background: var(--t-black-2);
+
+}
+
+.race-history-head > div {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+}
+
+.history-head-icon {
+
+  width: 32px;
+  height: 32px;
+
+  display: grid;
+  place-items: center;
+
+  border: 1px solid var(--t-accent-dark);
+
+  color: var(--t-accent);
+
+}
+
+.race-history-head strong {
+
+  display: block;
+
+  margin-top: 3px;
+
+  color: var(--t-white);
+
+  font-family: var(--font-display);
+  font-size: .62rem;
+  font-weight: 900;
+
+}
+
+.race-history-head > span {
+
+  color: var(--t-dim);
+
+  font-family: var(--font-display);
+  font-size: .36rem;
+  font-weight: 900;
+
+}
+
+.race-history-list {
+
+  display: grid;
+
+}
+
+.race-history-row {
+
+  min-height: 77px;
+
+  display: grid;
+
+  grid-template-columns:
+    35px
+    35px
+    minmax(0,1fr)
+    80px
+    120px;
+
+  align-items: center;
+
+  gap: 10px;
+
+  padding: 9px 12px;
+
+  border-bottom: 1px solid var(--t-line);
+
+}
+
+.race-history-row:last-child {
+
+  border-bottom: 0;
+
+}
+
+.race-history-row:hover {
+
+  background: var(--t-panel-2);
+
+}
+
+.race-history-number {
+
+  color: var(--t-dim);
+
+  font-family: var(--font-display);
+  font-size: .4rem;
+  font-weight: 900;
+
+}
+
+.race-history-icon {
+
+  width: 31px;
+  height: 31px;
+
+  display: grid;
+  place-items: center;
+
+  border: 1px solid var(--t-line-light);
+
+  color: var(--t-soft);
+
+}
+
+.race-history-main {
+
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 4px;
+
+}
+
+.race-history-main span {
+
+  color: var(--t-dim);
+
+  font-family: var(--font-display);
+  font-size: .34rem;
+  font-weight: 900;
+
+}
+
+.race-history-main strong {
+
+  overflow: hidden;
+
+  color: var(--t-white);
+
+  font-family: var(--font-display);
+  font-size: .52rem;
+  font-weight: 900;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+}
+
+.race-history-time {
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 3px;
+
+}
+
+.race-history-time span {
+
+  color: var(--t-dim);
+
+  font-family: var(--font-display);
+  font-size: .33rem;
+  font-weight: 900;
+
+}
+
+.race-history-time strong {
+
+  color: var(--t-white);
+
+  font-family: var(--font-display);
+  font-size: .68rem;
+  font-weight: 900;
+
+}
+
+.race-history-result {
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 3px;
+
+  text-align: right;
+
+}
+
+.race-history-result span {
+
+  color: var(--t-dim);
+
+  font-family: var(--font-display);
+  font-size: .33rem;
+  font-weight: 900;
+
+}
+
+.race-history-result strong {
+
+  color: var(--t-accent);
+
+  font-family: var(--font-display);
+  font-size: .45rem;
+  font-weight: 900;
+
+}
+
+
+/* =============================================================
+   TEAM RULE
+   ============================================================= */
+
+.team-rule {
+
+  min-height: 220px;
+
+  position: relative;
+
+  display: grid;
+
+  grid-template-columns:
+    70px
+    minmax(0,1fr)
+    60px;
+
+  align-items: center;
+
+  gap: 20px;
+
+  padding: 21px;
+
+  overflow: hidden;
+
+  border: 2px solid var(--t-line);
+
+  background:
+    repeating-linear-gradient(
+      0deg,
+      #191a17 0 5px,
+      #161715 5px 10px
+    );
+
+  box-shadow:
+    6px 6px 0 var(--t-black);
+
+}
+
+.team-rule::after {
+
+  content: "TEAM";
+
+  position: absolute;
+
+  right: 14px;
+  top: 3px;
+
+  color: rgba(241,241,235,.035);
+
+  font-family: var(--font-display);
+  font-size: 7rem;
+  font-weight: 900;
+
+  line-height: 1;
+
+}
+
+.team-rule-icon {
+
+  width: 66px;
+  height: 66px;
+
+  position: relative;
+  z-index: 2;
+
+  display: grid;
+  place-items: center;
+
+  background: var(--t-accent);
+
+  border: 3px solid var(--t-black);
+
+  color: var(--t-black);
+
+  box-shadow:
+    5px 5px 0 var(--t-black);
+
+}
+
+.team-rule-content {
+
+  position: relative;
+
+  z-index: 2;
+
+}
+
+.team-rule-content h2 {
+
+  max-width: 780px;
+
+  margin-top: 5px;
+
+  color: var(--t-white);
+
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem,3.1vw,2.5rem);
+  font-weight: 900;
+
+  line-height: .92;
+
+}
+
+.team-rule-content p {
+
+  max-width: 790px;
+
+  margin-top: 10px;
+
+  color: var(--t-muted);
+
+  font-size: var(--text-sm);
+
+  line-height: 1.6;
+
+}
+
+.team-rule-stamp {
+
+  position: relative;
+
+  z-index: 3;
+
+  width: 55px;
+  height: 55px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  flex-direction: column;
+
+  border: 2px solid var(--t-accent-dark);
+
+  color: var(--t-accent);
+
+  font-family: var(--font-display);
+
+  transform: rotate(4deg);
+
+}
+
+.team-rule-stamp span {
+
+  font-size: .33rem;
+
+}
+
+.team-rule-stamp strong {
+
+  font-size: 1rem;
+
+}
+
+
+/* =============================================================
+   TEAM LOG
+   ============================================================= */
+
+.team-log {
+
+  overflow: hidden;
+
+  background: var(--t-panel);
+
+  border: 2px solid var(--t-line);
+
+  box-shadow:
+    5px 5px 0 var(--t-black);
+
+}
+
+.team-log-head {
+
+  min-height: 59px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 15px;
+
+  padding: 9px 12px;
+
+  border-bottom: 2px solid var(--t-line);
+
+  background: var(--t-black-2);
+
+}
+
+.team-log-head > div {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+}
+
+.team-log-icon {
+
+  width: 32px;
+  height: 32px;
+
+  display: grid;
+  place-items: center;
+
+  border: 1px solid var(--t-accent-dark);
+
+  color: var(--t-accent);
+
+}
+
+.team-log-head strong {
+
+  color: var(--t-white);
+
+  font-family: var(--font-display);
+  font-size: .61rem;
+  font-weight: 900;
+
+}
+
+.team-log-head > span {
+
+  color: var(--t-dim);
+
+  font-family: var(--font-display);
+  font-size: .36rem;
+  font-weight: 900;
+
+}
+
+.team-log-row {
+
+  min-height: 69px;
+
+  display: grid;
+
+  grid-template-columns:
+    35px
+    58px
+    32px
+    minmax(0,1fr)
+    90px;
+
+  align-items: center;
+
+  gap: 10px;
+
+  padding: 9px 12px;
+
+  border-bottom: 1px solid var(--t-line);
+
+}
+
+.team-log-row:last-child {
+
+  border-bottom: 0;
+
+}
+
+.team-log-row:hover {
+
+  background: var(--t-panel-2);
+
+}
+
+.team-log-number,
+.team-log-time {
+
+  color: var(--t-dim);
+
+  font-family: var(--font-display);
+  font-size: .38rem;
+  font-weight: 900;
+
+}
+
+.team-log-time {
+
+  color: var(--t-muted);
+
+}
+
+.team-log-symbol {
+
+  width: 29px;
+  height: 29px;
+
+  display: grid;
+  place-items: center;
+
+  border: 1px solid var(--t-line-light);
+
+  color: var(--t-soft);
+
+}
+
+.team-log-main {
+
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 3px;
+
+}
+
+.team-log-main strong {
+
+  color: var(--t-white);
+
+  font-family: var(--font-display);
+  font-size: .5rem;
+  font-weight: 900;
+
+}
+
+.team-log-main span {
+
+  overflow: hidden;
+
+  color: var(--t-muted);
+
+  font-size: .4rem;
+
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+}
+
+.team-log-status {
+
+  color: var(--t-accent);
+
+  font-family: var(--font-display);
+  font-size: .36rem;
+  font-weight: 900;
+
+  text-align: right;
+
+}
+
+
+/* =============================================================
+   FOOTER
+   ============================================================= */
+
+.team-footer {
+
+  margin-top: 48px;
+
+  padding: 10px 0 8px;
+
+  color: var(--t-muted);
+
+  font-family: var(--font-display);
+  font-size: .39rem;
+  font-weight: 900;
+
+  text-transform: uppercase;
+
+}
+
+.footer-line {
+
+  height: 2px;
+
+  margin-bottom: 12px;
+
+  background: var(--t-line-light);
+
+}
+
+.footer-row {
+
+  display: grid;
+
+  grid-template-columns:
+    1fr
+    auto
+    1fr;
+
+  align-items: center;
+
+  gap: 15px;
+
+}
+
+.footer-brand {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+}
+
+.footer-brand-icon {
+
+  width: 29px;
+  height: 29px;
+
+  display: grid;
+  place-items: center;
+
+  color: var(--t-accent);
+
+  border: 1px solid var(--t-line-light);
+
+}
+
+.footer-brand > div {
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 3px;
+
+}
+
+.footer-brand strong {
+
+  color: var(--t-white);
+
+  font-size: .55rem;
+
+}
+
+.footer-online {
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  gap: 6px;
+
+  color: var(--t-accent);
+
+}
+
+.footer-online i {
+
+  width: 5px;
+  height: 5px;
+
+  background: var(--t-accent);
+
+}
+
+
+/* =============================================================
+   TABLET LARGE
+   ============================================================= */
+
+@media (max-width: 1180px) {
+
+  .team-header-body {
+
+    grid-template-columns:
+      minmax(0,1fr)
+      220px;
+
+  }
+
+  .team-status-grid {
+
+    grid-template-columns:
+      repeat(2,1fr);
+
+  }
+
+  .scout-grid {
+
+    grid-template-columns:
+      repeat(2,minmax(0,1fr));
+
+  }
+
+  .roles-grid {
+
+    grid-template-columns:
+      repeat(2,minmax(0,1fr));
+
+  }
+
+  .development-grid {
+
+    grid-template-columns:
+      repeat(2,minmax(0,1fr));
+
+  }
+
+}
+
+
+/* =============================================================
+   TABLET
+   ============================================================= */
+
+@media (max-width: 900px) {
+
+  .team-header-body {
+
+    grid-template-columns: 1fr;
+
+    min-height: 0;
+
+  }
+
+  .team-console {
+
+    width: min(100%,390px);
+
+  }
+
+  .driver-main {
+
+    grid-template-columns:
+      270px
+      minmax(0,1fr);
+
+  }
+
+  .scout-grid,
+  .roles-grid {
+
+    grid-template-columns:
+      repeat(2,minmax(0,1fr));
+
+  }
+
+  .race-history-row {
+
+    grid-template-columns:
+      30px
+      31px
+      minmax(0,1fr)
+      72px
+      105px;
+
+  }
+
+}
+
+
+/* =============================================================
+   MOBILE
+   ============================================================= */
+
+@media (max-width: 760px) {
+
+  .team-section {
+
+    margin-top: 32px;
+
+  }
+
+  .team-header-top {
+
+    grid-template-columns:
+      1fr
+      auto;
+
+  }
+
+  .team-head-center {
+
+    display: none;
+
+  }
+
+  .team-header-bottom {
+
+    grid-template-columns:
+      1fr
+      auto;
+
+  }
+
+  .team-header-bottom > span:nth-child(2) {
+
+    display: none;
+
+  }
+
+  .team-header-body {
+
+    padding: 23px 16px;
+
+  }
+
+  .team-header-copy h1 {
+
+    font-size:
+      clamp(3.7rem,17vw,6rem);
+
+  }
+
+  .team-header-copy p {
+
+    font-size: .74rem;
+
+  }
+
+  .team-status-grid {
+
+    grid-template-columns:
+      repeat(2,1fr);
+
+  }
+
+  .driver-main {
+
+    grid-template-columns: 1fr;
+
+  }
+
+  .driver-portrait {
+
+    min-height: 255px;
+
+  }
+
+  .driver-command {
+
+    padding: 15px;
+
+  }
+
+  .driver-summary {
+
+    grid-template-columns:
+      1fr;
+
+  }
+
+  .driver-command-actions {
+
+    grid-template-columns:
+      1fr;
+
+  }
+
+  .development-grid {
+
+    grid-template-columns:
+      1fr;
+
+    padding: 12px;
+
+  }
+
+  .scout-grid,
+  .roles-grid {
+
+    grid-template-columns:
+      1fr;
+
+  }
+
+  .race-history-row {
+
+    grid-template-columns:
+      28px
+      31px
+      minmax(0,1fr)
+      70px;
+
+  }
+
+  .race-history-result {
+
+    grid-column:
+      3 / -1;
+
+    text-align: left;
+
+    padding-left: 0;
+
+  }
+
+  .team-rule {
+
+    grid-template-columns:
+      1fr;
+
+    gap: 15px;
+
+    padding: 17px;
+
+  }
+
+  .team-rule::after {
+
+    display: none;
+
+  }
+
+  .team-rule-stamp {
+
+    position: absolute;
+
+    right: 15px;
+    top: 15px;
+
+  }
+
+  .team-log-row {
+
+    grid-template-columns:
+      28px
+      45px
+      31px
+      minmax(0,1fr);
+
+  }
+
+  .team-log-status {
+
+    grid-column:
+      4;
+
+    text-align: left;
+
+    margin-top: -5px;
+
+  }
+
+  .footer-row {
+
+    grid-template-columns:
+      1fr;
+
+    align-items: flex-start;
+
+  }
+
+  .footer-online {
+
+    justify-content: flex-start;
+
+  }
+
+}
+
+
+/* =============================================================
+   SMALL PHONE
+   ============================================================= */
+
+@media (max-width: 420px) {
+
+  .team-header-top,
+  .team-header-bottom {
+
+    font-size: .39rem;
+
+  }
+
+  .team-header-bottom {
+
+    grid-template-columns: 1fr;
+
+  }
+
+  .team-header-bottom > span:last-child {
+
+    display: none;
+
+  }
+
+  .team-header-body {
+
+    padding: 19px 12px;
+
+  }
+
+  .team-header-copy h1 {
+
+    font-size:
+      clamp(3rem,18vw,4.7rem);
+
+  }
+
+  .team-status-grid {
+
+    grid-template-columns:
+      repeat(2,1fr);
+
+  }
+
+  .team-stat {
+
+    min-height: 108px;
+
+    padding: 10px;
+
+  }
+
+  .team-stat > strong {
+
+    font-size: 1.5rem;
+
+  }
+
+  .section-header {
+
+    min-height: 48px;
+
+  }
+
+  .section-header h2 {
+
+    font-size: 1.18rem;
+
+  }
+
+  .driver-card-top {
+
+    min-height: 31px;
+
+  }
+
+  .driver-portrait {
+
+    min-height: 225px;
+
+  }
+
+  .portrait-frame {
+
+    transform: scale(.9);
+
+  }
+
+  .development-main {
+
+    align-items: flex-start;
+
+    flex-direction: column;
+
+  }
+
+  .development-exp {
+
+    text-align: left;
+
+  }
+
+  .development-footer {
+
+    align-items: flex-start;
+
+    flex-direction: column;
+
+    padding-block: 10px;
+
+  }
+
+  .race-history-head > span {
+
+    display: none;
+
+  }
+
+  .race-history-row {
+
+    grid-template-columns:
+      27px
+      29px
+      minmax(0,1fr);
+
+    gap: 7px;
+
+  }
+
+  .race-history-time {
+
+    grid-column:
+      3;
+
+  }
+
+  .race-history-result {
+
+    grid-column:
+      3;
+
+  }
+
+  .team-rule-content h2 {
+
+    font-size: 1.35rem;
+
+  }
+
+  .team-log-head > span {
+
+    display: none;
+
+  }
+
+}
+
+</style>

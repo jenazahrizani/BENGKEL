@@ -1,0 +1,93 @@
+﻿---
+const currentPath = Astro.url.pathname;
+
+const navItems = [
+  { key: "garage", label: "GARAGE", href: "/garage", mark: "G" },
+  { key: "motor", label: "MOTOR", href: "/motor", mark: "M" },
+  { key: "workshop", label: "WORKSHOP", href: "/workshop", mark: "W" },
+  { key: "market", label: "MARKET", href: "/market", mark: "$" },
+  { key: "team", label: "TEAM", href: "/team", mark: "T" },
+  { key: "race", label: "RACE", href: "/race", mark: "R" },
+  { key: "profile", label: "PROFILE", href: "/profile", mark: "P" },
+];
+
+const isActive = (href: string) => {
+  return currentPath === href || currentPath.startsWith(`${href}/`);
+};
+---
+
+<aside class="sidebar">
+  <nav aria-label="Game navigation">
+    <ul class="nav-list">
+      {navItems.map((item) => {
+        const active = isActive(item.href);
+
+        return (
+          <li>
+            <a
+              href={item.href}
+              class:list={["nav-item", active && "active"]}
+              aria-current={active ? "page" : undefined}
+            >
+              <span class="nav-mark" aria-hidden="true">
+                {item.mark}
+              </span>
+
+              <span class="nav-label">
+                {item.label}
+              </span>
+            </a>
+          </li>
+        );
+      })}
+    </ul>
+  </nav>
+
+  <div class="sidebar-section desktop-only">
+    <div class="sidebar-label">
+      GARAGE STATUS
+    </div>
+
+    <div class="column">
+      <div class="status status-active">
+        WORKSHOP READY
+      </div>
+
+      <div class="status status-good">
+        1 MOTOR AVAILABLE
+      </div>
+
+      <div class="status status-warning">
+        1 ORDER ACTIVE
+      </div>
+    </div>
+  </div>
+</aside>
+
+<style>
+  .nav-mark {
+    display: inline-grid;
+    place-items: center;
+    width: 22px;
+    min-width: 22px;
+    margin-right: 8px;
+    font-weight: 900;
+    line-height: 1;
+  }
+
+  .nav-label {
+    min-width: 0;
+  }
+
+  @media (max-width: 760px) {
+    .nav-mark {
+      width: auto;
+      min-width: auto;
+      margin-right: 0;
+    }
+
+    .nav-label {
+      display: none;
+    }
+  }
+</style>

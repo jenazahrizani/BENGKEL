@@ -1,0 +1,523 @@
+---
+interface Order {
+  id?: string;
+  customer: string;
+  motor?: string;
+  motorType?: string;
+
+  type?:
+    | "SERVICE"
+    | "REPAIR"
+    | "RESTORATION"
+    | "STREET BUILD"
+    | "RACE BUILD"
+    | string;
+
+  request?: string;
+  description?: string;
+
+  budget?: string;
+  target?: string;
+  targetScore?: number;
+  reward?: string;
+
+  satisfaction?: number;
+  status?:
+    | "AVAILABLE"
+    | "NOT STARTED"
+    | "IN PROGRESS"
+    | "READY"
+    | "COMPLETED"
+    | "CANCELLED"
+    | string;
+
+  priority?: "LOW" | "NORMAL" | "HIGH" | string;
+}
+
+interface Props {
+  order: Order;
+  compact?: boolean;
+  showAction?: boolean;
+  actionLabel?: string;
+  actionHref?: string;
+}
+
+const {
+  order,
+  compact = false,
+  showAction = true,
+  actionLabel = "OPEN ORDER",
+  actionHref = "/workshop",
+} = Astro.props;
+
+const satisfaction = Math.max(
+  0,
+  Math.min(100, order.satisfaction ?? 0)
+);
+
+const statusClass =
+  order.status === "COMPLETED" || order.status === "READY"
+    ? "status-good"
+    : order.status === "IN PROGRESS"
+      ? "status-active"
+      : order.status === "CANCELLED"
+        ? "status-danger"
+        : "status-warning";
+
+const priorityClass =
+  order.priority === "HIGH"
+    ? "badge-red"
+    : order.priority === "LOW"
+      ? ""
+      : "badge-orange";
+
+const typeClass =
+  order.type === "RACE BUILD"
+    ? "badge-red"
+    : order.type === "RESTORATION"
+      ? "badge-orange"
+      : order.type === "STREET BUILD"
+        ? "badge-lime"
+        : order.type === "REPAIR"
+          ? "badge-green"
+          : "";
+
+const cardClasses = [
+  "order-card",
+  compact && "order-card--compact",
+]
+  .filter(Boolean)
+  .join(" ");
+---
+
+<article class={cardClasses}>
+  <!-- =====================================================
+       HEADER
+       ===================================================== -->
+
+  <div class="order-header">
+    <div class="order-title-group">
+      <span class="eyebrow">
+        CUSTOMER ORDER
+      </span>
+
+      <h3 class="order-customer">
+        {order.customer}
+      </h3>
+
+      {order.motor && (
+        <div class="order-motor">
+          {order.motor}
+        </div>
+      )}
+    </div>
+
+    <div class="order-badges">
+      {order.type && (
+        <span class:list={["badge", typeClass]}>
+          {order.type}
+        </span>
+      )}
+
+      {order.priority && (
+        <span class:list={["badge", priorityClass]}>
+          {order.priority}
+        </span>
+      )}
+    </div>
+  </div>
+
+  <!-- =====================================================
+       REQUEST
+       ===================================================== -->
+
+  {(order.request || order.description) && (
+    <div class="order-request">
+      <span class="label">
+        CUSTOMER REQUEST
+      </span>
+
+      <p>
+        {order.request ?? order.description}
+      </p>
+    </div>
+  )}
+
+  <!-- =====================================================
+       ORDER TARGET
+       ===================================================== -->
+
+  <div class="order-info-grid">
+    {order.motorType && (
+      <div class="info-box">
+        <span class="label">
+          MOTOR
+        </span>
+
+        <strong>
+          {order.motorType}
+        </strong>
+      </div>
+    )}
+
+    {order.budget && (
+      <div class="info-box">
+        <span class="label">
+          BUDGET
+        </span>
+
+        <strong>
+          {order.budget}
+        </strong>
+      </div>
+    )}
+
+    {order.target && (
+      <div class="info-box">
+        <span class="label">
+          TARGET
+        </span>
+
+        <strong class="target-value">
+          {order.target}
+        </strong>
+      </div>
+    )}
+
+    {order.targetScore !== undefined && (
+      <div class="info-box">
+        <span class="label">
+          BUILD SCORE
+        </span>
+
+        <strong class="target-value">
+          {order.targetScore}
+        </strong>
+      </div>
+    )}
+
+    {order.reward && (
+      <div class="info-box">
+        <span class="label">
+          REWARD
+        </span>
+
+        <strong class="reward-value">
+          {order.reward}
+        </strong>
+      </div>
+    )}
+  </div>
+
+  <!-- =====================================================
+       SATISFACTION
+       ===================================================== -->
+
+  {order.satisfaction !== undefined && (
+    <div class="satisfaction">
+      <div class="satisfaction-header">
+        <span class="label">
+          CUSTOMER SATISFACTION
+        </span>
+
+        <strong>
+          {satisfaction}%
+        </strong>
+      </div>
+
+      <div class="progress">
+        <div
+          class="progress-fill"
+          style={`width: ${satisfaction}%;`}
+        ></div>
+      </div>
+    </div>
+  )}
+
+  <!-- =====================================================
+       STATUS + ACTION
+       ===================================================== -->
+
+  <div class="order-footer">
+    {order.status && (
+      <div class="order-status">
+        <span class="label">
+          STATUS
+        </span>
+
+        <span
+          class:list={[
+            "status",
+            statusClass,
+          ]}
+        >
+          {order.status}
+        </span>
+      </div>
+    )}
+
+    {showAction && (
+      <a
+        href={actionHref}
+        class="btn btn-primary"
+      >
+        {actionLabel}
+      </a>
+    )}
+  </div>
+</article>
+
+<style>
+  .order-card {
+    min-width: 0;
+    padding: 16px;
+
+    background: var(--panel);
+    border: 2px solid var(--line);
+
+    box-shadow: var(--shadow-small);
+
+    transition:
+      transform 120ms steps(2),
+      background 120ms steps(2),
+      border-color 120ms steps(2);
+  }
+
+  .order-card:hover {
+    background: var(--panel-light);
+    border-color: var(--line-light);
+    transform: translate(-2px, -2px);
+  }
+
+  .order-card--compact {
+    padding: 13px;
+  }
+
+  /* =======================================================
+     HEADER
+     ======================================================= */
+
+  .order-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 14px;
+  }
+
+  .order-title-group {
+    min-width: 0;
+  }
+
+  .order-customer {
+    margin-top: 5px;
+
+    color: var(--cream);
+
+    font-family: var(--font-display);
+    font-size: var(--text-xl);
+    font-weight: 900;
+    line-height: 1.05;
+
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+
+    overflow-wrap: anywhere;
+  }
+
+  .order-motor {
+    margin-top: 5px;
+
+    color: var(--cream-muted);
+
+    font-size: var(--text-xs);
+    font-weight: 900;
+
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .order-badges {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 5px;
+
+    flex-shrink: 0;
+  }
+
+  /* =======================================================
+     REQUEST
+     ======================================================= */
+
+  .order-request {
+    margin-top: 15px;
+    padding: 12px;
+
+    background: var(--panel-dark);
+    border-left: 4px solid var(--lime);
+
+    border-top: 1px solid var(--line);
+    border-right: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .order-request p {
+    margin-top: 6px;
+
+    color: var(--cream-soft);
+
+    font-size: var(--text-sm);
+    line-height: 1.55;
+  }
+
+  /* =======================================================
+     INFO GRID
+     ======================================================= */
+
+  .order-info-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+
+    margin-top: 15px;
+  }
+
+  .info-box {
+    min-width: 0;
+    padding: 9px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    background: var(--panel-dark);
+    border: 1px solid var(--line);
+  }
+
+  .info-box strong {
+    overflow: hidden;
+
+    color: var(--cream);
+
+    font-family: var(--font-display);
+    font-size: var(--text-sm);
+    font-weight: 900;
+
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    text-transform: uppercase;
+  }
+
+  .target-value {
+    color: var(--lime) !important;
+  }
+
+  .reward-value {
+    color: var(--lime) !important;
+  }
+
+  /* =======================================================
+     SATISFACTION
+     ======================================================= */
+
+  .satisfaction {
+    margin-top: 15px;
+    padding-top: 12px;
+
+    border-top: 1px solid var(--line);
+  }
+
+  .satisfaction-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+
+    margin-bottom: 5px;
+  }
+
+  .satisfaction-header strong {
+    color: var(--cream);
+
+    font-family: var(--font-display);
+    font-size: var(--text-sm);
+    font-weight: 900;
+  }
+
+  /* =======================================================
+     FOOTER
+     ======================================================= */
+
+  .order-footer {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 14px;
+
+    margin-top: 15px;
+    padding-top: 12px;
+
+    border-top: 1px solid var(--line);
+  }
+
+  .order-status {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .order-footer .btn {
+    flex-shrink: 0;
+  }
+
+  /* =======================================================
+     RESPONSIVE
+     ======================================================= */
+
+  @media (max-width: 900px) {
+    .order-info-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 760px) {
+    .order-card,
+    .order-card--compact {
+      padding: 13px;
+    }
+
+    .order-header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .order-badges {
+      justify-content: flex-start;
+    }
+
+    .order-info-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .order-footer {
+      align-items: stretch;
+      flex-direction: column;
+    }
+
+    .order-footer .btn {
+      width: 100%;
+    }
+  }
+
+  @media (max-width: 420px) {
+    .order-info-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .info-box strong {
+      white-space: normal;
+      overflow-wrap: anywhere;
+    }
+  }
+</style>

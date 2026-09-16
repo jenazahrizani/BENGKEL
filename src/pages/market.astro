@@ -1,0 +1,5261 @@
+﻿---
+import Layout from "../components/Layout.astro";
+import "../styles/global.css";
+import Button from "../components/Button.astro";
+import Navigation from "../components/Navigation.astro";
+
+const marketStats = [
+  {
+    label: "MOTOR",
+    value: "03",
+    detail: "LISTINGS",
+    icon: "motorcycle",
+  },
+  {
+    label: "PART",
+    value: "06",
+    detail: "AVAILABLE",
+    icon: "gear",
+  },
+  {
+    label: "PROJECT",
+    value: "02",
+    detail: "LOW ENTRY",
+    icon: "project",
+  },
+  {
+    label: "SALVAGE",
+    value: "01",
+    detail: "HIGH RISK",
+    icon: "wrench",
+  },
+];
+
+const marketTabs = [
+  {
+    id: "motor",
+    label: "MOTOR",
+    icon: "motorcycle",
+    target: "#motor-listings",
+  },
+  {
+    id: "part",
+    label: "PART",
+    icon: "gear",
+    target: "#part-market",
+  },
+  {
+    id: "project",
+    label: "PROJECT",
+    icon: "project",
+    target: "#featured-project",
+  },
+  {
+    id: "salvage",
+    label: "SALVAGE",
+    icon: "wrench",
+    target: "#salvage-market",
+  },
+];
+
+const motors = [
+  {
+    id: "MTR-001",
+    name: "NUSA 125",
+    brand: "NUSA",
+    type: "UNDERBONE",
+    year: "2018",
+    condition: "GOOD",
+    status: "READY",
+    build: "STREET BUILD",
+    color: "LIGHT",
+    stats: {
+      power: 72,
+      acceleration: 68,
+      grip: 64,
+      reliability: 78,
+    },
+    value: 18500000,
+    buildScore: 68,
+  },
+  {
+    id: "MTR-002",
+    name: "JATRA 135",
+    brand: "JATRA",
+    type: "UNDERBONE",
+    year: "2016",
+    condition: "USED",
+    status: "PROJECT",
+    build: "PROJECT BASE",
+    color: "DARK",
+    stats: {
+      power: 58,
+      acceleration: 52,
+      grip: 46,
+      reliability: 55,
+    },
+    value: 9200000,
+    buildScore: 51,
+  },
+  {
+    id: "MTR-003",
+    name: "RANA 150",
+    brand: "RANA",
+    type: "SPORT",
+    year: "2020",
+    condition: "GOOD",
+    status: "READY",
+    build: "STREET SPEC",
+    color: "LIGHT",
+    stats: {
+      power: 81,
+      acceleration: 74,
+      grip: 69,
+      reliability: 72,
+    },
+    value: 22700000,
+    buildScore: 76,
+  },
+];
+
+const parts = [
+  {
+    id: "PRT-001",
+    name: "CARBURETOR PWK",
+    category: "FUEL",
+    icon: "carburetor",
+    condition: "GOOD",
+    price: 850000,
+    rarity: "COMMON",
+    compatibility: "125–150 CC",
+    stock: 4,
+  },
+  {
+    id: "PRT-002",
+    name: "RACING CDI",
+    category: "IGNITION",
+    icon: "cdi",
+    condition: "NEW",
+    price: 650000,
+    rarity: "COMMON",
+    compatibility: "NUSA / JATRA",
+    stock: 8,
+  },
+  {
+    id: "PRT-003",
+    name: "LIGHTWEIGHT RIM",
+    category: "WHEEL",
+    icon: "wheel",
+    condition: "GOOD",
+    price: 1250000,
+    rarity: "RARE",
+    compatibility: "UNDERBONE",
+    stock: 2,
+  },
+  {
+    id: "PRT-004",
+    name: "RACING CAM",
+    category: "ENGINE",
+    icon: "cam",
+    condition: "GOOD",
+    price: 1400000,
+    rarity: "RARE",
+    compatibility: "135–150 CC",
+    stock: 3,
+  },
+  {
+    id: "PRT-005",
+    name: "HIGH FLOW AIR FILTER",
+    category: "INTAKE",
+    icon: "filter",
+    condition: "NEW",
+    price: 275000,
+    rarity: "COMMON",
+    compatibility: "125 CC",
+    stock: 12,
+  },
+  {
+    id: "PRT-006",
+    name: "REAR SHOCK",
+    category: "SUSPENSION",
+    icon: "shock",
+    condition: "GOOD",
+    price: 1100000,
+    rarity: "COMMON",
+    compatibility: "UNDERBONE",
+    stock: 5,
+  },
+];
+
+const featuredProject = {
+  id: "PRJ-001",
+  name: "JATRA 135",
+  type: "UNDERBONE / PROJECT",
+  condition: "WORN",
+  year: "2016",
+  description:
+    "Unit murah dengan basis mesin yang masih layak. Condition menengah membuat harga masuk rendah, sementara ruang build masih cukup besar.",
+  power: 49,
+  acceleration: 43,
+  grip: 37,
+  reliability: 39,
+  buildScore: 44,
+  price: 5900000,
+};
+
+const salvage = {
+  id: "SLV-001",
+  name: "JATRA 110 FRAME",
+  type: "SALVAGE / DRAG PROJECT",
+  condition: "BROKEN",
+  description:
+    "Unit rusak dengan biaya perbaikan tinggi. Potensinya terletak pada rangka dan basis project yang bisa dikembangkan dari nol.",
+  power: 31,
+  acceleration: 28,
+  grip: 24,
+  reliability: 16,
+  buildScore: 38,
+  price: 2700000,
+};
+
+const marketNotes = [
+  {
+    eyebrow: "01 / BUY",
+    title: "CARI BASIS BAGUS",
+    icon: "search",
+    description:
+      "Cari unit yang punya mesin, rangka, dan harga masuk yang masih memberi ruang untuk repair dan build.",
+  },
+  {
+    eyebrow: "02 / BUILD",
+    title: "HITUNG TOTAL COST",
+    icon: "calculator",
+    description:
+      "Harga beli bukan satu-satunya biaya. Repair dan parts bisa mengubah sebuah bargain menjadi proyek mahal.",
+  },
+  {
+    eyebrow: "03 / SELL",
+    title: "PAHAMI NILAI JUAL",
+    icon: "money",
+    description:
+      "Motor yang bagus untuk kamu belum tentu paling mudah dijual kembali. Perhatikan build dan kondisi market.",
+  },
+];
+
+const recentTransactions = [
+  {
+    date: "01",
+    action: "BOUGHT",
+    item: "NUSA 125",
+    type: "MOTOR",
+    icon: "motorcycle",
+    value: "- Rp 18.500.000",
+  },
+  {
+    date: "02",
+    action: "BOUGHT",
+    item: "RACING CDI",
+    type: "PART",
+    icon: "gear",
+    value: "- Rp 650.000",
+  },
+  {
+    date: "03",
+    action: "SOLD",
+    item: "NUSA 110",
+    type: "MOTOR",
+    icon: "motorcycle",
+    value: "+ Rp 9.750.000",
+  },
+  {
+    date: "04",
+    action: "BOUGHT",
+    item: "HIGH FLOW AIR FILTER",
+    type: "PART",
+    icon: "filter",
+    value: "- Rp 275.000",
+  },
+];
+---
+
+<Layout
+  title="BENGKEL — MARKET"
+  description="Cari motor, part, dan project."
+>
+  <div class="page market-page">
+    <div class="game-layout">
+
+      <Navigation active="market" />
+
+      <main class="main">
+        <div class="main-inner market-main">
+
+          <!-- =====================================================
+               HEADER
+          ===================================================== -->
+
+          <header class="market-header">
+
+            <div class="market-header-bar">
+
+              <div class="header-left">
+                <span class="header-led"></span>
+                <span>MARKET_01</span>
+              </div>
+
+              <span class="header-center">
+                GARAGE / MARKET BOARD
+              </span>
+
+              <span class="header-right">
+                OPEN
+              </span>
+
+            </div>
+
+            <div class="market-header-content">
+
+              <div class="market-title-area">
+
+                <div class="market-title-meta">
+                  <span class="market-title-icon" aria-hidden="true">
+                    <span class="pixel-icon pixel-icon--motorcycle pixel-icon--small"></span>
+                  </span>
+
+                  <span class="market-kicker">
+                    BUY / BUILD / SELL
+                  </span>
+                </div>
+
+                <h1>
+                  MARKET
+                </h1>
+
+                <div class="market-title-line"></div>
+
+                <p>
+                  Tempat berburu motor, part, dan project.
+                  Cari harga masuk, hitung kebutuhan build,
+                  lalu tentukan unit mana yang layak dibawa pulang.
+                </p>
+
+              </div>
+
+              <div class="market-console">
+
+                <div class="console-heading">
+                  <span class="console-heading-icon" aria-hidden="true">
+                    <span class="pixel-icon pixel-icon--gear pixel-icon--tiny"></span>
+                  </span>
+                  MARKET CONSOLE
+                </div>
+
+                <div class="console-row">
+                  <span>MARKET</span>
+                  <strong class="accent-text">
+                    OPEN
+                  </strong>
+                </div>
+
+                <div class="console-row">
+                  <span>MOTOR</span>
+                  <strong>03</strong>
+                </div>
+
+                <div class="console-row">
+                  <span>PART</span>
+                  <strong>06</strong>
+                </div>
+
+                <div class="console-row">
+                  <span>PROJECT</span>
+                  <strong>02</strong>
+                </div>
+
+                <div class="console-actions">
+
+                  <Button
+                    href="#motor-listings"
+                    variant="primary"
+                  >
+                    KOLEKSI MOTOR
+                  </Button>
+
+                  <Button href="/garage">
+                    GARASI
+                  </Button>
+
+                </div>
+
+              </div>
+
+            </div>
+
+            <div class="market-header-footer">
+              <span>MOTOR / PART / PROJECT / SALVAGE</span>
+              <span>MARKET SYSTEM</span>
+              <span class="header-status-dot">
+                <i></i>
+                SYSTEM READY
+              </span>
+            </div>
+
+          </header>
+
+
+
+          <!-- =====================================================
+               MARKET STATUS
+          ===================================================== -->
+
+          <section class="market-section">
+
+            <div class="section-header">
+
+              <div class="section-heading">
+
+                <span class="section-marker"></span>
+
+                <div>
+                  <span class="section-kicker">
+                    MARKET SYSTEM
+                  </span>
+
+                  <h2>
+                    MARKET STATUS
+                  </h2>
+                </div>
+
+              </div>
+
+              <span class="section-code">
+                01 / 08
+              </span>
+
+            </div>
+
+            <div class="status-grid">
+
+              {
+                marketStats.map((stat, index) => (
+                  <article
+                    class:list={[
+                      "status-card",
+                      index === 0 && "status-card--active",
+                    ]}
+                  >
+
+                    <div class="status-card-top">
+
+                      <div class="status-ident">
+                        <span class="status-icon-shell" aria-hidden="true">
+                          <span
+                            class:list={[
+                              "pixel-icon",
+                              `pixel-icon--${stat.icon}`,
+                              "pixel-icon--tiny",
+                            ]}
+                          ></span>
+                        </span>
+
+                        <span>
+                          {stat.label}
+                        </span>
+                      </div>
+
+                      <span>
+                        {String(index + 1).padStart(2, "0")}
+                      </span>
+
+                    </div>
+
+                    <strong class="status-card-number">
+                      {stat.value}
+                    </strong>
+
+                    <div class="status-card-bottom">
+
+                      <div class="status-segments" aria-hidden="true">
+                        <i></i>
+                        <i></i>
+                        <i></i>
+                        <i></i>
+                        <i></i>
+                        <i></i>
+                        <i></i>
+                        <i></i>
+                      </div>
+
+                      <span>
+                        {stat.detail}
+                      </span>
+
+                    </div>
+
+                  </article>
+                ))
+              }
+
+            </div>
+
+          </section>
+
+
+
+          <!-- =====================================================
+               CATEGORY
+          ===================================================== -->
+
+          <section
+            class="market-section market-section--tabs"
+            data-market-controller
+          >
+
+            <div class="section-header">
+
+              <div class="section-heading">
+
+                <span class="section-marker"></span>
+
+                <div>
+                  <span class="section-kicker">
+                    MARKET BOARD
+                  </span>
+
+                  <h2>
+                    CATEGORY
+                  </h2>
+                </div>
+
+              </div>
+
+              <span class="section-code">
+                SELECT / MARKET
+              </span>
+
+            </div>
+
+            <div
+              class="market-tabs"
+              role="tablist"
+              aria-label="Market categories"
+            >
+
+              {
+                marketTabs.map((tab, index) => (
+                  <button
+                    type="button"
+                    role="tab"
+                    aria-selected={index === 0 ? "true" : "false"}
+                    aria-controls={`tab-panel-${tab.id}`}
+                    class:list={[
+                      "market-tab",
+                      index === 0 && "market-tab--active",
+                    ]}
+                    data-market-tab={tab.id}
+                    data-market-target={tab.target}
+                  >
+
+                    <span class="tab-icon" aria-hidden="true">
+                      <span
+                        class:list={[
+                          "pixel-icon",
+                          `pixel-icon--${tab.icon}`,
+                          "pixel-icon--small",
+                        ]}
+                      ></span>
+                    </span>
+
+                    <span class="tab-copy">
+                      <span class="tab-number">
+                        {String(index + 1).padStart(2, "0")}
+                      </span>
+
+                      <span class="tab-label">
+                        {tab.label}
+                      </span>
+                    </span>
+
+                    <span class="tab-arrow">
+                      →
+                    </span>
+
+                  </button>
+                ))
+              }
+
+            </div>
+
+            <div class="market-tab-info">
+
+              <div
+                id="tab-panel-motor"
+                data-tab-panel="motor"
+              >
+                <span>01 / MOTOR</span>
+                <strong>UNIT SIAP DIBELI</strong>
+                <p>
+                  Motor bekas dan stock unit yang tersedia
+                  untuk langsung masuk ke garasi.
+                </p>
+              </div>
+
+              <div
+                id="tab-panel-part"
+                data-tab-panel="part"
+                hidden
+              >
+                <span>02 / PART</span>
+                <strong>COMPONENT MARKET</strong>
+                <p>
+                  Komponen untuk repair, tuning, dan
+                  build motor.
+                </p>
+              </div>
+
+              <div
+                id="tab-panel-project"
+                data-tab-panel="project"
+                hidden
+              >
+                <span>03 / PROJECT</span>
+                <strong>BASIS UNTUK DIBANGUN</strong>
+                <p>
+                  Unit dengan harga masuk rendah dan
+                  ruang upgrade lebih besar.
+                </p>
+              </div>
+
+              <div
+                id="tab-panel-salvage"
+                data-tab-panel="salvage"
+                hidden
+              >
+                <span>04 / SALVAGE</span>
+                <strong>UNIT RUSAK</strong>
+                <p>
+                  Risiko tinggi, biaya repair tinggi,
+                  tetapi bisa menjadi project unik.
+                </p>
+              </div>
+
+            </div>
+
+          </section>
+
+
+
+          <!-- =====================================================
+               FEATURED PROJECT
+          ===================================================== -->
+
+          <section
+            class="market-section"
+            id="featured-project"
+          >
+
+            <div class="section-header">
+
+              <div class="section-heading">
+
+                <span class="section-marker section-marker--accent"></span>
+
+                <div>
+                  <span class="section-kicker">
+                    PROJECT HUNT
+                  </span>
+
+                  <h2>
+                    TEMUAN PILIHAN
+                  </h2>
+                </div>
+
+              </div>
+
+              <span class="section-code">
+                FIND / {featuredProject.id}
+              </span>
+
+            </div>
+
+            <article class="featured-project">
+
+              <div class="featured-visual">
+
+                <div class="visual-corner visual-corner--tl"></div>
+                <div class="visual-corner visual-corner--tr"></div>
+                <div class="visual-corner visual-corner--bl"></div>
+                <div class="visual-corner visual-corner--br"></div>
+
+                <span class="featured-code">
+                  PROJECT_001
+                </span>
+
+                <div class="featured-grid-mark" aria-hidden="true">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+
+                <div
+                  class="pixel-motor featured-motor"
+                  aria-hidden="true"
+                >
+                  <span class="pixel-motor__body"></span>
+                  <span class="pixel-motor__tank"></span>
+                  <span class="pixel-motor__seat"></span>
+                  <span class="pixel-motor__frame"></span>
+                  <span class="pixel-motor__engine"></span>
+                  <span class="pixel-motor__wheel pixel-motor__wheel--rear"></span>
+                  <span class="pixel-motor__wheel pixel-motor__wheel--front"></span>
+                  <span class="pixel-motor__handle"></span>
+                </div>
+
+                <div class="featured-mini-spec">
+                  <span>BASE</span>
+                  <strong>135CC</strong>
+                </div>
+
+                <span class="featured-tag">
+                  PROJECT
+                </span>
+
+                <span class="featured-bottom">
+                  LOW ENTRY / BUILD SPACE
+                </span>
+
+              </div>
+
+              <div class="featured-content">
+
+                <div class="featured-heading">
+
+                  <div>
+
+                    <div class="item-label-row">
+                      <span class="mini-label-icon">
+                        <span class="pixel-icon pixel-icon--project pixel-icon--tiny"></span>
+                      </span>
+
+                      <span class="section-kicker">
+                        PROJECT MOTOR
+                      </span>
+                    </div>
+
+                    <h2>
+                      {featuredProject.name}
+                    </h2>
+
+                    <span class="featured-type">
+                      {featuredProject.type}
+                    </span>
+
+                  </div>
+
+                  <span class="condition-tag">
+                    {featuredProject.condition}
+                  </span>
+
+                </div>
+
+                <p class="featured-description">
+                  {featuredProject.description}
+                </p>
+
+                <div class="featured-stat-grid">
+
+                  <div>
+                    <span class="stat-icon-title">
+                      <i class="stat-symbol stat-symbol--power"></i>
+                      POWER
+                    </span>
+                    <strong>{featuredProject.power}</strong>
+                  </div>
+
+                  <div>
+                    <span class="stat-icon-title">
+                      <i class="stat-symbol stat-symbol--accel"></i>
+                      ACCEL
+                    </span>
+                    <strong>{featuredProject.acceleration}</strong>
+                  </div>
+
+                  <div>
+                    <span class="stat-icon-title">
+                      <i class="stat-symbol stat-symbol--grip"></i>
+                      GRIP
+                    </span>
+                    <strong>{featuredProject.grip}</strong>
+                  </div>
+
+                  <div>
+                    <span class="stat-icon-title">
+                      <i class="stat-symbol stat-symbol--reliability"></i>
+                      RELIABILITY
+                    </span>
+                    <strong class="danger-text">
+                      {featuredProject.reliability}
+                    </strong>
+                  </div>
+
+                </div>
+
+                <div class="featured-finance">
+
+                  <div>
+                    <span>ASKING PRICE</span>
+
+                    <strong>
+                      Rp {featuredProject.price.toLocaleString("id-ID")}
+                    </strong>
+                  </div>
+
+                  <div class="build-score-box">
+                    <span>BUILD SCORE</span>
+
+                    <strong class="accent-text">
+                      {featuredProject.buildScore}
+                    </strong>
+                  </div>
+
+                </div>
+
+                <div class="featured-actions">
+
+                  <Button
+                    href="/market"
+                    variant="primary"
+                  >
+                    BELI PROJECT
+                  </Button>
+
+                  <Button href="/motor">
+                    LIHAT DETAIL
+                  </Button>
+
+                </div>
+
+              </div>
+
+            </article>
+
+          </section>
+
+
+
+          <!-- =====================================================
+               MOTOR LISTINGS
+          ===================================================== -->
+
+          <section
+            class="market-section"
+            id="motor-listings"
+          >
+
+            <div class="section-header">
+
+              <div class="section-heading">
+
+                <span class="section-marker"></span>
+
+                <div>
+                  <span class="section-kicker">
+                    MOTOR LISTINGS
+                  </span>
+
+                  <h2>
+                    MOTOR DIJUAL
+                  </h2>
+                </div>
+
+              </div>
+
+              <span class="section-code">
+                03 UNITS
+              </span>
+
+            </div>
+
+            <div class="motor-market-grid">
+
+              {
+                motors.map((motor, index) => (
+                  <article class="motor-market-card">
+
+                    <div class="motor-card-top">
+
+                      <div class="motor-card-id">
+                        <span class="motor-number">
+                          {String(index + 1).padStart(2, "0")}
+                        </span>
+
+                        <span>
+                          {motor.id}
+                        </span>
+                      </div>
+
+                      <span class="motor-status">
+                        {motor.status}
+                      </span>
+
+                    </div>
+
+                    <div class="motor-card-art">
+
+                      <div class="motor-art-label">
+                        <span>UNIT / {motor.brand}</span>
+                        <span>{motor.year}</span>
+                      </div>
+
+                      <div
+                        class:list={[
+                          "pixel-motor",
+                          "listing-motor",
+                          motor.color === "DARK" && "listing-motor--dark",
+                        ]}
+                        aria-hidden="true"
+                      >
+                        <span class="pixel-motor__body"></span>
+                        <span class="pixel-motor__tank"></span>
+                        <span class="pixel-motor__seat"></span>
+                        <span class="pixel-motor__frame"></span>
+                        <span class="pixel-motor__engine"></span>
+                        <span class="pixel-motor__wheel pixel-motor__wheel--rear"></span>
+                        <span class="pixel-motor__wheel pixel-motor__wheel--front"></span>
+                        <span class="pixel-motor__handle"></span>
+                      </div>
+
+                      <div class="motor-art-floor"></div>
+
+                      <span class="motor-art-type">
+                        {motor.type}
+                      </span>
+
+                    </div>
+
+                    <div class="motor-card-body">
+
+                      <div class="motor-card-heading">
+
+                        <div>
+
+                          <span class="section-kicker">
+                            {motor.brand}
+                          </span>
+
+                          <h3>
+                            {motor.name}
+                          </h3>
+
+                          <span class="motor-build">
+                            {motor.build}
+                          </span>
+
+                        </div>
+
+                        <span class="motor-condition">
+                          {motor.condition}
+                        </span>
+
+                      </div>
+
+                      <div class="motor-spec-grid">
+
+                        <div>
+                          <span>POWER</span>
+                          <strong>{motor.stats.power}</strong>
+                        </div>
+
+                        <div>
+                          <span>ACCEL</span>
+                          <strong>{motor.stats.acceleration}</strong>
+                        </div>
+
+                        <div>
+                          <span>GRIP</span>
+                          <strong>{motor.stats.grip}</strong>
+                        </div>
+
+                        <div>
+                          <span>RELIAB.</span>
+                          <strong>{motor.stats.reliability}</strong>
+                        </div>
+
+                      </div>
+
+                      <div class="motor-card-finance">
+
+                        <div>
+
+                          <span>MARKET VALUE</span>
+
+                          <strong>
+                            Rp {motor.value.toLocaleString("id-ID")}
+                          </strong>
+
+                        </div>
+
+                        <div class="motor-score">
+
+                          <span>BUILD</span>
+
+                          <strong class="accent-text">
+                            {motor.buildScore}
+                          </strong>
+
+                        </div>
+
+                      </div>
+
+                    </div>
+
+                    <a
+                      href="/market"
+                      class="motor-buy-button"
+                    >
+                      <span class="button-icon" aria-hidden="true">
+                        <span class="pixel-icon pixel-icon--money pixel-icon--tiny"></span>
+                      </span>
+
+                      <span>BELI MOTOR</span>
+
+                      <span class="button-arrow">→</span>
+                    </a>
+
+                  </article>
+                ))
+              }
+
+            </div>
+
+          </section>
+
+
+
+          <!-- =====================================================
+               PART MARKET
+          ===================================================== -->
+
+          <section
+            class="market-section"
+            id="part-market"
+          >
+
+            <div class="section-header">
+
+              <div class="section-heading">
+
+                <span class="section-marker"></span>
+
+                <div>
+                  <span class="section-kicker">
+                    PARTS MARKET
+                  </span>
+
+                  <h2>
+                    PART TERSEDIA
+                  </h2>
+                </div>
+
+              </div>
+
+              <span class="section-code">
+                06 ITEMS
+              </span>
+
+            </div>
+
+            <div class="parts-grid">
+
+              {
+                parts.map((part, index) => (
+                  <article class="part-card">
+
+                    <div class="part-card-top">
+
+                      <div class="part-id">
+
+                        <span class="part-icon-index">
+                          {String(index + 1).padStart(2, "0")}
+                        </span>
+
+                        <span>
+                          {part.id}
+                        </span>
+
+                      </div>
+
+                      <span
+                        class:list={[
+                          "part-rarity",
+                          part.rarity === "RARE" &&
+                            "part-rarity--rare",
+                        ]}
+                      >
+                        {part.rarity}
+                      </span>
+
+                    </div>
+
+                    <div class="part-art">
+
+                      <div class="part-art-header">
+                        <span>COMPONENT</span>
+                        <span>{part.category}</span>
+                      </div>
+
+                      <div
+                        class:list={[
+                          "part-pixel-object",
+                          `part-pixel-object--${part.icon}`,
+                        ]}
+                        aria-hidden="true"
+                      >
+                        <span class="part-pixel-shadow"></span>
+                        <span class="part-pixel-main"></span>
+                        <span class="part-pixel-detail part-pixel-detail--1"></span>
+                        <span class="part-pixel-detail part-pixel-detail--2"></span>
+                        <span class="part-pixel-detail part-pixel-detail--3"></span>
+                      </div>
+
+                      <span class="part-art-code">
+                        {part.id}
+                      </span>
+
+                    </div>
+
+                    <div class="part-info">
+
+                      <div class="part-info-heading">
+
+                        <div>
+
+                          <span class="part-category">
+                            {part.category}
+                          </span>
+
+                          <h3>
+                            {part.name}
+                          </h3>
+
+                        </div>
+
+                        <span class="part-condition">
+                          {part.condition}
+                        </span>
+
+                      </div>
+
+                      <p>
+                        FIT: {part.compatibility}
+                      </p>
+
+                    </div>
+
+                    <div class="part-bottom">
+
+                      <div class="part-price">
+
+                        <span>
+                          PRICE
+                        </span>
+
+                        <strong>
+                          Rp {part.price.toLocaleString("id-ID")}
+                        </strong>
+
+                      </div>
+
+                      <div class="part-stock-box">
+
+                        <span>
+                          STOCK
+                        </span>
+
+                        <strong>
+                          {String(part.stock).padStart(2, "0")}
+                        </strong>
+
+                      </div>
+
+                    </div>
+
+                    <a
+                      href="/market"
+                      class="part-button"
+                    >
+                      <span class="button-icon" aria-hidden="true">
+                        <span class="pixel-icon pixel-icon--gear pixel-icon--tiny"></span>
+                      </span>
+
+                      <span>BELI PART</span>
+
+                      <span>→</span>
+                    </a>
+
+                  </article>
+                ))
+              }
+
+            </div>
+
+          </section>
+
+
+
+          <!-- =====================================================
+               SALVAGE
+          ===================================================== -->
+
+          <section
+            class="market-section"
+            id="salvage-market"
+          >
+
+            <div class="section-header">
+
+              <div class="section-heading">
+
+                <span class="section-marker section-marker--danger"></span>
+
+                <div>
+                  <span class="section-kicker">
+                    SALVAGE MARKET
+                  </span>
+
+                  <h2>
+                    SALVAGE PROJECT
+                  </h2>
+                </div>
+
+              </div>
+
+              <span class="section-code">
+                HIGH RISK
+              </span>
+
+            </div>
+
+            <article class="salvage">
+
+              <div class="salvage-visual">
+
+                <div class="salvage-visual-grid"></div>
+
+                <span class="salvage-code">
+                  SALVAGE_001
+                </span>
+
+                <div
+                  class="pixel-motor salvage-motor"
+                  aria-hidden="true"
+                >
+                  <span class="pixel-motor__body"></span>
+                  <span class="pixel-motor__tank"></span>
+                  <span class="pixel-motor__seat"></span>
+                  <span class="pixel-motor__frame"></span>
+                  <span class="pixel-motor__engine"></span>
+                  <span class="pixel-motor__wheel pixel-motor__wheel--rear"></span>
+                  <span class="pixel-motor__wheel pixel-motor__wheel--front"></span>
+                  <span class="pixel-motor__handle"></span>
+                </div>
+
+                <span class="salvage-stamp">
+                  BROKEN
+                </span>
+
+                <div class="salvage-icon-label">
+                  <span class="pixel-icon pixel-icon--wrench pixel-icon--small"></span>
+                  <span>REPAIR REQUIRED</span>
+                </div>
+
+                <span class="salvage-bottom">
+                  FRAME / ENGINE / REPAIR
+                </span>
+
+              </div>
+
+              <div class="salvage-content">
+
+                <div class="salvage-heading">
+
+                  <div>
+
+                    <div class="item-label-row">
+
+                      <span class="mini-label-icon mini-label-icon--danger">
+                        <span class="pixel-icon pixel-icon--wrench pixel-icon--tiny"></span>
+                      </span>
+
+                      <span class="section-kicker">
+                        RARE PROJECT
+                      </span>
+
+                    </div>
+
+                    <h2>
+                      {salvage.name}
+                    </h2>
+
+                    <span class="salvage-type">
+                      {salvage.type}
+                    </span>
+
+                  </div>
+
+                  <span class="salvage-condition">
+                    {salvage.condition}
+                  </span>
+
+                </div>
+
+                <p class="salvage-description">
+                  {salvage.description}
+                </p>
+
+                <div class="salvage-warning">
+
+                  <div class="warning-icon" aria-hidden="true">
+                    <span class="warning-mark">!</span>
+                  </div>
+
+                  <div>
+                    <strong>
+                      HIGH REPAIR COST
+                    </strong>
+
+                    <span>
+                      Reliability sangat rendah.
+                      Pastikan modal repair masih masuk
+                      akal sebelum mengambil unit ini.
+                    </span>
+                  </div>
+
+                </div>
+
+                <div class="salvage-specs">
+
+                  <div>
+                    <span>POWER</span>
+                    <strong>{salvage.power}</strong>
+                  </div>
+
+                  <div>
+                    <span>ACCEL</span>
+                    <strong>{salvage.acceleration}</strong>
+                  </div>
+
+                  <div>
+                    <span>GRIP</span>
+                    <strong>{salvage.grip}</strong>
+                  </div>
+
+                  <div>
+                    <span>RELIABILITY</span>
+                    <strong class="danger-text">
+                      {salvage.reliability}
+                    </strong>
+                  </div>
+
+                  <div>
+                    <span>BUILD</span>
+                    <strong>{salvage.buildScore}</strong>
+                  </div>
+
+                </div>
+
+                <div class="salvage-footer">
+
+                  <div class="salvage-price">
+
+                    <span>
+                      PRICE
+                    </span>
+
+                    <strong>
+                      Rp {salvage.price.toLocaleString("id-ID")}
+                    </strong>
+
+                  </div>
+
+                  <Button href="/market" variant="primary">
+                    AMBIL SALVAGE
+                  </Button>
+
+                </div>
+
+              </div>
+
+            </article>
+
+          </section>
+
+
+
+          <!-- =====================================================
+               MARKET PLAY
+          ===================================================== -->
+
+          <section class="market-section">
+
+            <div class="section-header">
+
+              <div class="section-heading">
+
+                <span class="section-marker"></span>
+
+                <div>
+                  <span class="section-kicker">
+                    MARKET PLAY
+                  </span>
+
+                  <h2>
+                    CARA MAIN
+                  </h2>
+                </div>
+
+              </div>
+
+              <span class="section-code">
+                BUY / BUILD / SELL
+              </span>
+
+            </div>
+
+            <div class="market-notes">
+
+              {
+                marketNotes.map((note) => (
+                  <article class="market-note">
+
+                    <div class="note-icon-shell" aria-hidden="true">
+
+                      <span
+                        class:list={[
+                          "pixel-icon",
+                          `pixel-icon--${note.icon}`,
+                          "pixel-icon--small",
+                        ]}
+                      ></span>
+
+                    </div>
+
+                    <span class="note-label">
+                      {note.eyebrow}
+                    </span>
+
+                    <div class="note-content">
+
+                      <h3>
+                        {note.title}
+                      </h3>
+
+                      <p>
+                        {note.description}
+                      </p>
+
+                    </div>
+
+                    <span class="note-arrow">
+                      →
+                    </span>
+
+                  </article>
+                ))
+              }
+
+            </div>
+
+          </section>
+
+
+
+          <!-- =====================================================
+               TRANSACTIONS
+          ===================================================== -->
+
+          <section class="market-section">
+
+            <div class="section-header">
+
+              <div class="section-heading">
+
+                <span class="section-marker"></span>
+
+                <div>
+                  <span class="section-kicker">
+                    MARKET HISTORY
+                  </span>
+
+                  <h2>
+                    TRANSAKSI TERAKHIR
+                  </h2>
+                </div>
+
+              </div>
+
+              <span class="section-code">
+                HISTORY
+              </span>
+
+            </div>
+
+            <div class="transactions">
+
+              <div class="transaction-header">
+
+                <span>NO</span>
+
+                <span>ACTION</span>
+
+                <span>TYPE</span>
+
+                <span>VALUE</span>
+
+              </div>
+
+              {
+                recentTransactions.map((transaction) => (
+                  <div class="transaction-row">
+
+                    <span class="transaction-number">
+                      {transaction.date}
+                    </span>
+
+                    <div class="transaction-action">
+
+                      <span class="transaction-icon-shell" aria-hidden="true">
+
+                        <span
+                          class:list={[
+                            "pixel-icon",
+                            `pixel-icon--${transaction.icon}`,
+                            "pixel-icon--tiny",
+                          ]}
+                        ></span>
+
+                      </span>
+
+                      <div class="transaction-action-copy">
+
+                        <strong>
+                          {transaction.action}
+                        </strong>
+
+                        <span>
+                          {transaction.item}
+                        </span>
+
+                      </div>
+
+                    </div>
+
+                    <span class="transaction-type">
+                      {transaction.type}
+                    </span>
+
+                    <strong
+                      class:list={[
+                        "transaction-value",
+                        transaction.action === "SOLD" &&
+                          "transaction-value--positive",
+                      ]}
+                    >
+                      {transaction.value}
+                    </strong>
+
+                  </div>
+                ))
+              }
+
+            </div>
+
+          </section>
+
+
+
+          <!-- =====================================================
+               MARKET RULE
+          ===================================================== -->
+
+          <section class="market-section">
+
+            <div class="market-rule">
+
+              <div class="market-rule-symbol" aria-hidden="true">
+
+                <span class="pixel-icon pixel-icon--money pixel-icon--medium"></span>
+
+              </div>
+
+              <div class="market-rule-content">
+
+                <span class="section-kicker">
+                  MARKET RULE
+                </span>
+
+                <h2>
+                  HARGA MASUK BUKAN
+                  HARGA AKHIR
+                </h2>
+
+                <p>
+                  Harga beli hanyalah awal. Repair,
+                  parts, condition, build score,
+                  dan resale value ikut menentukan
+                  nilai sebuah motor.
+                </p>
+
+              </div>
+
+            </div>
+
+          </section>
+
+
+
+          <!-- =====================================================
+               FOOTER
+          ===================================================== -->
+
+          <footer class="market-footer">
+
+            <div class="divider"></div>
+
+            <div class="row-between">
+
+              <span>
+                BENGKEL
+              </span>
+
+              <span>
+                MARKET / MOTOR / PARTS / PROJECT
+              </span>
+
+            </div>
+
+          </footer>
+
+        </div>
+      </main>
+
+    </div>
+  </div>
+</Layout>
+
+
+<script>
+  const marketController = document.querySelector(
+    "[data-market-controller]"
+  );
+
+  if (marketController) {
+    const tabs = Array.from(
+      marketController.querySelectorAll("[data-market-tab]")
+    );
+
+    const panels = Array.from(
+      marketController.querySelectorAll("[data-tab-panel]")
+    );
+
+    const activateTab = (id) => {
+      tabs.forEach((tab) => {
+        const active =
+          tab.getAttribute("data-market-tab") === id;
+
+        tab.classList.toggle(
+          "market-tab--active",
+          active
+        );
+
+        tab.setAttribute(
+          "aria-selected",
+          active ? "true" : "false"
+        );
+      });
+
+      panels.forEach((panel) => {
+        panel.toggleAttribute(
+          "hidden",
+          panel.getAttribute("data-tab-panel") !== id
+        );
+      });
+    };
+
+    tabs.forEach((tab) => {
+      tab.addEventListener("click", () => {
+        const id = tab.getAttribute("data-market-tab");
+        const target = tab.getAttribute("data-market-target");
+
+        if (id) {
+          activateTab(id);
+        }
+
+        if (target) {
+          const section = document.querySelector(target);
+
+          if (section) {
+            const top =
+              section.getBoundingClientRect().top +
+              window.scrollY -
+              28;
+
+            window.scrollTo({
+              top,
+              behavior: "smooth",
+            });
+          }
+        }
+      });
+    });
+  }
+</script>
+
+
+<style>
+
+/* =========================================================
+   DESIGN TOKENS
+   ========================================================= */
+
+.market-page {
+  --market-black: #050505;
+  --market-black-2: #090909;
+
+  --market-panel: #101010;
+  --market-panel-2: #151515;
+  --market-panel-3: #1c1c1c;
+
+  --market-line: #282828;
+  --market-line-light: #3b3b3b;
+
+  --market-white: #f1f1eb;
+  --market-soft: #d0d0ca;
+
+  --market-muted: #969690;
+  --market-dim: #63635e;
+
+  --market-accent: #b7d83c;
+  --market-accent-dark: #687d27;
+
+  --market-danger: #c65a51;
+
+  min-width: 0;
+}
+
+
+/* =========================================================
+   BASE
+   ========================================================= */
+
+.market-main {
+  min-width: 0;
+}
+
+.market-section {
+  margin-top: 42px;
+}
+
+.section-header {
+  min-height: 55px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 16px;
+
+  margin-bottom: 10px;
+
+  border-bottom: 2px solid var(--market-line);
+}
+
+.section-heading {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+}
+
+.section-marker {
+  width: 8px;
+  height: 8px;
+
+  flex: 0 0 auto;
+
+  background: var(--market-white);
+
+  box-shadow:
+    4px 4px 0 var(--market-line-light);
+}
+
+.section-marker--accent {
+  background: var(--market-accent);
+
+  box-shadow:
+    4px 4px 0 var(--market-accent-dark);
+}
+
+.section-marker--danger {
+  background: var(--market-danger);
+
+  box-shadow:
+    4px 4px 0 rgba(198,90,81,.25);
+}
+
+.section-kicker {
+  display: block;
+
+  color: var(--market-dim);
+
+  font-family: var(--font-display);
+  font-size: .52rem;
+  font-weight: 900;
+
+  letter-spacing: .1em;
+
+  text-transform: uppercase;
+}
+
+.section-header h2 {
+  margin-top: 4px;
+
+  color: var(--market-white);
+
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem,3vw,2rem);
+  font-weight: 900;
+
+  line-height: .9;
+
+  letter-spacing: -.04em;
+
+  text-transform: uppercase;
+}
+
+.section-code {
+  color: var(--market-dim);
+
+  font-family: var(--font-display);
+  font-size: .48rem;
+  font-weight: 900;
+
+  letter-spacing: .08em;
+
+  text-transform: uppercase;
+}
+
+.accent-text {
+  color: var(--market-accent) !important;
+}
+
+.danger-text {
+  color: var(--market-danger) !important;
+}
+
+
+/* =========================================================
+   GENERIC PIXEL ICON SYSTEM
+   ========================================================= */
+
+.pixel-icon {
+  position: relative;
+
+  display: block;
+
+  width: 18px;
+  height: 18px;
+
+  image-rendering: pixelated;
+}
+
+.pixel-icon::before,
+.pixel-icon::after {
+  content: "";
+  position: absolute;
+  display: block;
+}
+
+.pixel-icon--tiny {
+  width: 11px;
+  height: 11px;
+}
+
+.pixel-icon--small {
+  width: 19px;
+  height: 19px;
+}
+
+.pixel-icon--medium {
+  width: 32px;
+  height: 32px;
+}
+
+
+/* MOTORCYCLE */
+
+.pixel-icon--motorcycle::before {
+  left: 2px;
+  bottom: 2px;
+
+  width: 5px;
+  height: 5px;
+
+  border: 2px solid currentColor;
+
+  box-shadow:
+    10px 0 0 -1px var(--market-panel-2),
+    10px 0 0 0 currentColor;
+}
+
+.pixel-icon--motorcycle::after {
+  left: 5px;
+  top: 6px;
+
+  width: 9px;
+  height: 4px;
+
+  background: currentColor;
+
+  box-shadow:
+    -2px 3px 0 -1px currentColor,
+    4px 4px 0 -1px currentColor;
+}
+
+
+/* GEAR */
+
+.pixel-icon--gear::before {
+  left: 4px;
+  top: 4px;
+
+  width: 8px;
+  height: 8px;
+
+  border: 2px solid currentColor;
+
+  box-shadow:
+    0 -4px 0 -2px currentColor,
+    0 4px 0 -2px currentColor,
+    4px 0 0 -2px currentColor,
+    -4px 0 0 -2px currentColor;
+}
+
+.pixel-icon--gear::after {
+  left: 7px;
+  top: 7px;
+
+  width: 3px;
+  height: 3px;
+
+  background: currentColor;
+}
+
+
+/* PROJECT */
+
+.pixel-icon--project::before {
+  left: 3px;
+  top: 2px;
+
+  width: 13px;
+  height: 15px;
+
+  border: 2px solid currentColor;
+
+  box-shadow:
+    4px 4px 0 -3px currentColor;
+}
+
+.pixel-icon--project::after {
+  left: 6px;
+  top: 6px;
+
+  width: 7px;
+  height: 2px;
+
+  background: currentColor;
+
+  box-shadow:
+    0 4px 0 currentColor,
+    0 8px 0 currentColor;
+}
+
+
+/* WRENCH */
+
+.pixel-icon--wrench::before {
+  left: 3px;
+  top: 3px;
+
+  width: 5px;
+  height: 5px;
+
+  border: 2px solid currentColor;
+
+  transform: rotate(45deg);
+
+  box-shadow:
+    5px 5px 0 -1px currentColor,
+    8px 8px 0 -1px currentColor;
+}
+
+.pixel-icon--wrench::after {
+  right: 2px;
+  bottom: 2px;
+
+  width: 5px;
+  height: 5px;
+
+  border: 2px solid currentColor;
+}
+
+
+/* SEARCH */
+
+.pixel-icon--search::before {
+  left: 2px;
+  top: 2px;
+
+  width: 9px;
+  height: 9px;
+
+  border: 2px solid currentColor;
+}
+
+.pixel-icon--search::after {
+  right: 1px;
+  bottom: 1px;
+
+  width: 7px;
+  height: 2px;
+
+  background: currentColor;
+
+  transform: rotate(45deg);
+}
+
+
+/* CALCULATOR */
+
+.pixel-icon--calculator::before {
+  left: 2px;
+  top: 1px;
+
+  width: 13px;
+  height: 16px;
+
+  border: 2px solid currentColor;
+}
+
+.pixel-icon--calculator::after {
+  left: 5px;
+  top: 4px;
+
+  width: 7px;
+  height: 3px;
+
+  background: currentColor;
+
+  box-shadow:
+    0 5px 0 -1px currentColor,
+    4px 5px 0 -1px currentColor,
+    0 9px 0 -1px currentColor,
+    4px 9px 0 -1px currentColor;
+}
+
+
+/* MONEY */
+
+.pixel-icon--money::before {
+  left: 1px;
+  top: 4px;
+
+  width: 15px;
+  height: 10px;
+
+  border: 2px solid currentColor;
+}
+
+.pixel-icon--money::after {
+  left: 7px;
+  top: 7px;
+
+  width: 3px;
+  height: 4px;
+
+  background: currentColor;
+}
+
+
+/* FILTER */
+
+.pixel-icon--filter::before {
+  left: 2px;
+  top: 3px;
+
+  width: 13px;
+  height: 12px;
+
+  border: 2px solid currentColor;
+
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    70% 45%,
+    70% 100%,
+    30% 100%,
+    30% 45%
+  );
+}
+
+
+/* =========================================================
+   HEADER
+   ========================================================= */
+
+.market-header {
+  overflow: hidden;
+
+  background: var(--market-panel);
+
+  border: 2px solid var(--market-line-light);
+
+  box-shadow:
+    7px 7px 0 var(--market-black);
+}
+
+.market-header-bar {
+  min-height: 31px;
+
+  display: grid;
+
+  grid-template-columns: 1fr auto auto;
+
+  align-items: center;
+
+  gap: 15px;
+
+  padding: 0 11px;
+
+  border-bottom: 2px solid var(--market-line);
+
+  background: var(--market-black-2);
+
+  color: var(--market-dim);
+
+  font-family: var(--font-display);
+  font-size: .47rem;
+  font-weight: 900;
+
+  letter-spacing: .08em;
+
+  text-transform: uppercase;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+
+  color: var(--market-soft);
+}
+
+.header-led {
+  width: 5px;
+  height: 5px;
+
+  display: block;
+
+  background: var(--market-accent);
+}
+
+.header-right {
+  color: var(--market-accent);
+}
+
+.market-header-content {
+  min-height: 330px;
+
+  display: grid;
+
+  grid-template-columns:
+    minmax(0,1fr)
+    235px;
+
+  align-items: end;
+
+  gap: 30px;
+
+  padding: 31px;
+}
+
+.market-title-area {
+  min-width: 0;
+}
+
+.market-title-meta {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.market-title-icon {
+  width: 25px;
+  height: 25px;
+
+  display: grid;
+  place-items: center;
+
+  color: var(--market-accent);
+
+  border: 1px solid var(--market-line-light);
+
+  background: var(--market-black-2);
+}
+
+.market-kicker {
+  color: var(--market-dim);
+
+  font-family: var(--font-display);
+  font-size: .55rem;
+  font-weight: 900;
+
+  letter-spacing: .1em;
+
+  text-transform: uppercase;
+}
+
+.market-title-area h1 {
+  margin-top: 8px;
+
+  color: var(--market-white);
+
+  font-family: var(--font-display);
+  font-size: clamp(4.2rem,11vw,8.4rem);
+  font-weight: 900;
+
+  line-height: .74;
+
+  letter-spacing: -.09em;
+
+  text-transform: uppercase;
+}
+
+.market-title-line {
+  width: min(350px,70%);
+
+  height: 3px;
+
+  margin-top: 21px;
+
+  background: var(--market-accent);
+}
+
+.market-title-area p {
+  max-width: 690px;
+
+  margin-top: 18px;
+
+  color: var(--market-muted);
+
+  font-size: var(--text-sm);
+
+  line-height: 1.65;
+}
+
+.market-console {
+  display: grid;
+  gap: 6px;
+}
+
+.console-heading {
+  min-height: 30px;
+
+  display: flex;
+  align-items: center;
+  gap: 7px;
+
+  padding: 0 9px;
+
+  border: 1px solid var(--market-line-light);
+
+  color: var(--market-soft);
+
+  background: var(--market-black-2);
+
+  font-family: var(--font-display);
+  font-size: .44rem;
+  font-weight: 900;
+
+  letter-spacing: .08em;
+
+  text-transform: uppercase;
+}
+
+.console-heading-icon {
+  color: var(--market-accent);
+}
+
+.console-row {
+  min-height: 36px;
+
+  display: grid;
+
+  grid-template-columns: 1fr auto;
+
+  align-items: center;
+
+  padding: 0 10px;
+
+  background: var(--market-black-2);
+
+  border: 1px solid var(--market-line);
+}
+
+.console-row span {
+  color: var(--market-dim);
+
+  font-family: var(--font-display);
+  font-size: .44rem;
+  font-weight: 900;
+}
+
+.console-row strong {
+  color: var(--market-white);
+
+  font-family: var(--font-display);
+  font-size: .64rem;
+  font-weight: 900;
+}
+
+.console-actions {
+  display: grid;
+  gap: 7px;
+  margin-top: 5px;
+}
+
+.market-header-footer {
+  min-height: 31px;
+
+  display: grid;
+
+  grid-template-columns: 1fr auto auto;
+
+  align-items: center;
+
+  gap: 15px;
+
+  padding: 0 11px;
+
+  border-top: 2px solid var(--market-line);
+
+  background: var(--market-black-2);
+
+  color: var(--market-dim);
+
+  font-family: var(--font-display);
+  font-size: .46rem;
+  font-weight: 900;
+
+  letter-spacing: .08em;
+
+  text-transform: uppercase;
+}
+
+.header-status-dot {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  color: var(--market-accent);
+}
+
+.header-status-dot i {
+  width: 5px;
+  height: 5px;
+
+  display: block;
+
+  background: var(--market-accent);
+}
+
+
+/* =========================================================
+   STATUS
+   ========================================================= */
+
+.status-grid {
+  display: grid;
+  grid-template-columns: repeat(4,1fr);
+
+  border-top: 2px solid var(--market-line);
+  border-left: 2px solid var(--market-line);
+}
+
+.status-card {
+  min-height: 136px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  padding: 13px;
+
+  border-right: 2px solid var(--market-line);
+  border-bottom: 2px solid var(--market-line);
+
+  background: var(--market-panel);
+}
+
+.status-card--active {
+  border-top: 3px solid var(--market-accent);
+  background: var(--market-panel-2);
+}
+
+.status-card-top,
+.status-card-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 8px;
+
+  color: var(--market-dim);
+
+  font-family: var(--font-display);
+  font-size: .47rem;
+  font-weight: 900;
+
+  text-transform: uppercase;
+}
+
+.status-ident {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.status-icon-shell {
+  width: 20px;
+  height: 20px;
+
+  display: grid;
+  place-items: center;
+
+  color: var(--market-soft);
+
+  border: 1px solid var(--market-line);
+}
+
+.status-card--active .status-icon-shell {
+  color: var(--market-accent);
+  border-color: var(--market-accent-dark);
+}
+
+.status-card-number {
+  color: var(--market-white);
+
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 900;
+
+  line-height: .8;
+}
+
+.status-segments {
+  display: grid;
+
+  grid-template-columns: repeat(8,1fr);
+
+  flex: 1;
+
+  gap: 3px;
+}
+
+.status-segments i {
+  height: 4px;
+  background: var(--market-line-light);
+}
+
+.status-card--active
+.status-segments i:nth-child(-n+6) {
+  background: var(--market-accent);
+}
+
+
+/* =========================================================
+   TABS
+   ========================================================= */
+
+.market-tabs {
+  display: grid;
+
+  grid-template-columns: repeat(4,1fr);
+
+  border-top: 2px solid var(--market-line);
+  border-left: 2px solid var(--market-line);
+}
+
+.market-tab {
+  min-height: 67px;
+
+  display: grid;
+
+  grid-template-columns: 31px minmax(0,1fr) 20px;
+
+  align-items: center;
+
+  gap: 9px;
+
+  padding: 0 11px;
+
+  border: 0;
+
+  border-right: 2px solid var(--market-line);
+  border-bottom: 2px solid var(--market-line);
+
+  background: var(--market-panel);
+
+  color: var(--market-muted);
+
+  font-family: var(--font-display);
+  font-size: .58rem;
+  font-weight: 900;
+
+  text-align: left;
+  text-transform: uppercase;
+
+  cursor: pointer;
+
+  transition:
+    background 80ms steps(1),
+    color 80ms steps(1),
+    transform 80ms steps(1);
+}
+
+.market-tab:hover {
+  background: var(--market-panel-2);
+  color: var(--market-white);
+}
+
+.market-tab:active {
+  transform: translate(2px,2px);
+}
+
+.market-tab:focus-visible {
+  outline: 2px solid var(--market-accent);
+  outline-offset: 3px;
+}
+
+.market-tab--active {
+  background: var(--market-accent);
+  color: var(--market-black);
+
+  box-shadow:
+    4px 4px 0 var(--market-black);
+}
+
+.market-tab--active:hover {
+  background: var(--market-accent);
+  color: var(--market-black);
+}
+
+.tab-icon {
+  width: 28px;
+  height: 28px;
+
+  display: grid;
+  place-items: center;
+
+  border: 1px solid currentColor;
+}
+
+.tab-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.tab-number {
+  opacity: .55;
+
+  font-size: .4rem;
+}
+
+.tab-label {
+  font-size: .58rem;
+}
+
+.tab-arrow {
+  text-align: right;
+  font-size: 1rem;
+}
+
+.market-tab-info {
+  min-height: 82px;
+
+  display: flex;
+  align-items: center;
+
+  padding: 13px;
+
+  border: 2px solid var(--market-line);
+  border-top: 0;
+
+  background: var(--market-black-2);
+}
+
+.market-tab-info [data-tab-panel] {
+  width: 100%;
+
+  display: grid;
+
+  grid-template-columns:
+    100px
+    180px
+    minmax(0,1fr);
+
+  align-items: center;
+
+  gap: 16px;
+}
+
+.market-tab-info span,
+.market-tab-info strong {
+  font-family: var(--font-display);
+  font-size: .5rem;
+  font-weight: 900;
+
+  text-transform: uppercase;
+}
+
+.market-tab-info span {
+  color: var(--market-dim);
+}
+
+.market-tab-info strong {
+  color: var(--market-white);
+}
+
+.market-tab-info p {
+  margin: 0;
+
+  color: var(--market-muted);
+
+  font-size: .68rem;
+  line-height: 1.45;
+}
+
+
+/* =========================================================
+   FEATURED PROJECT
+   ========================================================= */
+
+.featured-project {
+  display: grid;
+
+  grid-template-columns:
+    minmax(300px,.82fr)
+    minmax(0,1.18fr);
+
+  overflow: hidden;
+
+  background: var(--market-panel);
+
+  border: 3px solid var(--market-black);
+
+  box-shadow:
+    7px 7px 0 var(--market-black);
+}
+
+.featured-visual {
+  min-height: 390px;
+
+  position: relative;
+
+  display: grid;
+  place-items: center;
+
+  overflow: hidden;
+
+  border-right: 2px solid var(--market-line);
+
+  background:
+    linear-gradient(
+      90deg,
+      #171717 0,
+      #171717 49.5%,
+      #202020 49.5%,
+      #202020 50.5%,
+      #171717 50.5%
+    );
+}
+
+.featured-visual::before {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  background:
+    linear-gradient(
+      transparent 49%,
+      rgba(255,255,255,.04) 50%,
+      transparent 51%
+    ),
+    linear-gradient(
+      90deg,
+      transparent 49%,
+      rgba(255,255,255,.04) 50%,
+      transparent 51%
+    );
+
+  background-size: 18px 18px;
+
+  opacity: .4;
+}
+
+.featured-code {
+  position: absolute;
+
+  top: 12px;
+  left: 12px;
+
+  color: rgba(241,241,235,.36);
+
+  font-family: var(--font-display);
+  font-size: .45rem;
+  font-weight: 900;
+}
+
+.featured-grid-mark {
+  position: absolute;
+
+  width: 180px;
+  height: 180px;
+
+  border: 1px dashed rgba(241,241,235,.14);
+}
+
+.featured-grid-mark span {
+  position: absolute;
+
+  width: 6px;
+  height: 6px;
+
+  background: rgba(241,241,235,.15);
+}
+
+.featured-grid-mark span:nth-child(1) {
+  left: -3px;
+  top: -3px;
+}
+
+.featured-grid-mark span:nth-child(2) {
+  right: -3px;
+  top: -3px;
+}
+
+.featured-grid-mark span:nth-child(3) {
+  left: -3px;
+  bottom: -3px;
+}
+
+.featured-grid-mark span:nth-child(4) {
+  right: -3px;
+  bottom: -3px;
+}
+
+.featured-motor {
+  position: relative;
+  z-index: 2;
+
+  transform: scale(1.55);
+
+  image-rendering: pixelated;
+
+  filter:
+    drop-shadow(6px 6px 0 var(--market-black));
+}
+
+.featured-mini-spec {
+  position: absolute;
+
+  left: 15px;
+  bottom: 43px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+
+  z-index: 3;
+
+  font-family: var(--font-display);
+  text-transform: uppercase;
+}
+
+.featured-mini-spec span {
+  color: var(--market-dim);
+  font-size: .4rem;
+  font-weight: 900;
+}
+
+.featured-mini-spec strong {
+  color: var(--market-white);
+  font-size: .64rem;
+  font-weight: 900;
+}
+
+.featured-tag {
+  position: absolute;
+
+  top: 42px;
+  right: 24px;
+
+  padding: 5px 7px;
+
+  border: 2px solid var(--market-black);
+
+  background: var(--market-accent);
+
+  color: var(--market-black);
+
+  font-family: var(--font-display);
+  font-size: .46rem;
+  font-weight: 900;
+
+  transform: rotate(3deg);
+
+  z-index: 4;
+}
+
+.featured-bottom {
+  position: absolute;
+
+  bottom: 14px;
+  left: 0;
+  right: 0;
+
+  color: rgba(241,241,235,.4);
+
+  font-family: var(--font-display);
+  font-size: .45rem;
+  font-weight: 900;
+
+  letter-spacing: .08em;
+
+  text-align: center;
+}
+
+.visual-corner {
+  width: 17px;
+  height: 17px;
+
+  position: absolute;
+
+  z-index: 5;
+}
+
+.visual-corner--tl {
+  top: 9px;
+  left: 9px;
+
+  border-top: 2px solid var(--market-accent);
+  border-left: 2px solid var(--market-accent);
+}
+
+.visual-corner--tr {
+  top: 9px;
+  right: 9px;
+
+  border-top: 2px solid var(--market-accent);
+  border-right: 2px solid var(--market-accent);
+}
+
+.visual-corner--bl {
+  bottom: 9px;
+  left: 9px;
+
+  border-bottom: 2px solid var(--market-accent);
+  border-left: 2px solid var(--market-accent);
+}
+
+.visual-corner--br {
+  right: 9px;
+  bottom: 9px;
+
+  border-bottom: 2px solid var(--market-accent);
+  border-right: 2px solid var(--market-accent);
+}
+
+.featured-content {
+  min-width: 0;
+  padding: 24px;
+}
+
+.featured-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  gap: 14px;
+
+  padding-bottom: 15px;
+
+  border-bottom: 1px solid var(--market-line);
+}
+
+.item-label-row {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.mini-label-icon {
+  width: 21px;
+  height: 21px;
+
+  display: grid;
+  place-items: center;
+
+  color: var(--market-accent);
+
+  border: 1px solid var(--market-accent-dark);
+
+  background: var(--market-black-2);
+}
+
+.featured-heading h2 {
+  margin-top: 6px;
+
+  color: var(--market-white);
+
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem,4vw,3rem);
+  font-weight: 900;
+
+  line-height: .9;
+
+  letter-spacing: -.05em;
+
+  text-transform: uppercase;
+}
+
+.featured-type {
+  display: block;
+
+  margin-top: 6px;
+
+  color: var(--market-muted);
+
+  font-family: var(--font-display);
+  font-size: .48rem;
+  font-weight: 900;
+
+  text-transform: uppercase;
+}
+
+.condition-tag {
+  padding: 5px 7px;
+
+  border: 1px solid var(--market-line-light);
+
+  color: var(--market-muted);
+
+  font-family: var(--font-display);
+  font-size: .45rem;
+  font-weight: 900;
+}
+
+.featured-description {
+  margin-top: 15px;
+
+  color: var(--market-muted);
+
+  font-size: var(--text-sm);
+
+  line-height: 1.6;
+}
+
+.featured-stat-grid {
+  display: grid;
+
+  grid-template-columns: repeat(4,1fr);
+
+  gap: 7px;
+
+  margin-top: 18px;
+}
+
+.featured-stat-grid > div {
+  min-width: 0;
+
+  padding: 10px;
+
+  border: 1px solid var(--market-line);
+
+  background: var(--market-black-2);
+}
+
+.stat-icon-title {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+
+  color: var(--market-dim);
+
+  font-family: var(--font-display);
+  font-size: .42rem;
+  font-weight: 900;
+
+  text-transform: uppercase;
+}
+
+.stat-symbol {
+  width: 4px;
+  height: 4px;
+
+  display: inline-block;
+
+  background: var(--market-soft);
+
+  box-shadow:
+    3px 0 0 var(--market-soft),
+    0 3px 0 var(--market-soft);
+}
+
+.stat-symbol--accel {
+  transform: skewX(-25deg);
+}
+
+.stat-symbol--grip {
+  box-shadow:
+    3px 0 0 var(--market-soft),
+    6px 0 0 var(--market-soft);
+}
+
+.stat-symbol--reliability {
+  border: 1px solid var(--market-soft);
+  background: transparent;
+  box-shadow: none;
+}
+
+.featured-stat-grid strong {
+  display: block;
+
+  margin-top: 6px;
+
+  color: var(--market-white);
+
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 900;
+}
+
+.featured-finance {
+  display: flex;
+
+  align-items: flex-end;
+  justify-content: space-between;
+
+  gap: 15px;
+
+  margin-top: 18px;
+  padding-top: 14px;
+
+  border-top: 1px solid var(--market-line);
+}
+
+.featured-finance > div {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.featured-finance span {
+  color: var(--market-dim);
+
+  font-family: var(--font-display);
+  font-size: .42rem;
+  font-weight: 900;
+
+  text-transform: uppercase;
+}
+
+.featured-finance > div > strong {
+  color: var(--market-white);
+
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 900;
+}
+
+.featured-finance > div:last-child > strong {
+  color: var(--market-accent);
+}
+
+.featured-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.featured-actions .btn {
+  flex: 1;
+}
+
+.build-score-box {
+  text-align: right;
+}
+
+
+/* =========================================================
+   MOTOR LISTINGS — INDIVIDUAL CARDS
+   ========================================================= */
+
+.motor-market-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3,minmax(0,1fr));
+
+  gap: 12px;
+}
+
+.motor-market-card {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  overflow: hidden;
+
+  background: var(--market-panel);
+
+  border: 2px solid var(--market-line);
+
+  box-shadow:
+    5px 5px 0 var(--market-black);
+
+  transition:
+    transform 80ms steps(1),
+    border-color 80ms steps(1),
+    background 80ms steps(1);
+}
+
+.motor-market-card:hover {
+  transform: translate(-2px,-2px);
+
+  border-color: var(--market-line-light);
+
+  background: var(--market-panel-2);
+
+  box-shadow:
+    7px 7px 0 var(--market-black);
+}
+
+.motor-card-top {
+  min-height: 31px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 9px;
+
+  border-bottom: 2px solid var(--market-line);
+
+  background: var(--market-black-2);
+
+  font-family: var(--font-display);
+  font-size: .43rem;
+  font-weight: 900;
+
+  text-transform: uppercase;
+}
+
+.motor-card-id {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+
+  color: var(--market-dim);
+}
+
+.motor-number {
+  color: var(--market-accent);
+}
+
+.motor-status {
+  color: var(--market-soft);
+}
+
+.motor-card-art {
+  min-height: 205px;
+
+  position: relative;
+
+  display: grid;
+  place-items: center;
+
+  overflow: hidden;
+
+  border-bottom: 1px solid var(--market-line);
+
+  background:
+    linear-gradient(
+      135deg,
+      #1a1a1a 25%,
+      #171717 25%,
+      #171717 50%,
+      #1a1a1a 50%,
+      #1a1a1a 75%,
+      #171717 75%
+    );
+
+  background-size: 20px 20px;
+}
+
+.motor-card-art::before {
+  content: "";
+
+  position: absolute;
+  inset: 0;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent 49%,
+      rgba(255,255,255,.035) 50%,
+      transparent 51%
+    ),
+    linear-gradient(
+      transparent 49%,
+      rgba(255,255,255,.035) 50%,
+      transparent 51%
+    );
+
+  background-size: 22px 22px;
+}
+
+.motor-art-label {
+  position: absolute;
+
+  top: 10px;
+  left: 10px;
+  right: 10px;
+
+  display: flex;
+  justify-content: space-between;
+
+  z-index: 3;
+
+  color: var(--market-dim);
+
+  font-family: var(--font-display);
+  font-size: .4rem;
+  font-weight: 900;
+}
+
+.listing-motor {
+  position: relative;
+  z-index: 2;
+
+  transform:
+    translateY(10px)
+    scale(.95);
+
+  image-rendering: pixelated;
+
+  filter:
+    drop-shadow(5px 5px 0 var(--market-black));
+}
+
+.listing-motor--dark {
+  filter:
+    grayscale(.2)
+    brightness(.77)
+    drop-shadow(5px 5px 0 var(--market-black));
+}
+
+.motor-art-floor {
+  position: absolute;
+
+  width: 75%;
+  height: 6px;
+
+  bottom: 24px;
+
+  background: var(--market-line-light);
+
+  box-shadow:
+    0 5px 0 var(--market-black);
+}
+
+.motor-art-type {
+  position: absolute;
+
+  right: 10px;
+  bottom: 9px;
+
+  color: rgba(241,241,235,.38);
+
+  font-family: var(--font-display);
+  font-size: .39rem;
+  font-weight: 900;
+
+  z-index: 3;
+}
+
+.motor-card-body {
+  padding: 14px;
+}
+
+.motor-card-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  gap: 12px;
+}
+
+.motor-card-heading h3 {
+  margin-top: 5px;
+
+  color: var(--market-white);
+
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 900;
+
+  line-height: .9;
+
+  text-transform: uppercase;
+}
+
+.motor-build {
+  display: block;
+
+  margin-top: 6px;
+
+  color: var(--market-dim);
+
+  font-family: var(--font-display);
+  font-size: .43rem;
+  font-weight: 900;
+
+  text-transform: uppercase;
+}
+
+.motor-condition {
+  padding: 5px 6px;
+
+  border: 1px solid var(--market-line-light);
+
+  color: var(--market-muted);
+
+  font-family: var(--font-display);
+  font-size: .42rem;
+  font-weight: 900;
+}
+
+.motor-spec-grid {
+  display: grid;
+
+  grid-template-columns: repeat(4,1fr);
+
+  gap: 5px;
+
+  margin-top: 15px;
+}
+
+.motor-spec-grid > div {
+  padding: 8px;
+
+  border: 1px solid var(--market-line);
+
+  background: var(--market-black-2);
+}
+
+.motor-spec-grid span {
+  display: block;
+
+  color: var(--market-dim);
+
+  font-family: var(--font-display);
+  font-size: .37rem;
+  font-weight: 900;
+}
+
+.motor-spec-grid strong {
+  display: block;
+
+  margin-top: 5px;
+
+  color: var(--market-white);
+
+  font-family: var(--font-display);
+  font-size: .82rem;
+  font-weight: 900;
+}
+
+.motor-card-finance {
+  display: flex;
+
+  align-items: flex-end;
+  justify-content: space-between;
+
+  gap: 12px;
+
+  margin-top: 15px;
+  padding-top: 12px;
+
+  border-top: 1px solid var(--market-line);
+}
+
+.motor-card-finance > div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.motor-card-finance span {
+  color: var(--market-dim);
+
+  font-family: var(--font-display);
+  font-size: .41rem;
+  font-weight: 900;
+}
+
+.motor-card-finance strong {
+  color: var(--market-white);
+
+  font-family: var(--font-display);
+  font-size: .86rem;
+  font-weight: 900;
+}
+
+.motor-score {
+  min-width: 54px;
+  text-align: right;
+}
+
+.motor-score strong {
+  font-size: 1.05rem;
+}
+
+.motor-buy-button {
+  min-height: 39px;
+
+  display: grid;
+
+  grid-template-columns: 22px 1fr 18px;
+
+  align-items: center;
+
+  gap: 7px;
+
+  margin: 0 10px 10px;
+
+  padding: 0 10px;
+
+  border: 2px solid var(--market-line-light);
+
+  color: var(--market-white);
+
+  background: var(--market-panel-2);
+
+  font-family: var(--font-display);
+  font-size: .45rem;
+  font-weight: 900;
+
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.motor-buy-button:hover {
+  border-color: var(--market-accent-dark);
+  color: var(--market-accent);
+  background: var(--market-panel-3);
+}
+
+.button-icon {
+  display: grid;
+  place-items: center;
+
+  color: var(--market-accent);
+}
+
+.button-arrow {
+  text-align: right;
+}
+
+
+/* =========================================================
+   PARTS
+   ========================================================= */
+
+.parts-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3,minmax(0,1fr));
+
+  gap: 10px;
+}
+
+.part-card {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+
+  overflow: hidden;
+
+  background: var(--market-panel);
+
+  border: 2px solid var(--market-line);
+
+  box-shadow:
+    4px 4px 0 var(--market-black);
+
+  transition:
+    transform 80ms steps(1),
+    border-color 80ms steps(1);
+}
+
+.part-card:hover {
+  transform: translate(-2px,-2px);
+  border-color: var(--market-line-light);
+}
+
+.part-card-top {
+  min-height: 31px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 0 9px;
+
+  border-bottom: 2px solid var(--market-line);
+
+  background: var(--market-black-2);
+
+  font-family: var(--font-display);
+  font-size: .42rem;
+  font-weight: 900;
+}
+
+.part-id {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+
+  color: var(--market-dim);
+}
+
+.part-icon-index {
+  color: var(--market-accent);
+}
+
+.part-rarity {
+  color: var(--market-muted);
+}
+
+.part-rarity--rare {
+  color: var(--market-accent);
+}
+
+.part-art {
+  min-height: 157px;
+
+  position: relative;
+
+  display: grid;
+  place-items: center;
+
+  overflow: hidden;
+
+  background:
+    linear-gradient(
+      135deg,
+      #191919 25%,
+      #161616 25%,
+      #161616 50%,
+      #191919 50%,
+      #191919 75%,
+      #161616 75%
+    );
+
+  background-size: 18px 18px;
+
+  border-bottom: 1px solid var(--market-line);
+}
+
+.part-art-header {
+  position: absolute;
+
+  top: 9px;
+  left: 10px;
+  right: 10px;
+
+  display: flex;
+  justify-content: space-between;
+
+  color: var(--market-dim);
+
+  font-family: var(--font-display);
+  font-size: .39rem;
+  font-weight: 900;
+}
+
+.part-art-code {
+  position: absolute;
+
+  bottom: 8px;
+  right: 9px;
+
+  color: rgba(241,241,235,.3);
+
+  font-family: var(--font-display);
+  font-size: .37rem;
+  font-weight: 900;
+}
+
+.part-pixel-object {
+  width: 88px;
+  height: 72px;
+
+  position: relative;
+
+  image-rendering: pixelated;
+}
+
+.part-pixel-main,
+.part-pixel-shadow,
+.part-pixel-detail {
+  position: absolute;
+  display: block;
+}
+
+.part-pixel-shadow {
+  left: 16px;
+  bottom: 7px;
+
+  width: 56px;
+  height: 7px;
+
+  background: var(--market-black);
+  opacity: .65;
+}
+
+
+/* CARBURETOR */
+
+.part-pixel-object--carburetor .part-pixel-main {
+  left: 28px;
+  top: 14px;
+
+  width: 30px;
+  height: 38px;
+
+  border: 4px solid var(--market-soft);
+  background: #242424;
+}
+
+.part-pixel-object--carburetor .part-pixel-detail--1 {
+  left: 13px;
+  top: 24px;
+
+  width: 17px;
+  height: 10px;
+
+  background: var(--market-soft);
+}
+
+.part-pixel-object--carburetor .part-pixel-detail--2 {
+  right: 12px;
+  top: 31px;
+
+  width: 14px;
+  height: 4px;
+
+  background: var(--market-soft);
+}
+
+.part-pixel-object--carburetor .part-pixel-detail--3 {
+  left: 35px;
+  bottom: 8px;
+
+  width: 15px;
+  height: 9px;
+
+  background: var(--market-accent);
+}
+
+
+/* CDI */
+
+.part-pixel-object--cdi .part-pixel-main {
+  left: 23px;
+  top: 16px;
+
+  width: 42px;
+  height: 29px;
+
+  border: 4px solid var(--market-soft);
+  background: #202020;
+}
+
+.part-pixel-object--cdi .part-pixel-detail--1 {
+  left: 31px;
+  top: 23px;
+
+  width: 5px;
+  height: 5px;
+
+  background: var(--market-accent);
+}
+
+.part-pixel-object--cdi .part-pixel-detail--2 {
+  left: 41px;
+  top: 23px;
+
+  width: 14px;
+  height: 3px;
+
+  background: var(--market-soft);
+}
+
+.part-pixel-object--cdi .part-pixel-detail--3 {
+  left: 29px;
+  bottom: 13px;
+
+  width: 32px;
+  height: 4px;
+
+  background: var(--market-line-light);
+}
+
+
+/* WHEEL */
+
+.part-pixel-object--wheel .part-pixel-main {
+  left: 25px;
+  top: 9px;
+
+  width: 39px;
+  height: 39px;
+
+  border: 6px solid var(--market-soft);
+  border-radius: 50%;
+}
+
+.part-pixel-object--wheel .part-pixel-detail--1 {
+  left: 34px;
+  top: 18px;
+
+  width: 21px;
+  height: 21px;
+
+  border: 3px solid var(--market-line-light);
+  border-radius: 50%;
+}
+
+.part-pixel-object--wheel .part-pixel-detail--2 {
+  left: 44px;
+  top: 29px;
+
+  width: 3px;
+  height: 17px;
+
+  background: var(--market-accent);
+
+  transform: rotate(45deg);
+}
+
+.part-pixel-object--wheel .part-pixel-detail--3 {
+  left: 22px;
+  bottom: 8px;
+
+  width: 46px;
+  height: 3px;
+
+  background: var(--market-black);
+}
+
+
+/* CAM */
+
+.part-pixel-object--cam .part-pixel-main {
+  left: 19px;
+  top: 25px;
+
+  width: 51px;
+  height: 14px;
+
+  background: var(--market-soft);
+}
+
+.part-pixel-object--cam .part-pixel-detail--1 {
+  left: 26px;
+  top: 12px;
+
+  width: 9px;
+  height: 13px;
+
+  background: var(--market-soft);
+
+  transform: rotate(45deg);
+}
+
+.part-pixel-object--cam .part-pixel-detail--2 {
+  left: 43px;
+  top: 12px;
+
+  width: 9px;
+  height: 13px;
+
+  background: var(--market-soft);
+
+  transform: rotate(45deg);
+}
+
+.part-pixel-object--cam .part-pixel-detail--3 {
+  left: 35px;
+  top: 29px;
+
+  width: 9px;
+  height: 7px;
+
+  background: var(--market-accent);
+}
+
+
+/* FILTER */
+
+.part-pixel-object--filter .part-pixel-main {
+  left: 21px;
+  top: 18px;
+
+  width: 47px;
+  height: 31px;
+
+  border: 4px solid var(--market-soft);
+
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    82% 100%,
+    18% 100%
+  );
+
+  background: #272727;
+}
+
+.part-pixel-object--filter .part-pixel-detail--1 {
+  left: 29px;
+  top: 25px;
+
+  width: 6px;
+  height: 15px;
+
+  background: var(--market-line-light);
+}
+
+.part-pixel-object--filter .part-pixel-detail--2 {
+  left: 40px;
+  top: 25px;
+
+  width: 6px;
+  height: 15px;
+
+  background: var(--market-line-light);
+}
+
+.part-pixel-object--filter .part-pixel-detail--3 {
+  left: 51px;
+  top: 25px;
+
+  width: 6px;
+  height: 15px;
+
+  background: var(--market-accent);
+}
+
+
+/* SHOCK */
+
+.part-pixel-object--shock .part-pixel-main {
+  left: 29px;
+  top: 12px;
+
+  width: 10px;
+  height: 50px;
+
+  border: 3px solid var(--market-soft);
+  background: var(--market-accent);
+}
+
+.part-pixel-object--shock .part-pixel-detail--1 {
+  left: 45px;
+  top: 11px;
+
+  width: 17px;
+  height: 17px;
+
+  border: 3px solid var(--market-soft);
+  border-radius: 50%;
+}
+
+.part-pixel-object--shock .part-pixel-detail--2 {
+  left: 45px;
+  top: 33px;
+
+  width: 17px;
+  height: 17px;
+
+  border: 3px solid var(--market-line-light);
+  border-radius: 50%;
+}
+
+.part-pixel-object--shock .part-pixel-detail--3 {
+  left: 19px;
+  bottom: 7px;
+
+  width: 43px;
+  height: 5px;
+
+  background: var(--market-black);
+}
+
+.part-info {
+  padding: 13px;
+}
+
+.part-info-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  gap: 9px;
+}
+
+.part-category {
+  color: var(--market-dim);
+
+  font-family: var(--font-display);
+  font-size: .44rem;
+  font-weight: 900;
+
+  text-transform: uppercase;
+}
+
+.part-info h3 {
+  margin-top: 5px;
+
+  color: var(--market-white);
+
+  font-family: var(--font-display);
+  font-size: .88rem;
+  font-weight: 900;
+
+  line-height: 1;
+}
+
+.part-condition {
+  padding: 4px 5px;
+
+  color: var(--market-muted);
+
+  border: 1px solid var(--market-line);
+
+  font-family: var(--font-display);
+  font-size: .39rem;
+  font-weight: 900;
+}
+
+.part-info p {
+  margin-top: 7px;
+
+  color: var(--market-muted);
+
+  font-size: .61rem;
+}
+
+.part-bottom {
+  margin-top: auto;
+
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+
+  gap: 10px;
+
+  padding: 10px 13px;
+
+  border-top: 1px solid var(--market-line);
+}
+
+.part-price,
+.part-stock-box {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.part-bottom span {
+  color: var(--market-dim);
+
+  font-family: var(--font-display);
+  font-size: .4rem;
+  font-weight: 900;
+}
+
+.part-bottom strong {
+  color: var(--market-white);
+
+  font-family: var(--font-display);
+  font-size: .84rem;
+  font-weight: 900;
+}
+
+.part-stock-box {
+  text-align: right;
+}
+
+.part-stock-box strong {
+  color: var(--market-accent);
+}
+
+.part-button {
+  min-height: 35px;
+
+  display: grid;
+
+  grid-template-columns: 20px 1fr 15px;
+
+  align-items: center;
+
+  gap: 7px;
+
+  margin: 0 10px 10px;
+
+  padding: 0 9px;
+
+  border: 2px solid var(--market-line-light);
+
+  color: var(--market-white);
+
+  background: var(--market-panel-2);
+
+  font-family: var(--font-display);
+  font-size: .43rem;
+  font-weight: 900;
+
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.part-button:hover {
+  color: var(--market-accent);
+  border-color: var(--market-accent-dark);
+}
+
+
+/* =========================================================
+   SALVAGE
+   ========================================================= */
+
+.salvage {
+  display: grid;
+
+  grid-template-columns:
+    300px
+    minmax(0,1fr);
+
+  overflow: hidden;
+
+  background: var(--market-panel);
+
+  border: 3px solid var(--market-black);
+
+  box-shadow:
+    7px 7px 0 var(--market-black);
+}
+
+.salvage-visual {
+  min-height: 365px;
+
+  position: relative;
+
+  display: grid;
+  place-items: center;
+
+  overflow: hidden;
+
+  border-right: 2px solid var(--market-line);
+
+  background:
+    repeating-linear-gradient(
+      135deg,
+      #222222 0 9px,
+      #191919 9px 18px
+    );
+}
+
+.salvage-visual-grid {
+  position: absolute;
+  inset: 0;
+
+  opacity: .18;
+
+  background:
+    linear-gradient(
+      transparent 95%,
+      #fff 95%
+    ),
+    linear-gradient(
+      90deg,
+      transparent 95%,
+      #fff 95%
+    );
+
+  background-size: 20px 20px;
+}
+
+.salvage-code {
+  position: absolute;
+
+  top: 12px;
+  left: 12px;
+
+  color: rgba(241,241,235,.35);
+
+  font-family: var(--font-display);
+  font-size: .44rem;
+  font-weight: 900;
+}
+
+.salvage-motor {
+  position: relative;
+  z-index: 2;
+
+  opacity: .38;
+
+  transform:
+    rotate(-4deg)
+    scale(1.28);
+
+  image-rendering: pixelated;
+
+  filter:
+    grayscale(1)
+    drop-shadow(4px 4px 0 var(--market-black));
+}
+
+.salvage-stamp {
+  position: absolute;
+
+  top: 43px;
+  right: 20px;
+
+  padding: 5px 7px;
+
+  color: var(--market-white);
+
+  background: var(--market-danger);
+
+  border: 2px solid var(--market-black);
+
+  font-family: var(--font-display);
+  font-size: .45rem;
+  font-weight: 900;
+
+  transform: rotate(-4deg);
+
+  z-index: 4;
+}
+
+.salvage-icon-label {
+  position: absolute;
+
+  left: 13px;
+  bottom: 39px;
+
+  display: flex;
+  align-items: center;
+  gap: 7px;
+
+  z-index: 4;
+
+  color: rgba(241,241,235,.48);
+
+  font-family: var(--font-display);
+  font-size: .4rem;
+  font-weight: 900;
+
+  text-transform: uppercase;
+}
+
+.salvage-bottom {
+  position: absolute;
+
+  bottom: 12px;
+  left: 12px;
+
+  color: rgba(241,241,235,.32);
+
+  font-family: var(--font-display);
+  font-size: .44rem;
+  font-weight: 900;
+}
+
+.salvage-content {
+  min-width: 0;
+  padding: 22px;
+}
+
+.salvage-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  gap: 15px;
+
+  padding-bottom: 15px;
+
+  border-bottom: 1px solid var(--market-line);
+}
+
+.mini-label-icon--danger {
+  color: var(--market-danger);
+  border-color: rgba(198,90,81,.45);
+}
+
+.salvage-heading h2 {
+  margin-top: 6px;
+
+  color: var(--market-white);
+
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: 900;
+
+  line-height: .95;
+
+  text-transform: uppercase;
+}
+
+.salvage-type {
+  display: block;
+
+  margin-top: 5px;
+
+  color: var(--market-dim);
+
+  font-size: .53rem;
+
+  text-transform: uppercase;
+}
+
+.salvage-condition {
+  padding: 5px 7px;
+
+  color: var(--market-danger);
+
+  border: 1px solid rgba(198,90,81,.42);
+
+  font-family: var(--font-display);
+  font-size: .44rem;
+  font-weight: 900;
+
+  white-space: nowrap;
+}
+
+.salvage-description {
+  margin-top: 15px;
+
+  color: var(--market-muted);
+
+  font-size: var(--text-sm);
+
+  line-height: 1.6;
+}
+
+.salvage-warning {
+  margin-top: 15px;
+
+  display: grid;
+
+  grid-template-columns: 38px minmax(0,1fr);
+
+  align-items: center;
+
+  gap: 10px;
+
+  padding: 11px;
+
+  background: #151010;
+
+  border-left: 4px solid var(--market-danger);
+}
+
+.warning-icon {
+  width: 28px;
+  height: 28px;
+
+  display: grid;
+  place-items: center;
+
+  border: 2px solid var(--market-danger);
+
+  color: var(--market-danger);
+
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 900;
+}
+
+.salvage-warning strong {
+  display: block;
+
+  color: var(--market-danger);
+
+  font-family: var(--font-display);
+  font-size: .54rem;
+  font-weight: 900;
+
+  text-transform: uppercase;
+}
+
+.salvage-warning span {
+  display: block;
+
+  margin-top: 4px;
+
+  color: var(--market-muted);
+
+  font-size: .7rem;
+
+  line-height: 1.5;
+}
+
+.salvage-specs {
+  display: grid;
+
+  grid-template-columns:
+    repeat(5,minmax(0,1fr));
+
+  gap: 6px;
+
+  margin-top: 15px;
+}
+
+.salvage-specs > div {
+  padding: 9px;
+
+  background: var(--market-black-2);
+
+  border: 1px solid var(--market-line);
+}
+
+.salvage-specs span {
+  color: var(--market-dim);
+
+  font-family: var(--font-display);
+  font-size: .42rem;
+  font-weight: 900;
+}
+
+.salvage-specs strong {
+  display: block;
+
+  margin-top: 4px;
+
+  color: var(--market-white);
+
+  font-family: var(--font-display);
+  font-size: .8rem;
+  font-weight: 900;
+}
+
+.salvage-footer {
+  display: flex;
+
+  align-items: flex-end;
+  justify-content: space-between;
+
+  gap: 15px;
+
+  margin-top: 17px;
+  padding-top: 14px;
+
+  border-top: 1px solid var(--market-line);
+}
+
+.salvage-price {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.salvage-price span {
+  color: var(--market-dim);
+
+  font-family: var(--font-display);
+  font-size: .44rem;
+  font-weight: 900;
+}
+
+.salvage-price strong {
+  color: var(--market-white);
+
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 900;
+}
+
+
+/* =========================================================
+   MARKET NOTES
+   ========================================================= */
+
+.market-notes {
+  border-top: 2px solid var(--market-line);
+}
+
+.market-note {
+  min-height: 102px;
+
+  display: grid;
+
+  grid-template-columns:
+    42px
+    80px
+    minmax(0,1fr)
+    25px;
+
+  align-items: center;
+
+  gap: 13px;
+
+  padding: 12px 14px;
+
+  border-bottom: 2px solid var(--market-line);
+
+  background: var(--market-panel);
+}
+
+.market-note:nth-child(2) {
+  background: var(--market-panel-2);
+}
+
+.market-note:hover {
+  background: var(--market-panel-3);
+}
+
+.note-icon-shell {
+  width: 35px;
+  height: 35px;
+
+  display: grid;
+  place-items: center;
+
+  border: 1px solid var(--market-line-light);
+
+  color: var(--market-accent);
+
+  background: var(--market-black-2);
+}
+
+.note-label {
+  color: var(--market-dim);
+
+  font-family: var(--font-display);
+  font-size: .46rem;
+  font-weight: 900;
+}
+
+.note-content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.note-content h3 {
+  color: var(--market-white);
+
+  font-family: var(--font-display);
+  font-size: .9rem;
+  font-weight: 900;
+
+  line-height: 1;
+
+  text-transform: uppercase;
+}
+
+.note-content p {
+  max-width: 720px;
+
+  color: var(--market-muted);
+
+  font-size: .69rem;
+
+  line-height: 1.5;
+}
+
+.note-arrow {
+  color: var(--market-accent);
+
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 900;
+
+  text-align: right;
+}
+
+
+/* =========================================================
+   TRANSACTIONS
+   ========================================================= */
+
+.transactions {
+  overflow: hidden;
+
+  border-top: 2px solid var(--market-line);
+  border-left: 2px solid var(--market-line);
+
+  background: var(--market-panel);
+}
+
+.transaction-header,
+.transaction-row {
+  display: grid;
+
+  grid-template-columns:
+    60px
+    minmax(0,1fr)
+    110px
+    180px;
+
+  align-items: center;
+
+  gap: 12px;
+
+  padding: 0 13px;
+}
+
+.transaction-header {
+  min-height: 34px;
+
+  color: var(--market-dim);
+
+  font-family: var(--font-display);
+  font-size: .42rem;
+  font-weight: 900;
+
+  border-bottom: 2px solid var(--market-line);
+
+  background: var(--market-black-2);
+}
+
+.transaction-row {
+  min-height: 66px;
+
+  border-bottom: 1px solid var(--market-line);
+}
+
+.transaction-row:last-child {
+  border-bottom: 0;
+}
+
+.transaction-row:hover {
+  background: var(--market-panel-2);
+}
+
+.transaction-number {
+  color: var(--market-dim);
+
+  font-family: var(--font-display);
+  font-size: .5rem;
+  font-weight: 900;
+}
+
+.transaction-action {
+  min-width: 0;
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.transaction-icon-shell {
+  width: 28px;
+  height: 28px;
+
+  flex: 0 0 auto;
+
+  display: grid;
+  place-items: center;
+
+  border: 1px solid var(--market-line-light);
+
+  color: var(--market-soft);
+}
+
+.transaction-action-copy {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.transaction-action strong {
+  color: var(--market-white);
+
+  font-family: var(--font-display);
+  font-size: .63rem;
+  font-weight: 900;
+}
+
+.transaction-action span {
+  color: var(--market-muted);
+
+  font-size: .52rem;
+}
+
+.transaction-type {
+  color: var(--market-muted);
+
+  font-family: var(--font-display);
+  font-size: .48rem;
+  font-weight: 900;
+
+  text-transform: uppercase;
+}
+
+.transaction-value {
+  color: var(--market-white);
+
+  font-family: var(--font-display);
+  font-size: .5rem;
+  font-weight: 900;
+
+  text-transform: uppercase;
+
+  text-align: right;
+}
+
+.transaction-value--positive {
+  color: var(--market-accent);
+}
+
+
+/* =========================================================
+   MARKET RULE
+   ========================================================= */
+
+.market-rule {
+  display: grid;
+
+  grid-template-columns:
+    70px
+    minmax(0,1fr);
+
+  gap: 20px;
+
+  padding: 21px;
+
+  background: #171717;
+
+  border: 2px solid var(--market-line);
+
+  box-shadow:
+    6px 6px 0 var(--market-black);
+}
+
+.market-rule-symbol {
+  width: 62px;
+  height: 62px;
+
+  display: grid;
+  place-items: center;
+
+  background: var(--market-accent);
+
+  border: 3px solid var(--market-black);
+
+  box-shadow:
+    4px 4px 0 var(--market-black);
+
+  color: var(--market-black);
+}
+
+.market-rule-content h2 {
+  max-width: 760px;
+
+  margin-top: 5px;
+
+  color: var(--market-white);
+
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: 900;
+
+  line-height: .95;
+
+  text-transform: uppercase;
+}
+
+.market-rule-content p {
+  max-width: 800px;
+
+  margin-top: 9px;
+
+  color: var(--market-muted);
+
+  font-size: var(--text-sm);
+
+  line-height: 1.6;
+}
+
+
+/* =========================================================
+   PIXEL MOTOR
+   ========================================================= */
+
+.pixel-motor {
+  width: 190px;
+  height: 108px;
+
+  position: relative;
+
+  color: var(--market-white);
+}
+
+.pixel-motor span {
+  position: absolute;
+  display: block;
+}
+
+.pixel-motor__wheel {
+  width: 42px;
+  height: 42px;
+
+  bottom: 6px;
+
+  border: 6px solid var(--market-black);
+
+  background: transparent;
+
+  box-shadow:
+    inset 0 0 0 4px var(--market-soft);
+}
+
+.pixel-motor__wheel::after {
+  content: "";
+
+  position: absolute;
+
+  left: 12px;
+  top: 12px;
+
+  width: 6px;
+  height: 6px;
+
+  background: var(--market-black);
+}
+
+.pixel-motor__wheel--rear {
+  left: 17px;
+}
+
+.pixel-motor__wheel--front {
+  right: 17px;
+}
+
+.pixel-motor__body {
+  left: 41px;
+  top: 43px;
+
+  width: 93px;
+  height: 19px;
+
+  background: var(--market-accent);
+
+  clip-path: polygon(
+    0 30%,
+    18% 30%,
+    28% 0,
+    55% 0,
+    67% 30%,
+    100% 30%,
+    100% 100%,
+    0 100%
+  );
+}
+
+.pixel-motor__tank {
+  left: 73px;
+  top: 27px;
+
+  width: 38px;
+  height: 18px;
+
+  background: var(--market-white);
+
+  clip-path: polygon(
+    0 0,
+    76% 0,
+    100% 36%,
+    82% 100%,
+    18% 100%
+  );
+}
+
+.pixel-motor__seat {
+  left: 52px;
+  top: 24px;
+
+  width: 28px;
+  height: 9px;
+
+  background: var(--market-black);
+}
+
+.pixel-motor__frame {
+  left: 66px;
+  top: 44px;
+
+  width: 44px;
+  height: 33px;
+
+  border-left: 5px solid var(--market-black);
+  border-bottom: 5px solid var(--market-black);
+
+  transform: skew(-17deg);
+}
+
+.pixel-motor__engine {
+  left: 76px;
+  top: 49px;
+
+  width: 28px;
+  height: 22px;
+
+  background: var(--market-line-light);
+
+  border: 3px solid var(--market-black);
+}
+
+.pixel-motor__engine::after {
+  content: "";
+
+  position: absolute;
+
+  left: 6px;
+  top: 6px;
+
+  width: 10px;
+  height: 4px;
+
+  background: var(--market-soft);
+
+  box-shadow:
+    0 6px 0 var(--market-soft);
+}
+
+.pixel-motor__handle {
+  right: 23px;
+  top: 27px;
+
+  width: 26px;
+  height: 5px;
+
+  background: var(--market-black);
+
+  transform: rotate(-20deg);
+}
+
+.pixel-motor__handle::after {
+  content: "";
+
+  position: absolute;
+
+  right: 2px;
+  top: -6px;
+
+  width: 5px;
+  height: 14px;
+
+  background: var(--market-black);
+}
+
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+
+.market-footer {
+  padding: 10px 0 8px;
+
+  color: var(--cream-muted);
+
+  font-size: var(--text-xs);
+
+  text-transform: uppercase;
+}
+
+.market-footer .divider {
+  margin-bottom: 12px;
+}
+
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 1100px) {
+
+  .market-header-content {
+    grid-template-columns:
+      minmax(0,1fr)
+      200px;
+  }
+
+  .status-grid {
+    grid-template-columns:
+      repeat(2,1fr);
+  }
+
+  .market-tab-info [data-tab-panel] {
+    grid-template-columns:
+      90px
+      160px
+      minmax(0,1fr);
+  }
+
+  .featured-project {
+    grid-template-columns: 1fr;
+  }
+
+  .featured-visual {
+    min-height: 300px;
+
+    border-right: 0;
+    border-bottom: 2px solid var(--market-line);
+  }
+
+  .motor-market-grid {
+    grid-template-columns:
+      repeat(2,minmax(0,1fr));
+  }
+
+  .parts-grid {
+    grid-template-columns:
+      repeat(2,minmax(0,1fr));
+  }
+
+  .salvage {
+    grid-template-columns:
+      220px
+      minmax(0,1fr);
+  }
+
+  .salvage-specs {
+    grid-template-columns:
+      repeat(3,minmax(0,1fr));
+  }
+
+  .transaction-header,
+  .transaction-row {
+    grid-template-columns:
+      50px
+      minmax(0,1fr)
+      85px
+      140px;
+  }
+
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 760px) {
+
+  .market-section {
+    margin-top: 32px;
+  }
+
+  .market-header-bar {
+    grid-template-columns:
+      1fr
+      auto;
+  }
+
+  .header-center {
+    display: none;
+  }
+
+  .market-header-content {
+    grid-template-columns: 1fr;
+
+    min-height: 0;
+
+    padding: 23px 16px;
+  }
+
+  .market-title-area h1 {
+    font-size:
+      clamp(3.7rem,17vw,6rem);
+  }
+
+  .market-title-area p {
+    font-size: .76rem;
+  }
+
+  .market-header-footer {
+    grid-template-columns:
+      1fr
+      auto;
+  }
+
+  .market-header-footer span:nth-child(2) {
+    display: none;
+  }
+
+  .status-grid {
+    grid-template-columns:
+      repeat(2,1fr);
+  }
+
+  .market-tabs {
+    grid-template-columns:
+      repeat(2,1fr);
+  }
+
+  .market-tab-info {
+    min-height: 110px;
+  }
+
+  .market-tab-info [data-tab-panel] {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+
+  .market-tab-info p {
+    font-size: .65rem;
+  }
+
+  .featured-content {
+    padding: 17px;
+  }
+
+  .featured-heading {
+    flex-direction: column;
+  }
+
+  .featured-stat-grid {
+    grid-template-columns:
+      repeat(2,1fr);
+  }
+
+  .featured-finance {
+    align-items: flex-start;
+
+    flex-direction: column;
+  }
+
+  .build-score-box {
+    text-align: left;
+  }
+
+  .featured-actions {
+    flex-direction: column;
+  }
+
+  .motor-market-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .motor-card-art {
+    min-height: 225px;
+  }
+
+  .parts-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .salvage {
+    grid-template-columns: 1fr;
+  }
+
+  .salvage-visual {
+    min-height: 260px;
+
+    border-right: 0;
+    border-bottom: 2px solid var(--market-line);
+  }
+
+  .salvage-content {
+    padding: 17px;
+  }
+
+  .salvage-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .salvage-specs {
+    grid-template-columns:
+      repeat(2,1fr);
+  }
+
+  .salvage-footer {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .salvage-footer .btn {
+    width: 100%;
+  }
+
+  .market-note {
+    grid-template-columns:
+      35px
+      45px
+      minmax(0,1fr)
+      20px;
+
+    gap: 9px;
+  }
+
+  .transaction-header {
+    display: none;
+  }
+
+  .transaction-row {
+    grid-template-columns:
+      35px
+      minmax(0,1fr);
+
+    gap: 5px 10px;
+
+    padding: 11px 12px;
+  }
+
+  .transaction-type,
+  .transaction-value {
+    grid-column: 2;
+  }
+
+  .transaction-value {
+    text-align: left;
+  }
+
+  .market-rule {
+    grid-template-columns: 1fr;
+
+    gap: 15px;
+
+    padding: 17px;
+  }
+
+}
+
+
+/* =========================================================
+   SMALL PHONE
+   ========================================================= */
+
+@media (max-width: 420px) {
+
+  .market-header-bar,
+  .market-header-footer {
+    font-size: .4rem;
+  }
+
+  .market-header-content {
+    padding: 19px 12px;
+  }
+
+  .market-title-area h1 {
+    font-size:
+      clamp(3rem,18vw,4.7rem);
+  }
+
+  .status-card {
+    min-height: 110px;
+  }
+
+  .status-card-number {
+    font-size: 1.65rem;
+  }
+
+  .market-tabs {
+    grid-template-columns: 1fr;
+  }
+
+  .featured-visual {
+    min-height: 225px;
+  }
+
+  .featured-motor {
+    transform: scale(1.08);
+  }
+
+  .featured-stat-grid,
+  .salvage-specs {
+    grid-template-columns: 1fr;
+  }
+
+  .featured-heading h2 {
+    font-size: 1.7rem;
+  }
+
+  .motor-spec-grid {
+    grid-template-columns:
+      repeat(2,1fr);
+  }
+
+  .part-art {
+    min-height: 140px;
+  }
+
+  .market-note {
+    grid-template-columns:
+      35px
+      minmax(0,1fr)
+      18px;
+  }
+
+  .note-label {
+    grid-column: 2;
+  }
+
+  .note-content {
+    grid-column:
+      1 / -1;
+    padding-left: 44px;
+    margin-top: -3px;
+  }
+
+  .note-arrow {
+    grid-column: 3;
+    grid-row: 1;
+  }
+
+  .market-rule-symbol {
+    width: 58px;
+    height: 58px;
+  }
+
+}
+
+</style>

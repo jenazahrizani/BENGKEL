@@ -1,0 +1,125 @@
+---
+interface Props {
+  title?: string;
+  eyebrow?: string;
+  description?: string;
+  href?: string;
+  class?: string;
+  interactive?: boolean;
+}
+
+const {
+  title,
+  eyebrow,
+  description,
+  href,
+  class: className = "",
+  interactive = false,
+} = Astro.props;
+
+const classes = [
+  "card",
+  interactive && "card--interactive",
+  className,
+]
+  .filter(Boolean)
+  .join(" ");
+---
+
+{
+  href ? (
+    <a
+      href={href}
+      class={classes}
+      aria-label={title}
+    >
+      {eyebrow && (
+        <div class="eyebrow">
+          {eyebrow}
+        </div>
+      )}
+
+      {title && (
+        <h3 class="card-title">
+          {title}
+        </h3>
+      )}
+
+      {description && (
+        <p class="card-description">
+          {description}
+        </p>
+      )}
+
+      <slot />
+    </a>
+  ) : (
+    <article
+      class={classes}
+    >
+      {eyebrow && (
+        <div class="eyebrow">
+          {eyebrow}
+        </div>
+      )}
+
+      {title && (
+        <h3 class="card-title">
+          {title}
+        </h3>
+      )}
+
+      {description && (
+        <p class="card-description">
+          {description}
+        </p>
+      )}
+
+      <slot />
+    </article>
+  )
+}
+
+<style>
+  .card {
+    display: block;
+    padding: 16px;
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .card--interactive {
+    cursor: pointer;
+  }
+
+  .card-title {
+    margin-top: 6px;
+    color: var(--cream);
+    font-family: var(--font-display);
+    font-size: var(--text-lg);
+    font-weight: 900;
+    line-height: 1.1;
+    text-transform: uppercase;
+  }
+
+  .card-description {
+    margin-top: 8px;
+    color: var(--cream-muted);
+    font-size: var(--text-sm);
+    line-height: 1.5;
+  }
+
+  .card > :global(.eyebrow) + .card-title {
+    margin-top: 5px;
+  }
+
+  .card > :global(.eyebrow):first-child {
+    margin-bottom: 0;
+  }
+
+  @media (max-width: 760px) {
+    .card {
+      padding: 14px;
+    }
+  }
+</style>

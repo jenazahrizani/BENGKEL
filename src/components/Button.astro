@@ -1,0 +1,103 @@
+---
+interface Props {
+  href?: string;
+  type?: "button" | "submit" | "reset";
+  variant?: "primary" | "secondary" | "danger" | "ghost";
+  size?: "small" | "medium" | "large";
+  disabled?: boolean;
+  fullWidth?: boolean;
+  ariaLabel?: string;
+}
+
+const {
+  href,
+  type = "button",
+  variant = "secondary",
+  size = "medium",
+  disabled = false,
+  fullWidth = false,
+  ariaLabel,
+} = Astro.props;
+
+const classes = [
+  "btn",
+  variant === "primary" && "btn-primary",
+  variant === "danger" && "btn-danger",
+  variant === "ghost" && "btn-ghost",
+  size === "small" && "btn-small",
+  size === "large" && "btn-large",
+  fullWidth && "btn-full",
+]
+  .filter(Boolean)
+  .join(" ");
+---
+
+{
+  href ? (
+    <a
+      href={disabled ? undefined : href}
+      class={classes}
+      aria-label={ariaLabel}
+      aria-disabled={disabled ? "true" : undefined}
+      tabindex={disabled ? -1 : undefined}
+    >
+      <span class="btn-content">
+        <slot />
+      </span>
+    </a>
+  ) : (
+    <button
+      type={type}
+      class={classes}
+      disabled={disabled}
+      aria-label={ariaLabel}
+    >
+      <span class="btn-content">
+        <slot />
+      </span>
+    </button>
+  )
+}
+
+<style>
+  .btn {
+    text-decoration: none;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  .btn-content {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    min-width: 0;
+  }
+
+  .btn-full {
+    width: 100%;
+  }
+
+  .btn:disabled,
+  .btn[aria-disabled="true"] {
+    cursor: not-allowed;
+    pointer-events: none;
+    opacity: 0.45;
+    filter: grayscale(1);
+  }
+
+  .btn:focus-visible {
+    outline: 2px solid var(--lime);
+    outline-offset: 3px;
+  }
+
+  @media (max-width: 760px) {
+    .btn {
+      min-height: 40px;
+    }
+
+    .btn-large {
+      min-height: 46px;
+    }
+  }
+</style>

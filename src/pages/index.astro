@@ -1,0 +1,245 @@
+﻿---
+import Layout from "../components/Layout.astro";
+import "../styles/global.css";
+import MotorCard from "../components/MotorCard.astro";
+import Button from "../components/Button.astro";
+import Card from "../components/Card.astro";
+import OrderCard from "../components/OrderCard.astro";
+import Navigation from "../components/Navigation.astro";
+---
+
+<Layout
+  title="BENGKEL MALAM"
+  description="Racik. Jual. Balap."
+>
+<div class="game-shell">
+<div class="game-layout">
+      <Navigation active="garage" />
+
+      <main class="main">
+        <div class="main-inner">
+
+          <section class="hero">
+            <div class="hero-copy">
+              <p class="eyebrow">BENGKEL MALAM</p>
+
+              <h1>
+                RACIK.<br />
+                JUAL.<br />
+                <span class="lime">BALAP.</span>
+              </h1>
+
+              <p class="hero-description">
+                Bengkel kecil. Motor seadanya.
+                Mulai dari bawah, bangun nama,
+                lalu taklukkan jalanan malam.
+              </p>
+
+              <div class="hero-actions">
+                <Button href="/motor" variant="primary">
+                  Lihat Motor
+                </Button>
+
+                <Button href="/workshop" variant="secondary">
+                  Masuk Bengkel
+                </Button>
+              </div>
+            </div>
+
+            <div class="hero-visual">
+              <div class="garage-floor">
+
+                <div class="motor-visual">
+                  <div class="pixel-motor">
+                    <div class="motor-wheel motor-wheel-front"></div>
+                    <div class="motor-wheel motor-wheel-rear"></div>
+                    <div class="motor-frame"></div>
+                    <div class="motor-engine"></div>
+                    <div class="motor-seat"></div>
+                    <div class="motor-tank"></div>
+                    <div class="motor-handle"></div>
+                    <div class="motor-exhaust"></div>
+                  </div>
+                </div>
+
+                <div class="garage-sign">
+                  <span>BENGKEL</span>
+                  <strong>MALAM</strong>
+                </div>
+              </div>
+            </div>
+          </section>
+
+
+          <section class="section">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">GARAGE STATUS</p>
+                <h2>GARASI</h2>
+              </div>
+
+              <span class="badge badge-lime">
+                LEVEL 1
+              </span>
+            </div>
+
+            <div class="stat-grid stat-grid-4">
+
+              <div class="stat">
+                <span class="stat-label">UANG</span>
+                <strong class="stat-value">Rp 12,85 JT</strong>
+              </div>
+
+              <div class="stat">
+                <span class="stat-label">REPUTASI</span>
+                <strong class="stat-value">42</strong>
+              </div>
+
+              <div class="stat">
+                <span class="stat-label">MOTOR</span>
+                <strong class="stat-value">2 / 2</strong>
+              </div>
+
+              <div class="stat">
+                <span class="stat-label">ORDER</span>
+                <strong class="stat-value">1 / 1</strong>
+              </div>
+
+            </div>
+          </section>
+
+
+          <section class="section">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">YOUR MOTORCYCLES</p>
+                <h2>MOTOR</h2>
+              </div>
+
+              <Button href="/motor" variant="ghost" size="small">
+                Semua Motor
+              </Button>
+            </div>
+
+            <div class="grid-2">
+
+              {
+                motors.map((motor) => (
+                  <MotorCard motor={motor} />
+                ))
+              }
+
+            </div>
+          </section>
+
+
+          <section class="section">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">ACTIVE CUSTOMER</p>
+                <h2>ORDER MASUK</h2>
+              </div>
+
+              <span class="badge badge-red">
+                1 AKTIF
+              </span>
+            </div>
+
+            <OrderCard order={activeOrder} />
+
+          </section>
+
+
+          <section class="section">
+
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">START HERE</p>
+                <h2>PILIH AKTIVITAS</h2>
+              </div>
+            </div>
+
+            <div class="grid-3">
+
+              <Card
+                title="BENGKEL"
+                eyebrow="WORKSHOP"
+                href="/workshop"
+                interactive
+              >
+                <p>
+                  Bongkar, perbaiki, pasang part,
+                  dan tingkatkan performa motor.
+                </p>
+              </Card>
+
+              <Card
+                title="PASAR"
+                eyebrow="MARKET"
+                href="/market"
+                interactive
+              >
+                <p>
+                  Cari motor bekas, part,
+                  atau bahan salvage.
+                </p>
+              </Card>
+
+              <Card
+                title="BALAP"
+                eyebrow="RACE"
+                href="/race"
+                interactive
+              >
+                <p>
+                  Siapkan motor dan jockey,
+                  lalu turun ke lintasan.
+                </p>
+              </Card>
+
+            </div>
+
+          </section>
+
+
+          <section class="section">
+
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow">NIGHT RUN</p>
+                <h2>SIAP TURUN?</h2>
+              </div>
+            </div>
+
+            <div class="panel panel-lime">
+
+              <div class="panel-content">
+
+                <p>
+                  Motor sudah siap.
+                  Bengkel sudah panas.
+                  Tinggal pilih jalan.
+                </p>
+
+                <div class="row gap-md">
+                  <Button href="/race" variant="primary">
+                    Cari Balapan
+                  </Button>
+
+                  <Button href="/team" variant="secondary">
+                    Kelola Team
+                  </Button>
+                </div>
+
+              </div>
+
+            </div>
+
+          </section>
+
+        </div>
+      </main>
+    </div>
+  </div>
+</Layout>
+

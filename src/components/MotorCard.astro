@@ -1,0 +1,286 @@
+﻿---
+interface MotorStats {
+  power?: number;
+  acceleration?: number;
+  grip?: number;
+  reliability?: number;
+}
+
+interface Motor {
+  name: string;
+  brand?: string;
+  type?: string;
+  condition?: "EXCELLENT" | "GOOD" | "WORN" | "POOR" | "BROKEN";
+  stats?: MotorStats;
+  value?: string | number;
+  buildScore?: number;
+  build?: string;
+  status?: string;
+}
+
+interface Props {
+  motor: Motor;
+  actionHref?: string;
+  actionLabel?: string;
+}
+
+const { motor, actionHref, actionLabel = "OPEN MOTOR" } = Astro.props;
+
+const conditionClass =
+  motor.condition?.toLowerCase() || "unknown";
+
+const formatValue = (value?: string | number) => {
+  if (value === undefined || value === null) return "-";
+  if (typeof value === "string") return value;
+
+  return new Intl.NumberFormat("id-ID").format(value);
+};
+---
+
+<article class="motor-card">
+
+  <div class="motor-card-top">
+
+    <div class="motor-visual" aria-hidden="true">
+
+      <div class="garage-light"></div>
+
+      <div class="pixel-motor">
+
+        <div class="motor-wheel motor-wheel-rear"></div>
+
+        <div class="motor-wheel motor-wheel-front"></div>
+
+        <div class="motor-frame"></div>
+
+        <div class="motor-engine"></div>
+
+        <div class="motor-seat"></div>
+
+        <div class="motor-tank"></div>
+
+        <div class="motor-handle"></div>
+
+        <div class="motor-exhaust"></div>
+
+      </div>
+
+    </div>
+
+
+    <div class="motor-card-info">
+
+      <div class="motor-card-meta">
+
+        {motor.brand && (
+          <span class="eyebrow">
+            {motor.brand}
+          </span>
+        )}
+
+        {motor.type && (
+          <span class="badge">
+            {motor.type}
+          </span>
+        )}
+
+      </div>
+
+
+      <h3 class="motor-card-title">
+        {motor.name}
+      </h3>
+
+
+      {motor.condition && (
+        <div class:list={["motor-condition", conditionClass]}>
+          {motor.condition}
+        </div>
+      )}
+
+    </div>
+
+  </div>
+
+
+  <div class="motor-card-stats">
+
+    <div class="motor-stat">
+      <span>POWER</span>
+      <strong>{motor.stats?.power ?? "-"}</strong>
+    </div>
+
+    <div class="motor-stat">
+      <span>ACCEL</span>
+      <strong>{motor.stats?.acceleration ?? "-"}</strong>
+    </div>
+
+    <div class="motor-stat">
+      <span>GRIP</span>
+      <strong>{motor.stats?.grip ?? "-"}</strong>
+    </div>
+
+    <div class="motor-stat">
+      <span>RELIABILITY</span>
+      <strong>{motor.stats?.reliability ?? "-"}</strong>
+    </div>
+
+  </div>
+
+
+  <div class="motor-card-bottom">
+
+    <div>
+
+      <span class="motor-price-label">
+        VALUE
+      </span>
+
+      <strong class="motor-price">
+        Rp {formatValue(motor.value)}
+      </strong>
+
+    </div>
+
+
+    {motor.buildScore !== undefined && (
+      <div class="motor-build">
+
+        <span class="motor-price-label">
+          BUILD
+        </span>
+
+        <strong>
+          {motor.buildScore}
+        </strong>
+
+      </div>
+    )}
+  {actionHref && (
+    <div class="motor-card-action">
+      <a
+        href={actionHref}
+        class="btn btn-primary"
+      >
+        {actionLabel}
+      </a>
+    </div>
+  )}
+
+</div>
+</article>
+
+<style>
+  .motor-card-root {
+    width: 100%;
+  }
+
+  .motor-card {
+    position: relative;
+    width: 100%;
+  }
+
+  .motor-card-top {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 1rem;
+    align-items: stretch;
+  }
+
+  .motor-visual {
+    position: relative;
+    min-height: 150px;
+    overflow: hidden;
+  }
+
+  .garage-light {
+    position: absolute;
+    inset: 0;
+  }
+
+  .motor-card-info {
+    min-width: 0;
+  }
+
+  .motor-card-meta {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.5rem;
+  }
+
+  .motor-card-title {
+    margin: 0;
+  }
+
+  .motor-condition {
+    display: inline-block;
+    margin-top: 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+  }
+
+  .motor-card-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+
+  .motor-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  .motor-stat span,
+  .motor-price-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+  }
+
+  .motor-stat strong {
+    font-size: 1.05rem;
+  }
+
+  .motor-card-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .motor-price {
+    display: block;
+    margin-top: 0.15rem;
+  }
+
+  .motor-build {
+    text-align: right;
+  }
+
+  @media (max-width: 700px) {
+    .motor-card-top {
+      grid-template-columns: 1fr;
+    }
+
+    .motor-visual {
+      min-height: 120px;
+    }
+
+    .motor-card-stats {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  .motor-card-action {
+    margin-top: 1rem;
+  }
+
+  .motor-card-action .btn {
+    width: 100%;
+  }
+
+</style>
+
