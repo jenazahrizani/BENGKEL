@@ -1,140 +1,289 @@
 # BENGKEL MALAM
 
-## *Racik. Jual. Balap.*
+## RACIK. JUAL. BALAP.
 
-**Genre:** Garage Management / Vehicle Trading / Restoration / Drag Racing
-**Format:** Web-based game
-**Technology target:** Astro
-**Visual:** Full pixel-art UI dan game presentation melalui coded UI, SVG, CSS pixel-art, dan sprite asset terkontrol
-**Mode utama:** Single-player persistent career dengan AI rivals
-**Multiplayer masa depan:** Async leaderboard / challenge, bukan realtime sebagai fondasi awal
-**Setting:** Dunia otomotif Indonesia fiktif
-**Core fantasy:** Membangun bengkel kecil menjadi garasi terkenal melalui service, restorasi, jual-beli motor, build, customer work, joki, balap liaran, dan kompetisi resmi.
+### Master Game Design Document
+
+### Local-First Single-Player Foundation
 
 ---
 
-# 0. VISI ABSOLUT
+# 00. MASTER VISION
 
-BENGKEL MALAM bukan game tentang menjadi pembalap tercepat.
+**BENGKEL MALAM** adalah game management otomotif berbasis web dengan pixel-art penuh, bertema kultur bengkel dan drag Indonesia fiktif.
 
-BENGKEL MALAM juga bukan game simulator mekanik realistis.
+Pemain memulai dari sebuah bengkel kecil.
 
-BENGKEL MALAM adalah game tentang:
-
-> **membangun sebuah bengkel, membangun motor, dan membangun nama.**
-
-Pemain harus merasa bahwa:
+Pemain:
 
 ```text
-Motor yang saya beli
-        ↓
-Motor yang saya perbaiki
-        ↓
-Motor yang saya bangun
-        ↓
-Motor yang saya balapkan
-        ↓
-Motor yang saya jual
+mencari motor
+↓
+membeli motor
+↓
+memeriksa kondisi
+↓
+memperbaiki
+↓
+membongkar
+↓
+memasang part
+↓
+membangun motor
+↓
+menggunakan / menjual motor
+↓
+mengelola customer
+↓
+merekrut joki
+↓
+mengikuti balap
+↓
+mendapat uang dan reputasi
+↓
+mengembangkan bengkel
 ```
 
-adalah bagian dari keputusan bisnis yang sama.
+Game memiliki dua jalur racing:
+
+```text
+LIAR
+RESMI
+```
+
+Tetapi **racing bukan satu-satunya tujuan**.
+
+Pemain dapat menjadi:
+
+```text
+dealer
+builder
+mekanik
+business owner
+race team
+project hunter
+hybrid
+```
+
+Semua itu terjadi dalam satu ekosistem bengkel.
 
 ---
 
-# 1. FINAL PLAYER FANTASY
+# 01. CORE PLAYER FANTASY
 
-Pemain memulai sebagai orang biasa dengan bengkel kecil.
+Pemain harus merasa:
 
-Tidak punya:
+> **“Ini bengkel saya.”**
+
+Bukan:
+
+> “Ini karakter level 53 saya.”
+
+Pemain juga harus merasa:
+
+> **“Motor ini saya bangun.”**
+
+Bukan:
+
+> “Item ini mempunyai +15 stat.”
+
+Dan:
+
+> **“Joki ini saya pilih untuk motor ini.”**
+
+Bukan:
+
+> “NPC #12 mempunyai 87 speed.”
+
+Game harus mengubah angka menjadi sesuatu yang terasa mempunyai identitas.
+
+---
+
+# 02. FINAL DESIGN SENTENCE
+
+> **Beli motor murah. Hidupkan kembali. Tentukan tujuan build-nya. Pilih siapa yang membawanya. Jual kalau menguntungkan, atau bawa ke lintasan untuk membuktikannya. Gunakan hasilnya untuk membangun bengkel yang lebih besar.**
+
+Ini adalah kalimat yang menjadi filter untuk semua fitur.
+
+---
+
+# 03. TARGET EXPERIENCE
+
+BENGKEL MALAM harus bisa dimainkan dalam:
 
 ```text
-team besar
-uang besar
-motor bagus
-joki terkenal
-sponsor besar
+5 menit
+15 menit
+30 menit
+1 jam
+berjam-jam
 ```
 
-Yang dimiliki hanya:
+Tanpa mengubah core system.
+
+Pemain bebas berhenti kapan saja.
+
+Saat kembali, selalu ada peluang baru:
 
 ```text
-garasi
-beberapa tools
-satu motor
-sedikit uang
-```
-
-Lalu pemain mulai membangun:
-
-```text
-bengkel
-↓
-motor
-↓
+project
 customer
-↓
+race
+market
+build
 joki
-↓
-reputasi
-↓
-race results
-↓
-profit
-↓
-garage
+challenge
 ```
 
-Target akhir bukan “finish game”.
-
-Target akhirnya adalah:
-
-> **memiliki bengkel yang punya identitas.**
-
 ---
 
-# 2. CORE SENTENCE
+# 04. FUNDAMENTAL DESIGN LAWS
 
-Seluruh game harus selalu dapat dikembalikan ke kalimat ini:
+## Law 01 — No Energy
 
-> **Beli motor murah. Hidupkan. Racik. Tentukan tujuannya. Jual atau bawa ke lintasan. Gunakan hasilnya untuk membangun bengkel yang lebih besar.**
+Tidak ada Energy.
 
-Kalau suatu fitur tidak membantu kalimat tersebut, fitur harus dipertanyakan kembali.
+## Law 02 — No Nerve
 
----
+Tidak ada Nerve.
 
-# 3. GAME LOOP UTAMA
+## Law 03 — No Universal Stamina
+
+Tidak ada resource yang membatasi seluruh aktivitas.
+
+## Law 04 — No Gameplay Waiting
+
+Tidak ada:
 
 ```text
-DISCOVER
-   ↓
-BUY
-   ↓
-INSPECT
-   ↓
-REPAIR
-   ↓
-BUILD
-   ↓
-TEST
-   ↓
-USE / RACE / SELL
-   ↓
-EARN
-   ↓
-REINVEST
-   ↓
-GROW GARAGE
-   ↓
-BETTER OPPORTUNITIES
-   ↓
-DISCOVER
+repair 2 hours
+training 4 hours
+build 6 hours
+```
+
+## Law 05 — Choice Over Waiting
+
+Batas permainan berasal dari:
+
+```text
+money
+capacity
+condition
+class
+opportunity
+```
+
+## Law 06 — Every Object Has Multiple Uses
+
+Motor bukan hanya untuk race.
+
+Joki bukan hanya untuk race.
+
+Uang bukan hanya untuk upgrade.
+
+## Law 07 — Veteran Players Need Different Goals
+
+Early:
+
+```text
+money
+```
+
+Mid:
+
+```text
+garage growth
+```
+
+Late:
+
+```text
+competition
+```
+
+Endgame:
+
+```text
+mastery
+collection
+records
+legacy
 ```
 
 ---
 
-# 4. EMPAT PILAR GAME
+# 05. LOCAL-FIRST FOUNDATION
 
-Semua sistem hanya berada di salah satu dari empat domain besar:
+Versi pertama BENGKEL MALAM adalah:
+
+```text
+LOCAL / SINGLE PLAYER
+```
+
+Seluruh sistem dapat dimainkan tanpa:
+
+```text
+PvP
+WebSocket
+Realtime Server
+Player Marketplace
+Online Leaderboard
+```
+
+Database lokal/persistent digunakan untuk save state.
+
+Semua gameplay rule tetap dirancang agar kelak dapat dipindahkan ke server tanpa membuang desain.
+
+---
+
+# 06. WHY LOCAL FIRST
+
+Local-first memberikan:
+
+```text
+development lebih sederhana
+debug lebih mudah
+balancing lebih mudah
+tidak bergantung server
+tidak perlu anti-cheat kompleks
+tidak membutuhkan realtime infrastructure
+```
+
+Fokus awal:
+
+> **buat gamenya benar-benar menyenangkan terlebih dahulu.**
+
+---
+
+# 07. FUTURE ONLINE LAYER
+
+Setelah core game terbukti:
+
+```text
+LOCAL GAME
+      ↓
+ONLINE PROFILE
+      ↓
+LEADERBOARD
+      ↓
+ASYNC RACE
+      ↓
+PLAYER MARKET
+      ↓
+GARAGE SHOWCASE
+      ↓
+PVP
+```
+
+Online adalah extension.
+
+Bukan fondasi.
+
+---
+
+# 08. FOUR CORE PILLARS
+
+Semua game berada di bawah:
 
 ```text
 BENGKEL
@@ -143,654 +292,297 @@ BISNIS
 BALAP
 ```
 
-Joki dan customer bukan sistem dunia yang berdiri sendiri.
-
-Mereka adalah bagian dari:
-
-```text
-BISNIS
-+
-BALAP
-```
-
 ---
 
-# 5. BENGKEL
+# 09. PILLAR 1 — BENGKEL
 
 Bengkel adalah:
 
-* home
-* inventory hub
-* workshop
-* business center
-* team center
-* identity
+```text
+home
+workshop
+inventory hub
+business center
+team center
+progression hub
+```
 
-Semua aktivitas utama kembali ke bengkel.
+Semua kembali ke sini.
 
 ---
 
-# 6. MOTOR
+# 10. PILLAR 2 — MOTOR
 
-Motor adalah objek paling penting.
+Motor adalah objek utama.
 
 Motor dapat:
 
 ```text
 dibeli
+dijual
 diperiksa
 diperbaiki
 dibongkar
-dirakit
-dimodifikasi
+dipasang
+dibangun
 dituning
 dipakai race
-dijual
 dikoleksi
+dipensiunkan
 ```
-
-Satu motor dapat menjadi pusat puluhan keputusan tanpa membutuhkan puluhan sistem.
 
 ---
 
-# 7. BISNIS
+# 11. PILLAR 3 — BISNIS
 
-Bengkel menghasilkan uang melalui:
+Bengkel menghasilkan income melalui:
 
 ```text
-Service
-Repair
-Customer Build
-Motor Sale
-Project Flip
-Race
-Sponsor
+service
+repair
+customer build
+motor sale
+project flip
+race
+sponsor
 ```
-
-Tidak boleh ada ketergantungan pada satu income source.
 
 ---
 
-# 8. BALAP
+# 12. PILLAR 4 — BALAP
 
-Balap adalah payoff.
-
-Setelah:
+Balap adalah:
 
 ```text
-pilih motor
-+
-build
-+
-joki
-+
-setup
-```
-
-pemain mendapatkan kesempatan untuk benar-benar memainkan hasil keputusannya melalui minigame.
-
----
-
-# 9. DUA MODE BALAP
-
-Game mempunyai dua mode utama:
-
-# LIAR
-
-dan
-
-# RESMI
-
----
-
-# 10. LIAR
-
-Mode liar adalah event race fiktif yang bersifat:
-
-```text
-cepat
-spontan
-high-stakes
-flexible
-```
-
-Secara gameplay tidak perlu mensimulasikan polisi, kejar-kejaran, ataupun detail pelanggaran dunia nyata.
-
-Fokusnya adalah:
-
-```text
-event
-stake
-motor
-joki
-timing
-result
+skill expression
+build validation
+reputation
+competition
 reward
 ```
 
-Contoh:
+---
+
+# 13. THE GOLDEN LOOP
 
 ```text
-NIGHT SPRINT
-Stake: Rp 500K
-Prize: Rp 2.5M
+MARKET
+↓
+MOTOR
+↓
+REPAIR
+↓
+BUILD
+↓
+TEST
+↓
+RACE / SELL
+↓
+MONEY
+↓
+GARAGE
+↓
+BETTER ACCESS
+↓
+MARKET
 ```
 
 ---
 
-# 11. KARAKTER MODE LIAR
-
-Liar:
+# 14. SECONDARY LOOP
 
 ```text
-No long season
-Flexible class
-Quick matches
-Higher variance
-Short session
+CUSTOMER
+↓
+ORDER
+↓
+BUILD
+↓
+DELIVER
+↓
+PAY
+↓
+REPUTATION
+↓
+BETTER CUSTOMER
 ```
-
-Digunakan sebagai:
-
-> **quick money + quick test + quick action.**
 
 ---
 
-# 12. RESMI
-
-Mode resmi merupakan competitive progression.
-
-Struktur:
+# 15. TEAM LOOP
 
 ```text
-CLASS
+SCOUT
+↓
+SIGN JOKI
+↓
+ASSIGN MOTOR
 ↓
 RACE
 ↓
-POINTS
+EXPERIENCE
 ↓
-CHAMPIONSHIP
+BETTER JOKI
+```
+
+---
+
+# 16. CAREER LOOP
+
+```text
+GARAGE LEVEL
 ↓
-SEASON RESULT
-```
-
-Mode resmi menjadi:
-
-> **long-term goal.**
-
----
-
-# 13. OFFICIAL CLASS
-
-Awal:
-
-```text
-STREET
-PRO
-OPEN
-```
-
-Jangan menambah sepuluh kelas sebelum tiga kelas tersebut terasa berbeda.
-
----
-
-# 14. CLASS SYSTEM
-
-Motor mempunyai:
-
-```text
-Build Score
-```
-
-Kelas dibaca dari Build Score.
-
-Contoh baseline:
-
-```text
-STREET
-0–69
-
-PRO
-70–89
-
-OPEN
-90+
-```
-
-Angka tersebut merupakan balancing parameter, bukan hukum permanen.
-
----
-
-# 15. CLASS TRADE-OFF
-
-Pemain mungkin mempunyai motor:
-
-```text
-Build Score 69
-```
-
-Motor masih dapat ikut:
-
-```text
-STREET
-```
-
-Jika pemain menaikkan score menjadi:
-
-```text
-72
-```
-
-motor sekarang masuk:
-
-```text
-PRO
-```
-
-Pemain harus bertanya:
-
-> “Apakah upgrade ini benar-benar menguntungkan?”
-
-Ini menciptakan keputusan sederhana tetapi dalam.
-
----
-
-# 16. GARAGE ASSET
-
-Garage mempunyai:
-
-```text
-Level
-Motor Capacity
-Order Capacity
-Mechanic Capacity
-Driver Capacity
-```
-
-Tidak perlu building-management simulator kompleks.
-
----
-
-# 17. GARAGE LEVEL
-
-## Level 1 — Garasi Kecil
-
-```text
-2 Motor
-1 Mechanic
-1 Joki
-1 Order
-```
-
-## Level 2 — Bengkel
-
-```text
-4 Motor
-2 Mechanic
-2 Joki
-2 Order
-```
-
-## Level 3 — Performance Shop
-
-```text
-6 Motor
-3 Mechanic
-3 Joki
-3 Order
-```
-
-## Level 4 — Racing Workshop
-
-```text
-8 Motor
-4 Mechanic
-4 Joki
-4 Order
-```
-
-## Level 5 — Elite Garage
-
-```text
-10 Motor
-5 Mechanic
-6 Joki
-6 Order
+MORE CAPACITY
+↓
+MORE OPPORTUNITIES
+↓
+MORE MONEY
+↓
+MORE REPUTATION
+↓
+BETTER GARAGE
 ```
 
 ---
 
-# 18. GARAGE UPGRADES
+# 17. MOTOR SYSTEM
 
-Upgrade utama:
+Setiap motor adalah persistent entity.
 
-```text
-Workspace
-Tools
-Motor Storage
-Order Capacity
-Staff Capacity
-Display
-```
-
-Semua ada dalam satu sistem upgrade.
-
----
-
-# 19. NO WAITING
-
-Upgrade:
-
-> dibeli → langsung aktif.
-
-Repair:
-
-> dilakukan → langsung selesai.
-
-Build:
-
-> dilakukan → langsung selesai.
-
-Customer:
-
-> dikerjakan → langsung selesai.
-
-Tidak ada:
+Motor memiliki:
 
 ```text
-Wait 4 hours
-Wait 8 hours
-Energy refill
-Repair timer
+ID
+MODEL
+NAME
+CONDITION
+BUILD SCORE
+MARKET VALUE
+PARTS
+RACE HISTORY
+SALE HISTORY
 ```
 
 ---
 
-# 20. GAME LIMITERS
+# 18. MOTOR CONDITION
 
-Karena tidak ada energy dan cooldown, game menggunakan limiter alami:
+Gunakan status sederhana:
 
 ```text
-Money
-Capacity
-Condition
-Class
-Choices
+EXCELLENT
+GOOD
+WORN
+POOR
+BROKEN
 ```
 
-Inilah yang membatasi progression.
+Internal system boleh menggunakan numerical condition.
+
+Player-facing presentation menggunakan status yang mudah dibaca.
 
 ---
 
-# 21. MOTOR MODEL
+# 19. MOTOR SOURCES
 
-Motor memiliki base identity.
-
-Contoh fiktif:
-
-```text
-NUSA 125
-JATRA 135
-GARUDA 150
-MERAPI 155
-ARUNA 180
-```
-
-Semua model fiktif agar game tidak tergantung lisensi.
-
----
-
-# 22. MOTOR BASE STATS
-
-Cukup empat:
-
-```text
-POWER
-ACCELERATION
-GRIP
-RELIABILITY
-```
-
-Tidak perlu dua puluh statistik.
-
----
-
-# 23. MOTOR BASE IDENTITY
-
-Contoh:
-
-### NUSA 125
-
-```text
-Cheap
-Balanced
-Reliable
-```
-
-### JATRA 135
-
-```text
-Acceleration
-Lightweight
-Good Street Base
-```
-
-### GARUDA 150
-
-```text
-Power
-High Upgrade Potential
-Lower Base Reliability
-```
-
----
-
-# 24. MOTOR CONDITION
-
-Kondisi motor:
-
-```text
-Excellent
-Good
-Worn
-Poor
-Broken
-```
-
-Gunakan status diskrit sebagai tampilan utama.
-
-Angka internal tetap boleh ada jika diperlukan balancing.
-
----
-
-# 25. MOTOR SOURCES
-
-Motor dapat diperoleh dari:
+Motor datang dari:
 
 ```text
 STOCK
 USED
 SALVAGE
-CUSTOM
+CUSTOM BUILD
 ```
 
 ---
 
-# 26. STOCK MOTOR
+# 20. STOCK MOTOR
 
-Siap dipakai.
-
-Kelebihan:
+Motor siap digunakan.
 
 ```text
-good condition
-easy start
-low risk
+harga tinggi
+condition bagus
+performance standar
 ```
 
-Kekurangan:
+Untuk pemain yang ingin langsung bermain.
+
+---
+
+# 21. USED MOTOR
 
 ```text
-harga mahal
-stock performance
+harga lebih murah
+condition menengah
+potensi build
 ```
 
 ---
 
-# 27. USED MOTOR
+# 22. SALVAGE MOTOR
 
-Bekas.
-
-Kelebihan:
-
-```text
-harga murah
-potensi bagus
-```
-
-Kekurangan:
-
-```text
-condition
-part wear
-repair cost
-```
-
----
-
-# 28. SALVAGE MOTOR
-
-Motor project/rongsokan.
-
-Kelebihan:
+Motor project:
 
 ```text
 sangat murah
-potensi margin besar
+banyak part bermasalah
+potential value tinggi
 ```
 
-Kekurangan:
+Ini menjadi hunting loop utama.
+
+---
+
+# 23. CUSTOM BUILD MOTOR
+
+Motor hasil tangan pemain.
 
 ```text
-banyak part missing
-condition buruk
-butuh modal
+parts
+tuning
+quality
+history
 ```
 
 ---
 
-# 29. CUSTOM MOTOR
+# 24. MOTOR COMPONENTS
 
-Motor yang telah menjadi hasil build pemain.
-
-Dapat:
+Gunakan sekitar 12 komponen.
 
 ```text
-dipakai
-dijual
-dipajang
-dirace
+1. Engine
+2. Engine Head
+3. ECU
+4. Carburetor / Injection
+5. Transmission
+6. Clutch
+7. Exhaust
+8. Front Tire
+9. Rear Tire
+10. Brake
+11. Suspension
+12. Body
 ```
+
+Tidak perlu 50+ component.
 
 ---
 
-# 30. RONGSOKAN
+# 25. COMPONENT STATES
 
-Rongsokan adalah salah satu signature feature BENGKEL MALAM.
-
-Menu:
-
-# RONGSOKAN
-
-Setiap refresh menghasilkan beberapa project.
-
-Contoh:
+Setiap part:
 
 ```text
-GARUDA 150 PROJECT
-
-Frame:
 GOOD
-
-Engine:
-BROKEN
-
-ECU:
-MISSING
-
-Clutch:
 WORN
-
-Body:
-POOR
-
-Price:
-Rp 3.200.000
+BROKEN
 ```
 
 ---
 
-# 31. PROJECT HUNTING
-
-Tujuan rongsokan bukan sekadar membeli murah.
-
-Pemain mencari:
-
-```text
-hidden value
-rare frame
-cheap base
-valuable part
-```
-
-Pemain yang memahami motor akan lebih baik dalam menemukan peluang.
-
----
-
-# 32. MOTOR INSPECTION
-
-Sebelum membeli project, pemain dapat melihat:
-
-```text
-Frame
-Engine
-Electrical
-Transmission
-Body
-```
-
-Semua terlihat.
-
-Tidak ada “mystery loot” yang sengaja menyembunyikan informasi secara curang.
-
----
-
-# 33. MOTOR COMPONENT SYSTEM
-
-Komponen inti:
-
-```text
-ENGINE
-ENGINE HEAD
-ECU
-CARB / INJECTION
-TRANSMISSION
-CLUTCH
-EXHAUST
-FRONT TIRE
-REAR TIRE
-BRAKE
-SUSPENSION
-BODY
-```
-
-12 komponen.
-
----
-
-# 34. COMPONENT QUALITY
-
-Setiap komponen memiliki quality:
+# 26. PART QUALITY
 
 ```text
 STOCK
@@ -801,140 +593,73 @@ SPECIAL
 
 ---
 
-# 35. COMPONENT CONDITION
+# 27. PART STATS
 
-Setiap komponen:
-
-```text
-GOOD
-WORN
-BROKEN
-```
-
-Contoh:
+Setiap part hanya memengaruhi:
 
 ```text
-Engine — WORN
-ECU — PERFORMANCE
-Clutch — BROKEN
-Tire — STOCK
+POWER
+ACCELERATION
+GRIP
+RELIABILITY
 ```
 
 ---
 
-# 36. COMPONENT ACTIONS
+# 28. PART ACTIONS
 
-Pemain dapat:
+Player bisa:
 
 ```text
-Inspect
-Repair
-Replace
-Install
-Remove
-Sell
+INSPECT
+INSTALL
+REMOVE
+REPAIR
+REPLACE
+SELL
 ```
 
 ---
 
-# 37. REPAIR
+# 29. REPAIR VS REPLACE
 
-Part yang WORN:
-
-```text
-Repair
-```
-
-Part yang BROKEN:
+Part WORN:
 
 ```text
-Replace
+repair murah
 ```
 
-atau jika game content mengizinkan:
+Part BROKEN:
 
 ```text
-Restore
+replace mahal
 ```
+
+Ini menciptakan economic decision.
 
 ---
 
-# 38. REPAIR ECONOMY
+# 30. BUILD SYSTEM
 
-Repair lebih murah.
-
-Replacement lebih mahal.
-
-Dengan begitu:
+Build adalah:
 
 ```text
-Repair
-vs
-Replace
-```
-
-menjadi keputusan.
-
----
-
-# 39. PART MARKET
-
-Part dapat dibeli langsung.
-
-Kategori:
-
-```text
-Engine
-ECU
-Transmission
-Clutch
-Exhaust
-Tire
-Suspension
-Body
-```
-
----
-
-# 40. PART VALUE
-
-Part mempunyai:
-
-```text
-Buy Price
-Quality
-Condition
-Performance
-Resale Value
-```
-
----
-
-# 41. BUILD SYSTEM
-
-Build = kombinasi komponen motor.
-
-Contoh:
-
-```text
-Engine Performance
+BASE MOTOR
 +
-Street ECU
+PARTS
 +
-Sport Clutch
+QUALITY
 +
-Drag Tire
+CONDITION
 +
-Performance Exhaust
+TUNING
 ```
 
 ---
 
-# 42. BUILD PURPOSE
+# 31. BUILD STYLES
 
-Pemain tidak sekadar mengejar “angka terbesar”.
-
-Build mempunyai tujuan:
+Game dapat membaca build secara otomatis:
 
 ```text
 STREET
@@ -944,15 +669,13 @@ POWER
 RELIABLE
 ```
 
-Label ini hanya membantu.
+Hanya sebagai label.
 
-Tidak mengunci pemain.
+Bukan class permanen.
 
 ---
 
-# 43. TUNING
-
-Tuning sangat sederhana.
+# 32. TUNING
 
 Preset:
 
@@ -967,37 +690,40 @@ Contoh:
 
 ```text
 ACCELERATION
-
 Acceleration ↑
 Reliability ↓
 ```
 
 ---
 
-# 44. BUILD SCORE
+# 33. BUILD SCORE
 
-Build Score adalah ringkasan.
+Satu agregat:
+
+```text
+BUILD SCORE
+```
 
 Contoh:
 
 ```text
-Build Score: 73
+74
 ```
 
-Digunakan untuk:
+Dipakai untuk:
 
 ```text
-Class
-Customer requirement
-Market perception
-Race eligibility
+class
+customer target
+market valuation
+race eligibility
 ```
 
 ---
 
-# 45. BUILD QUALITY
+# 34. BUILD QUALITY
 
-Hasil build:
+Hasil:
 
 ```text
 STANDARD
@@ -1006,73 +732,193 @@ EXCELLENT
 MASTER
 ```
 
-Dipengaruhi oleh:
+---
+
+# 35. GARAGE BONUS
+
+Garage level dan mechanic dapat memberikan:
 
 ```text
-Parts
-Mechanic
-Garage Level
+build quality
+repair efficiency
 ```
 
 ---
 
-# 46. MECHANIC
+# 36. MOTOR MARKET
 
-Mechanic adalah staff.
-
-Data:
+Market menyediakan:
 
 ```text
-Name
-Specialty
-Skill
-Salary
-```
-
-Specialty:
-
-```text
-ENGINE
-ELECTRICAL
-TUNING
-GENERAL
+motor
+parts
+salvage
 ```
 
 ---
 
-# 47. MECHANIC BENEFITS
+# 37. MARKET ROTATION
 
-Skill tinggi memberikan:
+Market tidak statis.
+
+Setiap refresh:
 
 ```text
-Build Quality
-Repair Efficiency
-Consistency
+motor list berubah
+part list berubah
+project list berubah
 ```
 
-Jangan membuat mechanic AI berjalan-jalan atau mempunyai schedule kompleks.
+Tetapi refresh bukan cooldown gameplay.
+
+Player tetap dapat melakukan aktivitas lain.
 
 ---
 
-# 48. CUSTOMER SYSTEM
+# 38. RONGSOKAN
 
-Customer memberikan business loop kedua.
+Menu:
+
+# RONGSOKAN
+
+Menampilkan project dengan:
+
+```text
+model
+frame condition
+engine condition
+missing parts
+price
+potential
+```
+
+---
+
+# 39. RONGSOKAN AS HUNTING
+
+Player belajar:
+
+```text
+mana murah
+mana overprice
+mana punya potential
+```
+
+Skill player menjadi bagian dari economy.
+
+---
+
+# 40. PROJECT FLIPPING
+
+Loop:
+
+```text
+BUY
+↓
+REPAIR
+↓
+BUILD
+↓
+SELL
+```
+
+Profit menjadi gameplay.
+
+---
+
+# 41. BUILD-TO-SELL
+
+Player dapat membuat motor khusus untuk dijual.
+
+```text
+cost
+vs
+market value
+```
+
+---
+
+# 42. MOTOR VALUE
+
+Formula konseptual:
+
+```text
+Market Value =
+Base Value
+× Condition
+× Build Quality
+× Parts
+× History
+× Market Modifier
+```
+
+---
+
+# 43. MOTOR HISTORY
+
+Simpan milestone:
+
+```text
+Purchased
+Restored
+Built
+Raced
+Won
+Sold
+```
+
+---
+
+# 44. MOTOR LEGACY
+
+Motor dengan history tinggi dapat menjadi:
+
+```text
+FAVORITE
+VETERAN
+CHAMPION
+LEGEND
+```
+
+---
+
+# 45. RETIRE MOTOR
+
+Player dapat menandai motor:
+
+# RETIRED
+
+Motor masuk:
+
+```text
+Garage Display
+Hall of Fame
+History
+```
+
+Motor retired tidak hilang.
+
+---
+
+# 46. CUSTOMER SYSTEM
+
+Customer adalah income engine.
 
 Customer datang dengan:
 
 ```text
-Motor
-Request
-Budget
-Reward
-Requirement
+motor
+request
+budget
+target
+reward
 ```
 
 ---
 
-# 49. CUSTOMER JOB TYPES
+# 47. CUSTOMER JOB TYPES
 
-Hanya lima:
+Lima:
 
 ```text
 SERVICE
@@ -1084,104 +930,66 @@ RACE BUILD
 
 ---
 
-# 50. CUSTOMER SERVICE
+# 48. SERVICE
 
 Contoh:
 
 ```text
 Basic Service
-Rp 300K
+Full Service
+Tune
 ```
-
-Pemain memilih:
-
-```text
-ACCEPT
-```
-
-kemudian langsung selesai.
-
-Tidak perlu simulation.
 
 ---
 
-# 51. CUSTOMER REPAIR
+# 49. REPAIR JOB
 
-Customer membawa motor:
+Customer menyerahkan motor.
 
-```text
-Clutch Broken
-Condition Poor
-```
+Player memperbaiki.
 
-Pemain:
-
-```text
-Repair
-```
-
-Dapat payment.
+Payment langsung.
 
 ---
 
-# 52. CUSTOMER RESTORATION
+# 50. RESTORATION JOB
 
-Customer membawa project.
+Customer memberikan project.
 
-Pemain memperbaiki beberapa komponen.
+Player mengembalikan condition.
 
-Reward lebih tinggi.
-
----
-
-# 53. CUSTOMER BUILD
-
-Customer meminta target:
-
-```text
-Build Score ≥ 70
-Budget ≤ Rp 6M
-```
-
-Pemain merancang build.
+Reward lebih besar.
 
 ---
 
-# 54. CUSTOMER RACE BUILD
+# 51. BUILD JOB
 
 Customer:
 
-> “Saya ingin motor ini siap untuk Pro.”
-
-Pemain harus mengatur:
-
 ```text
-Class
-Build
-Cost
-Reliability
+Budget 6M
+Target Build Score 70
 ```
+
+Player mencari solusi.
 
 ---
 
-# 55. CUSTOMER DECISION
+# 52. RACE BUILD JOB
 
-Setiap order:
-
-```text
-Accept
-Reject
-```
-
-Jika accept:
+Customer meminta:
 
 ```text
-Choose Build Strategy
+Street
+Pro
+Open
 ```
+
+Player membangun motor sesuai class.
 
 ---
 
-# 56. CUSTOMER MARGIN
+# 53. CUSTOMER ECONOMICS
 
 Contoh:
 
@@ -1189,28 +997,22 @@ Contoh:
 Customer Budget
 Rp 6M
 
-Parts Cost
+Parts
 Rp 3.5M
 
 Profit
 Rp 2.5M
 ```
 
-Build lebih mahal:
+Jika player overspends:
 
 ```text
-Parts Cost
-Rp 5.5M
-
-Profit
-Rp 500K
+profit kecil
 ```
-
-Jadi pemain harus menjaga margin.
 
 ---
 
-# 57. CUSTOMER SATISFACTION
+# 54. CUSTOMER SATISFACTION
 
 Satu angka:
 
@@ -1223,241 +1025,98 @@ Dipengaruhi:
 ```text
 Target
 Quality
-Budget
+Cost
 ```
 
 ---
 
-# 58. CUSTOMER REPUTATION
+# 55. CUSTOMER REPUTATION EFFECT
 
-Satisfaction memengaruhi:
+Satisfaction tinggi:
 
 ```text
-Garage Reputation
+reputation ↑
 ```
 
-Reputation membuka:
+Satisfaction rendah:
 
 ```text
-better orders
-better motors
-better sponsors
+reputation ↓
 ```
 
 ---
 
-# 59. MOTOR TRADING
+# 56. MECHANIC SYSTEM
 
-Pemain bisa mencari profit dari:
+Mechanic adalah staff simple.
+
+Data:
 
 ```text
-BUY
-→
-REPAIR
-→
-BUILD
-→
-SELL
+Name
+Specialty
+Skill
+Salary
 ```
 
 ---
 
-# 60. MOTOR SALE SCREEN
-
-Harus menampilkan:
+# 57. MECHANIC SPECIALTIES
 
 ```text
-Purchase Cost
-Repair Cost
-Parts Cost
-Total Investment
-Estimated Value
-Potential Profit
+ENGINE
+ELECTRICAL
+TUNING
+GENERAL
 ```
-
-Ini adalah salah satu layar paling penting.
 
 ---
 
-# 61. TRADING STRATEGY
+# 58. MECHANIC PURPOSE
 
-Ada tiga pola:
+Mechanic dapat meningkatkan:
 
 ```text
-QUICK FLIP
+Build Quality
+Repair Efficiency
 ```
 
-repair sedikit → jual.
+Tidak ada AI movement.
+
+---
+
+# 59. STAFF CAPACITY
+
+Garage menentukan:
 
 ```text
-BUILD FLIP
+Mechanic Slots
 ```
 
-repair + build → jual.
+Player memilih siapa yang direkrut.
+
+---
+
+# 60. JOKI SYSTEM
+
+Joki adalah talent yang dikelola.
+
+Player:
 
 ```text
-RACE FLIP
-```
-
-build + race → jual.
-
----
-
-# 62. QUICK FLIP
-
-Risiko rendah.
-
-Margin kecil.
-
----
-
-# 63. BUILD FLIP
-
-Risiko sedang.
-
-Margin lebih besar.
-
----
-
-# 64. RACE FLIP
-
-Potensi margin paling tinggi.
-
-Tetapi:
-
-```text
-Race wear
-Entry Fee
-Potential Loss
-```
-
-meningkat.
-
----
-
-# 65. MARKET
-
-Market terdiri dari:
-
-```text
-MOTOR
-PART
-RONGSOKAN
-MY SALES
+Scout
+Sign
+Assign
+Race
+Develop
+Release
 ```
 
 ---
 
-# 66. MARKET ROTATION
+# 61. JOKI ATTRIBUTES
 
-Market di-refresh saat session tertentu atau pergantian hari, tetapi refresh bukan cooldown gameplay.
-
-Pemain tetap bisa bermain.
-
-Saat market berubah:
-
-> **opsi berubah, bukan gameplay diblokir.**
-
----
-
-# 67. MARKET EVENTS
-
-Event ringan:
-
-```text
-POPULAR MODEL
-PROJECT WEEK
-RACING SEASON
-PART SHORTAGE
-```
-
-Hanya memodifikasi market.
-
----
-
-# 68. REPUTATION
-
-Gunakan satu reputasi:
-
-# GARAGE REPUTATION
-
-Tidak perlu:
-
-```text
-Fame
-Fear
-Respect
-Infamy
-Trust
-```
-
-terpisah.
-
----
-
-# 69. REPUTATION SOURCES
-
-Reputation naik dari:
-
-```text
-Race Result
-Customer Satisfaction
-Successful Builds
-Motor Sales
-Championship
-```
-
----
-
-# 70. REPUTATION TIERS
-
-```text
-UNKNOWN
-LOCAL
-KNOWN
-ESTABLISHED
-RESPECTED
-RENOWNED
-LEGENDARY
-```
-
----
-
-# 71. REPUTATION PURPOSE
-
-Reputation membuka:
-
-```text
-Customers
-Sponsors
-Drivers
-Races
-Parts
-Market Opportunities
-```
-
-Bukan damage bonus.
-
----
-
-# 72. JOKI
-
-Joki adalah salah satu aset manajemen.
-
-Pemain dapat:
-
-```text
-SCOUT
-SIGN
-ASSIGN
-RELEASE
-```
-
----
-
-# 73. JOKI STATS
-
-Tiga stat:
+Hanya tiga:
 
 ```text
 REACTION
@@ -1467,9 +1126,9 @@ CONSISTENCY
 
 ---
 
-# 74. JOKI TRAITS
+# 62. JOKI TRAITS
 
-Lima trait:
+Lima:
 
 ```text
 AGGRESSIVE
@@ -1481,103 +1140,139 @@ ROOKIE
 
 ---
 
-# 75. JOKI COST
-
-Joki memiliki:
+# 63. JOKI ECONOMICS
 
 ```text
 Signing Fee
 Race Fee
 ```
 
-Tidak ada salary simulation rumit pada versi awal.
+Tidak ada salary simulation rumit.
 
 ---
 
-# 76. JOKI PROGRESSION
+# 64. JOKI PROGRESSION
 
-Joki berkembang dari:
+Race menghasilkan experience.
 
-```text
-Race Count
-Wins
-Experience
-```
+Milestone meningkatkan skill.
 
-Milestone meningkatkan stat sedikit.
+Tidak perlu waiting.
 
 ---
 
-# 77. JOKI REPUTATION
+# 65. JOKI REPUTATION
 
-Joki juga punya:
+Joki mempunyai:
 
 ```text
 Driver Reputation
 ```
 
-Driver terkenal dapat:
+Berpengaruh pada:
 
 ```text
-signing cost ↑
-race fee ↑
-team value ↑
+signing value
+sponsor interest
+team reputation
 ```
-
-Tetapi lebih bagus dalam menarik perhatian.
 
 ---
 
-# 78. JOKI ASSIGNMENT
+# 66. JOKI HISTORY
 
-Sebelum race:
+Catatan:
 
 ```text
-Choose Driver
-Choose Motor
+Races
+Wins
+Podiums
+Championships
 ```
-
-Keduanya menjadi keputusan.
 
 ---
 
-# 79. DRIVER DIFFERENTIATION
+# 67. JOKI RETIREMENT
+
+Joki veteran dapat:
+
+```text
+RETIRE
+```
+
+History tetap ada.
+
+---
+
+# 68. RACING SYSTEM
+
+Dua dunia:
+
+```text
+LIAR
+RESMI
+```
+
+---
+
+# 69. LIAR
+
+Liar adalah quick-play event.
 
 Contoh:
 
-### RAKA
-
 ```text
-Reaction 86
-Shift 73
-Consistency 66
-Aggressive
+Night Sprint
+High Stake
+Heads-Up
 ```
-
-### DITO
-
-```text
-Reaction 75
-Shift 82
-Consistency 91
-Consistent
-```
-
-Race pendek:
-
-> Raka mungkin lebih cocok.
-
-Race technical:
-
-> Dito mungkin lebih cocok.
 
 ---
 
-# 80. RACE TRACK
+# 70. LIAR CHARACTER
 
-Track tidak perlu dibuat sebagai level 3D.
+```text
+quick
+flexible
+higher variance
+```
 
-Track hanya memiliki profile:
+Tidak ada championship panjang.
+
+---
+
+# 71. OFFICIAL
+
+Official:
+
+```text
+class
+race calendar
+points
+championship
+```
+
+---
+
+# 72. OFFICIAL CLASSES
+
+Awal:
+
+```text
+STREET
+PRO
+OPEN
+```
+
+---
+
+# 73. RACE ELIGIBILITY
+
+Motor hanya dapat ikut class yang sesuai Build Score.
+
+---
+
+# 74. RACE TYPES
 
 ```text
 SHORT
@@ -1588,37 +1283,36 @@ TECHNICAL
 
 ---
 
-# 81. TRACK EFFECT
+# 75. TRACK EFFECTS
 
-### SHORT
+Short:
 
 ```text
-Acceleration important
+Acceleration
 ```
 
-### MEDIUM
+Long:
+
+```text
+Power
+```
+
+Technical:
+
+```text
+Grip
+Shift
+```
+
+Medium:
 
 ```text
 Balanced
 ```
 
-### LONG
-
-```text
-Power important
-```
-
-### TECHNICAL
-
-```text
-Grip + Shift important
-```
-
 ---
 
-# 82. TRACK CONDITION
-
-Tiga:
+# 76. TRACK CONDITIONS
 
 ```text
 DRY
@@ -1628,41 +1322,19 @@ NIGHT
 
 ---
 
-# 83. DRY
+# 77. PRE-RACE MANAGEMENT
 
-Normal.
-
----
-
-# 84. WET
-
-Grip menjadi lebih penting.
-
----
-
-# 85. NIGHT
-
-Timing sedikit lebih menuntut.
-
-Semua efek tetap kecil agar motor tidak terasa random.
-
----
-
-# 86. RACE PREPARATION
-
-Sebelum race pemain menentukan:
+Player memilih:
 
 ```text
 Motor
-Driver
-Risk Mode
+Joki
+Risk
 ```
 
 ---
 
-# 87. RISK MODE
-
-Tiga pilihan:
+# 78. RISK MODE
 
 ```text
 SAFE
@@ -1672,37 +1344,35 @@ PUSH
 
 ---
 
-# 88. SAFE
+# 79. SAFE
 
 ```text
-Easier minigame
-Lower max performance
-Lower wear
+easier minigame
+lower maximum performance
+lower wear
 ```
 
 ---
 
-# 89. NORMAL
+# 80. NORMAL
+
+Balanced.
+
+---
+
+# 81. PUSH
 
 ```text
-Default
+harder minigame
+higher performance
+higher wear
 ```
 
 ---
 
-# 90. PUSH
+# 82. RACING MINIGAME
 
-```text
-Harder minigame
-Higher potential
-Higher wear
-```
-
----
-
-# 91. RACE MINIGAME
-
-Inti gameplay:
+Core:
 
 ```text
 LAUNCH
@@ -1718,20 +1388,9 @@ FINISH
 
 ---
 
-# 92. LAUNCH
+# 83. LAUNCH
 
-Countdown:
-
-```text
-3
-2
-1
-GO
-```
-
-Pemain tap pada timing.
-
-Result:
+Timing:
 
 ```text
 PERFECT
@@ -1742,103 +1401,47 @@ MISS
 
 ---
 
-# 93. SHIFT
+# 84. SHIFT
 
-RPM indicator:
-
-```text
-LOW —— OPTIMAL —— REDLINE
-```
-
-Pemain tap Shift.
-
-Result:
+RPM bar:
 
 ```text
-PERFECT
-GOOD
-LATE
-OVERREV
+LOW
+──────
+OPTIMAL
+──────
+REDLINE
 ```
+
+Player melakukan shift.
 
 ---
 
-# 94. RACE DURATION
+# 85. PLAYER SKILL
 
-Target:
-
-```text
-8–15 seconds
-```
-
-Race harus cukup singkat untuk dimainkan berulang kali.
+Player timing memengaruhi race.
 
 ---
 
-# 95. PLAYER SKILL
+# 86. MOTOR SKILL
 
-Race result berasal dari:
+Motor menentukan baseline.
+
+---
+
+# 87. JOKI SKILL
+
+Joki menentukan:
 
 ```text
-Motor
-+
-Joki
-+
-Track
-+
-Risk
-+
-Player Timing
-+
-Small Randomness
+launch window
+shift window
+variance
 ```
 
 ---
 
-# 96. PLAYER TIMING
-
-Ini yang membuat racing tetap game.
-
-Motor bagus tidak menjamin otomatis menang.
-
----
-
-# 97. MOTOR PERFORMANCE
-
-Motor memberi baseline.
-
-```text
-Power
-Acceleration
-Grip
-Reliability
-```
-
----
-
-# 98. DRIVER PERFORMANCE
-
-Driver memperlebar atau mempersempit window.
-
----
-
-# 99. SMALL RANDOMNESS
-
-Sedikit random membuat hasil tidak sepenuhnya deterministic.
-
-Tetapi random tidak boleh mengalahkan:
-
-```text
-good build
-good joki
-good execution
-```
-
----
-
-# 100. RACE RESULT
-
-Hasil:
+# 88. RACE RESULT
 
 ```text
 1ST
@@ -1851,173 +1454,141 @@ DNF
 Reward:
 
 ```text
-Money
-Reputation
-Points
-Driver Experience
-Motor History
+money
+reputation
+points
+history
+joki experience
 ```
 
 ---
 
-# 101. MOTOR WEAR
+# 89. MOTOR WEAR
 
-Setelah race:
+Race mengurangi condition.
+
+Tidak mengurangi:
 
 ```text
-Condition ↓
+energy player
 ```
-
-Bukan stamina pemain.
-
-Ini membuat repair tetap relevan.
 
 ---
 
-# 102. BREAKDOWN
+# 90. BREAKDOWN
 
-Breakdown hanya mungkin ketika:
+Hanya mungkin ketika:
 
 ```text
-Low Reliability
+low reliability
 +
-High Push
+push
 ```
 
 Efek:
 
 ```text
-Performance Penalty
+penalty
 atau
 DNF
 ```
 
-Jarang terjadi.
+Jarang.
 
 ---
 
-# 103. OFFICIAL SEASON
+# 91. CHAMPIONSHIP
 
-Season:
+Official season:
 
 ```text
-8 Races
+8 races
 ```
 
 ---
 
-# 104. CHAMPIONSHIP POINTS
+# 92. POINTS
 
 Contoh:
 
 ```text
-1st — 25
-2nd — 18
-3rd — 15
-4th — 12
-5th — 10
+1st 25
+2nd 18
+3rd 15
+4th 12
+5th 10
 ```
 
 ---
 
-# 105. SEASON RESULT
+# 93. SEASON PERSISTENCE
 
-Di akhir season:
+Tetap:
 
 ```text
-Champion
-Top 3
-Mid Table
+garage
+money
+motor
+joki
+reputation
+history
 ```
 
-Reward:
+Reset:
 
 ```text
-Money
-Reputation
-Sponsor Unlock
+championship points
 ```
 
 ---
 
-# 106. SEASON PERSISTENCE
+# 94. AI RIVALS
 
-Yang tetap:
+Rival sederhana:
 
 ```text
+Name
 Garage
-Motors
-Money
-Joki
-Reputation
-History
-```
-
-Yang reset:
-
-```text
-Championship Points
-Season Position
-```
-
----
-
-# 107. RIVAL
-
-Rival adalah AI data sederhana.
-
-Contoh:
-
-```text
-JAYA SPEED
-Base Performance: High
-Preferred: Short
-Consistency: Medium
-```
-
----
-
-# 108. RIVAL BEHAVIOR
-
-Tidak perlu AI strategy.
-
-Hanya:
-
-```text
-Base Speed
-Variance
-Track Preference
 Class
+Performance
+Consistency
+Preferred Track
 ```
 
 ---
 
-# 109. RIVAL STORY
-
-Rival menjadi memorable melalui result.
-
-Contoh:
+# 95. RIVAL ARCHETYPES
 
 ```text
-Race 2:
-You beat Jaya Speed.
-
-Race 5:
-Jaya Speed beat you.
-
-Race 7:
-You beat them again.
+POWER TEAM
+CONSISTENCY TEAM
+BUDGET TEAM
+STAR TEAM
 ```
-
-Itu sudah cukup menciptakan rivalry.
 
 ---
 
-# 110. SPONSOR
+# 96. RIVAL DEVELOPMENT
 
-Sponsor adalah bonus business progression.
+Season berikutnya rival dapat berkembang.
 
-Jenis:
+```text
+better motor
+better joki
+better build
+```
+
+Tidak perlu full AI simulation.
+
+---
+
+# 97. SPONSOR
+
+Sponsor adalah objective-based bonus system.
+
+---
+
+# 98. SPONSOR TYPES
 
 ```text
 PART
@@ -2027,961 +1598,297 @@ RACING
 LOCAL BUSINESS
 ```
 
-Semua sponsor fiktif.
-
 ---
 
-# 111. SPONSOR CONTRACT
-
-Contoh:
+# 99. SPONSOR OBJECTIVES
 
 ```text
-Sponsor:
-Nusa Performance
-
-Target:
-Top 3 × 3
-
-Reward:
-Rp 8M
-```
-
-Atau:
-
-```text
-Target:
-Complete 5 customer builds
-
-Reward:
-Part Discount
+WIN
+TOP 3
+COMPLETE BUILDS
+SELL MOTOR
 ```
 
 ---
 
-# 112. SPONSOR CHOICE
-
-Pemain bebas:
+# 100. SPONSOR REWARDS
 
 ```text
-ACCEPT
-REJECT
-```
-
-Sponsor bukan wajib.
-
----
-
-# 113. SPONSOR DIFFICULTY
-
-```text
-Easy
-Medium
-Hard
-```
-
-Semakin sulit:
-
-```text
-Reward ↑
+Money
+Parts
+Discount
+Reputation
+Cosmetic
 ```
 
 ---
 
-# 114. CUSTOMER + SPONSOR
+# 101. REPUTATION
 
-Ini membuat business loop lebih dalam.
-
-Sponsor bisa meminta:
+Satu angka:
 
 ```text
-Complete Builds
-Win Race
-Sell Motor
-```
-
-Jadi sponsor tidak hanya berkaitan dengan racing.
-
----
-
-# 115. GARAGE SPECIALIZATION
-
-Level 3+ pemain dapat memilih bonus kecil:
-
-```text
-PERFORMANCE
-TRADING
-SERVICE
-RACING
+0–100
 ```
 
 ---
 
-# 116. PERFORMANCE
+# 102. REPUTATION SOURCES
 
 ```text
-Build cost ↓ sedikit
+Customer Satisfaction
+Race Results
+Motor Sales
+Build Quality
+Championship
 ```
 
 ---
 
-# 117. TRADING
+# 103. REPUTATION TIERS
 
 ```text
-Resale value ↑ sedikit
+UNKNOWN
+LOCAL
+KNOWN
+ESTABLISHED
+RESPECTED
+RENOWNED
+LEGENDARY
 ```
 
 ---
 
-# 118. SERVICE
+# 104. REPUTATION UNLOCKS
 
 ```text
-Customer satisfaction ↑ sedikit
+Better Customer
+Better Market
+Better Joki
+Better Race
+Better Sponsor
 ```
 
 ---
 
-# 119. RACING
+# 105. GARAGE PROGRESSION
 
 ```text
-Race repair cost ↓ sedikit
+LEVEL 1
+GARASI KECIL
+
+LEVEL 2
+BENGKEL
+
+LEVEL 3
+PERFORMANCE SHOP
+
+LEVEL 4
+RACING WORKSHOP
+
+LEVEL 5
+ELITE GARAGE
 ```
 
 ---
 
-# 120. SPECIALIZATION RULE
+# 106. GARAGE CAPACITY
 
-Specialization tidak membuat class.
+Level menentukan:
 
-Pemain tetap dapat melakukan semuanya.
+```text
+Motor Slots
+Order Slots
+Mechanic Slots
+Joki Slots
+```
 
 ---
 
-# 121. GARAGE VISUAL PROGRESSION
+# 107. GARAGE VISUAL PROGRESSION
 
-Level garage harus terlihat.
-
-### Level 1
+Level 1:
 
 ```text
-1 Motor
 Workbench
 Toolbox
-Simple Wall
+1–2 Motor
 ```
 
-### Level 3
+Level 3:
 
 ```text
 Lift
-Part Rack
-More Bikes
-Tuning Area
+Parts Rack
+Multiple Bikes
 ```
 
-### Level 5
+Level 5:
 
 ```text
 Showroom
 Trophy Wall
-Sponsor Signage
-Multiple Stands
+Race Display
+Sponsor Signs
 ```
 
 ---
 
-# 122. PIXEL PRESENTATION
+# 108. GARAGE COSMETICS
 
-Semua visual game:
+Preset:
 
 ```text
-pixel-inspired
-hard edges
-limited palette
-strong silhouettes
-small sprites
+CLASSIC
+RACING
+INDUSTRIAL
+NIGHT
+CLEAN
+```
+
+Cosmetic tidak memengaruhi balance.
+
+---
+
+# 109. HALL OF FAME
+
+Garage level tinggi dapat memiliki:
+
+```text
+Legendary Motors
+Champion Drivers
+Championships
+Records
 ```
 
 ---
 
-# 123. PIXEL UI PHILOSOPHY
+# 110. PLAYER CAREER
 
-Gunakan:
+Player tidak memiliki level.
 
-```text
-4px
-8px
-12px
-16px
-24px
-32px
-```
-
-sebagai spacing basis.
-
----
-
-# 124. CORNER STYLE
-
-Jangan menggunakan modern rounded cards berlebihan.
-
-Gunakan:
+Yang berkembang:
 
 ```text
-0–4px radius
-pixel corners
-hard borders
-```
-
----
-
-# 125. SHADOW
-
-Gunakan hard pixel offset.
-
-Misalnya:
-
-```text
-4px 4px 0
-```
-
-Tidak perlu soft shadow besar.
-
----
-
-# 126. TYPOGRAPHY
-
-Dua fungsi:
-
-```text
-Pixel / Arcade
-→ headings / title / race
-```
-
-```text
-Monospace
-→ data / stats / money
-```
-
-Readability tetap prioritas.
-
----
-
-# 127. COLOR LANGUAGE
-
-Palet dunia:
-
-```text
-Asphalt
-Metal
-Cream
-Rust
-Red
-Orange
-Yellow
-Deep Green
-```
-
-Nuansa:
-
-> bengkel malam + lampu jalan + besi + oli.
-
----
-
-# 128. UI COMPONENT PRINCIPLES
-
-Komponen harus reusable.
-
-Contoh:
-
-```text
-PixelPanel
-PixelButton
-PixelBadge
-PixelWindow
-PixelCard
-PixelStat
-PixelBar
-PixelModal
-PixelToast
-PixelSprite
-```
-
----
-
-# 129. MAIN NAVIGATION
-
-Mobile:
-
-```text
-GARAGE
-MOTOR
-WORKSHOP
-MARKET
-TEAM
-RACE
-```
-
-Desktop bisa menggunakan sidebar.
-
----
-
-# 130. GARAGE PAGE
-
-Garage page menjawab:
-
-> “Apa keadaan bisnis saya sekarang?”
-
-Menampilkan:
-
-```text
-Cash
+Garage
 Reputation
-Garage Level
-Active Orders
-Motor Status
-Next Race
-```
-
----
-
-# 131. MOTOR PAGE
-
-Menjawab:
-
-> “Apa yang saya punya?”
-
-Menampilkan:
-
-```text
-Motor List
-Condition
-Build Score
-Value
-```
-
----
-
-# 132. MOTOR DETAIL
-
-Tabs:
-
-```text
-OVERVIEW
-PARTS
-BUILD
-HISTORY
-VALUE
-```
-
----
-
-# 133. WORKSHOP PAGE
-
-Menjawab:
-
-> “Apa yang sedang saya kerjakan?”
-
-Menampilkan:
-
-```text
-Customer Jobs
-Repair
-Build
-Mechanics
-```
-
----
-
-# 134. MARKET PAGE
-
-Menjawab:
-
-> “Apa peluang saya?”
-
-Menampilkan:
-
-```text
-Motor
-Parts
-Rongsokan
-My Sales
-```
-
----
-
-# 135. TEAM PAGE
-
-Menjawab:
-
-> “Siapa yang membantu saya?”
-
-Menampilkan:
-
-```text
-Joki
-Contract
-Stats
 History
+Mastery
 ```
 
 ---
 
-# 136. RACE PAGE
+# 111. MASTERY SYSTEM
 
-Menjawab:
-
-> “Ke mana saya pergi balap?”
-
-Menampilkan:
+Empat mastery sederhana:
 
 ```text
-LIAR
-RESMI
-CHAMPIONSHIP
-HISTORY
+BUILDER
+TRADER
+WORKSHOP
+RACER
 ```
 
 ---
 
-# 137. PROFILE PAGE
+# 112. BUILDER MASTERY
 
-Menjawab:
-
-> “Apa yang sudah saya bangun?”
-
-Menampilkan:
+Berdasarkan:
 
 ```text
-Garage Reputation
-Garage Level
-Race Wins
-Championship
-Motors Built
+Builds Completed
+Build Quality
+```
+
+---
+
+# 113. TRADER MASTERY
+
+Berdasarkan:
+
+```text
 Motors Sold
-Customer Builds
-Best Sale
+Profit
 ```
 
 ---
 
-# 138. GARAGE DASHBOARD
+# 114. WORKSHOP MASTERY
 
-Contoh struktur:
+Berdasarkan:
 
 ```text
-┌─────────────────────────────────────────┐
-│ BENGKEL MALAM        Rp 18.450.000      │
-│ REPUTATION ★ 42                         │
-├─────────────────────────────────────────┤
-│ GARAGE LV. 2                            │
-│                                         │
-│ [ MOTOR 01 ]       [ MOTOR 02 ]         │
-│ Jatra 135          RX Project           │
-│ 84%                31%                  │
-│                                         │
-├─────────────────────────────────────────┤
-│ CUSTOMER                               │
-│ 2 ACTIVE ORDERS                         │
-│                                         │
-│ TONIGHT                                │
-│ Kediri Night Sprint                     │
-└─────────────────────────────────────────┘
+Customer Orders
+Satisfaction
 ```
 
 ---
 
-# 139. MOTOR DETAIL
+# 115. RACER MASTERY
+
+Berdasarkan:
 
 ```text
-JATRA 135
-
-[PIXEL MOTOR]
-
-POWER        72
-ACCELERATION 81
-GRIP         69
-RELIABILITY  77
-
-BUILD SCORE 78
-
-CONDITION GOOD
-VALUE Rp 14M
-
-[BUILD] [RACE] [SELL]
+Wins
+Championship
+Records
 ```
 
 ---
 
-# 140. PART SCREEN
+# 116. MASTERY BUKAN POWER
+
+Mastery adalah:
 
 ```text
-ENGINE
-Performance
+career record
+identity
+achievement
+```
 
-Power +10
-Acceleration +4
-Reliability -6
+Bukan:
 
-Condition:
-GOOD
-
-[INSTALL]
+```text
++500 damage
 ```
 
 ---
 
-# 141. RONGSOKAN SCREEN
+# 117. PLAYER IDENTITY
+
+Game dapat secara otomatis menampilkan:
 
 ```text
-RONGSOKAN
-
-PROJECT #044
-
-GARUDA 150
-
-Frame        GOOD
-Engine       BROKEN
-ECU          MISSING
-Clutch       WORN
-Body         POOR
-
-Rp 3.2M
-
-[INSPECT] [BUY]
-```
-
----
-
-# 142. CUSTOMER SCREEN
-
-```text
-ORDER #014
-
-Motor:
-Jatra 125
-
-Request:
-STREET BUILD
-
-Budget:
-Rp 6M
-
-Target:
-Build Score 68+
-
-Reward:
-Rp 8M
-
-[ACCEPT]
-```
-
----
-
-# 143. JOKI SCREEN
-
-```text
-TEAM
-
-RAKA
-86 / 73 / 66
-AGGRESSIVE
-
-DITO
-75 / 82 / 91
-CONSISTENT
-
-[SCOUT JOKI]
-```
-
----
-
-# 144. RACE SELECTION
-
-```text
-TONIGHT
-
-LIAR
-────────────────────
-
-NIGHT SPRINT
-Entry 500K
-Prize 2.5M
-
-HIGH STAKE
-Entry 2M
-Prize 8M
-
-RESMI
-────────────────────
-
-STREET ROUND 4
-Entry 1M
-Prize 5M
-```
-
----
-
-# 145. PRE-RACE
-
-```text
-EVENT
-STREET ROUND 4
-
-YOUR MOTOR
-Jatra 135
-
-YOUR JOKI
-Dito
-
-RISK
-[SAFE] [NORMAL] [PUSH]
-
-[START RACE]
-```
-
----
-
-# 146. RACE HUD
-
-```text
-╔══════════════════════╗
-║      8.421 SEC       ║
-║                      ║
-║ RPM                  ║
-║ ███████████░         ║
-║         ▲            ║
-║      SHIFT           ║
-║                      ║
-║ [ SHIFT ]            ║
-╚══════════════════════╝
-```
-
----
-
-# 147. RESULT
-
-```text
-1ST PLACE
-
-8.421 SEC
-
-+ Rp 5.000.000
-+ 4 REP
-
-MOTOR
-91% → 85%
-
-JOKI
-+1 EXPERIENCE
-```
-
----
-
-# 148. MOTOR HISTORY
-
-History penting tetapi ringan.
-
-```text
-PURCHASED
-RESTORED
-BUILT
-RACED
-WON
-SOLD
-```
-
----
-
-# 149. MOTOR LEGACY
-
-Contoh:
-
-```text
-GARUDA RX #017
-
-Built:
-Season 2
-
-Races:
-17
-
-Wins:
-9
-
-Championship:
-1
-
-Sold:
-Season 5
-```
-
-Ini menjadi cerita.
-
----
-
-# 150. JOKI HISTORY
-
-Contoh:
-
-```text
-RAKA
-
-Races:
-42
-
-Wins:
-16
-
-Championships:
-2
-
-Total Podiums:
-28
-```
-
----
-
-# 151. GARAGE HISTORY
-
-Contoh:
-
-```text
-Season 1
-Founded
-
-Season 2
-First Championship
-
-Season 3
-First Sponsor
-
-Season 4
-Garage Level 4
-```
-
----
-
-# 152. CAREER
-
-BENGKEL MALAM tidak memiliki story campaign linear.
-
-Career dibuat dari milestones.
-
-```text
-First Motor
-First Build
-First Customer
-First Sale
-First Race
-First Win
-First Sponsor
-First Championship
-```
-
----
-
-# 153. ACHIEVEMENTS
-
-Sedikit dan bermakna.
-
-Contoh:
-
-```text
-FIRST BUILD
-FIRST SALE
-FIRST WIN
-FIRST PROJECT
-FIRST SPONSOR
-FIRST CHAMPIONSHIP
-10 CUSTOMER
-50 SALES
-```
-
----
-
-# 154. COLLECTION
-
-Optional.
-
-```text
-8 / 20 Motor Models
-```
-
-Koleksi bukan kewajiban.
-
----
-
-# 155. SELLING VS KEEPING
-
-Setiap motor idealnya menawarkan:
-
-```text
-KEEP
-RACE
-BUILD
-SELL
-```
-
-Jangan membuat pemain otomatis mempertahankan semuanya.
-
----
-
-# 156. CUSTOMER VS SELF PROJECT
-
-Pemain sering harus memilih:
-
-```text
-Customer Build
+PROJECT BUILDER
 ```
 
 atau:
 
 ```text
-Own Project
-```
-
-Customer:
-
-```text
-safe profit
-```
-
-Project:
-
-```text
-uncertain profit
-higher potential
-```
-
-Ini salah satu core decision paling penting.
-
----
-
-# 157. RACE VS BUSINESS
-
-Race:
-
-```text
-higher variance
-higher reputation opportunity
-motor wear
-```
-
-Business:
-
-```text
-more predictable
-lower risk
-```
-
----
-
-# 158. MOTOR MARKET VS RONGSOKAN
-
-Market:
-
-```text
-safer
-more expensive
-quick start
-```
-
-Rongsokan:
-
-```text
-cheap
-riskier
-higher potential margin
-```
-
----
-
-# 159. JOKI EXPENSIVE VS CHEAP
-
-Joki mahal:
-
-```text
-better performance
-higher fee
-```
-
-Joki murah:
-
-```text
-cheaper
-less reliable
-potential growth
-```
-
----
-
-# 160. POWER VS RELIABILITY
-
-Build:
-
-```text
-POWER ↑
-RELIABILITY ↓
+RACE GARAGE
 ```
 
 atau:
 
 ```text
-RELIABILITY ↑
-POWER ↓
+MOTOR DEALER
 ```
 
-Trade-off ini muncul terus.
+berdasarkan history.
+
+Tidak mengunci player.
 
 ---
 
-# 161. CLASS VS PERFORMANCE
+# 118. ECONOMY
 
-Build lebih kuat tidak selalu lebih baik.
+Satu currency:
 
-Contoh:
-
-```text
-Street 69
-```
-
-sangat efisien untuk Street.
-
-Upgrade ke:
-
-```text
-Pro 72
-```
-
-lebih kuat tetapi kini berada di kompetisi lebih berat.
-
-Ini mencegah progression terlalu linear.
+# UANG
 
 ---
 
-# 162. ECONOMY PRINCIPLE
-
-Tidak boleh ada:
-
-```text
-infinite money
-```
-
-Money harus terus mengalir:
-
-```text
-INCOME
-↓
-EXPENSE
-↓
-INVESTMENT
-↓
-PROFIT
-```
-
----
-
-# 163. MONEY SOURCES
+# 119. MONEY SOURCES
 
 ```text
 Customer
@@ -2992,7 +1899,7 @@ Sponsor
 
 ---
 
-# 164. MONEY SINKS
+# 120. MONEY SINKS
 
 ```text
 Motor
@@ -3006,597 +1913,685 @@ Garage Upgrade
 
 ---
 
-# 165. NO SECONDARY CURRENCY
+# 121. PROFIT DISPLAY
 
-Tidak perlu:
+Setiap business transaction menampilkan:
 
 ```text
-Coins
-Gems
-Energy
-Tokens
-Tickets
+Revenue
+Cost
+Profit
 ```
 
-Gunakan satu mata uang:
-
-# UANG.
+Player selalu memahami apakah keputusan bisnisnya berhasil.
 
 ---
 
-# 166. PROFIT IS GAMEPLAY
+# 122. BUSINESS STRATEGIES
 
-Profit harus dapat dipahami.
+## SERVICE GARAGE
+
+Pendapatan aman.
+
+## DEALER
+
+Beli murah, jual mahal.
+
+## BUILDER
+
+Build project, sell high.
+
+## RACE GARAGE
+
+Race + sponsor.
+
+## HYBRID
+
+Kombinasi.
+
+---
+
+# 123. CUSTOMER VS PROJECT
+
+Player sering menghadapi pilihan:
+
+```text
+CUSTOMER
+Guaranteed profit
+
+PROJECT
+Potentially larger profit
+```
+
+---
+
+# 124. PROJECT VS RACE
+
+```text
+SELL
+Immediate income
+
+RACE
+Potentially more income
++
+reputation
+```
+
+---
+
+# 125. MOTOR VS JOKI
+
+Budget terbatas.
+
+Pilih:
+
+```text
+better motor
+```
+
+atau:
+
+```text
+better joki
+```
+
+---
+
+# 126. POWER VS RELIABILITY
+
+```text
+Power ↑
+Reliability ↓
+```
+
+atau sebaliknya.
+
+---
+
+# 127. CLASS VS PERFORMANCE
+
+Motor lebih kuat dapat masuk kompetisi lebih sulit.
+
+Jangan selalu upgrade.
+
+---
+
+# 128. ENDGAME DESIGN
+
+Endgame tidak menggunakan:
+
+```text
+level 100
+```
+
+atau:
+
+```text
+money max
+```
+
+---
+
+# 129. ENDGAME GOALS
+
+Pemain dapat mengejar:
+
+```text
+Championships
+Race Records
+Motor Collection
+Legendary Builds
+Garage Reputation
+Joki Legacy
+Profit Records
+Customer Mastery
+Build Mastery
+```
+
+---
+
+# 130. PERSONAL RECORDS
+
+```text
+Best Race Time
+Best Sale
+Biggest Profit
+Most Expensive Build
+Most Wins
+```
+
+---
+
+# 131. BUILD CHALLENGES
+
+Constraint-based gameplay.
 
 Contoh:
 
 ```text
-Bought      5M
-Repair      1M
-Parts       3M
-----------------
-Total       9M
-
-Sell       13M
-Profit      4M
+Build Score ≥ 75
+Budget ≤ 8M
 ```
-
-Ini harus terlihat jelas.
 
 ---
 
-# 167. DESIGNING FOR REPLAYABILITY
-
-Replayability tidak datang dari:
+# 132. SPECIAL CHALLENGES
 
 ```text
-lebih banyak map
+SALVAGE ONLY
 ```
-
-tetapi dari:
 
 ```text
-different projects
-different builds
-different joki
-different customer requests
-different market rotation
-different race conditions
+UNDER BUDGET
 ```
-
----
-
-# 168. RANDOM CONTENT POOL
-
-Content random:
 
 ```text
-Market
-Customer
-Joki
-Liar Event
-Rival
+STREET ONLY
 ```
-
-Tetapi core rules selalu konsisten.
-
----
-
-# 169. NO PROCEDURAL WORLD GENERATION
-
-Tidak diperlukan.
-
----
-
-# 170. NO OPEN WORLD
-
-Ini penting untuk menjaga scope.
-
-Tidak ada:
 
 ```text
-driving city
-traffic
-walking
-police chase
-building exploration
+LOW COST
+```
+
+```text
+RELIABILITY BUILD
 ```
 
 ---
 
-# 171. WORLD IS PRESENTED AS MENUS / SCENES
+# 133. WHY CHALLENGES MATTER
 
-Kota hanya menjadi konteks.
+Challenge mengubah:
+
+```text
+old motors
+old parts
+old garages
+```
+
+menjadi relevan kembali.
+
+---
+
+# 134. DAILY OPPORTUNITY
+
+Bukan daily reward.
+
+Yang muncul adalah:
+
+```text
+New Project
+New Customer
+New Race
+New Sponsor
+```
+
+Daily content adalah opportunity.
+
+Bukan FOMO.
+
+---
+
+# 135. WEEKLY CONTENT
+
+Rotasi:
+
+```text
+PROJECT WEEK
+STREET WEEK
+CLASSIC WEEK
+BUDGET WEEK
+RACE WEEK
+```
+
+Hanya parameter berubah.
+
+---
+
+# 136. EVENT GENERATION
+
+Event dibuat dari template.
 
 Contoh:
 
 ```text
-Arum
-Wates
-Malang
-Pantura
+Budget
+Class
+Track
+Target
+Reward
 ```
 
-sebagai event/race context.
-
-Tidak harus dijelajahi secara fisik.
+Sehingga satu sistem bisa menghasilkan banyak scenario.
 
 ---
 
-# 172. INDONESIAN CULTURE
+# 137. NO LIVE-OPS DEPENDENCY
 
-Culture masuk melalui:
+Game tidak membutuhkan admin setiap minggu.
+
+Rotation dapat ditentukan otomatis.
+
+---
+
+# 138. LEGACY SYSTEM
+
+Simpan:
 
 ```text
-nama
-bahasa
-desain bengkel
-poster
-spanduk
-joki
-customer
-warung
-komunitas
-musik
-event
-```
-
-Bukan simulasi sosial.
-
----
-
-# 173. SETTING
-
-Dunia adalah Indonesia versi fiktif.
-
-Nama lokasi:
-
-```text
-ARUM
-WATES
-JAYA
-SINDUR
-PANTURA
+Garage Age
+Championships
+Historic Motors
+Historic Joki
+Major Sales
+Major Builds
 ```
 
 ---
 
-# 174. EVENT NAMING
+# 139. GARAGE AGE
 
 Contoh:
 
 ```text
-Arum Night Sprint
-Wates Garage Battle
-Pantura Speed Meet
-Jaya Street Cup
-Sindur Performance Open
-Nusantara Championship
+Season 1
+Season 5
+Season 10
+Season 20
+```
+
+Semakin lama:
+
+> sejarah semakin panjang.
+
+---
+
+# 140. MOTOR LEGACY
+
+Motor dapat menjadi:
+
+```text
+Legendary Motor
+```
+
+berdasarkan:
+
+```text
+Wins
+Championship
+History
 ```
 
 ---
 
-# 175. SPONSOR NAMING
+# 141. JOKI LEGACY
 
-Fiktif:
+Joki dapat menjadi:
 
 ```text
-Nusa Performance
-Garuda Parts
-Maju Motor
-Sinar Oil
-Kopi Jalanan
-Jaya Workshop Supply
+Legendary Driver
 ```
 
 ---
 
-# 176. CUSTOMER NAMING
+# 142. GARAGE LEGACY
 
-Nama Indonesia biasa:
+Garage sendiri dapat mencapai:
+
+# LEGENDARY
+
+---
+
+# 143. ENDGAME HALL
+
+Halaman:
+
+# GARAGE LEGACY
+
+Menampilkan:
 
 ```text
-Rian
-Bagas
-Doni
-Adit
-Fajar
-Bayu
-Raka
-Dimas
+CAREER
+WORKSHOP
+RACING
+COLLECTION
+RECORDS
+LEGENDS
 ```
 
 ---
 
-# 177. UI LANGUAGE
+# 144. THE LEGACY SCREEN
 
-Bahasa utama:
-
-# Indonesia.
-
-Istilah teknis dapat mempertahankan:
+Contoh:
 
 ```text
-Build
-Stock
-Project
-Performance
-Race
-```
+BENGKEL MALAM
 
-karena cocok dengan vocabulary otomotif.
+Founded:
+Season 1
+
+Garage:
+Level 5
+
+Reputation:
+96
+
+Championships:
+7
+
+Race Wins:
+83
+
+Customer Builds:
+438
+
+Motor Sold:
+196
+
+Best Sale:
+Rp 42M
+
+Best Race:
+8.217s
+```
 
 ---
 
-# 178. TONE
+# 145. RETENTION PHILOSOPHY
 
-Game harus:
+Retention berasal dari empat motivasi:
 
 ```text
-lokal
-hangat
-kompetitif
-sedikit kasar
-fun
-nostalgic
+PROGRESS
+DISCOVERY
+MASTERY
+OWNERSHIP
 ```
+
+---
+
+# 146. PROGRESS
+
+```text
+Garage grows
+```
+
+---
+
+# 147. DISCOVERY
+
+```text
+new project
+new joki
+new market
+new build idea
+```
+
+---
+
+# 148. MASTERY
+
+```text
+better builds
+better race
+better profit
+```
+
+---
+
+# 149. OWNERSHIP
+
+```text
+my garage
+my motor
+my joki
+my history
+```
+
+---
+
+# 150. DISCOVERY IS THE MOST IMPORTANT FOR RETURNING PLAYERS
+
+Player veteran tetap membuka game karena:
+
+> “Project apa yang muncul sekarang?”
 
 Bukan:
 
+> “Saya harus collect daily coins.”
+
+---
+
+# 151. NO FOMO RETENTION
+
+Tidak memakai:
+
 ```text
-military
-grim
-cyberpunk
-dark crime simulator
+login streak
+energy
+daily punishment
+artificial cooldown
 ```
 
 ---
 
-# 179. AUDIO
+# 152. PLAYER TIME RESPECT
 
-SFX:
+Game boleh dimainkan:
 
 ```text
-metal click
-wrench
-engine start
-RPM
-shift
-cash
-paper
-garage door
+5 minutes
+```
+
+dan tetap meaningful.
+
+---
+
+# 153. SESSION LOOP
+
+```text
+Check
+↓
+Choose
+↓
+Act
+↓
+Outcome
+↓
+Improve
 ```
 
 ---
 
-# 180. MUSIC
-
-Arah:
+# 154. 5-MINUTE SESSION
 
 ```text
-retro
-chiptune
-garage rock
-lo-fi
-electronic
-```
-
-dengan flavor lokal.
-
----
-
-# 181. MOTOR SPRITE
-
-Setiap motor memiliki sprite sederhana.
-
-State:
-
-```text
-stock
-damaged
-finished
-```
-
-Tidak perlu animasi kompleks.
-
----
-
-# 182. GARAGE SPRITE
-
-Garage memiliki visual states:
-
-```text
-Level 1
-Level 2
-Level 3
-Level 4
-Level 5
-```
-
-Jadi asset efisien.
-
----
-
-# 183. WEB IMPLEMENTATION
-
-Frontend:
-
-```text
-Astro
-```
-
-Game-heavy interaction:
-
-```text
-Vanilla JavaScript
-```
-
-Tidak wajib React/Svelte.
-
----
-
-# 184. ASTRO ROLE
-
-Astro menangani:
-
-```text
-Page Routing
-Server Rendering
-Layouts
-Components
-Static Content
-Data Fetching
+Check market
+Buy part
+Repair motor
 ```
 
 ---
 
-# 185. CLIENT SCRIPT ROLE
-
-JS hanya untuk:
+# 155. 15-MINUTE SESSION
 
 ```text
-Race Minigame
-interactive build UI
-tabs
-filters
-modals
-small UI state
+Finish customer
+Build motor
+Race
 ```
 
 ---
 
-# 186. SERVER ROLE
-
-Server menentukan:
+# 156. 30-MINUTE SESSION
 
 ```text
+Find project
+Restore
+Build
+Race
+Sell
+```
+
+---
+
+# 157. 1-HOUR SESSION
+
+```text
+Manage customer
+Build project
+Recruit driver
+Race championship
+Upgrade garage
+```
+
+---
+
+# 158. VETERAN SESSION
+
+```text
+Test build
+Try challenge
+Beat record
+Scout rookie
+```
+
+---
+
+# 159. WHY OLD CONTENT NEVER DIES
+
+Setiap object dapat dipakai kembali.
+
+Motor:
+
+```text
+Race
+Sell
+Challenge
+Collection
+History
+```
+
+Part:
+
+```text
+Build
+Customer
+Sale
+Challenge
+```
+
+Joki:
+
+```text
+Race
+Challenge
+Legacy
+```
+
+---
+
+# 160. GAME CONTENT REUSE
+
+Sistem tidak perlu terus-menerus membuat feature baru.
+
+Kita cukup membuat:
+
+```text
+new motor
+new part
+new joki
+new customer template
+new race template
+```
+
+---
+
+# 161. CONTENT SCALE
+
+Target v1.0:
+
+```text
+15–20 Motor
+60+ Parts
+10–12 Joki
+30 Customer Templates
+20 Liar Events
+20 Official Events
+3 Classes
+8 Tracks
+15 Sponsors
+```
+
+---
+
+# 162. MVP
+
+MVP:
+
+```text
+3 Motor
+12 Components
+10 Parts
+2 Joki
+5 Customer Orders
+3 Salvage
+3 Liar Events
+3 Official Events
+1 Class
+1 Sponsor
+1 Garage Upgrade
+```
+
+---
+
+# 163. LOCAL SAVE
+
+Local game menyimpan:
+
+```text
+Player
+Garage
 Money
-Ownership
-Build Result
-Race Result
-Joki Contract
-Customer Completion
-Garage Level
+Motors
+Parts
+Joki
+Customer Progress
+Race History
+Sponsor
+Legacy
 ```
 
 ---
 
-# 187. SERVER AUTHORITY
+# 164. LOCAL DATA MODEL
 
-Browser tidak boleh mengatakan:
-
-```text
-"I won."
-```
-
-Browser hanya mengirim:
+Mental model:
 
 ```text
-player inputs
-```
-
-Server menentukan result.
-
----
-
-# 188. SIMPLE PROJECT STRUCTURE
-
-```text
-bengkel-malam/
+PLAYER
 │
-├── src/
-│   ├── pages/
-│   │   ├── index.astro
-│   │   ├── garage.astro
-│   │   ├── motor.astro
-│   │   ├── workshop.astro
-│   │   ├── market.astro
-│   │   ├── team.astro
-│   │   ├── race.astro
-│   │   └── profile.astro
-│   │
-│   ├── components/
-│   │   ├── ui/
-│   │   ├── garage/
-│   │   ├── motor/
-│   │   ├── workshop/
-│   │   ├── market/
-│   │   ├── team/
-│   │   └── race/
-│   │
-│   ├── lib/
-│   │   ├── game/
-│   │   │   ├── motor.ts
-│   │   │   ├── build.ts
-│   │   │   ├── workshop.ts
-│   │   │   ├── market.ts
-│   │   │   ├── driver.ts
-│   │   │   ├── race.ts
-│   │   │   ├── sponsor.ts
-│   │   │   └── progression.ts
-│   │   │
-│   │   ├── data/
-│   │   │   ├── motors.ts
-│   │   │   ├── parts.ts
-│   │   │   ├── drivers.ts
-│   │   │   ├── customers.ts
-│   │   │   ├── races.ts
-│   │   │   └── sponsors.ts
-│   │   │
-│   │   └── server/
-│   │       ├── auth.ts
-│   │       ├── player.ts
-│   │       └── save.ts
-│   │
-│   └── styles/
-│       ├── global.css
-│       ├── pixel.css
-│       └── game.css
+├── GARAGE
 │
-├── public/
-│   ├── images/
-│   └── sounds/
+├── MOTORS
 │
-├── drizzle/
-├── tests/
-├── astro.config.mjs
-├── drizzle.config.ts
-├── package.json
-└── README.md
+├── PARTS
+│
+├── JOKI
+│
+├── CUSTOMER ORDERS
+│
+├── SPONSORS
+│
+└── HISTORY
 ```
 
 ---
 
-# 189. GAME MODULES
+# 165. DATABASE TABLES
 
-Core modules:
-
-```text
-motor.ts
-build.ts
-workshop.ts
-market.ts
-driver.ts
-race.ts
-sponsor.ts
-progression.ts
-```
-
-Tidak perlu architecture enterprise.
-
----
-
-# 190. MOTOR MODULE
-
-Bertanggung jawab pada:
-
-```text
-condition
-value
-performance
-parts
-class
-```
-
----
-
-# 191. BUILD MODULE
-
-Bertanggung jawab:
-
-```text
-install
-remove
-calculate score
-calculate quality
-calculate value
-```
-
----
-
-# 192. WORKSHOP MODULE
-
-Bertanggung jawab:
-
-```text
-repair
-customer orders
-mechanic
-service
-build jobs
-```
-
----
-
-# 193. MARKET MODULE
-
-Bertanggung jawab:
-
-```text
-motor listings
-parts
-salvage
-sale
-```
-
----
-
-# 194. DRIVER MODULE
-
-Bertanggung jawab:
-
-```text
-scouting
-signing
-driver stats
-driver progression
-```
-
----
-
-# 195. RACE MODULE
-
-Bertanggung jawab:
-
-```text
-eligibility
-track
-risk
-race calculation
-reward
-result
-```
-
----
-
-# 196. SPONSOR MODULE
-
-Bertanggung jawab:
-
-```text
-offer
-objective
-progress
-reward
-```
-
----
-
-# 197. PROGRESSION MODULE
-
-Bertanggung jawab:
-
-```text
-garage level
-reputation
-unlock
-```
-
----
-
-# 198. DATABASE
-
-MVP database:
+MVP:
 
 ```text
 users
@@ -3613,1846 +2608,2727 @@ race_results
 sponsors
 sponsor_contracts
 transactions
+history
 ```
 
 ---
 
-# 199. USERS
+# 166. NO NEED FOR 50 TABLES
 
-Authentication identity.
-
----
-
-# 200. PLAYERS
+Semakin sedikit entity:
 
 ```text
-id
-user_id
-name
-cash
-reputation
-garage_level
+lebih mudah
+lebih mudah debugging
+lebih mudah balancing
+lebih mudah migration
 ```
 
 ---
 
-# 201. GARAGES
+# 167. SIMPLE ASTRO ARCHITECTURE
 
 ```text
-id
+PAGES
+  ↓
+COMPONENTS
+  ↓
+GAME LOGIC
+  ↓
+LOCAL DATABASE
+```
+
+---
+
+# 168. ASTRO PAGES
+
+Core:
+
+```text
+/
+ /garage
+ /motor
+ /workshop
+ /market
+ /team
+ /race
+ /profile
+```
+
+---
+
+# 169. MOTOR DETAIL
+
+```text
+/motor/[id]
+```
+
+---
+
+# 170. RACE DETAIL
+
+```text
+/race/[id]
+```
+
+---
+
+# 171. COMPONENT GROUPS
+
+```text
+components/
+├── ui/
+├── garage/
+├── motor/
+├── workshop/
+├── market/
+├── team/
+└── race/
+```
+
+---
+
+# 172. GAME LOGIC
+
+```text
+lib/game/
+├── motor.ts
+├── build.ts
+├── workshop.ts
+├── market.ts
+├── driver.ts
+├── race.ts
+├── sponsor.ts
+└── progression.ts
+```
+
+---
+
+# 173. DATA
+
+```text
+lib/data/
+├── motors.ts
+├── parts.ts
+├── drivers.ts
+├── customers.ts
+├── races.ts
+└── sponsors.ts
+```
+
+---
+
+# 174. SERVER
+
+Pada local-first:
+
+```text
+lib/server/
+├── auth.ts
+├── player.ts
+└── save.ts
+```
+
+Server rendering dapat digunakan bila deployment membutuhkan persistence server.
+
+---
+
+# 175. CLIENT INTERACTION
+
+JavaScript hanya digunakan ketika diperlukan:
+
+```text
+tabs
+modal
+build interaction
+race minigame
+filters
+```
+
+---
+
+# 176. RACE MINIGAME CLIENT
+
+Race minigame dapat dijalankan client.
+
+Tetapi result tetap dapat dihitung menggunakan deterministic formula.
+
+---
+
+# 177. LOCAL GAME AUTHORITY
+
+Dalam local-first, source of truth:
+
+```text
+local save
+```
+
+Nanti ketika online:
+
+```text
+server
+```
+
+menjadi source of truth.
+
+---
+
+# 178. OFFLINE SUPPORT
+
+Game sebaiknya tetap dapat dimainkan dalam kondisi internet buruk untuk local gameplay tertentu.
+
+---
+
+# 179. ONLINE MIGRATION FUTURE
+
+Data model:
+
+```text
 player_id
-level
-motor_capacity
-order_capacity
-driver_capacity
-mechanic_capacity
-```
-
----
-
-# 202. MOTORS
-
-```text
-id
-player_id
-model
-name
-condition
-build_score
-market_value
-race_wins
-race_starts
-```
-
----
-
-# 203. PARTS
-
-```text
-id
-name
-category
-quality
-performance
-price
-```
-
----
-
-# 204. MOTOR_PARTS
-
-```text
-motor_id
-part_id
-condition
-```
-
----
-
-# 205. DRIVERS
-
-```text
-id
-name
-reaction
-shift
-consistency
-trait
-signing_fee
-race_fee
-reputation
-```
-
----
-
-# 206. CUSTOMER ORDERS
-
-```text
-id
-player_id
-motor_id
-type
-budget
-target_score
-reward
-satisfaction
-status
-```
-
----
-
-# 207. RACES
-
-```text
-id
-name
-mode
-class
-distance
-difficulty
-condition
-entry_fee
-prize
-```
-
----
-
-# 208. RACE RESULTS
-
-```text
-id
-player_id
-race_id
 motor_id
 driver_id
-finish_time
-position
-points
-reward
+race_id
+```
+
+sudah dibuat stabil sejak awal.
+
+Ketika online:
+
+```text
+LOCAL DATA
+↓
+SYNC
+↓
+SERVER
 ```
 
 ---
 
-# 209. TRANSACTIONS
+# 180. FUTURE PVP
 
-Setiap money mutation:
+PVP ditambahkan sebagai layer:
 
 ```text
-id
-player_id
-type
-amount
-balance_before
-balance_after
-reference_id
-created_at
+same Motor Entity
+same Driver Entity
+same Race Rules
+```
+
+Sehingga tidak perlu membuat sistem balap kedua.
+
+---
+
+# 181. FUTURE PLAYER MARKET
+
+Player-to-player sales akan menggunakan:
+
+```text
+existing Motor Entity
+```
+
+bukan motor entity baru.
+
+---
+
+# 182. FUTURE ASYNC RACE
+
+Player record disimpan:
+
+```text
+race time
+motor
+driver
+build
+```
+
+Player lain bisa melawan record.
+
+---
+
+# 183. FUTURE GARAGE SHOWCASE
+
+Garage dapat dipublikasikan.
+
+Tetapi data tetap berasal dari:
+
+```text
+existing Garage Entity
 ```
 
 ---
 
-# 210. NO NEED FOR REDIS IN MVP
+# 184. NO ARCHITECTURE REWRITE
 
-Tidak dibutuhkan pada awal.
+Inilah alasan local-first sangat bagus.
 
----
-
-# 211. NO NEED FOR WEBSOCKETS IN MVP
-
-Race bukan realtime multiplayer.
-
----
-
-# 212. NO NEED FOR EVENT BUS
-
-Core systems dapat memanggil fungsi langsung.
-
----
-
-# 213. NO NEED FOR WORKER CLUSTER
-
-Scheduled maintenance sederhana sudah cukup.
-
----
-
-# 214. OPTIONAL BACKGROUND JOBS
-
-Hanya untuk:
+Core game:
 
 ```text
-market refresh
-season transitions
-cleanup
-notification
+Motor
+Build
+Race
+Business
 ```
 
-Bukan untuk membatasi gameplay.
+tidak perlu diubah ketika multiplayer datang.
 
----
-
-# 215. TESTING
-
-Unit test utama:
+Yang berubah hanya:
 
 ```text
-Build calculation
-Motor value
-Race calculation
-Customer payout
-Transaction
-Garage capacity
-Class eligibility
+persistence
+network
+identity
+sync
 ```
 
 ---
 
-# 216. BALANCING SHEET
+# 185. VISUAL DESIGN
 
-Setiap motor:
+Game harus full pixel.
 
-```text
-Base Price
-Power
-Acceleration
-Grip
-Reliability
-Build Potential
-Expected Sale
-```
+---
 
-Setiap part:
+# 186. PIXEL ART APPROACH
+
+Gunakan:
 
 ```text
-Price
-Power
-Acceleration
-Grip
-Reliability
-```
-
-Setiap race:
-
-```text
-Entry
-Prize
-Difficulty
-Track Type
-Class
+CSS
+HTML
+Inline SVG
+Pixel sprites
+Sprite sheets
 ```
 
 ---
 
-# 217. ECONOMIC HEALTH CHECK
+# 187. NO DESIGN EXPERIENCE REQUIRED
 
-Setiap aktivitas harus diketahui:
+Semua visual akan berasal dari:
 
 ```text
-Expected Cost
-Expected Reward
-Expected Margin
+Design System
+Components
+Tokens
+Layouts
 ```
 
-Jangan ada sumber uang yang secara matematis selalu dominan.
+bukan dari kemampuan manual design kamu.
 
 ---
 
-# 218. NO SINGLE BEST STRATEGY
+# 188. PIXEL GRID
 
-Tidak boleh ada:
-
-> satu motor yang selalu terbaik.
-
-Tidak boleh ada:
-
-> satu joki yang selalu terbaik.
-
-Tidak boleh ada:
-
-> satu race yang selalu menghasilkan uang paling banyak.
-
-Tidak boleh ada:
-
-> satu build yang selalu menang.
-
----
-
-# 219. ANTI-META: RACE
-
-Different track:
+Gunakan:
 
 ```text
-Short
-Long
-Technical
-```
-
-Different preference.
-
----
-
-# 220. ANTI-META: ECONOMY
-
-Different customer:
-
-```text
-High volume
-High margin
-High quality
+4px
+8px
+12px
+16px
+24px
+32px
 ```
 
 ---
 
-# 221. ANTI-META: MOTOR
-
-Different base model:
+# 189. BORDER
 
 ```text
-cheap
-balanced
-high potential
+0–4px
+```
+
+Hard pixel corners.
+
+---
+
+# 190. SHADOW
+
+```text
+4px 4px 0
+```
+
+Hard shadow.
+
+---
+
+# 191. COLORS
+
+Core palette:
+
+```text
+ASPHALT
+METAL
+CREAM
+RUST
+RED
+ORANGE
+YELLOW
+GREEN
 ```
 
 ---
 
-# 222. ANTI-META: JOKI
+# 192. TYPOGRAPHY
 
-Different:
+Display:
 
 ```text
-reaction
-shift
-consistency
+Pixel / Arcade
+```
+
+Data:
+
+```text
+Monospace
 ```
 
 ---
 
-# 223. REPLAYABILITY ENGINE
-
-Replayability berasal dari:
+# 193. GARAGE VISUAL
 
 ```text
-different market
-different project
-different customers
-different joki
-different season
-different decisions
+concrete
+toolbox
+motor stand
+oil
+sticker
+parts
+trophy
+neon
 ```
 
 ---
 
-# 224. NO HARD RESET
+# 194. PIXEL MOTOR VISUAL
 
-Season selesai, player tidak kehilangan garage.
+Motor sprite harus dapat berubah berdasarkan:
 
-History terus bertambah.
+```text
+model
+condition
+build state
+```
 
 ---
 
-# 225. CAREER HISTORY
-
-History:
+# 195. MOTOR VISUAL STATES
 
 ```text
-Season
+STOCK
+DAMAGED
+RESTORED
+BUILT
+```
+
+---
+
+# 196. GARAGE VISUAL STATES
+
+```text
+LEVEL 1
+LEVEL 2
+LEVEL 3
+LEVEL 4
+LEVEL 5
+```
+
+---
+
+# 197. UI COMPONENTS
+
+Core component kit:
+
+```text
+PixelPanel
+PixelWindow
+PixelCard
+PixelButton
+PixelBadge
+PixelStat
+PixelBar
+PixelModal
+PixelTab
+PixelToast
+PixelSprite
+```
+
+---
+
+# 198. MAIN NAVIGATION
+
+Mobile:
+
+```text
+GARAGE
+MOTOR
+WORKSHOP
+MARKET
+TEAM
+RACE
+```
+
+Desktop:
+
+```text
+Sidebar
+```
+
+---
+
+# 199. HOME GARAGE
+
+Dashboard menampilkan:
+
+```text
+Cash
+Reputation
 Garage Level
-Championship
-Major Motor
-Major Sale
-Major Joki
+Active Orders
+Motor Alerts
+Next Race
+Current Challenge
 ```
 
 ---
 
-# 226. ENDGAME
+# 200. CURRENT ASPIRATION
 
-Endgame:
+Selalu ada satu:
 
-```text
-Legendary Garage
-Rare Projects
-Championships
-Motor Collection
-Best Joki
-Best Sale
-Best Race Record
-```
-
----
-
-# 227. LEGENDARY GARAGE
+# NEXT ASPIRATION
 
 Contoh:
 
 ```text
-BENGKEL MALAM
-
-Garage Level:
-5
-
-Reputation:
-94
-
-Championship:
-7
-
-Race Wins:
-81
-
-Customer Builds:
-438
-
-Motors Sold:
-197
-
-Best Sale:
-Rp 42M
-
-Legendary Motor:
-GARUDA RX #017
-
-Legendary Joki:
-RAKA
+Win Street Championship
 ```
 
----
-
-# 228. SINGLE-PLAYER FIRST
-
-MVP:
+atau:
 
 ```text
-Player
-+
-AI Rivals
+Finish Garuda Project
 ```
 
-Tidak perlu live players.
-
----
-
-# 229. ASYNC MULTIPLAYER FUTURE
-
-Baru kemudian:
+atau:
 
 ```text
-Leaderboard
-Time Attack
-Garage Showcase
-Motor Showcase
-Player Market
+Beat Personal Best
 ```
 
 ---
 
-# 230. LEADERBOARD
+# 201. CURRENT GOALS
 
-Kategori:
+Maksimal:
 
 ```text
-Best Time
-Most Championships
-Most Profitable Garage
-Most Motor Sales
+3
 ```
 
-Tidak perlu social MMO.
-
----
-
-# 231. GARAGE SHOWCASE
-
-Player dapat mempublikasikan:
+Contoh:
 
 ```text
-Garage
-Favorite Motor
-Best Joki
-Best Build
+□ Finish customer build
+□ Find project
+□ Win tonight race
 ```
 
 ---
 
-# 232. FUTURE PLAYER MARKET
+# 202. GOAL SYSTEM BUKAN QUEST SYSTEM
 
-Jika game berhasil:
+Goal adalah:
 
 ```text
-Player lists Motor
-Other player buys
-Ownership changes
+direction
 ```
 
-Tetap menggunakan motor entity yang sama.
+Bukan:
+
+```text
+mandatory storyline
+```
 
 ---
 
-# 233. DESIGN PRINCIPLE: OBJECT REUSE
+# 203. EVENT FEED
 
-Satu:
+Dashboard menunjukkan:
+
+```text
+New salvage arrived.
+Customer build completed.
+Official Street Round available.
+```
+
+---
+
+# 204. MARKET SCREEN
+
+Tiga tab:
 
 ```text
 MOTOR
+PARTS
+RONGSOKAN
 ```
-
-digunakan oleh:
-
-```text
-Garage
-Customer
-Market
-Race
-Sale
-History
-```
-
-Satu:
-
-```text
-PART
-```
-
-digunakan oleh:
-
-```text
-Market
-Build
-Customer
-Motor
-Sale
-```
-
-Ini membuat architecture sederhana.
 
 ---
 
-# 234. DESIGN PRINCIPLE: BUSINESS FIRST
-
-Kalau fitur baru hanya menambah:
+# 205. MOTOR SCREEN
 
 ```text
-cool animation
+OWNED
+PROJECT
+FAVORITES
+RETIRED
 ```
 
-tetapi tidak menambah:
+---
+
+# 206. WORKSHOP SCREEN
+
+```text
+CUSTOMERS
+REPAIRS
+BUILDS
+MECHANICS
+```
+
+---
+
+# 207. TEAM SCREEN
+
+```text
+ACTIVE JOKI
+AVAILABLE JOKI
+HISTORY
+```
+
+---
+
+# 208. RACE SCREEN
+
+```text
+LIAR
+RESMI
+CHAMPIONSHIP
+RECORDS
+```
+
+---
+
+# 209. PROFILE
+
+```text
+CAREER
+GARAGE
+RACING
+WORKSHOP
+COLLECTION
+LEGACY
+```
+
+---
+
+# 210. RETENTION ARCHITECTURE
+
+Game mempunyai:
+
+```text
+SHORT LOOP
+```
+
+```text
+MID LOOP
+```
+
+```text
+LONG LOOP
+```
+
+---
+
+# 211. SHORT LOOP
+
+```text
+Buy
+Repair
+Build
+Race
+Sell
+```
+
+---
+
+# 212. MID LOOP
+
+```text
+Garage Upgrade
+Joki
+Customer
+Sponsor
+Championship
+```
+
+---
+
+# 213. LONG LOOP
+
+```text
+Mastery
+Collection
+Records
+Legacy
+```
+
+---
+
+# 214. SHORT-TERM SATISFACTION
+
+```text
+money
+win
+build completed
+sale profit
+```
+
+---
+
+# 215. MID-TERM SATISFACTION
+
+```text
+garage level
+joki development
+championship
+reputation
+```
+
+---
+
+# 216. LONG-TERM SATISFACTION
+
+```text
+legendary motor
+record
+collection
+legacy
+```
+
+---
+
+# 217. ENDGAME RETENTION
+
+Endgame pemain memiliki empat pilihan besar:
+
+```text
+MASTER
+COLLECT
+COMPETE
+CREATE
+```
+
+---
+
+# 218. MASTER
+
+Menjadi builder terbaik.
+
+---
+
+# 219. COLLECT
+
+Mencari motor unik.
+
+---
+
+# 220. COMPETE
+
+Mengejar championship dan records.
+
+---
+
+# 221. CREATE
+
+Membangun garage dengan identitas.
+
+---
+
+# 222. MASTER BUILDS
+
+Constraint:
+
+```text
+Budget
+Class
+Reliability
+Parts
+```
+
+---
+
+# 223. COLLECTOR BUILDS
+
+Cari:
+
+```text
+rare model
+rare frame
+rare project
+historic motor
+```
+
+---
+
+# 224. COMPETITOR BUILDS
+
+Optimalkan:
+
+```text
+Track
+Class
+Driver
+Timing
+```
+
+---
+
+# 225. CREATE BUILDS
+
+Build sesuai selera.
+
+Contoh:
+
+```text
+Maximum acceleration
+```
+
+walaupun kurang profitable.
+
+---
+
+# 226. “WEALTH DOES NOT SOLVE EVERYTHING”
+
+Ketika player kaya:
+
+Money dapat membeli:
+
+```text
+parts
+motors
+garage
+drivers
+```
+
+Tetapi tidak langsung membeli:
+
+```text
+track record
+history
+mastery
+legend
+personal best
+```
+
+---
+
+# 227. MONEY SINK FOR RICH PLAYERS
+
+Setelah kaya:
+
+```text
+rare projects
+collection
+premium builds
+garage cosmetics
+high-profile drivers
+```
+
+Tetapi money sink bukan keharusan.
+
+---
+
+# 228. NON-MONETARY ENDGAME
+
+Lebih penting:
+
+```text
+records
+titles
+history
+mastery
+collection
+legacy
+```
+
+---
+
+# 229. PLAYER NEVER HAS “NOTHING TO DO”
+
+Dalam keadaan apapun, game harus dapat menawarkan salah satu:
+
+```text
+Motor
+Customer
+Market
+Race
+Challenge
+Joki
+Build
+Collection
+Record
+```
+
+---
+
+# 230. EMPTY STATE DESIGN
+
+Kalau tidak ada customer:
+
+> **MARKET OPPORTUNITY AVAILABLE**
+
+Kalau tidak ada race:
+
+> **BUILD CHALLENGE AVAILABLE**
+
+Kalau tidak ada project:
+
+> **CHECK PART MARKET**
+
+Tidak boleh hanya:
+
+> “Tidak ada aktivitas.”
+
+---
+
+# 231. CONTENT FALLBACK
+
+Setiap sistem mempunyai fallback action.
+
+```text
+NO CUSTOMER
+→ MARKET
+
+NO RACE
+→ BUILD CHALLENGE
+
+NO PROJECT
+→ PART BUILD
+
+NO MONEY
+→ SERVICE
+
+NO NEED FOR UPGRADE
+→ RECORD / COLLECTION
+```
+
+---
+
+# 232. THIS PREVENTS DEAD ENDS
+
+Pemain tidak masuk kondisi:
+
+> “Tidak ada yang bisa dilakukan.”
+
+---
+
+# 233. ZERO ENERGY EXPERIENCE
+
+Setelah race:
+
+```text
+player can still:
+sell
+buy
+build
+customer
+market
+team
+```
+
+Tidak ada recovery screen.
+
+---
+
+# 234. ZERO COOLDOWN EXPERIENCE
+
+Setelah build:
+
+```text
+motor finished
+```
+
+Player dapat langsung memutuskan:
+
+```text
+race
+sell
+display
+```
+
+---
+
+# 235. ZERO WAITING EXPERIENCE
+
+Game selalu memberi:
 
 ```text
 decision
 ```
 
-fitur tersebut bukan prioritas.
-
----
-
-# 235. DESIGN PRINCIPLE: DECISION OVER WAIT
-
-Jangan membuat:
-
-> “tunggu.”
-
-Buat:
-
-> “pilih.”
-
----
-
-# 236. CONTOH
-
-Buruk:
+bukan:
 
 ```text
-Repair takes 30 minutes.
-```
-
-Bagus:
-
-```text
-Repair:
-300K
-
-Replace:
-900K
-```
-
-Pemain memilih.
-
----
-
-# 237. CONTOH
-
-Buruk:
-
-```text
-Wait for training.
-```
-
-Bagus:
-
-```text
-Use Joki
-→ race
-→ experience
-→ improvement
+timer
 ```
 
 ---
 
-# 238. CONTOH
+# 236. PLAYER AGENCY
 
-Buruk:
-
-```text
-Wait for market refresh.
-```
-
-Bagus:
+Pemain bebas:
 
 ```text
-Current Market
-+
-Available Purchases
-```
-
-Market refresh hanya merupakan event dunia.
-
----
-
-# 239. SESSION DESIGN
-
-Dalam 5 menit:
-
-```text
-Check Garage
-Buy Project
-Install Part
-```
-
-Dalam 10 menit:
-
-```text
-Complete Customer
-Race
-Sell Part
-```
-
-Dalam 20–30 menit:
-
-```text
-Build Motor
-Race
-Earn
-Reinvest
-```
-
-Tidak ada batas session.
-
----
-
-# 240. DAILY FEEL
-
-Saat login:
-
-```text
-Apa motor menarik yang tersedia?
-Apa customer menarik?
-Apakah ada race bagus?
-Apa yang bisa saya jual?
+racer
+dealer
+builder
+workshop
+hybrid
 ```
 
 ---
 
-# 241. NOTIFICATION
+# 237. NO PERMANENT CLASS
 
-Hanya:
+Tidak ada class player.
+
+---
+
+# 238. NO META BUILD
+
+Tidak ada motor universal terbaik.
+
+---
+
+# 239. NO META JOKI
+
+Tidak ada joki universal terbaik.
+
+---
+
+# 240. NO META MONEY METHOD
+
+Tidak ada income source yang selalu optimal.
+
+---
+
+# 241. ECONOMIC BALANCE
+
+Ideal:
 
 ```text
-Customer Completed
-Race Starting
-Sponsor Objective
-New Market
+safe = predictable
+risky = volatile
+skill = higher ceiling
+knowledge = better margin
 ```
 
 ---
 
-# 242. NO SPAM
-
-Jangan:
+# 242. BUILD BALANCE
 
 ```text
-10 notifications
-```
-
-dalam satu session.
-
----
-
-# 243. FIRST 10 MINUTES
-
-Tutorial harus menunjukkan:
-
-```text
-Buy used motor
-Inspect
-Repair
-Install part
-Race
-Sell
-```
-
-Bukan menjelaskan 20 menu.
-
----
-
-# 244. FIRST HOUR
-
-Pemain mengalami:
-
-```text
-Garage Level 1
-First Customer
-First Project
-First Joki
-First Official Race
+power
+vs
+reliability
 ```
 
 ---
 
-# 245. FIRST SEASON
-
-Pemain:
+# 243. BUSINESS BALANCE
 
 ```text
-build garage
-complete customer
+customer
+vs
+project
+vs
 race
-sell motor
-hire joki
-try championship
 ```
 
 ---
 
-# 246. FIRST LONG-TERM GOAL
-
-Tujuan pertama:
-
-> **Naikkan bengkel dari Garasi Kecil menjadi Bengkel.**
-
-Bukan level player.
-
----
-
-# 247. SECOND GOAL
-
-> **Menemukan motor project yang menghasilkan profit besar.**
-
----
-
-# 248. THIRD GOAL
-
-> **Menang championship pertama.**
-
----
-
-# 249. FOURTH GOAL
-
-> **Membangun garage level tinggi.**
-
----
-
-# 250. FINAL GOAL
-
-> **Menciptakan garage dengan sejarah dan identitas sendiri.**
-
----
-
-# 251. EXAMPLE COMPLETE SESSION
-
-Pemain login.
-
-Cash:
+# 244. TEAM BALANCE
 
 ```text
-Rp 11M
+cheap rookie
+vs
+expensive star
 ```
 
-Reputation:
+---
+
+# 245. CLASS BALANCE
 
 ```text
-32
+Street
+→ accessible
+
+Pro
+→ competitive
+
+Open
+→ aspirational
 ```
+
+---
+
+# 246. RACING BALANCE
+
+Player skill harus berarti.
+
+Tetapi build dan joki juga berarti.
+
+---
+
+# 247. RACE FORMULA
+
+Conceptual:
+
+```text
+Base Time
+- Motor Performance
+- Driver Performance
+- Launch Performance
+- Shift Performance
++ Track Modifier
++ Condition Modifier
++ Small Variance
+```
+
+---
+
+# 248. MARKET FORMULA
+
+```text
+Value =
+Base Value
+× Condition
+× Build Quality
+× Parts
+× History
+× Market Modifier
+```
+
+---
+
+# 249. CUSTOMER FORMULA
+
+```text
+Satisfaction =
+Target
++
+Quality
++
+Cost Efficiency
++
+Timeliness
+```
+
+---
+
+# 250. GARAGE PROGRESSION FORMULA
+
+```text
+Money
++
+Reputation
+=
+Garage Unlocks
+```
+
+---
+
+# 251. HISTORY SYSTEM
+
+Simpan major milestones:
+
+```text
+First Motor
+First Build
+First Sale
+First Race
+First Win
+First Customer
+First Sponsor
+First Championship
+```
+
+---
+
+# 252. HISTORY IS NOT JUST A LOG
+
+History digunakan untuk:
+
+```text
+Profile
+Motor Legacy
+Garage Legacy
+Joki Legacy
+```
+
+---
+
+# 253. PROFILE STORY
+
+Profile harus terasa seperti:
+
+> **rekam jejak sebuah bengkel.**
+
+---
+
+# 254. MOTOR STORY
+
+Motor history:
+
+> **rekam jejak sebuah motor.**
+
+---
+
+# 255. JOKI STORY
+
+Joki history:
+
+> **rekam jejak seorang pembalap.**
+
+---
+
+# 256. SEASON STORY
+
+Season:
+
+> **rekam jejak satu periode karier.**
+
+---
+
+# 257. GAME WORLD STORY
+
+Tidak ada global persistent simulation kompleks.
+
+Sejarah hanya berasal dari:
+
+```text
+player career
+races
+motors
+garage
+```
+
+Ini cukup.
+
+---
+
+# 258. WHY THIS IS BETTER THAN MMO SIMULATION
+
+Kita mendapatkan:
+
+```text
+sense of history
+```
+
+tanpa harus menjalankan:
+
+```text
+world simulation
+```
+
+---
+
+# 259. NO NPC SOCIETY
+
+Customer adalah data.
+
+Joki adalah data + identity.
+
+Rival adalah data.
+
+Tidak ada NPC civilization.
+
+---
+
+# 260. NO FACTION
+
+Tidak diperlukan.
+
+---
+
+# 261. NO TERRITORY
+
+Tidak diperlukan.
+
+---
+
+# 262. NO OPEN WORLD
+
+Tidak diperlukan.
+
+---
+
+# 263. WORLD REPRESENTATION
+
+Lokasi hanya context:
+
+```text
+Arum
+Wates
+Jaya
+Sindur
+Pantura
+```
+
+---
+
+# 264. CITY CULTURE
+
+Culture direpresentasikan melalui:
+
+```text
+name
+visual
+language
+music
+events
+garage style
+```
+
+---
+
+# 265. INDONESIAN CULTURE
+
+Game tidak perlu memodelkan masyarakat Indonesia secara besar.
+
+Cukup menghadirkan:
+
+```text
+bengkel
+warung
+spanduk
+stiker
+nama lokal
+bahasa informal
+motor culture
+race culture
+night atmosphere
+```
+
+---
+
+# 266. LOCALIZED CONTENT
+
+Contoh nama garage:
+
+```text
+Bengkel Malam
+Wong Speed
+Jaya Motor
+Pakde Performance
+Kampung Racing
+Pantura Garage
+```
+
+---
+
+# 267. MOTOR BRANDING
+
+Fiktif:
+
+```text
+NUSA
+JATRA
+GARUDA
+MERAPI
+ARUNA
+```
+
+---
+
+# 268. TRACKS
+
+Fiktif:
+
+```text
+Arum Sprint
+Wates Strip
+Sindur Long Run
+Pantura Night
+Jaya Technical
+```
+
+---
+
+# 269. VISUAL WORLD
+
+Tidak perlu 3D.
+
+Pixel-art environment.
+
+---
+
+# 270. UI STYLE
+
+UI harus terlihat seperti:
+
+```text
+garage board
+race sheet
+parts catalog
+workshop invoice
+CRT display
+```
+
+---
+
+# 271. ACCESSIBILITY
+
+Pixel tidak boleh berarti sulit dibaca.
+
+Tetap:
+
+```text
+high contrast
+clear hierarchy
+keyboard support
+mobile support
+large tap target
+```
+
+---
+
+# 272. RESPONSIVE DESIGN
+
+Mobile:
+
+```text
+bottom nav
+stacked cards
+compact stats
+```
+
+Desktop:
+
+```text
+sidebar
+multi-column
+large garage visual
+```
+
+---
+
+# 273. NO DESIGNER DEPENDENCY
+
+Design system menyimpan:
+
+```text
+spacing
+colors
+typography
+borders
+shadows
+components
+```
+
+---
+
+# 274. DEVELOPMENT PHILOSOPHY
+
+Bangun **vertical slice**, bukan seluruh sistem sekaligus.
+
+---
+
+# 275. VERTICAL SLICE 1
+
+```text
+Garage
+→ Buy Motor
+→ Buy Part
+→ Build
+→ Race
+→ Earn
+→ Sell
+```
+
+---
+
+# 276. VERTICAL SLICE 2
+
+Tambahkan:
+
+```text
+Customer
+→ Build
+→ Payment
+```
+
+---
+
+# 277. VERTICAL SLICE 3
+
+Tambahkan:
+
+```text
+Joki
+→ Assign
+→ Race
+```
+
+---
+
+# 278. VERTICAL SLICE 4
+
+Tambahkan:
+
+```text
+Rongsokan
+→ Restoration
+→ Sell
+```
+
+---
+
+# 279. VERTICAL SLICE 5
+
+Tambahkan:
+
+```text
+Official
+→ Class
+→ Championship
+```
+
+---
+
+# 280. VERTICAL SLICE 6
+
+Tambahkan:
+
+```text
+Sponsor
+→ Objective
+→ Reward
+```
+
+---
+
+# 281. VERTICAL SLICE 7
+
+Tambahkan:
+
+```text
+Legacy
+→ History
+→ Records
+```
+
+---
+
+# 282. FINAL MVP FLOW
+
+```text
+START
+ ↓
+GET GARAGE
+ ↓
+GET MOTOR
+ ↓
+BUY PART
+ ↓
+BUILD MOTOR
+ ↓
+RACE
+ ↓
+EARN
+ ↓
+SELL / REBUILD
+ ↓
+CUSTOMER
+ ↓
+JOKI
+ ↓
+OFFICIAL
+```
+
+---
+
+# 283. V1.0 FLOW
+
+```text
+GARAGE
+├── MOTOR
+│   ├── STOCK
+│   ├── USED
+│   ├── PROJECT
+│   └── BUILDS
+│
+├── WORKSHOP
+│   ├── SERVICE
+│   ├── REPAIR
+│   ├── RESTORATION
+│   └── CUSTOMER BUILDS
+│
+├── MARKET
+│   ├── MOTOR
+│   ├── PARTS
+│   └── RONGSOKAN
+│
+├── TEAM
+│   └── JOKI
+│
+├── RACE
+│   ├── LIAR
+│   └── RESMI
+│
+└── LEGACY
+```
+
+---
+
+# 284. MASTER GAME ECONOMY
+
+```text
+                  MOTOR
+                    │
+          ┌─────────┼─────────┐
+          ↓         ↓         ↓
+       REPAIR     BUILD      SELL
+          │         │         │
+          └────┬────┘         │
+               ↓              │
+            CUSTOMER          │
+               │              │
+               ↓              │
+             MONEY ←──────────┘
+               │
+          ┌────┴────┐
+          ↓         ↓
+         JOKI      GARAGE
+          │         │
+          └────┬────┘
+               ↓
+              RACE
+               │
+       ┌───────┴────────┐
+       ↓                ↓
+      LIAR             RESMI
+                         │
+                    CHAMPIONSHIP
+                         │
+                      REPUTATION
+                         │
+                        MARKET
+```
+
+---
+
+# 285. MASTER PLAYER EXPERIENCE
+
+```text
+DISCOVER
+→
+DECIDE
+→
+BUILD
+→
+TEST
+→
+PROFIT
+→
+PROGRESS
+→
+MASTER
+```
+
+---
+
+# 286. DISCOVER
+
+```text
+project
+motor
+part
+joki
+customer
+race
+```
+
+---
+
+# 287. DECIDE
+
+```text
+buy
+repair
+build
+sell
+race
+```
+
+---
+
+# 288. BUILD
+
+```text
+motor
+garage
+team
+business
+```
+
+---
+
+# 289. TEST
+
+```text
+race
+customer
+market
+```
+
+---
+
+# 290. PROFIT
+
+```text
+money
+reputation
+experience
+```
+
+---
+
+# 291. PROGRESS
+
+```text
+garage
+joki
+collection
+championship
+```
+
+---
+
+# 292. MASTER
+
+```text
+records
+challenge
+legacy
+```
+
+---
+
+# 293. THE ANTI-BOREDOM ENGINE
+
+Boredom prevention bukan feature tunggal.
+
+Ia terdiri dari:
+
+```text
+VARIETY
++
+TRADE-OFF
++
+DISCOVERY
++
+MASTERY
++
+OWNERSHIP
+```
+
+---
+
+# 294. VARIETY
+
+```text
+different motors
+different customers
+different races
+different joki
+```
+
+---
+
+# 295. TRADE-OFF
+
+```text
+power vs reliability
+buy vs save
+sell vs race
+customer vs project
+```
+
+---
+
+# 296. DISCOVERY
+
+```text
+rare project
+new joki
+new sponsor
+new challenge
+```
+
+---
+
+# 297. MASTERY
+
+```text
+better build
+better time
+better margin
+```
+
+---
+
+# 298. OWNERSHIP
+
+```text
+garage
+motor
+history
+legacy
+```
+
+---
+
+# 299. FINAL RETENTION LADDER
+
+```text
+SESSION 1
+“I want more money.”
+
+SESSION 5
+“I want a better motor.”
+
+SESSION 10
+“I want my garage upgraded.”
+
+SESSION 20
+“I want better joki.”
+
+SESSION 30
+“I want the championship.”
+
+SESSION 50
+“I want a legendary build.”
+
+SESSION 100
+“I want the record.”
+
+LATE GAME
+“I want my garage to have a history.”
+```
+
+---
+
+# 300. WHAT KEEPS A RICH PLAYER PLAYING?
+
+Bukan:
+
+```text
+more money
+```
+
+Tetapi:
+
+```text
+more mastery
+more discovery
+more records
+more collection
+more challenges
+more history
+```
+
+---
+
+# 301. RICH PLAYER ACTIVITY
+
+Saat uang berlebih:
+
+```text
+hunt rare project
+build experimental motor
+train rookie
+attempt challenge
+chase record
+complete collection
+retire legendary motor
+upgrade cosmetics
+```
+
+---
+
+# 302. NO ARTIFICIAL DIFFICULTY
+
+Jangan sengaja:
+
+```text
+inflate prices endlessly
+```
+
+atau:
+
+```text
+slow progression artificially
+```
+
+Untuk menahan pemain.
+
+---
+
+# 303. DIFFICULTY COMES FROM CHOICE
+
+```text
+budget
+class
+build
+driver
+race
+```
+
+---
+
+# 304. ENDGAME CHALLENGE EXAMPLES
+
+### SALVAGE MASTER
+
+```text
+Use salvage motor.
+Budget ≤ 10M.
+Win official.
+```
+
+### BUDGET BUILDER
+
+```text
+Build Score ≥ 75.
+Build Cost ≤ 6M.
+```
+
+### DRIVER DEVELOPER
+
+```text
+Rookie Driver
+→
+3 Wins
+```
+
+### RECORD HUNTER
+
+```text
+Beat Personal Best.
+```
+
+### DEALER MASTER
+
+```text
+10 profitable flips.
+```
+
+---
+
+# 305. CHALLENGE REWARDS
+
+Bukan selalu uang.
+
+Bisa:
+
+```text
+Title
+Badge
+Cosmetic
+History
+Prestige
+```
+
+---
+
+# 306. PRESTIGE
+
+Bukan currency.
+
+Hanya record:
+
+```text
+First Championship
+10 Championships
+50 Wins
+100 Builds
+```
+
+---
+
+# 307. TITLE
+
+Contoh:
+
+```text
+SALVAGE MASTER
+MASTER BUILDER
+RACE VETERAN
+GARAGE LEGEND
+TOP DEALER
+```
+
+---
+
+# 308. TITLE PURPOSE
+
+Memberi identitas.
+
+Bukan combat power.
+
+---
+
+# 309. GARAGE SHOWCASE LOCAL
+
+Bahkan tanpa multiplayer, player dapat melihat:
+
+```text
+Garage
+Favorite Motor
+Favorite Driver
+Trophies
+Records
+```
+
+Ini menjadi personal museum.
+
+---
+
+# 310. FUTURE ONLINE SHOWCASE
+
+Data yang sama nanti dapat dipublish.
+
+---
+
+# 311. CONTENT PIPELINE
+
+Developer dapat menambah konten tanpa mengubah engine.
 
 Motor:
 
 ```text
-Jatra 135
-Condition 72%
+data
 ```
 
-Market:
+Part:
 
 ```text
-Garuda 150 Used — 9M
-Merapi Project — 3M
+data
 ```
 
-Pemain memilih:
+Race:
 
 ```text
-Merapi Project
+data
 ```
-
----
-
-# 252. INSPECTION
-
-```text
-Frame GOOD
-Engine BROKEN
-ECU MISSING
-Clutch WORN
-Body POOR
-```
-
-Pemain menghitung:
-
-```text
-3M purchase
-2M engine
-1M ECU
-500K clutch
-500K repair
-```
-
-Total:
-
-```text
-7M
-```
-
----
-
-# 253. BUILD DECISION
-
-Pemain punya sisa:
-
-```text
-4M
-```
-
-Tidak bisa memasang semua part.
-
-Pilih:
-
-```text
-Street ECU
-Sport Clutch
-Basic Tire
-```
-
-Build Score:
-
-```text
-68
-```
-
----
-
-# 254. DECISION
-
-Pemain punya tiga pilihan:
-
-```text
-Sell
-Race
-Keep
-```
-
-Pemain memilih:
-
-```text
-Race
-```
-
----
-
-# 255. RACE
-
-Memilih:
-
-```text
-Joki:
-Dito
-
-Risk:
-Normal
-```
-
-Minigame:
-
-```text
-Perfect Launch
-Good Shift
-Perfect Shift
-Good Shift
-```
-
-Finish:
-
-```text
-2nd
-```
-
----
-
-# 256. RESULT
-
-```text
-Prize:
-Rp 3M
-
-Reputation:
-+3
-
-Motor Condition:
-91 → 84
-```
-
-Sekarang pemain memiliki:
-
-```text
-Rp 7M
-```
-
-dan motor bernilai:
-
-```text
-Rp 12M
-```
-
----
-
-# 257. NEXT DECISION
-
-Pemain dapat:
-
-```text
-Repair
-Sell
-Race Again
-```
-
-Ini adalah game.
-
-Tidak perlu energy.
-
----
-
-# 258. CUSTOMER EXAMPLE
 
 Customer:
 
 ```text
-Jatra 125
-
-Request:
-Street Build
-
-Budget:
-6M
-
-Reward:
-8M
+data
 ```
 
-Pemain menggunakan:
+Sponsor:
 
 ```text
-3.5M parts
-```
-
-Profit:
-
-```text
-4.5M
-```
-
-Satisfaction:
-
-```text
-91
-```
-
-Reputation:
-
-```text
-+2
+data
 ```
 
 ---
 
-# 259. MARKET EXAMPLE
+# 312. THIS IS WHY THE GAME IS EASY TO EXPAND
 
-Pemain melihat:
+Core code tetap.
 
-```text
-Garuda 150
-USED
-Condition 48%
-Rp 7M
-```
-
-Pemain tahu:
-
-```text
-Repair:
-1M
-
-Potential Value:
-11M
-```
-
-Dia membeli.
-
-Itulah gameplay.
+Konten bertambah.
 
 ---
 
-# 260. THE MASTER LOOP
+# 313. TESTING PRIORITY
 
-Seluruh game akhirnya:
+Unit tests:
 
 ```text
-             MARKET
-                │
-                ↓
-             MOTOR
-                │
-        ┌───────┼────────┐
-        ↓       ↓        ↓
-      REPAIR   BUILD    SELL
-        │       │        │
-        └───┬───┘        │
-            ↓            │
-         BENGKEL         │
-            │            │
-      ┌─────┼─────┐      │
-      ↓     ↓     ↓      │
- CUSTOMER JOKI  RACE     │
-      │     │     │      │
-      └─────┼─────┘      │
-            ↓            │
-          MONEY ←─────────┘
-            │
-            ↓
-       GARAGE GROWTH
-            │
-            ↓
-       BETTER ACCESS
-            │
-            ↓
-          MARKET
+Motor Value
+Build Score
+Race Result
+Customer Profit
+Transactions
+Class Eligibility
+Garage Capacity
 ```
 
 ---
 
-# 261. CORE ECONOMIC LOOP
+# 314. BALANCING PRIORITY
+
+Pastikan:
 
 ```text
+No infinite strategy.
+No obvious best motor.
+No obvious best joki.
+No obvious best income.
+```
+
+---
+
+# 315. SECURITY PRIORITY
+
+Walaupun local-first:
+
+Game state mutation tetap dipusatkan dalam game logic.
+
+Kelak saat online:
+
+```text
+same logic
+```
+
+dapat dipindah ke server.
+
+---
+
+# 316. PERSISTENCE
+
+MVP dapat menyimpan state secara lokal.
+
+Production version dapat memakai local database/browser storage sesuai kebutuhan.
+
+---
+
+# 317. ONLINE TRANSITION
+
+Saat nanti ingin online:
+
+```text
+LOCAL SAVE
+↓
+ACCOUNT
+↓
+SYNC
+↓
+SERVER SAVE
+```
+
+Core content tetap sama.
+
+---
+
+# 318. FINAL TECH STACK
+
+Target:
+
+```text
+Astro
+TypeScript
+Drizzle
+SQLite-compatible local persistence for local-first development
+CSS
+SVG
+Vanilla JS
+```
+
+Server/database deployment dapat disesuaikan kemudian.
+
+---
+
+# 319. WHY ASTRO
+
+Astro cocok untuk:
+
+```text
+UI-heavy pages
+component architecture
+server rendering
+small client islands/scripts
+```
+
+Game tidak harus menjadi SPA penuh.
+
+---
+
+# 320. FINAL PROJECT PHILOSOPHY
+
+```text
+Simple Architecture
++
+Deep Interaction
++
+Data-driven Content
+=
+BENGKEL MALAM
+```
+
+---
+
+# 321. FINAL SIX CORE SYSTEMS
+
+Seluruh game bisa direduksi ke:
+
+```text
+1. GARAGE
+2. MOTOR
+3. WORKSHOP
+4. MARKET
+5. TEAM
+6. RACE
+```
+
+Sisanya hanyalah fungsi atau data yang memperkuat keenam sistem ini.
+
+---
+
+# 322. FINAL SYSTEM GRAPH
+
+```text
+                         GARAGE
+                           │
+          ┌────────────────┼────────────────┐
+          ↓                ↓                ↓
+        MOTOR           WORKSHOP           TEAM
+          │                │                │
+      ┌───┼───┐        CUSTOMER           JOKI
+      ↓   ↓   ↓            │                │
+    BUY BUILD SELL         BUILD            RACE
+      │   │   │            │                │
+      └───┼───┴────────────┴────────┬───────┘
+          ↓                         ↓
+        MARKET                    RACE
+          │                  ┌─────┴─────┐
+          │                  ↓           ↓
+          │                LIAR         RESMI
+          │                              │
+          └──────────────┬───────────────┘
+                         ↓
+                       MONEY
+                         ↓
+                       GARAGE
+```
+
+---
+
+# 323. ABSOLUTE FEATURE PRIORITY
+
+Jika development tersendat, prioritaskan:
+
+```text
+1. MOTOR
+2. BUILD
+3. RACE
+4. ECONOMY
+5. WORKSHOP
+6. JOKI
+7. MARKET
+8. CHAMPIONSHIP
+9. SPONSOR
+10. LEGACY
+```
+
+---
+
+# 324. FEATURE FREEZE RULE
+
+Sebelum menambahkan feature baru:
+
+> **Bisakah kebutuhan ini diselesaikan dengan Motor, Workshop, Market, Team, atau Race?**
+
+Jika iya:
+
+> gunakan sistem yang sudah ada.
+
+---
+
+# 325. FEATURE BLOAT WARNING
+
+Jangan tambahkan hanya karena terlihat “lebih seperti game”.
+
+Contoh yang harus ditahan:
+
+```text
+energy
+battle pass
+guild
+territory
+open world
+police
+complex NPC
+faction
+housing
+pet
+crafting tree
+```
+
+---
+
+# 326. QUALITY BAR
+
+Fitur belum selesai hanya karena berfungsi.
+
+Fitur harus memiliki:
+
+```text
+purpose
+choice
+trade-off
+feedback
+connection
+```
+
+---
+
+# 327. MOTOR QUALITY TEST
+
+Motor harus memiliki:
+
+```text
+purpose
+condition
+value
+build potential
+history
+```
+
+---
+
+# 328. CUSTOMER QUALITY TEST
+
+Customer harus memiliki:
+
+```text
+request
+budget
+choice
+profit
+satisfaction
+```
+
+---
+
+# 329. RACE QUALITY TEST
+
+Race harus memiliki:
+
+```text
+selection
+preparation
+execution
+result
+reward
+```
+
+---
+
+# 330. JOKI QUALITY TEST
+
+Joki harus memiliki:
+
+```text
+identity
+strength
+weakness
+cost
+progression
+```
+
+---
+
+# 331. MARKET QUALITY TEST
+
+Market harus memiliki:
+
+```text
+opportunity
+price
+condition
+potential
+```
+
+---
+
+# 332. GARAGE QUALITY TEST
+
+Garage harus memiliki:
+
+```text
+capacity
+progression
+visual identity
+business impact
+```
+
+---
+
+# 333. THE PLAYER'S DAILY QUESTION
+
+Setiap kali player masuk:
+
+> **“Apa peluang terbaik saya sekarang?”**
+
+Bukan:
+
+> “Berapa energy saya?”
+
+---
+
+# 334. THE PLAYER'S LONG-TERM QUESTION
+
+> **“Garage seperti apa yang ingin saya bangun?”**
+
+---
+
+# 335. THE ENDGAME QUESTION
+
+> **“Apa yang akan menjadi bagian dari sejarah garage saya?”**
+
+---
+
+# 336. FINAL PLAYER JOURNEY
+
+```text
+UNKNOWN
+↓
+SMALL GARAGE
+↓
+WORKSHOP
+↓
+KNOWN BUILDER
+↓
+LOCAL RACE GARAGE
+↓
+ESTABLISHED GARAGE
+↓
+RENOWNED GARAGE
+↓
+LEGENDARY GARAGE
+```
+
+---
+
+# 337. FINAL PLAYER STORY
+
+```text
+Beli motor bekas.
+↓
+Perbaiki.
+↓
+Bangun.
+↓
+Balap.
+↓
+Menang.
+↓
+Jual.
+↓
+Beli project lebih besar.
+↓
+Rekrut joki.
+↓
+Terima customer.
+↓
+Menang championship.
+↓
+Bangun legendary motor.
+↓
+Pensiunkan motor.
+↓
+Simpan di Hall of Fame.
+```
+
+---
+
+# 338. FINAL GAME LOOP
+
+```text
+                    DISCOVER
+                       ↓
+                     BUY
+                       ↓
+                   INSPECT
+                       ↓
+                    REPAIR
+                       ↓
+                     BUILD
+                       ↓
+                  TEST / RACE
+                       ↓
+                  SELL / KEEP
+                       ↓
+                     MONEY
+                       ↓
+                  GARAGE GROWTH
+                       ↓
+                    ACCESS
+                       ↓
+                  DISCOVER AGAIN
+```
+
+---
+
+# 339. FINAL RETENTION LOOP
+
+```text
+DISCOVERY
+↓
+CURIOSITY
+↓
+CHOICE
+↓
+RESULT
+↓
+OWNERSHIP
+↓
+MASTERY
+↓
+NEW CHALLENGE
+↓
+DISCOVERY
+```
+
+---
+
+# 340. FINAL BUSINESS LOOP
+
+```text
+CUSTOMER
+↓
+BUILD
+↓
+PROFIT
+↓
+REPUTATION
+↓
+BETTER CUSTOMER
+↓
+BETTER GARAGE
+```
+
+---
+
+# 341. FINAL RACING LOOP
+
+```text
+BUILD
+↓
+JOKI
+↓
+RISK
+↓
+MINIGAME
+↓
+RESULT
+↓
+RECORD
+↓
+BETTER BUILD
+```
+
+---
+
+# 342. FINAL TRADING LOOP
+
+```text
+MARKET
+↓
+FIND DEAL
+↓
 BUY
 ↓
-INVEST
+REPAIR
 ↓
 BUILD
 ↓
 SELL
 ↓
 PROFIT
-↓
-REINVEST
 ```
 
 ---
 
-# 262. CORE RACING LOOP
+# 343. FINAL LEGACY LOOP
 
 ```text
 BUILD
 ↓
-JOKI
-↓
 RACE
 ↓
-TIMING
+WIN
 ↓
-RESULT
+HISTORY
 ↓
-REWARD
+RETIRE
+↓
+HALL OF FAME
+↓
+NEW BUILD
 ```
 
 ---
 
-# 263. CORE CUSTOMER LOOP
+# 344. FINAL BENGKEL MALAM EXPERIENCE
+
+Pemain bisa masuk selama 5 menit dan hanya:
 
 ```text
-ORDER
-↓
-BUILD
-↓
-DELIVER
-↓
-PAY
-↓
-REPUTATION
-↓
-BETTER ORDER
+membeli project
+```
+
+Pemain lain bisa bermain 2 jam dan:
+
+```text
+menyelesaikan customer
+build motor
+mengatur joki
+mengikuti race
+menjual motor
+mencari project baru
+```
+
+Keduanya tetap mendapatkan pengalaman yang valid.
+
+---
+
+# 345. FINAL GAME PROMISE
+
+BENGKEL MALAM menjanjikan kepada pemain:
+
+> **Kamu tidak perlu menunggu untuk bermain.**
+
+> **Kamu tidak perlu menjadi pembalap untuk sukses.**
+
+> **Kamu tidak perlu menjadi trader untuk kaya.**
+
+> **Kamu tidak perlu membeli semua motor untuk memiliki garage hebat.**
+
+> **Tetapi selalu ada sesuatu yang bisa dibangun, diuji, dijual, dibuktikan, atau diingat.**
+
+---
+
+# 346. FINAL MASTER PRINCIPLE
+
+> **Pemain kembali karena penasaran dan punya tujuan, bukan karena sistem memaksa mereka kembali.**
+
+---
+
+# 347. FINAL DEFINITION
+
+> **BENGKEL MALAM adalah pixel-art web-based garage management game tentang kultur otomotif Indonesia fiktif, di mana pemain membangun bisnis bengkel melalui jual-beli motor, restorasi motor rongsokan, service dan customer builds, pengelolaan part, perekrutan joki, serta balap liaran dan kompetisi resmi berbasis kelas. Semua gameplay utama berjalan lokal terlebih dahulu dengan persistent career, economy, motor history, joki history, records, challenges, collection, dan garage legacy. Fondasi lokal tersebut kemudian dapat diperluas menjadi async multiplayer, player marketplace, leaderboard, garage showcase, dan PvP tanpa mengubah core game loop.**
+
+---
+
+# 348. FINAL DESIGN SENTENCE
+
+> **Bengkelmu adalah bisnis. Motor adalah proyek. Joki adalah orang yang membuktikannya. Balapan adalah ujian. Uang adalah alat. Dan sejarah adalah tujuan jangka panjang.**
+
+---
+
+# 349. FINAL 10 COMMANDMENTS
+
+```text
+01. BENGKEL adalah pusat game.
+
+02. MOTOR adalah objek terpenting.
+
+03. Tidak ada Energy.
+
+04. Tidak ada Nerve.
+
+05. Tidak ada gameplay waiting.
+
+06. Setiap motor harus bisa memiliki lebih dari satu tujuan.
+
+07. Racing harus membutuhkan management + player skill.
+
+08. Business harus dapat sukses tanpa racing.
+
+09. Endgame harus tetap berarti walaupun player kaya.
+
+10. Fitur baru harus memperdalam sistem lama sebelum membuat sistem baru.
 ```
 
 ---
 
-# 264. CORE PROGRESSION LOOP
+# 350. FINAL MASTER ARCHITECTURE
 
 ```text
-PROFIT
-+
-REPUTATION
-↓
-GARAGE LEVEL
-↓
-CAPACITY
-↓
-BETTER CONTENT
-↓
-BETTER OPPORTUNITIES
+                        BENGKEL MALAM
+                              │
+               ┌──────────────┼──────────────┐
+               ↓              ↓              ↓
+            GARAGE          MOTOR          BUSINESS
+               │              │              │
+               │         ┌────┼────┐     CUSTOMER
+               │         ↓    ↓    ↓        │
+               │       REPAIR BUILD SELL    │
+               │         │    │    │        │
+               │         └────┼────┘        │
+               │              ↓             │
+               │            MARKET           │
+               │              │              │
+               └──────────────┼──────────────┘
+                              ↓
+                            TEAM
+                              │
+                             JOKI
+                              │
+                              ↓
+                            RACE
+                       ┌──────┴──────┐
+                       ↓             ↓
+                     LIAR          RESMI
+                                     │
+                               CHAMPIONSHIP
+                                     │
+                                     ↓
+                                REPUTATION
+                                     │
+                                     ↓
+                                  LEGACY
 ```
 
 ---
 
-# 265. CORE EMOTIONAL LOOP
+# 351. THE FINAL GOAL
+
+Pada akhirnya, BENGKEL MALAM bukan tentang:
+
+> **“Saya sudah memiliki semua.”**
+
+Tetapi:
+
+> **“Saya sudah membangun sesuatu.”**
+
+Dan ketika player sudah kaya, sudah punya semua akses, dan sudah menguasai game, masih tersisa:
 
 ```text
-“Ini motor jelek.”
-↓
-“I think I can save it.”
-↓
-“Build-nya jadi.”
-↓
-“Wah bagus.”
-↓
-“Coba balap.”
-↓
-“MENANG.”
-↓
-“Jangan dijual dulu.”
+project yang belum dicoba
+build yang belum dibuat
+record yang belum dipecahkan
+joki yang belum dikembangkan
+collection yang belum lengkap
+challenge yang belum selesai
+history yang belum ditulis
 ```
 
-Ini rasa yang harus dicapai game.
+Sehingga kekayaan bukan akhir permainan.
 
----
+**Kekayaan membuka kebebasan.**
 
-# 266. MOTOR YANG BISA MENJADI KARAKTER
+Dan kebebasan membuka:
 
-Motor harus mempunyai identity melalui:
+> **mastery, eksperimen, collection, competition, dan legacy.**
 
-```text
-Model
-Build
-Condition
-History
-Wins
-```
-
-Satu motor dapat menjadi favorit pemain.
-
----
-
-# 267. JOKI YANG BISA MENJADI KARAKTER
-
-Joki melalui:
-
-```text
-Name
-Stats
-Trait
-Wins
-History
-```
-
-Pemain dapat memiliki:
-
-> “Joki pertama saya.”
-
----
-
-# 268. GARAGE YANG BISA MENJADI KARAKTER
-
-Garage melalui:
-
-```text
-Level
-Reputation
-History
-Motors
-Championship
-```
-
----
-
-# 269. NO MAIN STORY
-
-Tidak diperlukan main quest.
-
-Cerita berasal dari:
-
-```text
-Motor
-Customer
-Joki
-Race
-Money
-```
-
----
-
-# 270. NO COMPLEX SOCIAL SIMULATION
-
-Tidak perlu:
-
-```text
-NPC memory
-Faction
-Alliance
-Territory
-Political power
-```
-
----
-
-# 271. NO WORLD SIMULATION
-
-Tidak perlu:
-
-```text
-dynamic society
-economic AI
-daily NPC simulation
-```
-
----
-
-# 272. NO COMPLEX CRIME SIMULATION
-
-Mode liar tetap menjadi game mode abstrak.
-
-Jangan membangun:
-
-```text
-police evasion
-real-world street racing tutorial
-```
-
-Fokus:
-
-```text
-stakes
-race
-result
-```
-
----
-
-# 273. DESIGN QUALITY TEST
-
-Setiap fitur baru ditanyakan:
-
-```text
-1. Apakah ini memperkuat bengkel?
-2. Apakah ini memperkuat motor?
-3. Apakah ini memperkuat bisnis?
-4. Apakah ini memperkuat racing?
-5. Apakah ini menciptakan pilihan?
-```
-
-Jika jawabannya mayoritas “tidak”:
-
-> fitur tidak diprioritaskan.
-
----
-
-# 274. COMPLEXITY TEST
-
-Setiap sistem baru juga ditanya:
-
-```text
-Apakah saya bisa mencapai efek yang sama
-dengan memperdalam sistem lama?
-```
-
-Kalau iya:
-
-> jangan buat sistem baru.
-
----
-
-# 275. DEVELOPMENT RULE
-
-Jangan membuat:
-
-```text
-feature
-→ UI
-→ database
-→ API
-```
-
-kemudian baru mencari gameplay.
-
-Urutan harus:
-
-```text
-DESIGN RULE
-↓
-GAME LOGIC
-↓
-DATA
-↓
-UI
-```
-
----
-
-# 276. MVP
-
-MVP absolut:
-
-```text
-Garage
-3 Motors
-12 Components
-10 Parts
-2 Joki
-5 Customer Orders
-3 Salvage Projects
-3 Liar Races
-3 Official Races
-1 Official Class
-Motor Trading
-Repair
-Build
-Race Minigame
-Money
-Reputation
-```
-
----
-
-# 277. MVP TEST
-
-Pertanyaan:
-
-> Apakah membeli project → build → race → sell menyenangkan?
-
-Kalau belum:
-
-**jangan tambah feature.**
-
----
-
-# 278. V0.2
-
-Tambahkan:
-
-```text
-Customer
-Joki
-Official Class
-```
-
----
-
-# 279. V0.3
-
-Tambahkan:
-
-```text
-Sponsors
-Garage Levels
-Championship
-```
-
----
-
-# 280. V0.4
-
-Tambahkan:
-
-```text
-More Motors
-More Parts
-More Customer Templates
-More Races
-```
-
----
-
-# 281. V1.0
-
-```text
-Garage
-Motor
-Parts
-Salvage
-Trading
-Customer
-Joki
-Liar
-Official
-Championship
-Sponsor
-Progression
-History
-Leaderboard
-```
-
----
-
-# 282. POST-1.0
-
-Baru pertimbangkan:
-
-```text
-Async Player Market
-Garage Showcase
-Time Attack
-Player Challenges
-Season Events
-```
-
----
-
-# 283. FEATURE YANG HARUS DIHINDARI
-
-Jangan terlalu cepat membuat:
-
-```text
-Open World
-Realtime Multiplayer
-Complex AI
-Complex NPC
-Faction
-Territory
-Player Politics
-Huge Skill Tree
-Multiple Currency
-Energy
-Cooldown
-Crafting Tree
-```
-
----
-
-# 284. FINAL GAME IDENTITY
-
-BENGKEL MALAM harus terasa seperti:
-
-> **game tentang sebuah bengkel yang tumbuh bersama motor-motornya.**
-
-Bukan:
-
-> menu simulator dengan banyak angka.
-
----
-
-# 285. FINAL UI IDENTITY
-
-UI harus terasa seperti gabungan:
-
-```text
-Pixel Game
-+
-Garage Sign
-+
-Pit Board
-+
-Workshop Receipt
-+
-Part Catalog
-+
-Race Timing Board
-```
-
----
-
-# 286. FINAL VISUAL IDENTITY
-
-Bayangkan:
-
-```text
-malam
-lampu bengkel
-lantai beton
-motor di stand
-toolbox
-stiker sponsor
-spanduk event
-tumpukan ban
-rak spare part
-layar CRT/pixel
-```
-
-Tetapi seluruhnya diwujudkan dalam visual pixel yang ringan.
-
----
-
-# 287. FINAL PLAYER JOURNEY
-
-```text
-GARASI KECIL
-↓
-BELI MOTOR BEKAS
-↓
-SERVICE
-↓
-CUSTOMER
-↓
-RACE PERTAMA
-↓
-PROJECT PERTAMA
-↓
-JOKI PERTAMA
-↓
-MOTOR DIJUAL
-↓
-GARAGE NAIK LEVEL
-↓
-SPONSOR
-↓
-OFFICIAL CLASS
-↓
-CHAMPIONSHIP
-↓
-GARAGE TERKENAL
-```
-
----
-
-# 288. FINAL LONG-TERM JOURNEY
-
-```text
-Nobody
-↓
-Small Garage
-↓
-Local Workshop
-↓
-Known Builder
-↓
-Race Garage
-↓
-Established Garage
-↓
-Renowned Garage
-↓
-Legendary Garage
-```
-
----
-
-# 289. FINAL PLAYER QUESTIONS
-
-Game harus terus membuat pemain berpikir:
-
-> “Beli atau simpan?”
-
-> “Repair atau replace?”
-
-> “Build atau sell?”
-
-> “Customer atau project?”
-
-> “Joki murah atau joki mahal?”
-
-> “Street atau Pro?”
-
-> “Safe atau Push?”
-
-> “Race atau bisnis?”
-
-Ini adalah sumber kedalaman utama.
-
----
-
-# 290. FINAL DESIGN LAW
-
-> **Dalam BENGKEL MALAM, setiap resource harus menghadirkan pilihan.**
-
-Uang:
-
-```text
-Part / Motor / Joki / Garage
-```
-
-Motor:
-
-```text
-Build / Race / Sell
-```
-
-Joki:
-
-```text
-Race / Invest
-```
-
-Garage Capacity:
-
-```text
-Customer / Project
-```
-
-Race:
-
-```text
-Reward / Wear
-```
-
----
-
-# 291. FINAL ANTI-BOREDOM LAW
-
-Jangan membuat:
-
-> “Tidak bisa bermain.”
-
-Buat:
-
-> **“Bisa bermain banyak hal, tetapi saya harus memilih mana yang paling menguntungkan sekarang.”**
-
----
-
-# 292. FINAL ANTI-GRIND LAW
-
-Pemain tidak boleh merasa:
-
-> “Saya harus melakukan hal yang sama 200 kali.”
-
-Variasi harus datang dari:
-
-```text
-market
-project
-customer
-race
-joki
-build
-```
-
----
-
-# 293. FINAL IMMERSION LAW
-
-Pemain harus dapat menunjuk sesuatu dan berkata:
-
-> “Ini motor saya.”
-
-> “Ini joki saya.”
-
-> “Ini bengkel saya.”
-
-> “Ini hasil build saya.”
-
-> “Ini motor yang pernah menang.”
-
----
-
-# 294. FINAL ECONOMIC LAW
-
-Tidak ada income tanpa:
-
-```text
-action
-decision
-risk
-```
-
-Bahkan passive-looking income tetap harus berasal dari business action pemain.
-
----
-
-# 295. FINAL TECHNICAL LAW
-
-Sistem game harus dapat dijelaskan dengan:
-
-```text
-Motor
-Parts
-Driver
-Customer
-Race
-Garage
-Money
-Reputation
-```
-
-Jika sebuah feature membutuhkan sepuluh entity baru, kita harus bertanya apakah feature tersebut memang diperlukan.
-
----
-
-# 296. FINAL SCOPE LAW
-
-**Depth > Breadth.**
-
-Lebih baik:
-
-```text
-20 motor
-```
-
-yang semuanya punya:
-
-```text
-buy
-repair
-build
-race
-sell
-history
-```
-
-daripada:
-
-```text
-200 motor
-```
-
-yang hanya menjadi card dengan angka.
-
----
-
-# 297. FINAL DESIGN STATEMENT
-
-> **BENGKEL MALAM adalah garage management game berbasis pixel-art tentang kultur otomotif Indonesia fiktif, di mana pemain membangun bengkel dari kecil menjadi garasi terkenal dengan mencari dan membeli motor stock, bekas, maupun proyek rongsokan; memperbaiki, membongkar, merakit, dan memodifikasi komponennya; menerima pekerjaan customer; merekrut dan mengelola joki; menjual motor untuk profit; serta membawa hasil build ke balap liaran dan kompetisi resmi berbasis kelas dan championship.**
-
----
-
-# 298. FINAL CORE
-
-```text
-                 BENGKEL
-                    │
-        ┌───────────┼───────────┐
-        │           │           │
-        ↓           ↓           ↓
-      MOTOR      CUSTOMER      TEAM
-        │           │           │
-        ↓           ↓           ↓
-      BUILD       SERVICE      JOKI
-        │           │           │
-        └──────┬────┴─────┬─────┘
-               │          │
-               ↓          ↓
-             MARKET      RACE
-               │       ┌──┴──┐
-               │       ↓     ↓
-               │     LIAR  RESMI
-               │             │
-               └──────┬──────┘
-                      ↓
-                    MONEY
-                      ↓
-                 GARAGE GROWTH
-                      ↓
-                    REPEAT
-```
-
----
-
-# 299. FINAL GAME FEEL
-
-Pemain membuka game dan melihat:
-
-> **“Ada project murah.”**
-
-Pemain membeli.
-
-> **“Ternyata engine rusak.”**
-
-Pemain memperbaiki.
-
-> **“Budget saya tinggal sedikit.”**
-
-Pemain memilih build.
-
-> **“Build Score 68. Masih Street.”**
-
-Pemain mencari joki.
-
-> **“Raka mahal, tapi cocok.”**
-
-Pemain masuk race.
-
-> **“Push.”**
-
-Minigame dimulai.
-
-> **PERFECT LAUNCH.**
-
-> **PERFECT SHIFT.**
-
-Menang.
-
-Pemain kembali ke bengkel.
-
-> **“Motor ini saya jual saja. Profit-nya bisa buat project berikutnya.”**
-
-Inilah pengalaman yang menjadi tujuan utama.
-
----
-
-# 300. THE FINAL SENTENCE
-
-> **BENGKEL MALAM bukan tentang memiliki motor paling mahal. BENGKEL MALAM adalah tentang mengetahui motor mana yang layak dibeli, bagian mana yang layak diperbaiki, build mana yang layak dibuat, orang mana yang layak dipercaya membawa motor, dan kapan sebuah motor lebih baik dijual daripada dibawa menang.**
-
----
-
-# 301. THE ABSOLUTE FOUNDATION
-
-Untuk seluruh development berikutnya, fondasi BENGKEL MALAM dianggap:
-
-```text
-BENGKEL
-MOTOR
-PARTS
-CUSTOMER
-JOKI
-MARKET
-RACE
-MONEY
-REPUTATION
-GARAGE PROGRESSION
-```
-
-Dan seluruh dunia harus berputar di antara sembilan hal tersebut.
-
-**Tidak lebih besar dari yang diperlukan.**
-
-**Tidak lebih sederhana dari yang membuat keputusan kehilangan makna.**
+Itulah bentuk BENGKEL MALAM yang saya sarankan kita bangun.
